@@ -3,13 +3,7 @@
 
 <link href="home_style.css" rel="stylesheet">
 <link href="header_style.css" rel="stylesheet">
-<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-<script>
-    var socket = io("http://localhost:3000");
-    socket.on("connect",()=>{
-        console.log(`You connected with id: ${socket.id}`)
-    })
-</script>
+
 <script src="home.js"></script>
 <script crossorigin="anonymous" src="https://kit.fontawesome.com/76ed084c57.js"></script>
 
@@ -35,5 +29,10 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script>
+    var socket = io();
+</script>
 </body>
 </html>

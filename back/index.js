@@ -4,15 +4,25 @@ const http = require('http')
 const fileQuery = require('./queryManagers/front.js')
 const apiQuery = require('./queryManagers/api.js')
 
-const io= require('./socket.io')(3000,{
-    cors:{
-        origin: ["http://localhost:8000"],
-    },
-})
+// socket
+const express = require('express');
+const app = express();
+const server = http.createServer(app);
+const { Server } = require('socket.io')
+const io = new Server(server);
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
 
 io.on("connection",socket=>{
     console.log(socket.id)
 })
+
+server.listen(3000, () => {
+
+    console.log('listening on *:3000');
+});
 
 /* The http module contains a createServer function, which takes one argument, which is the function that
 ** will be called whenever a new request arrives to the server.
