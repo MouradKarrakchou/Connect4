@@ -4,7 +4,7 @@ const http = require('http')
 const fileQuery = require('./queryManagers/front.js')
 const apiQuery = require('./queryManagers/api.js')
 
-const io= require('./socket.io')(3000,{
+const io= require('socket.io')(3000,{
     cors:{
         origin: ["http://localhost:8000"],
     },
