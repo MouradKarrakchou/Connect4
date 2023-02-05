@@ -30,20 +30,20 @@ function play(event) {
 
     let id = event.target.id;
     let tab = id.split(" ");
-    let column = tab[1];
-    let line = 1;
+    let column = tab[0];
+    let line = 5;
 
-    id = line + " " + column;
+    id = column + " " + line;
     if (document.getElementById(id).style.backgroundColor !== "")
         return printIllegalMove();
 
-    while (line < 7 && document.getElementById(id).style.backgroundColor === "") {
-        line++;
-        id = line + " " + column;
+    while (line >=0 && document.getElementById(id).style.backgroundColor === "") {
+        line--;
+        id = column + " " + line;
     }
 
-    --line;
-    id = line + " " + column;
+    line++;
+    id = column + " " + line;
     document.getElementById(id).style.backgroundColor = color;
     counter++;
     if (checkWin() === true) {
@@ -62,8 +62,8 @@ function printIllegalMove() {
 
 function checkWin() {
     let winner = false;
-    for (let i = 1; i < 8; i++) {
-        for (let j = 1; j < 8; j++) {
+    for (let j = 0; j < 6; j++) {
+        for (let i = 0; i < 7; i++) {
             let color = document.getElementById(i + " " + j).style.backgroundColor;
             if (color !== "") {
                 if (checkVertical(i, j, color) || checkHorizontal(i, j, color) || checkDiagonal(i, j, color)) {
@@ -83,9 +83,9 @@ function checkWin() {
 
 function resetGame() {
     gameOver = false;
-    for (let i = 1; i <= 6; i++) {
-        for (let j = 1; j <= 7; j++) {
-            let id = i + " " + j;
+    for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 7; j++) {
+            let id = j + " " + i;
             document.getElementById(id).style.backgroundColor = "";
         }
     }
