@@ -7,7 +7,7 @@ const path = require('path');
 
 // We will limit the search of files in the front folder (../../front from here).
 // Note that fs methods consider the current folder to be the one where the app is run, that's why we don't need the "../.." before front.
-const baseFrontPath = '/front';
+const baseFrontPath = '/front/home/';
 // If the user requests a directory, a file can be returned by default.
 const defaultFileIfFolder = "home.html";
 
@@ -51,7 +51,7 @@ function manageRequest(request, response) {
 
         // If it is a directory, we will return the default file.
         if (fs.statSync(pathName).isDirectory()) {
-            pathName += `/${defaultFileIfFolder}`;
+            pathName += `${defaultFileIfFolder}`;
             extension = `.${defaultFileIfFolder.split(".")[1]}`;
         }
 
