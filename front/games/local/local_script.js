@@ -62,7 +62,7 @@ function printIllegalMove() {
 
 function checkWin() {
     let winner = false;
-    for (let j = 0; j < 7; j++) {
+    for (let j = 0; j < 6; j++) {
         for (let i = 0; i < 7; i++) {
             let color = document.getElementById(i + " " + j).style.backgroundColor;
             if (color !== "") {
@@ -83,9 +83,9 @@ function checkWin() {
 
 function resetGame() {
     gameOver = false;
-    for (let i = 1; i <= 6; i++) {
-        for (let j = 1; j <= 7; j++) {
-            let id = i + " " + j;
+    for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 7; j++) {
+            let id = j + " " + i;
             document.getElementById(id).style.backgroundColor = "";
         }
     }
