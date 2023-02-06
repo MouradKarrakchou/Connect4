@@ -37,8 +37,9 @@ server.listen(8000);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-io.on('connection',socket=>{
-    socket.on('play',(tab)=>{
+io.on('connection',socket => {
+    console.log("Connected");
+    socket.on('play',(tab) => {
         let board=JSON.parse( tab);
         console.log(tab);
         io.emit('doMove',JSON.stringify(aiQuery.computeMove(board)));
