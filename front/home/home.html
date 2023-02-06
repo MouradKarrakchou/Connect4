@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<link href="home_style.css" type="text/css" rel="stylesheet">
-<link href="header_style.css" type="text/css" rel="stylesheet">
+<link href="home_style.css" rel="stylesheet" type="text/css">
+<link href="header_style.css" rel="stylesheet" type="text/css">
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 <script>
     var socket = io("http://localhost:3000");
-    socket.on("connect",()=>{
+    socket.on("connect", () => {
         console.log(`You connected with id: ${socket.id}`)
     })
 </script>
@@ -31,6 +31,12 @@
         <div class="gameLaunch">
             <i class="fa-solid fa-user-group" style="font-size:100px;"></i>
             <button class="buttonLaunch" onclick="window.location.href = '../games/local/local_game.html';">Local game
+            </button>
+        </div>
+
+        <div class="gameLaunch">
+            <i class="fa-solid fa-robot" style="font-size:100px;"></i>
+            <button class="botButton" onclick="window.location.href = '../games/bot/bot_game.html';">Play against AI
             </button>
         </div>
     </div>

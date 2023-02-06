@@ -18,6 +18,7 @@ fa-solid fa-user-group {
 .gameLaunch {
     display: flex;
     margin: 20px;
+    justify-content: flex-start;
 }
 
 .buttonLaunch {
@@ -35,4 +36,22 @@ fa-solid fa-user-group {
 
 div i {
     margin: auto;
+}
+
+fa-solid fa-robot {
+    height: 100px;
+    width: 100px;
+}
+
+.botButton {
+    margin: auto;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 40px 100px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
 }
