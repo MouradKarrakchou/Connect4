@@ -96,19 +96,19 @@ function printIllegalMove() {
 //red are 1 yellow are -1
 function toTab(){
     l = [];
-    for (let i = 0; i < 6; i++) {
-        l[i]=[];
-        for (let j = 0; j < 7; j++) {
+    for (let j = 0; j < 7; j++) {
+        l[j]=[];
+        for (let i = 0; i < 6; i++) {
             let id = j + " " + i;
             switch (document.getElementById(id).style.backgroundColor){
                 case(""):
-                    l[i][j]=0;
+                    l[j][i]=0;
                     break;
                 case("red"):
-                    l[i][j]=1;
+                    l[j][i]=1;
                     break;
                 case("yellow"):
-                    l[i][j]=-1;
+                    l[j][i]=-1;
                     break;
             }
         }
