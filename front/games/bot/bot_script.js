@@ -1,8 +1,8 @@
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
-var socket = io("http://localhost:3000");
+var socket = io();
 socket.on('doMove',function(pos){
-    startplay(pos);
+    startplay(JSON.parse(pos),true);
 })
 function checkWin() {
     let winner = false;
@@ -22,7 +22,6 @@ function checkWin() {
         }
 
     }
-    socket.emit('play',JSON.stringify(toTab()));
     return winner;
 }
 
@@ -40,7 +39,7 @@ function colorMessage() {
     document.getElementById("body").style.backgroundColor = color;
     document.getElementById("player").innerText = color + " turn to play"
 }
-function startplay(array){
+function startplay(array,isBot){
     if (counter === 42) {
         console.log("Draw!");
         document.getElementById("message").innerText = "Draw!";
@@ -76,12 +75,17 @@ function startplay(array){
         document.getElementById("reset-button").addEventListener("click", resetGame);
         gameOver = true;
     }
+    else {
+        if (!isBot) {
+            socket.emit('play',JSON.stringify({
+            board:toTab()}));}
+    }
 
 }
 function play(event) {
     let id = event.target.id;
     let tab = id.split(" ");
-    startplay(tab);
+    startplay(tab,false);
 }
 
 function printIllegalMove() {

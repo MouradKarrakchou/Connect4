@@ -3,6 +3,8 @@ const http = require('http')
 // Let's import our logic.
 const fileQuery = require('./queryManagers/front.js')
 const apiQuery = require('./queryManagers/api.js')
+const aiQuery = require('./logic/ai.js')
+
 
 /* The http module contains a createServer function, which takes one argument, which is the function that
 ** will be called whenever a new request arrives to the server.
@@ -35,6 +37,10 @@ server.listen(8000);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-io.on('connection', (socket) => {
-    console.log('Connect');
-});
+io.on('connection',socket=>{
+    socket.on('play',(tab)=>{
+        let board=JSON.parse( tab);
+        console.log(tab);
+        io.emit('doMove',JSON.stringify(aiQuery.computeMove(board)));
+    });
+})
