@@ -9,7 +9,7 @@ const path = require('path');
 // Note that fs methods consider the current folder to be the one where the app is run, that's why we don't need the "../.." before front.
 const baseFrontPath = '/front';
 // If the user requests a directory, a file can be returned by default.
-const defaultFileIfFolder = "home.html";
+const defaultFileIfFolder = "/home/home.html";
 
 /* Dict associating files' extension to a MIME type browsers understand. The reason why this is needed is that only
 ** the file's content is sent to the browser, so it cannot know for sure what kind of file it was to begin with,
@@ -51,7 +51,7 @@ function manageRequest(request, response) {
 
         // If it is a directory, we will return the default file.
         if (fs.statSync(pathName).isDirectory()) {
-            pathName += `/${defaultFileIfFolder}`;
+            pathName += `${defaultFileIfFolder}`;
             extension = `.${defaultFileIfFolder.split(".")[1]}`;
         }
 
