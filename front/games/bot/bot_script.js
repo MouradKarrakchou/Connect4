@@ -1,3 +1,4 @@
+
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
 var socket = io();
