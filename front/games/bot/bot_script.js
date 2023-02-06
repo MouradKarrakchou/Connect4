@@ -1,5 +1,30 @@
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
+var socket = io("http://localhost:3000");
+socket.on('doMove',function(pos){
+    startplay(pos);
+})
+function checkWin() {
+    let winner = false;
+    for (let j = 0; j < 6; j++) {
+        for (let i = 0; i < 7; i++) {
+            let color = document.getElementById(i + " " + j).style.backgroundColor;
+            if (color !== "") {
+                if (checkVertical(i, j, color) || checkHorizontal(i, j, color) || checkDiagonal(i, j, color)) {
+                    winner = true;
+                    break;
+                }
+            }
+        }
+        if (winner) {
+            break;
+
+        }
+
+    }
+    socket.emit('play',JSON.stringify(toTab()));
+    return winner;
+}
 
 function init() {
     window.addEventListener("load", colorMessage)
@@ -15,8 +40,7 @@ function colorMessage() {
     document.getElementById("body").style.backgroundColor = color;
     document.getElementById("player").innerText = color + " turn to play"
 }
-
-function play(event) {
+function startplay(array){
     if (counter === 42) {
         console.log("Draw!");
         document.getElementById("message").innerText = "Draw!";
@@ -28,8 +52,7 @@ function play(event) {
     let color = 'red';
     if (counter % 2 === 0) color = 'yellow';
 
-    let id = event.target.id;
-    let tab = id.split(" ");
+    let tab = array;
     let column = tab[0];
     let line = 5;
 
@@ -55,32 +78,38 @@ function play(event) {
     }
 
 }
+function play(event) {
+    let id = event.target.id;
+    let tab = id.split(" ");
+    startplay(tab);
+}
 
 function printIllegalMove() {
     document.getElementById("message").innerText = "Illegal move!";
 }
 
-function checkWin() {
-    let winner = false;
-    for (let j = 0; j < 6; j++) {
-        for (let i = 0; i < 7; i++) {
-            let color = document.getElementById(i + " " + j).style.backgroundColor;
-            if (color !== "") {
-                if (checkVertical(i, j, color) || checkHorizontal(i, j, color) || checkDiagonal(i, j, color)) {
-                    winner = true;
+//red are 1 yellow are -1
+function toTab(){
+    l = [];
+    for (let i = 0; i < 6; i++) {
+        l[i]=[];
+        for (let j = 0; j < 7; j++) {
+            let id = j + " " + i;
+            switch (document.getElementById(id).style.backgroundColor){
+                case(""):
+                    l[i][j]=0;
                     break;
-                }
+                case("red"):
+                    l[i][j]=1;
+                    break;
+                case("yellow"):
+                    l[i][j]=-1;
+                    break;
             }
         }
-        if (winner) {
-            break;
-
-        }
-
     }
-    return winner;
+    return l;
 }
-
 function resetGame() {
     gameOver = false;
     for (let i = 0; i < 6; i++) {

@@ -4,16 +4,6 @@ const http = require('http')
 const fileQuery = require('./queryManagers/front.js')
 const apiQuery = require('./queryManagers/api.js')
 
-const io= require('socket.io')(3000,{
-    cors:{
-        origin: ["http://localhost:8000"],
-    },
-})
-
-io.on("connection",socket=>{
-    console.log(socket.id)
-})
-
 /* The http module contains a createServer function, which takes one argument, which is the function that
 ** will be called whenever a new request arrives to the server.
  */
