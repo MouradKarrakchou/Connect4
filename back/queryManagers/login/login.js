@@ -10,7 +10,7 @@ function manageRequest(request, response) {
                 const values = {
                     username: "user"
                 };
-                if (true || (username === "admin" && password === "admin")) {
+                if (true || (body.username === "admin" && body.password === "admin")) {
                     response.writeHead(200, {'Content-Type': 'application/json'});
                     response.end(JSON.stringify(values));
                 } else {
@@ -24,6 +24,5 @@ function manageRequest(request, response) {
             response.end(`Something in your request (${request.url}) is strange...`);
         }
 }
-
 
 exports.manage = manageRequest;

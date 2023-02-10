@@ -27,4 +27,5 @@ function manageRequest(request, response) {
         response.end(`Something in your request (${request.url}) is strange...`);
     }
 }
+
 exports.manage = manageRequest;
