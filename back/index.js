@@ -46,6 +46,7 @@ io.on('connection',socket => {
     });
 })
 
+/*
 const { MongoClient } = require("mongodb");
 
 // Replace the uri string with your connection string.
@@ -69,4 +70,4 @@ async function run() {
         await client.close();
     }
 }
-run().catch(console.dir);
+run().catch(console.dir);*/
