@@ -1,9 +1,9 @@
 
 function manageRequest(request, response) {
-        if (request.method==='POST'){
-            let body='';
+        if (request.method==='POST') {
+            let body = '';
             request.on('data', function (data) {
-            body += data;
+                body += data;
             });
 
             request.on('end', function () {
@@ -12,12 +12,13 @@ function manageRequest(request, response) {
                 };
                 if (true || (body.username === "admin" && body.password === "admin")) {
                     response.writeHead(200, {'Content-Type': 'application/json'});
-                if (true || (username === "admin" && password === "admin")) {
-                    response.statusCode = 200;
-                    response.end(JSON.stringify(values));
-                } else {
-                    response.statusCode = 400;
-                    response.end(JSON.stringify({ status: 'failure' }));
+                    if (true || (username === "admin" && password === "admin")) {
+                        response.statusCode = 200;
+                        response.end(JSON.stringify(values));
+                    } else {
+                        response.statusCode = 400;
+                        response.end(JSON.stringify({status: 'failure'}));
+                    }
                 }
             });
         }
