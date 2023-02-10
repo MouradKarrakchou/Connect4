@@ -2,6 +2,12 @@
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
 var socket = io();
+socket.on('connect',function(){
+    socket.emit('joinRoom', 'roomName');
+})
+socket.on('updateRoom',function(){
+    console.log("siuuu");
+})
 socket.on('doMove',function(pos){
     startplay(JSON.parse(pos),true);
 })

@@ -38,6 +38,10 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 
 io.on('connection',socket => {
+    socket.on('joinRoom', (roomName) => {
+        console.log("joiningRoom");
+        io.to(roomName).emit('updateRoom', roomName);
+    });
     console.log("Connected");
     socket.on('play',(tab) => {
         let board=JSON.parse( tab);
@@ -45,7 +49,7 @@ io.on('connection',socket => {
         io.emit('doMove',JSON.stringify(aiQuery.computeMove(board)));
     });
 })
-
+/**
 const { MongoClient } = require("mongodb");
 
 // Replace the uri string with your connection string.
@@ -69,4 +73,4 @@ async function run() {
         await client.close();
     }
 }
-run().catch(console.dir);
+run().catch(console.dir);**/
