@@ -11,10 +11,10 @@ function manageRequest(request, response) {
                     username: "user"
                 };
                 if (true || (username === "admin" && password === "admin")) {
-                    response.writeHead(200, {'Content-Type': 'application/json'});
+                    response.statusCode = 200;
                     response.end(JSON.stringify(values));
                 } else {
-                    response.writeHead(400, {'Content-Type': 'application/json'});
+                    response.statusCode = 400;
                     response.end(JSON.stringify({ status: 'failure' }));
                 }
             });

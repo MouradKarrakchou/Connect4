@@ -39,16 +39,18 @@ const io = new Server(server);
 
 io.on('connection',socket => {
     socket.on('joinRoom', (roomName) => {
-        console.log("joiningRoom");
+        console.log(roomName);
+        socket.join(roomName);
         io.to(roomName).emit('updateRoom', roomName);
     });
     console.log("Connected");
     socket.on('play',(tab) => {
-        let board=JSON.parse( tab);
-        console.log(tab);
-        io.emit('doMove',JSON.stringify(aiQuery.computeMove(board)));
+        let gameState=JSON.parse(tab);
+        io.to(gameState.id).emit('doMove',JSON.stringify(aiQuery.computeMove(gameState)));
     });
 })
+
+
 /**
 const { MongoClient } = require("mongodb");
 
