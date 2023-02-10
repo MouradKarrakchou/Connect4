@@ -1,19 +1,21 @@
-# Utiliser une image Node.js en utilisant une image parente
+# Use a Node.js image using a parent image
 FROM node:16.13.2
 
+# It looks like puting the node environment to prodduction is better for the performances
+#I hope it is true
 ENV NODE_ENV=production
 
-# Définir le répertoire de travail
+# Define the work directory
 WORKDIR /app
 
-# Copier les fichiers de l'application dans le répertoire de travail
+# Cpoy the files from the app to the work directory
 COPY . .
 
-# Installer les dépendances de l'application
+# Install the dependencies in the app
 RUN npm install
 
-# Exposer le port 8000
+# Expose the 8000 port
 EXPOSE 8000
 
-# Définir la commande à exécuter pour démarrer l'application
+# Define the command to execute to run the app
 CMD ["npm", "start"]
