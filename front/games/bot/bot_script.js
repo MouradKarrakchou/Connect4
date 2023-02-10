@@ -1,7 +1,14 @@
-
+var randNum =  Math.floor(Math.random() * 10) + 1;
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
 var socket = io();
+socket.on('connect',function(){
+    socket.emit('joinRoom', randNum);
+})
+socket.on('updateRoom',function(id){
+    console.log(id);
+    console.log(randNum);
+})
 socket.on('doMove',function(pos){
     startplay(JSON.parse(pos),true);
 })
@@ -79,6 +86,7 @@ function startplay(array,isBot){
     else {
         if (!isBot) {
             socket.emit('play',JSON.stringify({
+                id:randNum,
             board:toTab()}));
         }
     }

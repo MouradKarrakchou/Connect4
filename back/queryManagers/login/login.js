@@ -12,9 +12,11 @@ function manageRequest(request, response) {
                 };
                 if (true || (body.username === "admin" && body.password === "admin")) {
                     response.writeHead(200, {'Content-Type': 'application/json'});
+                if (true || (username === "admin" && password === "admin")) {
+                    response.statusCode = 200;
                     response.end(JSON.stringify(values));
                 } else {
-                    response.writeHead(400, {'Content-Type': 'application/json'});
+                    response.statusCode = 400;
                     response.end(JSON.stringify({ status: 'failure' }));
                 }
             });
