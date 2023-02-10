@@ -23,11 +23,48 @@ function login_page(){
 }
 
 function login(){
-    console.log(document.getElementsByName("log_username")[0].value)
-    console.log(document.getElementsByName("log_pswd")[0].value)
+    const values = {
+        username: document.getElementsByName("log_name")[0].value,
+        password: document.getElementsByName("log_pswd")[0].value,
+    };
+
+    fetch('http://localhost:8000/api/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function register(){
+    const values = {
+        username: document.getElementsByName("reg_name")[0].value,
+        password: document.getElementsByName("reg_pswd")[0].value,
+        email: document.getElementsByName("reg_email")[0].value,
+    };
+
+    fetch('http://localhost:8000/api/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
     console.log(document.getElementsByName("reg_name")[0].value)
     console.log(document.getElementsByName("reg_email")[0].value)
     console.log(document.getElementsByName("reg_pswd")[0].value)

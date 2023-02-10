@@ -79,7 +79,8 @@ function startplay(array,isBot){
     else {
         if (!isBot) {
             socket.emit('play',JSON.stringify({
-            board:toTab()}));}
+            board:toTab()}));
+        }
     }
 
 }
