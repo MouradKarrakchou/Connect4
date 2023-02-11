@@ -1,10 +1,11 @@
-import {toTab} from "../games/gameManagement";
+import {toTab} from "../games/gameManagement.js";
 
 let gameSaved=document.getElementById("gameSaved");
-let token=findToken()
+let token
 
 
 function initialise(){
+    token=findToken()
     const tab = {
         gameType: "local",
         tab: toTab()

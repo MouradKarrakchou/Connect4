@@ -14,25 +14,25 @@ socket.on('updateRoom',function(id){
     console.log(randNum);
 })
 socket.on('doMove',function(pos){
-    startplay(JSON.parse(pos),true);
+    startplay(JSON.parse(pos));
+    counter++;
+    colorMessage(counter);
 })
 
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
-    document.getElementById("grid").addEventListener("click", function(event){play(event,false)});
-    document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);})
+    document.getElementById("grid").addEventListener("click", function(event){play(event)});
     document.getElementById("saveButton").addEventListener('click', saveGame);
 }
 
-function play(event,isBot) {
+function play(event) {
     let id = event.target.id;
     let tab = id.split(" ");
     startplay(tab,false);
-    if (!isBot) {
-        socket.emit('play',JSON.stringify({
-            id:randNum,
-            board:toTab()}));
-    }
+    colorMessage(counter);
+    socket.emit('play',JSON.stringify({
+        id:randNum,
+        board:toTab()}));
     counter++;
 }
 
@@ -60,6 +60,7 @@ function startplay(tab){
         line--;
         id = column + " " + line;
     }
+    console.log(counter);
 
     line++;
     id = column + " " + line;
