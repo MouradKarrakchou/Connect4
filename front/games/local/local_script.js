@@ -1,4 +1,4 @@
-import {colorMessage,checkWin,printIllegalMove} from "../gameManagement.js"
+import {colorMessage,checkWin,printIllegalMove,toTab} from "../gameManagement.js"
 
 let counter = 0;
 
@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', init);
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", play);
-    document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);})
+    document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);});
+    document.getElementById("saveButton").addEventListener("click",saveGame);
 }
 
 function play(event){
@@ -80,7 +81,7 @@ function saveGame() {
         tab: toTab()
     };
     console.log(tab)
-    fetch('http://localhost:8000/api/register', {
+    fetch('http://localhost:8000/api/game', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
