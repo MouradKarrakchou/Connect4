@@ -1,9 +1,11 @@
-import {colorMessage} from "../gameManagement.js"
+import {colorMessage,checkWin,printIllegalMove,checkDraw} from "../gameManagement.js"
+
 var randNum =  Math.floor(Math.random() * 10) + 1;
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
 var socket = io();
 let counter = 0;
+
 socket.on('connect',function(){
     socket.emit('joinRoom', randNum);
 })
@@ -16,51 +18,24 @@ socket.on('doMove',function(pos){
 })
 
 function init() {
-    window.addEventListener("load", colorMessage)
+    window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", play);
-    document.getElementById("grid").addEventListener("click", colorMessage)
+    document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);})
 }
 
 
 
-function checkWin() {
-    let winner = false;
-    for (let j = 0; j < 6; j++) {
-        for (let i = 0; i < 7; i++) {
-            let color = document.getElementById(i + " " + j).style.backgroundColor;
-            if (color !== "") {
-                if (checkVertical(i, j, color) || checkHorizontal(i, j, color) || checkDiagonal(i, j, color)) {
-                    winner = true;
-                    break;
-                }
-            }
-        }
-        if (winner) {
-            break;
-        }
-    }
-    return winner;
-}
-
-
-
-function startplay(array,isBot){
-    if (counter === 42) {
-        console.log("Draw!");
-        document.getElementById("message").innerText = "Draw!";
-        document.getElementById("reset-button").style.display = "block";
-        document.getElementById("reset-button").addEventListener("click", resetGame);
-        gameOver = true;
-    }
+function startplay(tab,isBot){
+    gameOver=checkDraw();
     if (gameOver) return;
     let color = 'red';
     if (counter % 2 === 0) color = 'yellow';
 
-    let tab = array;
     let column = tab[0];
     let line = 5;
 
     let id = column + " " + line;
+
     if (document.getElementById(id).style.backgroundColor !== "")
         return printIllegalMove();
 
@@ -93,10 +68,6 @@ function play(event) {
     let id = event.target.id;
     let tab = id.split(" ");
     startplay(tab,false);
-}
-
-function printIllegalMove() {
-    document.getElementById("message").innerText = "Illegal move!";
 }
 
 //red are 1 yellow are -1
@@ -134,48 +105,4 @@ function resetGame() {
     document.getElementById("reset-button").style.display = "none";
 }
 
-function checkVertical(i, j) {
-    let color = document.getElementById(i + " " + j).style.backgroundColor;
-    let count = 0;
-    for (let k = 0; k < 4; k++) {
-        let id = (i + k) + " " + j;
-        if (document.getElementById(id) && document.getElementById(id).style.backgroundColor === color) {
-            count++;
-        } else break;
-    }
-    return count === 4;
-}
 
-function checkHorizontal(i, j) {
-    let color = document.getElementById(i + " " + j).style.backgroundColor;
-    let count = 0;
-    for (let k = 0; k < 4; k++) {
-        let id = i + " " + (j + k);
-        if (document.getElementById(id) && document.getElementById(id).style.backgroundColor === color) {
-            count++;
-        } else break;
-    }
-    return count === 4;
-}
-
-function checkDiagonal(i, j) {
-    let color = document.getElementById(i + " " + j).style.backgroundColor;
-    let count = 0;
-    for (let k = 0; k < 4; k++) {
-        let id = (i + k) + " " + (j + k);
-        if (document.getElementById(id) && document.getElementById(id).style.backgroundColor === color) {
-            count++;
-        } else break;
-    }
-    if (count === 4) return true;
-
-    count = 0;
-    for (let k = 0; k < 4; k++) {
-        let id = (i - k) + " " + (j + k);
-        if (document.getElementById(id) && document.getElementById(id).style.backgroundColor === color) {
-            count++;
-        } else break;
-    }
-    if (count === 4) return true;
-    return false;
-}
