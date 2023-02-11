@@ -1,7 +1,9 @@
+import {colorMessage} from "../gameManagement.js"
 var randNum =  Math.floor(Math.random() * 10) + 1;
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
 var socket = io();
+let counter = 0;
 socket.on('connect',function(){
     socket.emit('joinRoom', randNum);
 })
@@ -12,6 +14,15 @@ socket.on('updateRoom',function(id){
 socket.on('doMove',function(pos){
     startplay(JSON.parse(pos),true);
 })
+
+function init() {
+    window.addEventListener("load", colorMessage)
+    document.getElementById("grid").addEventListener("click", play);
+    document.getElementById("grid").addEventListener("click", colorMessage)
+}
+
+
+
 function checkWin() {
     let winner = false;
     for (let j = 0; j < 6; j++) {
@@ -26,27 +37,13 @@ function checkWin() {
         }
         if (winner) {
             break;
-
         }
-
     }
     return winner;
 }
 
-function init() {
-    window.addEventListener("load", colorMessage)
-    document.getElementById("grid").addEventListener("click", play);
-    document.getElementById("grid").addEventListener("click", colorMessage)
-}
 
-let counter = 0;
 
-function colorMessage() {
-    let color = 'Red';
-    if (counter % 2 === 0) color = 'Yellow';
-    document.getElementById("body").style.backgroundColor = color;
-    document.getElementById("player").innerText = color + " turn to play"
-}
 function startplay(array,isBot){
     if (counter === 42) {
         console.log("Draw!");
@@ -63,7 +60,7 @@ function startplay(array,isBot){
     let column = tab[0];
     let line = 5;
 
-    id = column + " " + line;
+    let id = column + " " + line;
     if (document.getElementById(id).style.backgroundColor !== "")
         return printIllegalMove();
 
@@ -103,6 +100,8 @@ function printIllegalMove() {
 }
 
 //red are 1 yellow are -1
+function toTab(){
+    let l = [];
 export function toTab(){
     l = [];
     for (let j = 0; j < 7; j++) {
