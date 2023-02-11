@@ -10,6 +10,27 @@ const aiQuery = require('./logic/ai.js')
 ** will be called whenever a new request arrives to the server.
  */
 let server = http.createServer(function (request, response) {
+    const MongoClient = require('mongodb').MongoClient;
+
+    const url = 'mongodb://admin:admin@mongodb/connect4?directConnection=true';
+    const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+console.log("tenflammes pas")
+    async function createDatabaseAndUser() {
+        try {
+            await client.connect();
+            console.log('Connected to MongoDB');
+            const db = client.db("connect4");
+            const usersCollection = db.collection("log");
+            const values = { message: "Hello, world!" };
+            const result = await usersCollection.insertOne(values);
+            console.log('Document inserted', result.insertedId);
+        } catch (err) {
+            console.error('Failed to create database or user', err);
+        } finally {
+            await client.close();
+        }
+    }
+    createDatabaseAndUser();
     // First, let's check the URL to see if it's a REST request or a file request.
     // We will remove all cases of "../" in the url for security purposes.
     let filePath = request.url.split("/").filter(function(elem) {
@@ -35,6 +56,7 @@ let server = http.createServer(function (request, response) {
 server.listen(8000);
 
 const { Server } = require("socket.io");
+const {MongoClient} = require("mongodb");
 const io = new Server(server);
 
 io.on('connection',socket => {
@@ -49,29 +71,3 @@ io.on('connection',socket => {
         io.to(gameState.id).emit('doMove',JSON.stringify(aiQuery.computeMove(gameState)));
     });
 })
-
-
-const { MongoClient } = require("mongodb");
-
-// Replace the uri string with your connection string.
-const uri =
-    "mongodb://localhost:27017?retryWrites=true&w=majority";
-
-const client = new MongoClient(uri);
-
-async function run() {
-    try {
-        const database = client.db('sample_mflix');
-        const movies = database.collection('movies');
-
-        // Query for a movie that has the title 'Back to the Future'
-        const query = { title: 'Back to the Future' };
-        const movie = await movies.findOne(query);
-
-        console.log(movie);
-    } finally {
-        // Ensures that the client will close when you finish/error
-        await client.close();
-    }
-}
-run().catch(console.dir);
