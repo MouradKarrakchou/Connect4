@@ -152,3 +152,22 @@ export function toTab(){
     }
     return l;
 }
+
+function retrieveGameState(gameTab) {
+    for (let j = 0; j < 7; j++) {
+        for (let i = 0; i < 6; i++) {
+            let id = j + " " + i;
+            switch (document.getElementById(id).value){
+                case(-1):
+                    document.getElementById(id).style.backgroundColor = "yellow";
+                    break;
+                case(0):
+                    document.getElementById(id).style.backgroundColor = "";
+                    break;
+                case(1):
+                    document.getElementById(id).style.backgroundColor = "red";
+                    break;
+            }
+        }
+    }
+}
