@@ -12,7 +12,7 @@ function init() {
 }
 
 function play(event) {
-    gameOver=checkDraw();
+    gameOver=checkDraw(counter);
     if (gameOver) return;
     let color = 'red';
     if (counter % 2 === 0) color = 'yellow';

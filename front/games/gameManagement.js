@@ -27,7 +27,7 @@ export function checkWin() {
     }
     return winner;}
 
-export function checkDraw(){
+export function checkDraw(counter){
     if (counter === 42) {
         console.log("Draw!");
         document.getElementById("message").innerText = "Draw!";
