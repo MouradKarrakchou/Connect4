@@ -21,6 +21,7 @@ function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", function(event){play(event,false)});
     document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);})
+    document.getElementById("saveButton").addEventListener('click', saveGame);
 }
 
 function play(event,isBot) {
@@ -86,4 +87,25 @@ function resetGame() {
     document.getElementById("reset-button").style.display = "none";
 }
 
-
+function saveGame() {
+    console.log("in saveGame")
+    const tab = {
+        gameType: "bot",
+        tab: toTab()
+    };
+    console.log(tab)
+    fetch('http://localhost:8000/api/game', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(tab)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}

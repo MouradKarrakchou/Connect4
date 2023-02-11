@@ -78,6 +78,7 @@ function resetGame() {
 function saveGame() {
     console.log("in saveGame")
     const tab = {
+        gameType: "local",
         tab: toTab()
     };
     console.log(tab)
