@@ -1,12 +1,11 @@
 
 function manageRequest(request, response) {
-    console.log("before post")
+    console.log("in manageRequest in game.js")
     if (request.method==='POST'){
         let body='';
         request.on('data', function (data) {
             body += data;
         });
-        console.log("le body -- ")
 
         request.on('end', function () {
             const successMessage = "Game saved!";
