@@ -1,4 +1,5 @@
 import { toTab } from "../bot/bot_script";
+
 document.getElementById("saveButton").addEventListener('click', saveGame)
 
 let gameOver = false;
@@ -153,7 +154,7 @@ function saveGame() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(values)
+        body: JSON.stringify(tab)
     })
         .then(response => response.json())
         .then(data => {
