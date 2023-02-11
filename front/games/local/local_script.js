@@ -2,7 +2,6 @@ import {colorMessage, checkWin, printIllegalMove, checkDraw, toTab} from "../gam
 
 let counter = 0;
 
-document.getElementById("saveButton").addEventListener('click', saveGame)
 
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
@@ -61,10 +60,11 @@ function resetGame() {
 }
 
 function saveGame() {
+    console.log("in saveGame")
     const tab = {
         tab: toTab()
     };
-
+    console.log(tab)
     fetch('http://localhost:8000/api/register', {
         method: 'POST',
         headers: {
