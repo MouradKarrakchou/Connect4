@@ -103,7 +103,7 @@ function printIllegalMove() {
 }
 
 //red are 1 yellow are -1
-function toTab(){
+export function toTab(){
     l = [];
     for (let j = 0; j < 7; j++) {
         l[j]=[];

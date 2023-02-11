@@ -1,3 +1,6 @@
+import { toTab } from "../bot/bot_script";
+document.getElementById("saveButton").addEventListener('click', saveGame)
+
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
 
@@ -138,4 +141,25 @@ function checkDiagonal(i, j) {
     }
     if (count === 4) return true;
     return false;
+}
+
+function saveGame() {
+    const tab = {
+        tab: toTab()
+    };
+
+    fetch('http://localhost:8000/api/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
