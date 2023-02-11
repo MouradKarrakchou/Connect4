@@ -1,13 +1,42 @@
 .title {
     text-align: center;
 }
-
+.home{
+    display: flex;
+}
 .menu {
-    margin: auto;
+    margin-left:5%;
     align-content: center;
     width: 60%;
     height: 400px;
     border: 5px solid #333;
+}
+.dropdown{
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    width: 20%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.gameSaved{
+    border: 5px solid #333;
+    height: 10%;
+    text-align: center;
+    font-size: 33px;
+}
+.gameSaved:hover .dropdown{
+    display: block;
+}
+h4{
+    font-size: 20px;
+}
+.item{
+    display: flex;
+}
+.littleMenu{
+    margin-left: 5%;
+    width: 20%;
+    height: 400px;
 }
 
 fa-solid fa-user-group {
@@ -53,5 +82,18 @@ fa-solid fa-robot {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    cursor: pointer;
+}
+
+.resumeButton{
+    margin: auto;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
     cursor: pointer;
 }
