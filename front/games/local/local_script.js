@@ -1,4 +1,4 @@
-import {colorMessage, checkWin, printIllegalMove, checkDraw, toTab} from "../gameManagement.js"
+import {colorMessage,checkWin,printIllegalMove,toTab, startPlay} from "../gameManagement.js"
 
 let counter = 0;
 
@@ -12,38 +12,10 @@ function init() {
     document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);})
 }
 
-function play(event) {
-    gameOver=checkDraw();
-    if (gameOver) return;
-    let color = 'red';
-    if (counter % 2 === 0) color = 'yellow';
-
-    let id = event.target.id;
-    let tab = id.split(" ");
-    let column = tab[0];
-    let line = 5;
-
-    id = column + " " + line;
-    if (document.getElementById(id).style.backgroundColor !== "")
-        return printIllegalMove();
-
-    while (line >=0 && document.getElementById(id).style.backgroundColor === "") {
-        line--;
-        id = column + " " + line;
-    }
-
-    line++;
-    id = column + " " + line;
-    document.getElementById(id).style.backgroundColor = color;
+function play(event){
+    if (gameOver) return
+    gameOver=!startPlay(event,counter);
     counter++;
-    if (checkWin() === true) {
-        console.log(color + " player wins!");
-        document.getElementById("message").innerText = color + " player wins!";
-        document.getElementById("reset-button").style.display = "block";
-        document.getElementById("reset-button").addEventListener("click", resetGame);
-        gameOver = true;
-    }
-
 }
 
 function resetGame() {

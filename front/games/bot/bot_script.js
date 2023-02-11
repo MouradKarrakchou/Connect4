@@ -1,4 +1,4 @@
-import {colorMessage,checkWin,printIllegalMove,checkDraw, toTab} from "../gameManagement.js"
+import {colorMessage,checkWin,printIllegalMove, toTab} from "../gameManagement.js"
 
 var randNum =  Math.floor(Math.random() * 10) + 1;
 let gameOver = false;
@@ -19,14 +19,30 @@ socket.on('doMove',function(pos){
 
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
-    document.getElementById("grid").addEventListener("click", play);
+    document.getElementById("grid").addEventListener("click", function(event){play(event,false)});
     document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);})
 }
 
+function play(event,isBot) {
+    let id = event.target.id;
+    let tab = id.split(" ");
+    startplay(tab,false);
+    if (!isBot) {
+        socket.emit('play',JSON.stringify({
+            id:randNum,
+            board:toTab()}));
+    }
+    counter++;
+}
 
-
-function startplay(tab,isBot){
-    gameOver=checkDraw();
+function startplay(tab){
+    if (counter === 42) {
+        console.log("Draw!");
+        document.getElementById("message").innerText = "Draw!";
+        document.getElementById("reset-button").style.display = "block";
+        document.getElementById("reset-button").addEventListener("click", resetGame);
+        gameOver = true;
+    }
     if (gameOver) return;
     let color = 'red';
     if (counter % 2 === 0) color = 'yellow';
@@ -47,7 +63,6 @@ function startplay(tab,isBot){
     line++;
     id = column + " " + line;
     document.getElementById(id).style.backgroundColor = color;
-    counter++;
     if (checkWin() === true) {
         console.log(color + " player wins!");
         document.getElementById("message").innerText = color + " player wins!";
@@ -55,19 +70,7 @@ function startplay(tab,isBot){
         document.getElementById("reset-button").addEventListener("click", resetGame);
         gameOver = true;
     }
-    else {
-        if (!isBot) {
-            socket.emit('play',JSON.stringify({
-                id:randNum,
-            board:toTab()}));
-        }
-    }
 
-}
-function play(event) {
-    let id = event.target.id;
-    let tab = id.split(" ");
-    startplay(tab,false);
 }
 
 function resetGame() {

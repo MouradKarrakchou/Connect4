@@ -27,7 +27,50 @@ export function checkWin() {
     }
     return winner;}
 
-export function checkDraw(){
+/**
+ * return false if the game is finished and true is the person still plays
+ * @param event
+ * @returns {boolean|void}
+ */
+export function startPlay(event,counter) {
+    if (counter === 42) {
+        console.log("Draw!");
+        document.getElementById("message").innerText = "Draw!";
+        document.getElementById("reset-button").style.display = "block";
+        document.getElementById("reset-button").addEventListener("click", resetGame);
+        return false;
+    }
+    let color = 'red';
+    if (counter % 2 === 0) color = 'yellow';
+
+    let id = event.target.id;
+    let tab = id.split(" ");
+    let column = tab[0];
+    let line = 5;
+
+    id = column + " " + line;
+    if (document.getElementById(id).style.backgroundColor !== "")
+        return printIllegalMove();
+
+    while (line >=0 && document.getElementById(id).style.backgroundColor === "") {
+        line--;
+        id = column + " " + line;
+    }
+
+    line++;
+    id = column + " " + line;
+    document.getElementById(id).style.backgroundColor = color;
+    if (checkWin() === true) {
+        console.log(color + " player wins!");
+        document.getElementById("message").innerText = color + " player wins!";
+        document.getElementById("reset-button").style.display = "block";
+        document.getElementById("reset-button").addEventListener("click", resetGame);
+        return false;
+    }
+    return true;
+}
+
+export function checkDraw(counter){
     if (counter === 42) {
         console.log("Draw!");
         document.getElementById("message").innerText = "Draw!";
