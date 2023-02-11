@@ -36,3 +36,30 @@ function findToken(){
         }
     }
 }
+
+function retrieveGame(gameTypeAndTab) {
+    let path = "";
+    if(gameTypeAndTab.gameType === "local") path = "../games/local/local_game.html";
+    else if(gameTypeAndTab.gameType === "bot") path = "../games/bot/bot_game.html";
+
+    const values = {
+        token: 12,
+    };
+
+    fetch('http://localhost:8000/api/game', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .then(data => {
+            document.cookie = "token="+data.token+";path=/";
+            console.log(document.cookie);
+            window.location.href = '/games/local/local_game.html';
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
