@@ -12,7 +12,7 @@ const aiQuery = require('./logic/ai.js')
 let server = http.createServer(function (request, response) {
     const MongoClient = require('mongodb').MongoClient;
 
-    const url = 'mongodb://admin:admin@mongodb/connect4?directConnection=true';
+    const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
     const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
 console.log("tenflammes pas")
     async function createDatabaseAndUser() {
@@ -20,6 +20,7 @@ console.log("tenflammes pas")
             await client.connect();
             console.log('Connected to MongoDB');
             const db = client.db("connect4");
+            //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
             const usersCollection = db.collection("log");
             const values = { message: "Hello, world!" };
             const result = await usersCollection.insertOne(values);
