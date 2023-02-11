@@ -32,9 +32,10 @@ function play(event,isBot) {
             id:randNum,
             board:toTab()}));
     }
+    counter++;
 }
 
-function startplay(tab,isBot){
+function startplay(tab){
     if (counter === 42) {
         console.log("Draw!");
         document.getElementById("message").innerText = "Draw!";
@@ -62,7 +63,6 @@ function startplay(tab,isBot){
     line++;
     id = column + " " + line;
     document.getElementById(id).style.backgroundColor = color;
-    counter++;
     if (checkWin() === true) {
         console.log(color + " player wins!");
         document.getElementById("message").innerText = color + " player wins!";
