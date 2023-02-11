@@ -2,7 +2,6 @@ import {colorMessage,checkWin,printIllegalMove,toTab} from "../gameManagement.js
 
 let counter = 0;
 
-
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
 
@@ -25,6 +24,7 @@ function play(event){
  * @returns {boolean|void}
  */
 function startPlay(event) {
+    console.log(document.cookie.toString())
     if (counter === 42) {
         console.log("Draw!");
         document.getElementById("message").innerText = "Draw!";

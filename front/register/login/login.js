@@ -37,7 +37,9 @@ function login(){
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            document.cookie = "token="+data.token+";path=/";
+            console.log(document.cookie);
+            window.location.href = '/games/local/local_game.html';
         })
         .catch(error => {
             console.error(error);
@@ -58,16 +60,11 @@ function register(){
         },
         body: JSON.stringify(values)
     })
-        .then(response => response.json())
         .then(data => {
-            console.log(data);
+            document.cookie=data;
+            console.log(document.cookie);
         })
-        .catch(error => {
-            console.error(error);
-        });
     console.log(document.getElementsByName("reg_name")[0].value)
     console.log(document.getElementsByName("reg_email")[0].value)
     console.log(document.getElementsByName("reg_pswd")[0].value)
-    console.log(document.getElementsByName("reg_pswd2")[0].value)
-
-}
+    console.log(document.getElementsByName("reg_pswd2")[0].value)}

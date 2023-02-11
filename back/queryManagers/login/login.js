@@ -8,7 +8,8 @@ function manageRequest(request, response) {
 
             request.on('end', function () {
                 const values = {
-                    username: "user"
+                    username: "user",
+                    token: 1,
                 };
                 if (true || (body.username === "admin" && body.password === "admin")) {
                     response.writeHead(200, {'Content-Type': 'application/json'});
