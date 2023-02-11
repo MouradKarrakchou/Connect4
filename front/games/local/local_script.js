@@ -2,6 +2,7 @@ import {colorMessage,checkWin,printIllegalMove} from "../gameManagement.js"
 
 let counter = 0;
 
+
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
 
@@ -71,4 +72,26 @@ function resetGame() {
     counter = 0;
     document.getElementById("message").innerText = "";
     document.getElementById("reset-button").style.display = "none";
+}
+
+function saveGame() {
+    console.log("in saveGame")
+    const tab = {
+        tab: toTab()
+    };
+    console.log(tab)
+    fetch('http://localhost:8000/api/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(tab)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
