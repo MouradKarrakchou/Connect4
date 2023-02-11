@@ -1,8 +1,6 @@
-import {colorMessage, checkWin, printIllegalMove, checkDraw} from "../gameManagement.js"
+import {colorMessage, checkWin, printIllegalMove, checkDraw, toTab} from "../gameManagement.js"
 
 let counter = 0;
-
-import { toTab } from "../bot/bot_script";
 
 document.getElementById("saveButton").addEventListener('click', saveGame)
 

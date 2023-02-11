@@ -1,10 +1,12 @@
 
 function manageRequest(request, response) {
+    console.log("before post")
     if (request.method==='POST'){
         let body='';
         request.on('data', function (data) {
             body += data;
         });
+        console.log("le body -- ")
 
         request.on('end', function () {
             const successMessage = "Game saved!";
@@ -12,6 +14,7 @@ function manageRequest(request, response) {
             if (true || (body.gameBoard != null)) {
                 response.writeHead(200, {'Content-Type': 'application/json'});
                 response.end(JSON.stringify({ status: successMessage }));
+                console.log(body)
             } else {
                 response.writeHead(400, {'Content-Type': 'application/json'});
                 response.end(JSON.stringify({ status: errorMessage }));

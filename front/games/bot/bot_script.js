@@ -1,4 +1,4 @@
-import {colorMessage,checkWin,printIllegalMove,checkDraw} from "../gameManagement.js"
+import {colorMessage,checkWin,printIllegalMove,checkDraw, toTab} from "../gameManagement.js"
 
 var randNum =  Math.floor(Math.random() * 10) + 1;
 let gameOver = false;
@@ -70,28 +70,6 @@ function play(event) {
     startplay(tab,false);
 }
 
-//red are 1 yellow are -1
-export function toTab(){
-    let l = [];
-    for (let j = 0; j < 7; j++) {
-        l[j]=[];
-        for (let i = 0; i < 6; i++) {
-            let id = j + " " + i;
-            switch (document.getElementById(id).style.backgroundColor){
-                case(""):
-                    l[j][i]=0;
-                    break;
-                case("red"):
-                    l[j][i]=1;
-                    break;
-                case("yellow"):
-                    l[j][i]=-1;
-                    break;
-            }
-        }
-    }
-    return l;
-}
 function resetGame() {
     gameOver = false;
     for (let i = 0; i < 6; i++) {
