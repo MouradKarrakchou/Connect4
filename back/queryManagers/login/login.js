@@ -1,4 +1,5 @@
 const {MongoClient} = require("mongodb");
+import {} from "../index";
 
 function manageRequest(request, response) {
     const MongoClient = require('mongodb').MongoClient;
