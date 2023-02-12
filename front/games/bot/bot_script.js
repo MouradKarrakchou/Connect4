@@ -25,6 +25,13 @@ function init() {
     document.getElementById("saveButton").addEventListener('click', saveGame);
 }
 
+document.getElementById("logout").addEventListener('click', logout);
+function logout() {
+    document.cookie = "token=" + undefined + ";path=/";
+    document.cookie = "username=" + undefined + ";path=/";
+    window.location.href = "../../loginRegister/loginRegister.html";
+}
+
 function play(event) {
     let id = event.target.id;
     let tab = id.split(" ");
