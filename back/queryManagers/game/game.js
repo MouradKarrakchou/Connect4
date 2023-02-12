@@ -27,7 +27,7 @@ function manageRequest(request, response) {
                 let userInfo={
                     userToken: currentUser.token,
                 }
-                mongoDBConnection.findInDataBase(response,userInfo,"games");
+                mongoDBConnection.findEverythingInDataBase(response,userInfo,"games");
             });
         }
         else if(filePath[3]==="retrieveGameWithId"){

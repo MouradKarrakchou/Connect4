@@ -46,5 +46,26 @@ async function createInDataBase(response,valueToFind,collectionName) {
     }
 }
 
+async function findEverythingInDataBase(response,valueToFind,collectionName){
+    try {
+        await client.connect();
+        console.log('Connected to MongoDB');
+        const db = client.db("connect4");
+        //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
+        const collection = db.collection(collectionName);
+        const items = await collection.find(valueToFind).toArray();
+        console.log(items);
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify(items));
+    } catch (err) {
+        console.error('Failed to create database or user', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({ status: 'failure' }));
+    } finally {
+        await client.close();
+    }
+}
+
 exports.findInDataBase = findInDataBase;
 exports.createInDataBase= createInDataBase;
+exports.findEverythingInDataBase= findEverythingInDataBase;
