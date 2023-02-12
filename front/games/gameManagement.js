@@ -153,7 +153,7 @@ export function toTab(){
     return l;
 }
 
-function retrieveGameState(gameTab) {
+export function retrieveGameState(gameTab) {
     for (let j = 0; j < 7; j++) {
         for (let i = 0; i < 6; i++) {
             let id = j + " " + i;

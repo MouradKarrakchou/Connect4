@@ -67,6 +67,34 @@ function manageRequest(request, response) {
                 retriveGames();
             });
         }
+        else if(filePath[3]==="retrieveGameWithId"){
+            request.on('end', function () {
+                async function retriveGames() {
+                    try {
+                        await client.connect();
+                        let gameState=JSON.parse(body);
+                        console.log('Connected to MongoDB');
+                        const db = client.db("connect4");
+                        //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
+                        const gameCollection = db.collection("games");
+                        const games = await gameCollection.find({
+                            userToken: { $regex: new RegExp(gameState.userToken, 'i') },
+                            _id: { $regex: new RegExp(gameState.id, 'i') },
+                        }).toArray();
+                        console.log(games);
+                        response.writeHead(200, {'Content-Type': 'application/json'});
+                        response.end(JSON.stringify(games));
+                    } catch (err) {
+                        console.error('Failed to create database or user', err);
+                        response.writeHead(400, {'Content-Type': 'application/json'});
+                        response.end(JSON.stringify({ status: 'failure' }));
+                    } finally {
+                        await client.close();
+                    }
+                }
+                retriveGames();
+            });
+        }
     }
     else{
         response.statusCode = 400;

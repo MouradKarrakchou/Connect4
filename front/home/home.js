@@ -9,6 +9,8 @@ window.addEventListener('load', function () {
 )
 
 function getAllGames(){
+    findToken()
+    console.log(token)
     const values = {
         token: token,
     };
@@ -35,7 +37,7 @@ function addGamesSavedHtml(tabOfGames){
     for (let i = 0; i <tabOfGames.length ; i++) {
         var dropdown = document.querySelector('.dropdown');
         var newItem = document.createElement('div');
-        let adress = '../games/bot/bot_game.html?id=' + tabOfGames[i]._id;
+        let adress = '../games/local/local_game.html?id=' + tabOfGames[i]._id;
         newItem.classList.add('item');
         newItem.innerHTML = `<div class="item">
             <h4>${tabOfGames[i].gameType}</h4>
@@ -72,6 +74,7 @@ function initialise(){
 
 function findToken(){
     let cookies = document.cookie.split(';');
+    console.log(cookies);
     for (let i = 0; i < cookies.length; i++) {
         if (cookies[i].trim().startsWith("token=")) {
             token=cookies[i].trim().substring("token=".length, cookies[i].trim().length);
