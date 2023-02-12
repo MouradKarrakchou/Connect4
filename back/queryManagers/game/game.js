@@ -1,6 +1,13 @@
+const {MongoClient} = require("mongodb");
 
 function manageRequest(request, response) {
     console.log("in manageRequest in game.js")
+
+    const MongoClient = require('mongodb').MongoClient;
+
+    const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
+    const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+
     if (request.method==='POST'){
         let body='';
         request.on('data', function (data) {
@@ -8,16 +15,27 @@ function manageRequest(request, response) {
         });
 
         request.on('end', function () {
-            const successMessage = "Game saved!";
-            const errorMessage = "Error. Please try again.";
-            if (true || (body.gameBoard != null)) {
-                response.writeHead(200, {'Content-Type': 'application/json'});
-                response.end(JSON.stringify({ status: successMessage }));
-                console.log(body)
-            } else {
-                response.writeHead(400, {'Content-Type': 'application/json'});
-                response.end(JSON.stringify({ status: errorMessage }));
+
+            async function addGameToDataBase() {
+                try {
+                    await client.connect();
+                    console.log('Connected to MongoDB');
+                    const db = client.db("connect4");
+                    //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
+                    const usersCollection = db.collection("games");
+                    const result = await usersCollection.insertOne(JSON.parse(body));
+                    console.log('Document inserted', result.insertedId);
+                    response.writeHead(200, {'Content-Type': 'application/json'});
+                    response.end(JSON.stringify({ status: 'success' }));
+                } catch (err) {
+                    console.error('Failed to create database or user', err);
+                    response.writeHead(400, {'Content-Type': 'application/json'});
+                    response.end(JSON.stringify({ status: 'failure' }));
+                } finally {
+                    await client.close();
+                }
             }
+            addGameToDataBase();
         });
     }
     else{

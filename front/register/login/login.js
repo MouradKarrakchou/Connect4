@@ -38,6 +38,7 @@ function login(){
         .then(response => response.json())
         .then(data => {
             document.cookie = "token="+data.token+";path=/";
+            document.cookie = "username="+data.username+";path=/";
             console.log(document.cookie);
             window.location.href = '/games/local/local_game.html';
         })
