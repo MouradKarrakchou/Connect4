@@ -1,6 +1,6 @@
-import {colorMessage, checkWin, printIllegalMove, toTab, loadGame,saveGame} from "../gameManagement.js"
+import {colorMessage, checkWin, printIllegalMove, toTab, loadGame,saveGame,findToken} from "../gameManagement.js"
 
-var randNum =  Math.floor(Math.random() * 10) + 1;
+var roomName;
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
 var socket = io();
@@ -12,13 +12,19 @@ function init() {
     document.getElementById("grid").addEventListener("click", function(event){play(event)});
     document.getElementById("saveButton").addEventListener("click",function(){saveGame("bot")});
     var urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('id')!=null) loadGame();
+    if (urlParams.get('id')!=null) {
+        roomName=  findToken()+urlParams.get('id');
+        loadGame();
+    }
+    else{
+        roomName=  findToken()+Math.floor(Math.random() * 100000000000000000);
+    }
     socket.on('connect',function(){
-        socket.emit('joinRoom', randNum);
+        socket.emit('joinRoom', roomName);
     });
     socket.on('updateRoom',function(id){
         console.log(id);
-        console.log(randNum);
+        console.log(roomName);
     });
     socket.on('doMove',function(pos){
         startplay(JSON.parse(pos));
@@ -40,7 +46,7 @@ function play(event) {
     startplay(tab,false);
     colorMessage(counter);
     socket.emit('play',JSON.stringify({
-        id:randNum,
+        id:roomName,
         board:toTab()}));
     counter++;
 }

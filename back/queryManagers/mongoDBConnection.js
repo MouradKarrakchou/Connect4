@@ -33,10 +33,17 @@ async function createInDataBase(response,valueToFind,collectionName) {
         const db = client.db("connect4");
         //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
         const collection = db.collection(collectionName);
-        const result = await collection.insertOne(valueToFind);
-        console.log('Document inserted', result.insertedId);
-        response.writeHead(200, {'Content-Type': 'application/json'});
-        response.end(JSON.stringify({ status: 'success' }));
+        const item = await collection.findOne(valueToFind);
+        if (item!=null)
+        {console.error('Failed to create database or user', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({ status: 'User already existe' }));}
+        else{
+            const result = await collection.insertOne(valueToFind);
+            console.log('Document inserted', result.insertedId);
+            response.writeHead(200, {'Content-Type': 'application/json'});
+            response.end(JSON.stringify({ status: 'success' }));
+        }
     } catch (err) {
         console.error('Failed to create database or user', err);
         response.writeHead(400, {'Content-Type': 'application/json'});

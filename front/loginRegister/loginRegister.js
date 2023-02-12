@@ -75,6 +75,7 @@ async function register() {
             .then(data => {
                 document.cookie = data;
                 console.log(document.cookie);
+                console.log(data.status);
             })
     }
 
