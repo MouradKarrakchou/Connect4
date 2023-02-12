@@ -30,6 +30,7 @@ function manageRequest(request, response) {
                 mongoDBConnection.findEverythingInDataBase(response,userInfo,"games");
             });
         }
+
         else if(filePath[3]==="retrieveGameWithId"){
             request.on('end', function () {
                 async function retriveGames() {
@@ -59,12 +60,40 @@ function manageRequest(request, response) {
                 }
                 retriveGames();
             });
+
+        }
+        else if(filePath[3]==="deleteGame"){
+            request.on('end', function () {
+                async function deleteOneGame() {
+                    try {
+                        console.log("deleteOneGame")
+                        await client.connect();
+                        let bodyParsed=JSON.parse(body);
+                        console.log(bodyParsed);
+                        console.log('Connected to MongoDB');
+                        const db = client.db("connect4");
+                        const gameCollection = db.collection("games");
+                            const result = await gameCollection.deleteMany({token: bodyParsed.token});
+                            console.log("Document deleted", result.deletedCount);
+                            response.writeHead(200, {'Content-Type': 'application/json'});
+                            response.end(JSON.stringify({ status: 'success' }));
+                    } catch (err) {
+                        console.error('Failed to delete the game', err);
+                        response.writeHead(400, {'Content-Type': 'application/json'});
+                        response.end(JSON.stringify({ status: 'failure' }));
+                    } finally {
+                        await client.close();
+                    }
+                }
+                deleteOneGame();
+            });
         }
     }
     else{
         response.statusCode = 400;
         response.end(`Something in your request (${request.url}) is strange...`);
     }
+
 }
 
 exports.manage = manageRequest;
