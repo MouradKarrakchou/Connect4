@@ -1,7 +1,7 @@
 import {colorMessage,checkWin,printIllegalMove,toTab} from "../gameManagement.js"
 
 let counter = 0;
-
+let token;
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
 
@@ -74,12 +74,22 @@ function resetGame() {
     document.getElementById("message").innerText = "";
     document.getElementById("reset-button").style.display = "none";
 }
-
+function findToken(){
+    let cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        if (cookies[i].trim().startsWith("token=")) {
+            token=cookies[i].trim().substring("token=".length, cookies[i].trim().length);
+            break;
+        }
+    }
+}
 function saveGame() {
     console.log("in saveGame")
+    findToken();
     const tab = {
         gameType: "local",
-        tab: toTab()
+        tab: toTab(),
+        userToken:token
     };
     console.log(tab)
     fetch('http://localhost:8000/api/game', {
