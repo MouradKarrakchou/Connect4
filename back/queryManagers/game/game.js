@@ -51,7 +51,7 @@ function manageRequest(request, response) {
                         //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
                         const gameCollection = db.collection("games");
                         const games = await gameCollection.find({
-                            userToken: { $regex: new RegExp(currentUser.userToken, 'i') },
+                            userToken: { $regex: new RegExp(currentUser.token, 'i') },
                         }).toArray();
                         console.log(games);
                         response.writeHead(200, {'Content-Type': 'application/json'});
