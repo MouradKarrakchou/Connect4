@@ -47,26 +47,49 @@ function login(){
         });
 }
 
-function register(){
+async function register() {
     const clearPassword = document.getElementsByName("reg_pswd")[0].value;
-    const values = {
-        username: document.getElementsByName("reg_name")[0].value,
-        password: crypto.createHash('sha256').update(clearPassword).digest('hex'),
-        email: document.getElementsByName("reg_email")[0].value,
-    };
+    const confirmClearPassword = document.getElementsByName("reg_pswd2")[0].value;
 
-    fetch('http://localhost:8000/api/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values)
-    })
-        .then(data => {
-            document.cookie=data;
-            console.log(document.cookie);
+    if (await confirmPassword(clearPassword, confirmClearPassword)) {
+        console.log("passwords are the same");
+        const values = {
+            username: document.getElementsByName("reg_name")[0].value,
+            password: await hash(clearPassword),
+            email: document.getElementsByName("reg_email")[0].value,
+        };
+
+        fetch('http://localhost:8000/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(values)
         })
-    console.log(document.getElementsByName("reg_name")[0].value)
-    console.log(document.getElementsByName("reg_email")[0].value)
-    console.log(document.getElementsByName("reg_pswd")[0].value)
-    console.log(document.getElementsByName("reg_pswd2")[0].value)}
+            .then(data => {
+                document.cookie = data;
+                console.log(document.cookie);
+            })
+    }
+
+    else
+        document.getElementById("errorMessage").style.display = "block";
+}
+
+function hash(data) {
+    const encoder = new TextEncoder();
+    const message = encoder.encode(data);
+    return crypto.subtle.digest('SHA-256', message)
+        .then(hash => {
+            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+async function confirmPassword(clearPassword, confirmClearPassword) {
+    const hashedPassword = await hash(clearPassword);
+    const confirmedHashedPassword = await hash(confirmClearPassword);
+    return (hashedPassword === confirmedHashedPassword);
+}
