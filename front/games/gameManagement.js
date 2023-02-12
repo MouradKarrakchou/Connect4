@@ -203,6 +203,10 @@ export function saveGame(gameType) {
         .catch(error => {
             console.error(error);
         });
+
+    document.getElementById("savedGameMessage").style.display = "block";
+    document.getElementById("keepPlaying").addEventListener('click', function () {document.getElementById("savedGameMessage").style.display = "none"});
+    document.getElementById("backToHome").addEventListener('click', function () {window.location.href = "../../home/home.html"});
 }
 
 export function isMoveIllegal(event){
