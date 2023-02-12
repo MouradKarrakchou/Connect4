@@ -25,7 +25,7 @@ function init() {
 }
 
 function play(event){
-    if (gameOver) return
+    if (gameOver || isMoveIllegal(event)) return
     gameOver = !startPlay(event);
     counter++;
 }
@@ -54,31 +54,42 @@ function startPlay(event) {
     let line = 5;
 
     id = column + " " + line;
-    if (document.getElementById(id).style.backgroundColor !== "") {
-        printIllegalMove();
-        counter--;
-    }
 
-    else {
-        while (line >=0 && document.getElementById(id).style.backgroundColor === "") {
-            line--;
-            id = column + " " + line;
-        }
 
-        line++;
+
+    while (line >=0 && document.getElementById(id).style.backgroundColor === "") {
+        line--;
         id = column + " " + line;
-        console.log(id);
-        document.getElementById(id).style.backgroundColor = color;
-        if (checkWin() === true) {
-            console.log(color + " player wins!");
-            document.getElementById("message").innerText = color + " player wins!";
-            document.getElementById("reset-button").style.display = "block";
-            document.getElementById("reset-button").addEventListener("click", resetGame);
-            return false;
-        }
     }
+
+    line++;
+    id = column + " " + line;
+    console.log(id);
+    document.getElementById(id).style.backgroundColor = color;
+    if (checkWin() === true) {
+        console.log(color + " player wins!");
+        document.getElementById("message").innerText = color + " player wins!";
+        document.getElementById("reset-button").style.display = "block";
+        document.getElementById("reset-button").addEventListener("click", resetGame);
+        return false;
+    }
+
 
     return true;
+}
+
+function isMoveIllegal(event){
+    let id = event.target.id;
+    let tab = id.split(" ");
+    let column = tab[0];
+    let line = 5;
+
+    id = column + " " + line;
+    if (document.getElementById(id).style.backgroundColor !== "") {
+        printIllegalMove();
+        return true;
+    }
+    return false;
 }
 
 function resetGame() {
