@@ -1,4 +1,4 @@
-import {colorMessage,checkWin,printIllegalMove, toTab} from "../gameManagement.js"
+import {colorMessage, checkWin, printIllegalMove, toTab, loadGame,saveGame} from "../gameManagement.js"
 
 var randNum =  Math.floor(Math.random() * 10) + 1;
 let gameOver = false;
@@ -6,23 +6,25 @@ document.addEventListener('DOMContentLoaded', init);
 var socket = io();
 let counter = 0;
 
-socket.on('connect',function(){
-    socket.emit('joinRoom', randNum);
-})
-socket.on('updateRoom',function(id){
-    console.log(id);
-    console.log(randNum);
-})
-socket.on('doMove',function(pos){
-    startplay(JSON.parse(pos));
-    counter++;
-    colorMessage(counter);
-})
 
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", function(event){play(event)});
-    document.getElementById("saveButton").addEventListener('click', saveGame);
+    document.getElementById("saveButton").addEventListener("click",function(){saveGame("bot")});
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('id')!=null) loadGame();
+    socket.on('connect',function(){
+        socket.emit('joinRoom', randNum);
+    });
+    socket.on('updateRoom',function(id){
+        console.log(id);
+        console.log(randNum);
+    });
+    socket.on('doMove',function(pos){
+        startplay(JSON.parse(pos));
+        counter++;
+        colorMessage(counter);
+    })
 }
 
 document.getElementById("logout").addEventListener('click', logout);
@@ -93,27 +95,4 @@ function resetGame() {
     counter = 0;
     document.getElementById("message").innerText = "";
     document.getElementById("reset-button").style.display = "none";
-}
-
-function saveGame() {
-    console.log("in saveGame")
-    const tab = {
-        gameType: "bot",
-        tab: toTab()
-    };
-    console.log(tab)
-    fetch('http://localhost:8000/api/game', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(tab)
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.error(error);
-        });
 }

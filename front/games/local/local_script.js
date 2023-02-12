@@ -1,8 +1,8 @@
-import {colorMessage, checkWin, printIllegalMove, retrieveGameState, toTab} from "../gameManagement.js"
+import {colorMessage, checkWin, printIllegalMove, loadGame, saveGame} from "../gameManagement.js"
 
 let counter = 0;
-let token;
 let gameOver = false;
+
 document.addEventListener('DOMContentLoaded', init);
 
 window.addEventListener('load', function () {
@@ -17,41 +17,11 @@ function logout() {
     window.location.href = "../../loginRegister/loginRegister.html";
 }
 
-function loadGame(){
-    findToken()
-    var urlParams = new URLSearchParams(window.location.search);
-
-    const values = {
-        token: token,
-        id:urlParams.get('id'),
-    };
-    console.log(values);
-
-    fetch('http://localhost:8000/api/game/retrieveGameWithId', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values)
-    })
-        .then(response => response.json())
-        .then(data => {
-            //document.cookie = "token="+data.token+";path=/";
-            console.log(data);
-            retrieveGameState(data.tab);
-            //window.location.href = '/games/local/local_game.html';
-        })
-        .catch(error => {
-            console.error(error);
-        });
-
-}
-
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", play);
     document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);});
-    document.getElementById("saveButton").addEventListener("click",saveGame);
+    document.getElementById("saveButton").addEventListener("click",function(){saveGame("local")});
 }
 
 function play(event){
@@ -115,38 +85,4 @@ function resetGame() {
     counter = 0;
     document.getElementById("message").innerText = "";
     document.getElementById("reset-button").style.display = "none";
-}
-function findToken(){
-    let cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-        if (cookies[i].trim().startsWith("token=")) {
-            token=cookies[i].trim().substring("token=".length, cookies[i].trim().length);
-            break;
-        }
-    }
-}
-function saveGame() {
-    console.log("in saveGame")
-    findToken();
-    console.log(token);
-    const tab = {
-        gameType: "local",
-        tab: toTab(),
-        userToken:token
-    };
-    console.log(tab)
-    fetch('http://localhost:8000/api/game', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(tab)
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.error(error);
-        });
 }
