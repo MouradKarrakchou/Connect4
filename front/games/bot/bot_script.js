@@ -1,4 +1,4 @@
-import {colorMessage, checkWin, printIllegalMove, toTab, loadGame,saveGame,findToken} from "../gameManagement.js"
+import {colorMessage, checkWin, printIllegalMove, removeIllegalMove, toTab, loadGame,saveGame,findToken} from "../gameManagement.js"
 
 var roomName;
 let gameOver = false;
@@ -27,9 +27,11 @@ function init() {
         console.log(roomName);
     });
     socket.on('doMove',function(pos){
-        startplay(JSON.parse(pos));
-        counter++;
-        colorMessage(counter);
+        if(!isMoveIllegal(JSON.parse(pos))) {
+            startplay(JSON.parse(pos));
+            counter++;
+            colorMessage(counter);
+        }
     })
 }
 
@@ -43,15 +45,18 @@ function logout() {
 function play(event) {
     let id = event.target.id;
     let tab = id.split(" ");
-    startplay(tab,false);
-    colorMessage(counter);
-    socket.emit('play',JSON.stringify({
-        id:roomName,
-        board:toTab()}));
-    counter++;
+    if(!isMoveIllegal(tab)) {
+        startplay(tab,false);
+        colorMessage(counter);
+        socket.emit('play',JSON.stringify({
+            id:roomName,
+            board:toTab()}));
+        counter++;
+    }
 }
 
 function startplay(tab){
+    removeIllegalMove();
     if (counter === 42) {
         console.log("Draw!");
         document.getElementById("message").innerText = "Draw!";
@@ -101,4 +106,16 @@ function resetGame() {
     counter = 0;
     document.getElementById("message").innerText = "";
     document.getElementById("reset-button").style.display = "none";
+}
+
+function isMoveIllegal(tab){
+    let column = tab[0];
+    let line = 5;
+
+    let id = column + " " + line;
+    if (document.getElementById(id).style.backgroundColor !== "") {
+        printIllegalMove();
+        return true;
+    }
+    return false;
 }

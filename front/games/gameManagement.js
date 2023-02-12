@@ -205,3 +205,17 @@ export function saveGame(gameType) {
         });
 }
 
+export function isMoveIllegal(event){
+    let id = event.target.id;
+    let tab = id.split(" ");
+    let column = tab[0];
+    let line = 5;
+
+    id = column + " " + line;
+    if (document.getElementById(id).style.backgroundColor !== "") {
+        printIllegalMove();
+        return true;
+    }
+    return false;
+}
+
