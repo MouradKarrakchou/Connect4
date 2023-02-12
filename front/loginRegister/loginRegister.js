@@ -1,3 +1,5 @@
+console.log(document.cookie)
+
 let buttonLog=document.getElementById("login")
 buttonLog.addEventListener("click",login_page)
 
