@@ -16,7 +16,11 @@ function manageRequest(request, response) {
 
             request.on('end', function () {
                 let currentUser=JSON.parse(body);
-                mongoDBConnection.createDatabaseAndUser(request,response,currentUser,"log");
+                let userInfo={
+                    username: currentUser.username,
+                    password: currentUser.password,
+                }
+                mongoDBConnection.findInDataBase(response,userInfo,"log");
             });
         }
         else{

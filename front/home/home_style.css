@@ -24,6 +24,9 @@
     text-align: center;
     font-size: 33px;
 }
+.gameSaved:hover{
+    cursor: pointer;
+}
 .gameSaved:hover .dropdown{
     display: block;
 }
