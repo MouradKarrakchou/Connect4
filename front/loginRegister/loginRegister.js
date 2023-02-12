@@ -48,9 +48,10 @@ function login(){
 }
 
 function register(){
+    const clearPassword = document.getElementsByName("reg_pswd")[0].value;
     const values = {
         username: document.getElementsByName("reg_name")[0].value,
-        password: document.getElementsByName("reg_pswd")[0].value,
+        password: crypto.createHash('sha256').update(clearPassword).digest('hex'),
         email: document.getElementsByName("reg_email")[0].value,
     };
 
