@@ -1,4 +1,5 @@
 const {MongoClient} = require("mongodb");
+const crypto = require('crypto');
 
 function generate_token(length){
     //edit the token allowed characters
@@ -35,7 +36,7 @@ function manageRequest(request, response) {
                     const usersCollection = db.collection("log");
                     const result = await usersCollection.insertOne({
                         username:values.username,
-                        password:values.password,
+                        password:crypto.createHash('sha256').update(values.password).digest('hex'),
                         email:values.email,
                         token:generate_token(32),
                     });
