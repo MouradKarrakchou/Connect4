@@ -50,7 +50,7 @@ export function startPlay(event,counter) {
 
     id = column + " " + line;
     if (document.getElementById(id).style.backgroundColor !== "")
-        return printIllegalMove();
+        printIllegalMove();
 
     while (line >=0 && document.getElementById(id).style.backgroundColor === "") {
         line--;
@@ -82,6 +82,10 @@ export function checkDraw(counter){
 }
 export function printIllegalMove() {
     document.getElementById("message").innerText = "Illegal move!";
+}
+
+export function removeIllegalMove() {
+    document.getElementById("message").innerText = "";
 }
 
 function checkVertical(i, j) {

@@ -1,4 +1,4 @@
-import {colorMessage, checkWin, printIllegalMove, loadGame, saveGame} from "../gameManagement.js"
+import {colorMessage, checkWin, printIllegalMove, removeIllegalMove, loadGame, saveGame} from "../gameManagement.js"
 
 let counter = 0;
 let gameOver = false;
@@ -26,7 +26,7 @@ function init() {
 
 function play(event){
     if (gameOver) return
-    gameOver=!startPlay(event);
+    gameOver = !startPlay(event);
     counter++;
 }
 
@@ -36,6 +36,7 @@ function play(event){
  * @returns {boolean|void}
  */
 function startPlay(event) {
+    removeIllegalMove();
     console.log(document.cookie.toString())
     if (counter === 42) {
         console.log("Draw!");
@@ -53,24 +54,30 @@ function startPlay(event) {
     let line = 5;
 
     id = column + " " + line;
-    if (document.getElementById(id).style.backgroundColor !== "")
-        return printIllegalMove();
+    if (document.getElementById(id).style.backgroundColor !== "") {
+        printIllegalMove();
+        counter--;
+    }
 
-    while (line >=0 && document.getElementById(id).style.backgroundColor === "") {
-        line--;
+    else {
+        while (line >=0 && document.getElementById(id).style.backgroundColor === "") {
+            line--;
+            id = column + " " + line;
+        }
+
+        line++;
         id = column + " " + line;
+        console.log(id);
+        document.getElementById(id).style.backgroundColor = color;
+        if (checkWin() === true) {
+            console.log(color + " player wins!");
+            document.getElementById("message").innerText = color + " player wins!";
+            document.getElementById("reset-button").style.display = "block";
+            document.getElementById("reset-button").addEventListener("click", resetGame);
+            return false;
+        }
     }
 
-    line++;
-    id = column + " " + line;
-    document.getElementById(id).style.backgroundColor = color;
-    if (checkWin() === true) {
-        console.log(color + " player wins!");
-        document.getElementById("message").innerText = color + " player wins!";
-        document.getElementById("reset-button").style.display = "block";
-        document.getElementById("reset-button").addEventListener("click", resetGame);
-        return false;
-    }
     return true;
 }
 
