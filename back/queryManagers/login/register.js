@@ -24,7 +24,10 @@ function manageRequest(request, response) {
                 password:values.password,
                 email:values.email,
                 token:generate_token(32),}
-            mongoDBConnection.createInDataBase(response,valueToInsert,"log");
+            const valueToCheck={username:values.username,
+                password:values.password,
+                }
+            mongoDBConnection.createInDataBase(response,valueToInsert,"log",valueToCheck);
         });
     }
     else{
