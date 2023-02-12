@@ -57,13 +57,7 @@ function play(event) {
 
 function startplay(tab){
     removeIllegalMove();
-    if (counter === 42) {
-        console.log("Draw!");
-        document.getElementById("message").innerText = "Draw!";
-        document.getElementById("reset-button").style.display = "block";
-        document.getElementById("reset-button").addEventListener("click", resetGame);
-        gameOver = true;
-    }
+
     if (gameOver) return;
     let color = 'red';
     if (counter % 2 === 0) color = 'yellow';
@@ -85,6 +79,13 @@ function startplay(tab){
     line++;
     id = column + " " + line;
     document.getElementById(id).style.backgroundColor = color;
+    if (counter === 41) {
+        console.log("Draw!");
+        document.getElementById("message").innerText = "Draw!";
+        document.getElementById("reset-button").style.display = "block";
+        document.getElementById("reset-button").addEventListener("click", resetGame);
+        gameOver = true;
+    }
     if (checkWin() === true) {
         console.log(color + " player wins!");
         document.getElementById("message").innerText = color + " player wins!";
@@ -92,6 +93,7 @@ function startplay(tab){
         document.getElementById("reset-button").addEventListener("click", resetGame);
         gameOver = true;
     }
+
 
 }
 

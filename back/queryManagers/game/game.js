@@ -18,7 +18,7 @@ function manageRequest(request, response) {
         });
         if (filePath[3]==null){
             request.on('end', function () {
-                mongoDBConnection.createInDataBase(response,JSON.parse(body),"games");
+                mongoDBConnection.createInDataBase(response,JSON.parse(body),"games",JSON.parse(body));
             });
             }
         else if(filePath[3]==="retrieveGames"){

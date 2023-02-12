@@ -8,7 +8,6 @@ async function findInDataBase(response,currentUser,collectionName) {
         await client.connect();
         console.log('Connected to MongoDB');
         const db = client.db("connect4");
-        //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
         const collection = db.collection(collectionName);
         console.log(currentUser);
         const item = await collection.findOne(currentUser);
@@ -31,7 +30,6 @@ async function createInDataBase(response,valueToFind,collectionName,verifValue) 
         await client.connect();
         console.log('Connected to MongoDB');
         const db = client.db("connect4");
-        //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
         const collection = db.collection(collectionName);
         const item = await collection.findOne(verifValue);
         if (item!=null) {

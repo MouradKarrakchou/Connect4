@@ -38,13 +38,6 @@ function play(event){
 function startPlay(event) {
     removeIllegalMove();
     console.log(document.cookie.toString())
-    if (counter === 42) {
-        console.log("Draw!");
-        document.getElementById("message").innerText = "Draw!";
-        document.getElementById("reset-button").style.display = "block";
-        document.getElementById("reset-button").addEventListener("click", resetGame);
-        return false;
-    }
     let color = 'red';
     if (counter % 2 === 0) color = 'yellow';
 
@@ -66,6 +59,13 @@ function startPlay(event) {
     id = column + " " + line;
     console.log(id);
     document.getElementById(id).style.backgroundColor = color;
+    if (counter === 41) {
+        console.log("Draw!");
+        document.getElementById("message").innerText = "Draw!";
+        document.getElementById("reset-button").style.display = "block";
+        document.getElementById("reset-button").addEventListener("click", resetGame);
+        return false;
+    }
     if (checkWin() === true) {
         console.log(color + " player wins!");
         document.getElementById("message").innerText = color + " player wins!";
