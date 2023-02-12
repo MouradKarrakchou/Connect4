@@ -1,4 +1,15 @@
 console.log(document.cookie)
+import {findToken, findUsername} from "../games/gameManagement.js"
+
+window.addEventListener("load", function () {
+    if(findToken() !== "undefined" && findUsername() !== "undefined") {
+        document.getElementById("usernameToContinueWith").innerHTML = findUsername();
+        document.getElementById("retrieveSession").style.display = "block";
+        document.getElementById("usernameToContinueWith").addEventListener('click', function () {
+            window.location.href = "../home/home.html"
+        })
+    }
+})
 
 let buttonLog=document.getElementById("login")
 buttonLog.addEventListener("click",login_page)
@@ -24,6 +35,7 @@ function login_page(){
     document.getElementById("log").style.display="inline";
 }
 
+document.getElementById("loginButton").addEventListener('click', login);
 async function login() {
     const values = {
         username: document.getElementsByName("log_name")[0].value,
@@ -53,6 +65,7 @@ async function login() {
         });
 }
 
+document.getElementById("registerButton").addEventListener('click', register);
 async function register() {
     const clearPassword = document.getElementsByName("reg_pswd")[0].value;
     const confirmClearPassword = document.getElementsByName("reg_pswd2")[0].value;

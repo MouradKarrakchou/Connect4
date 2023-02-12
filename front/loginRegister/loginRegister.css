@@ -55,3 +55,7 @@ h1{
 #reg{
     display: none;
 }
+
+#usernameToContinueWith:hover{
+    cursor: pointer;
+}
