@@ -40,7 +40,11 @@ function login(){
             document.cookie = "token="+data.token+";path=/";
             document.cookie = "username="+data.username+";path=/";
             console.log(document.cookie);
-            window.location.href = '/games/local/local_game.html';
+            if(data.token === undefined){
+                alert("Wrong username or password");
+            }else{
+                window.location.href = '/home/home.html';
+            }
         })
         .catch(error => {
             console.error(error);

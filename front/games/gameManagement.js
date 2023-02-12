@@ -157,7 +157,7 @@ export function retrieveGameState(gameTab) {
     for (let j = 0; j < 7; j++) {
         for (let i = 0; i < 6; i++) {
             let id = j + " " + i;
-            switch (document.getElementById(id).value){
+            switch (gameTab[j][i]){
                 case(-1):
                     document.getElementById(id).style.backgroundColor = "yellow";
                     break;
