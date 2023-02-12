@@ -1,4 +1,4 @@
-const {MongoClient} = require("mongodb");
+const {MongoClient, ObjectId} = require("mongodb");
 
 function manageRequest(request, response) {
     console.log("in manageRequest in game.js")
@@ -71,19 +71,21 @@ function manageRequest(request, response) {
             request.on('end', function () {
                 async function retriveGames() {
                     try {
+                        console.log("retrieveGameWithId")
                         await client.connect();
-                        let gameState=JSON.parse(body);
+                        let bodyParsed=JSON.parse(body);
+                        console.log(bodyParsed);
                         console.log('Connected to MongoDB');
                         const db = client.db("connect4");
                         //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
                         const gameCollection = db.collection("games");
-                        const games = await gameCollection.find({
-                            userToken: { $regex: new RegExp(gameState.userToken, 'i') },
-                            _id: { $regex: new RegExp(gameState.id, 'i') },
-                        }).toArray();
-                        console.log(games);
+
+                        let games = (await gameCollection.find({
+                            userToken: {$regex: new RegExp(bodyParsed.token, 'i')},
+                        }).toArray())
+                        games=games.filter(game => game._id.toString() === bodyParsed.id);
                         response.writeHead(200, {'Content-Type': 'application/json'});
-                        response.end(JSON.stringify(games));
+                        response.end(JSON.stringify(games[0]));
                     } catch (err) {
                         console.error('Failed to create database or user', err);
                         response.writeHead(400, {'Content-Type': 'application/json'});

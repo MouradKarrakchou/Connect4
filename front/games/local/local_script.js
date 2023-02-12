@@ -1,4 +1,4 @@
-import {colorMessage,checkWin,printIllegalMove,retrieveGameState} from "../gameManagement.js"
+import {colorMessage, checkWin, printIllegalMove, retrieveGameState, toTab} from "../gameManagement.js"
 
 let counter = 0;
 let token;
@@ -6,17 +6,19 @@ let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
 
 window.addEventListener('load', function () {
-        loadGame();
-    }
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('id')!=null) loadGame();}
 )
 
 function loadGame(){
+    findToken()
     var urlParams = new URLSearchParams(window.location.search);
 
     const values = {
         token: token,
-        id:urlParams.get('id')
+        id:urlParams.get('id'),
     };
+    console.log(values);
 
     fetch('http://localhost:8000/api/game/retrieveGameWithId', {
         method: 'POST',
@@ -29,7 +31,7 @@ function loadGame(){
         .then(data => {
             //document.cookie = "token="+data.token+";path=/";
             console.log(data);
-            retrieveGameState(JSON.parse(data));
+            retrieveGameState(data.tab);
             //window.location.href = '/games/local/local_game.html';
         })
         .catch(error => {
