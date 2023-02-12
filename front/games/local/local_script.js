@@ -1,9 +1,42 @@
-import {colorMessage,checkWin,printIllegalMove,toTab} from "../gameManagement.js"
+import {colorMessage,checkWin,printIllegalMove,retrieveGameState} from "../gameManagement.js"
 
 let counter = 0;
 let token;
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
+
+window.addEventListener('load', function () {
+        loadGame();
+    }
+)
+
+function loadGame(){
+    var urlParams = new URLSearchParams(window.location.search);
+
+    const values = {
+        token: token,
+        id:urlParams.get('id')
+    };
+
+    fetch('http://localhost:8000/api/game/retrieveGameWithId', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .then(data => {
+            //document.cookie = "token="+data.token+";path=/";
+            console.log(data);
+            retrieveGameState(JSON.parse(data));
+            //window.location.href = '/games/local/local_game.html';
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+}
 
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
@@ -86,6 +119,7 @@ function findToken(){
 function saveGame() {
     console.log("in saveGame")
     findToken();
+    console.log(token);
     const tab = {
         gameType: "local",
         tab: toTab(),
