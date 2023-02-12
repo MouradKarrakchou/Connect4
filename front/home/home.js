@@ -60,7 +60,6 @@ function addGamesSavedHtml(tabOfGames){
         newItem.innerHTML = `<div class="item">
             <h4>${tabOfGames[i].gameType}</h4>
             <button class="resumeButton" onclick="window.location.href = '${adress}'">Resume</button>
-            <i class="fa-solid fa-trash" id= "trash"></i>
         </div>`;
         dropdown.appendChild(newItem);
         document.getElementById("trash").addEventListener('click', function () {
