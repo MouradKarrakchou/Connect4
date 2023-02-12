@@ -26,18 +26,18 @@ async function findInDataBase(response,currentUser,collectionName) {
 }
 
 
-async function createInDataBase(response,valueToFind,collectionName) {
+async function createInDataBase(response,valueToFind,collectionName,verifValue) {
     try {
         await client.connect();
         console.log('Connected to MongoDB');
         const db = client.db("connect4");
         //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
         const collection = db.collection(collectionName);
-        const item = await collection.findOne(valueToFind);
-        if (item!=null)
-        {console.error('Failed to create database or user', err);
-        response.writeHead(400, {'Content-Type': 'application/json'});
-        response.end(JSON.stringify({ status: 'User already existe' }));}
+        const item = await collection.findOne(verifValue);
+        if (item!=null) {
+            response.writeHead(200, {'Content-Type': 'application/json'});
+            response.end(JSON.stringify({status: 'failure'}));
+        }
         else{
             const result = await collection.insertOne(valueToFind);
             console.log('Document inserted', result.insertedId);
@@ -46,7 +46,7 @@ async function createInDataBase(response,valueToFind,collectionName) {
         }
     } catch (err) {
         console.error('Failed to create database or user', err);
-        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.writeHead(200, {'Content-Type': 'application/json'});
         response.end(JSON.stringify({ status: 'failure' }));
     } finally {
         await client.close();

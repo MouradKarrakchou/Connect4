@@ -51,13 +51,13 @@ async function login() {
     })
         .then(response => response.json())
         .then(data => {
-            document.cookie = "token=" + data.token + ";path=/";
-            document.cookie = "username=" + data.username + ";path=/";
-            console.log(document.cookie);
-                if (data.token === undefined) {
-                alert("Wrong username or password");
-            } else {
+            if (data && data.token) {
+                document.cookie = "token=" + data.token + ";path=/";
+                document.cookie = "username=" + data.username + ";path=/";
+                console.log(document.cookie);
                 window.location.href = '/home/home.html';
+            } else {
+                window.alert("Wrong username or password");
             }
         })
         .catch(error => {
@@ -85,14 +85,19 @@ async function register() {
             },
             body: JSON.stringify(values)
         })
+            .then(response => response.json())
             .then(data => {
-                document.cookie = data;
-                console.log(document.cookie);
-                console.log(data.status);
+                console.log(data);
+                if (data.status==="failure") {
+                    window.alert("Username already taken");
+                } else {
+                    window.alert("Registration successful");
+                }
             })
     }
 
     else
+
         document.getElementById("errorMessage").style.display = "block";
 }
 
