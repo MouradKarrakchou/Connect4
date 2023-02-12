@@ -171,3 +171,68 @@ export function retrieveGameState(gameTab) {
         }
     }
 }
+
+export function loadGame(){
+    let token= findToken();
+    var urlParams = new URLSearchParams(window.location.search);
+
+    const values = {
+        token: token,
+        id:urlParams.get('id'),
+    };
+    console.log(values);
+
+    fetch('http://localhost:8000/api/game/retrieveGameWithId', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .then(data => {
+            //document.cookie = "token="+data.token+";path=/";
+            console.log(data);
+            retrieveGameState(data.tab);
+            //window.location.href = '/games/local/local_game.html';
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+function findToken(){
+    let cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        if (cookies[i].trim().startsWith("token=")) {
+            return cookies[i].trim().substring("token=".length, cookies[i].trim().length);
+        }
+    }
+}
+
+export function saveGame(gameType) {
+    console.log("in saveGame")
+    let token=findToken();
+    console.log(token);
+    const tab = {
+        gameType: gameType,
+        tab: toTab(),
+        userToken:token
+    };
+    console.log(tab)
+    fetch('http://localhost:8000/api/game', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(tab)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
