@@ -48,7 +48,6 @@ function manageRequest(request, response) {
                         let currentUser=JSON.parse(body);
                         console.log('Connected to MongoDB');
                         const db = client.db("connect4");
-                        //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
                         const gameCollection = db.collection("games");
                         const games = await gameCollection.find({
                             userToken: { $regex: new RegExp(currentUser.token, 'i') },
@@ -67,6 +66,7 @@ function manageRequest(request, response) {
                 retriveGames();
             });
         }
+
         else if(filePath[3]==="retrieveGameWithId"){
             request.on('end', function () {
                 async function retriveGames() {
@@ -96,12 +96,52 @@ function manageRequest(request, response) {
                 }
                 retriveGames();
             });
+
+        }
+        else if(filePath[3]==="deleteGame"){
+            request.on('end', function () {
+                async function deleteOneGame() {
+                    try {
+                        console.log("deleteOneGame")
+                        await client.connect();
+                        let bodyParsed=JSON.parse(body);
+                        console.log(bodyParsed);
+                        console.log('Connected to MongoDB');
+                        const db = client.db("connect4");
+                        const gameCollection = db.collection("games");
+
+                        let games = (await gameCollection.find({
+                            userToken: {$regex: new RegExp(bodyParsed.token, 'i')},
+                        }).toArray())
+                        games=games.filter(game => game._id.toString() === bodyParsed.id);
+                        if(games.length>0){
+                            const result = await gameCollection.deleteOne({_id: ObjectId(bodyParsed.id)});
+                            console.log("Document deleted", result.deletedCount);
+                            response.writeHead(200, {'Content-Type': 'application/json'});
+                            response.end(JSON.stringify({ status: 'success' }));
+                        }
+                        else{
+                            console.error("game not found");
+                            response.writeHead(404, {'Content-Type': 'application/json'});
+                            response.end(JSON.stringify({ status: 'game not found' }));
+                        }
+                    } catch (err) {
+                        console.error('Failed to delete the game', err);
+                        response.writeHead(400, {'Content-Type': 'application/json'});
+                        response.end(JSON.stringify({ status: 'failure' }));
+                    } finally {
+                        await client.close();
+                    }
+                }
+                deleteOneGame();
+            });
         }
     }
     else{
         response.statusCode = 400;
         response.end(`Something in your request (${request.url}) is strange...`);
     }
+
 }
 
 exports.manage = manageRequest;

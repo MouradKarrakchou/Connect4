@@ -32,6 +32,19 @@ function getAllGames(){
             console.error(error);
         });
 }
+function deleteSavedGame(gameId){
+    fetch(`http://localhost:8000/api/game/deleteGame`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({gameId: gameId})
+    })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+};
+
 function addGamesSavedHtml(tabOfGames){
     console.log(tabOfGames);
     for (let i = 0; i <tabOfGames.length ; i++) {
@@ -39,15 +52,16 @@ function addGamesSavedHtml(tabOfGames){
         var newItem = document.createElement('div');
         let adress = '../games/local/local_game.html?id=' + tabOfGames[i]._id;
         newItem.classList.add('item');
+        const trashIcon = document.createElement('i');
         newItem.innerHTML = `<div class="item">
             <h4>${tabOfGames[i].gameType}</h4>
             <button class="resumeButton" onclick="window.location.href = '${adress}'">Resume</button>
-            <i class="fa-solid fa-trash"></i>
+            <i class="fas fa-trash-alt" onclick="deleteSavedGame('${tabOfGames[i]._id}')" </i>
         </div>`;
-
         dropdown.appendChild(newItem);
     }
 }
+
 
 function initialise(){
     token=findToken()
