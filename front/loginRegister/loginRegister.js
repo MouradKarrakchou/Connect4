@@ -22,10 +22,10 @@ function login_page(){
     document.getElementById("log").style.display="inline";
 }
 
-function login(){
+async function login() {
     const values = {
         username: document.getElementsByName("log_name")[0].value,
-        password: document.getElementsByName("log_pswd")[0].value,
+        password: await hash(document.getElementsByName("log_pswd")[0].value),
     };
 
     fetch('http://localhost:8000/api/login', {
@@ -37,12 +37,12 @@ function login(){
     })
         .then(response => response.json())
         .then(data => {
-            document.cookie = "token="+data.token+";path=/";
-            document.cookie = "username="+data.username+";path=/";
+            document.cookie = "token=" + data.token + ";path=/";
+            document.cookie = "username=" + data.username + ";path=/";
             console.log(document.cookie);
-            if(data.token === undefined){
+            if (data.token === undefined) {
                 alert("Wrong username or password");
-            }else{
+            } else {
                 window.location.href = '/home/home.html';
             }
         })
@@ -51,25 +51,49 @@ function login(){
         });
 }
 
-function register(){
-    const values = {
-        username: document.getElementsByName("reg_name")[0].value,
-        password: document.getElementsByName("reg_pswd")[0].value,
-        email: document.getElementsByName("reg_email")[0].value,
-    };
+async function register() {
+    const clearPassword = document.getElementsByName("reg_pswd")[0].value;
+    const confirmClearPassword = document.getElementsByName("reg_pswd2")[0].value;
 
-    fetch('http://localhost:8000/api/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values)
-    })
-        .then(data => {
-            document.cookie=data;
-            console.log(document.cookie);
+    if (await confirmPassword(clearPassword, confirmClearPassword)) {
+        console.log("passwords are the same");
+        const values = {
+            username: document.getElementsByName("reg_name")[0].value,
+            password: await hash(clearPassword),
+            email: document.getElementsByName("reg_email")[0].value,
+        };
+
+        fetch('http://localhost:8000/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(values)
         })
-    console.log(document.getElementsByName("reg_name")[0].value)
-    console.log(document.getElementsByName("reg_email")[0].value)
-    console.log(document.getElementsByName("reg_pswd")[0].value)
-    console.log(document.getElementsByName("reg_pswd2")[0].value)}
+            .then(data => {
+                document.cookie = data;
+                console.log(document.cookie);
+            })
+    }
+
+    else
+        document.getElementById("errorMessage").style.display = "block";
+}
+
+function hash(data) {
+    const encoder = new TextEncoder();
+    const message = encoder.encode(data);
+    return crypto.subtle.digest('SHA-256', message)
+        .then(hash => {
+            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+async function confirmPassword(clearPassword, confirmClearPassword) {
+    const hashedPassword = await hash(clearPassword);
+    const confirmedHashedPassword = await hash(confirmClearPassword);
+    return (hashedPassword === confirmedHashedPassword);
+}
