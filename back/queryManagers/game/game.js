@@ -109,22 +109,10 @@ function manageRequest(request, response) {
                         console.log('Connected to MongoDB');
                         const db = client.db("connect4");
                         const gameCollection = db.collection("games");
-
-                        let games = (await gameCollection.find({
-                            userToken: {$regex: new RegExp(bodyParsed.token, 'i')},
-                        }).toArray())
-                        games=games.filter(game => game._id.toString() === bodyParsed.id);
-                        if(games.length>0){
-                            const result = await gameCollection.deleteOne({_id: ObjectId(bodyParsed.id)});
+                            const result = await gameCollection.deleteMany({token: bodyParsed.token});
                             console.log("Document deleted", result.deletedCount);
                             response.writeHead(200, {'Content-Type': 'application/json'});
                             response.end(JSON.stringify({ status: 'success' }));
-                        }
-                        else{
-                            console.error("game not found");
-                            response.writeHead(404, {'Content-Type': 'application/json'});
-                            response.end(JSON.stringify({ status: 'game not found' }));
-                        }
                     } catch (err) {
                         console.error('Failed to delete the game', err);
                         response.writeHead(400, {'Content-Type': 'application/json'});

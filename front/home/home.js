@@ -43,7 +43,7 @@ function deleteSavedGame(gameId){
         .then(res => res.json())
         .then(data => console.log(data))
         .catch(error => console.error(error));
-};
+}
 
 function addGamesSavedHtml(tabOfGames){
     console.log(tabOfGames);
@@ -56,9 +56,14 @@ function addGamesSavedHtml(tabOfGames){
         newItem.innerHTML = `<div class="item">
             <h4>${tabOfGames[i].gameType}</h4>
             <button class="resumeButton" onclick="window.location.href = '${adress}'">Resume</button>
-            <i class="fas fa-trash-alt" onclick="deleteSavedGame('${tabOfGames[i]._id}')" </i>
+           
         </div>`;
         dropdown.appendChild(newItem);
+        document.getElementById("trash").addEventListener('click', function () {
+            deleteSavedGame(tabOfGames[i]._id);
+            window.location.reload();
+        });
+
     }
 }
 
