@@ -26,5 +26,4 @@ Note that this command should be run again every time you install / delete a pac
 
 ## All runs
 
-Run `npm start`. That's it, unless you need other scripts to run before or while the server is launched,
-but then you (probably?) know what you are doing.
+Run the file start.sh to run the containers. It will launch the server and the front.The front at http://localhost:8000/.
