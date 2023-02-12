@@ -1,4 +1,5 @@
 const {MongoClient} = require("mongodb");
+const mongoDBConnection = require('../mongoDBConnection');
 
 function generate_token(length){
     //edit the token allowed characters
@@ -25,32 +26,11 @@ function manageRequest(request, response) {
 
         request.on('end', function () {
             const values = JSON.parse(body);
-
-            async function createDatabaseAndUser() {
-                try {
-                    await client.connect();
-                    console.log('Connected to MongoDB');
-                    const db = client.db("connect4");
-                    //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
-                    const usersCollection = db.collection("log");
-                    const result = await usersCollection.insertOne({
-                        username:values.username,
-                        password:values.password,
-                        email:values.email,
-                        token:generate_token(32),
-                    });
-                    console.log('Document inserted', result.insertedId);
-                    response.writeHead(200, {'Content-Type': 'application/json'});
-                    response.end(JSON.stringify({ status: 'success' }));
-                } catch (err) {
-                    console.error('Failed to create database or user', err);
-                    response.writeHead(400, {'Content-Type': 'application/json'});
-                    response.end(JSON.stringify({ status: 'failure' }));
-                } finally {
-                    await client.close();
-                }
-            }
-            createDatabaseAndUser();
+            const valueToInsert={username:values.username,
+                password:values.password,
+                email:values.email,
+                token:generate_token(32),}
+            mongoDBConnection.createInDataBase(response,valueToInsert,"log");
         });
     }
     else{
