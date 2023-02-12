@@ -1,4 +1,3 @@
-const {MongoClient} = require("mongodb");
 const mongoDBConnection = require('../mongoDBConnection');
 
 function generate_token(length){
@@ -13,11 +12,6 @@ function generate_token(length){
 }
 
 function manageRequest(request, response) {
-    const MongoClient = require('mongodb').MongoClient;
-
-    const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
-    const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-
     if (request.method==='POST'){
         let body='';
         request.on('data', function (data) {
