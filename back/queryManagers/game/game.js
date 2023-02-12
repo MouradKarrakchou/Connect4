@@ -73,7 +73,8 @@ function manageRequest(request, response) {
                         console.log('Connected to MongoDB');
                         const db = client.db("connect4");
                         const gameCollection = db.collection("games");
-                            const result = await gameCollection.deleteMany({token: bodyParsed.token});
+                        console.log("bodyParsed.token: ",bodyParsed.token);
+                            const result = await gameCollection.deleteMany({userToken: bodyParsed.token});
                             console.log("Document deleted", result.deletedCount);
                             response.writeHead(200, {'Content-Type': 'application/json'});
                             response.end(JSON.stringify({ status: 'success' }));

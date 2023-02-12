@@ -34,13 +34,14 @@ function getAllGames(){
             console.error(error);
         });
 }
-function deleteSavedGame(gameId){
+function deleteSavedGame(){
+    findToken();
     fetch(`http://localhost:8000/api/game/deleteGame`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({gameId: gameId})
+        body: JSON.stringify({token: token})
     })
         .then(res => res.json())
         .then(data => console.log(data))
