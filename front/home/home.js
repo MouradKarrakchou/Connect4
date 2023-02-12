@@ -8,6 +8,8 @@ window.addEventListener('load', function () {
     }
 )
 
+document.getElementById("logout").addEventListener('click', logout);
+
 function getAllGames(){
     findToken()
     console.log(token)
@@ -109,4 +111,10 @@ function retrieveGame(gameTypeAndTab) {
         .catch(error => {
             console.error(error);
         });
+}
+
+function logout() {
+    document.cookie = "token=" + undefined + ";path=/";
+    document.cookie = "username=" + undefined + ";path=/";
+    window.location.href = "../loginRegister/loginRegister.html";
 }
