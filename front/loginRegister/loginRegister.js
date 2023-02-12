@@ -1,5 +1,12 @@
 console.log(document.cookie)
 
+window.addEventListener("load", function () {
+    if(document.cookie !== undefined) {
+        document.getElementById("usernameToContinueWith").innerHTML = document.cookie;
+        document.getElementById("retrieveSession").style.display = "block";
+    }
+})
+
 let buttonLog=document.getElementById("login")
 buttonLog.addEventListener("click",login_page)
 

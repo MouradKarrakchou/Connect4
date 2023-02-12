@@ -22,6 +22,10 @@
                 <div class="body">
                     <input type="text" placeholder="Enter Username" name="log_name" class="inp" required>
                     <input type="password" placeholder="Enter Password" name="log_pswd" class="inp" required>
+                    <div id="retrieveSession" style="display:none">
+                        <a>It looks like you were connected before. Continue as:</a>
+                        <a id="usernameToContinueWith"></a>
+                    </div>
                 </div>
                 <button class="button" onclick="login()">Login</button>
             </div>
