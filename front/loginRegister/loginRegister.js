@@ -22,10 +22,10 @@ function login_page(){
     document.getElementById("log").style.display="inline";
 }
 
-function login(){
+async function login() {
     const values = {
         username: document.getElementsByName("log_name")[0].value,
-        password: document.getElementsByName("log_pswd")[0].value,
+        password: await hash(document.getElementsByName("log_pswd")[0].value),
     };
 
     fetch('http://localhost:8000/api/login', {
@@ -37,12 +37,12 @@ function login(){
     })
         .then(response => response.json())
         .then(data => {
-            document.cookie = "token="+data.token+";path=/";
-            document.cookie = "username="+data.username+";path=/";
+            document.cookie = "token=" + data.token + ";path=/";
+            document.cookie = "username=" + data.username + ";path=/";
             console.log(document.cookie);
-            if(data.token === undefined){
+            if (data.token === undefined) {
                 alert("Wrong username or password");
-            }else{
+            } else {
                 window.location.href = '/home/home.html';
             }
         })
