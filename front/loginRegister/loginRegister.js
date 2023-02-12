@@ -1,4 +1,4 @@
-let buttonLog=document.getElementById("loginRegister")
+let buttonLog=document.getElementById("login")
 buttonLog.addEventListener("click",login_page)
 
 let buttonReg=document.getElementById("signIn")
@@ -22,7 +22,7 @@ function login_page(){
     document.getElementById("log").style.display="inline";
 }
 
-function loginRegister(){
+function login(){
     const values = {
         username: document.getElementsByName("log_name")[0].value,
         password: document.getElementsByName("log_pswd")[0].value,
