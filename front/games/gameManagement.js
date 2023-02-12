@@ -201,13 +201,21 @@ export function loadGame(){
         });
 }
 
-function findToken(){
+function find(element){
     let cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
-        if (cookies[i].trim().startsWith("token=")) {
-            return cookies[i].trim().substring("token=".length, cookies[i].trim().length);
+        if (cookies[i].trim().startsWith(element)) {
+            return cookies[i].trim().substring(element.length, cookies[i].trim().length);
         }
     }
+}
+
+export function findToken() {
+    return find("token=");
+}
+
+export function findUsername() {
+    return find("username=");
 }
 
 export function saveGame(gameType) {

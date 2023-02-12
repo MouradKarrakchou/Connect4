@@ -24,10 +24,10 @@
                     <input type="password" placeholder="Enter Password" name="log_pswd" class="inp" required>
                     <div id="retrieveSession" style="display:none">
                         <a>It looks like you were connected before. Continue as:</a>
-                        <a id="usernameToContinueWith"></a>
+                        <button id="usernameToContinueWith"></button>
                     </div>
                 </div>
-                <button class="button" onclick="login()">Login</button>
+                <button class="button" id="loginButton">Login</button>
             </div>
 
             <div id="reg">
@@ -38,7 +38,7 @@
                     <input type="password" placeholder="confirm password" name="reg_pswd2" class="inp" required>
                 </div>
                 <div id = "errorMessage" style="display:none">Passwords are not the same</div>
-                <button class="button" onclick="register()">Register</button>
+                <button class="button" id="registerButton">Register</button>
             </div>
 
         </div>
@@ -48,5 +48,5 @@
     </div>
 </body>
 
-<script src="/loginRegister/loginRegister.js"></script>
+<script type="module" src="/loginRegister/loginRegister.js"></script>
 </html>
