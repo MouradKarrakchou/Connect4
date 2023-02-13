@@ -2,7 +2,7 @@ console.log(document.cookie)
 import {findToken, findUsername} from "../games/gameManagement.js"
 
 window.addEventListener("load", function () {
-    if(findToken() !== "undefined" && findUsername() !== "undefined") {
+    if(findToken() !== "undefined" && findToken()!==undefined && findUsername() !== "undefined") {
         document.getElementById("usernameToContinueWith").innerHTML = findUsername();
         document.getElementById("retrieveSession").style.display = "block";
         document.getElementById("usernameToContinueWith").addEventListener('click', function () {
