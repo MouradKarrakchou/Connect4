@@ -33,6 +33,9 @@ function init() {
             colorMessage(counter);
         }
     })
+    socket.emit('initAdv',JSON.stringify({
+        id:roomName,
+        player:2}));
 }
 
 document.getElementById("logout").addEventListener('click', logout);
@@ -46,11 +49,12 @@ function play(event) {
     let id = event.target.id;
     let tab = id.split(" ");
     if(!isMoveIllegal(tab)) {
-        startplay(tab,false);
+        let pos=startplay(tab,false);
         colorMessage(counter);
-        socket.emit('play',JSON.stringify({
+        if (pos!=null)
+        socket.emit('playAdv',JSON.stringify({
             id:roomName,
-            board:toTab()}));
+            pos:pos}));
         counter++;
     }
 }
@@ -68,7 +72,8 @@ function startplay(tab){
     let id = column + " " + line;
 
     if (document.getElementById(id).style.backgroundColor !== "")
-        return printIllegalMove();
+    {printIllegalMove();
+        return}
 
     while (line >=0 && document.getElementById(id).style.backgroundColor === "") {
         line--;
@@ -93,7 +98,7 @@ function startplay(tab){
         document.getElementById("reset-button").addEventListener("click", resetGame);
         gameOver = true;
     }
-
+    return ([column,line]);
 
 }
 
