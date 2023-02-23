@@ -1,6 +1,4 @@
 
-
-
 function computeMove(gameState) {
     while(true) {
         // Get a random column (integer between 0 and 6)
