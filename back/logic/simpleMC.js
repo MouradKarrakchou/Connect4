@@ -182,9 +182,5 @@ function isWin(board, player, lastRow, lastCol) {
     return false;
 }
 
-// Example usage
-
-const player = 1;
-const numSimulations = 1000;
-const bestMove = monteCarlo(board, player, numSimulations);
-console.log(`Best move: ${bestMove}`);
+exports.setUp = setUp;
+exports.nextMove = nextMove;

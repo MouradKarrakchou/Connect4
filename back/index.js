@@ -4,6 +4,7 @@ const http = require('http')
 const fileQuery = require('./queryManagers/front.js')
 const apiQuery = require('./queryManagers/api.js')
 const aiQuery = require('./logic/ai.js')
+const aiAdvancedQuery = require('./logic/simpleMC.js')
 
 
 /* The http module contains a createServer function, which takes one argument, which is the function that
@@ -45,8 +46,19 @@ io.on('connection',socket => {
         io.to(roomName).emit('updateRoom', roomName);
     });
     console.log("Connected");
-    socket.on('play',(tab) => {
-        let gameState=JSON.parse(tab);
+
+    socket.on('play',(state) => {
+        let gameState = JSON.parse(state);
         io.to(gameState.id).emit('doMove',JSON.stringify(aiQuery.computeMove(gameState)));
+    });
+
+    socket.on('playAdv',(state) => {
+        let gameState = JSON.parse(state);
+        io.to(gameState.id).emit('doMove',JSON.stringify(aiAdvancedQuery.nextMove(gameState.pos)));
+    });
+
+    socket.on('initAdv',(initState) => {
+        let gameState = JSON.parse(initState);
+        aiAdvancedQuery.setUp(gameState);
     });
 })

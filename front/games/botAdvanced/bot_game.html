@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<link href="bot_style.css" type="text/css" rel="stylesheet">
+<link href="../../home/header_style.css" type="text/css" rel="stylesheet">
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script type="module" src="bot_script.js"></script>
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Connect4 - Local game</title>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=no">
+<body id="body">
+
+<div class="nav">
+    <a onclick="window.location.href = '../../home/home.html';">Home</a>
+    <a>Friends</a>
+    <a>Settings</a>
+    <a id="logout">Log out</a>
+</div>
+
+<div class="message" id="message"></div>
+<div id="playAgain"></div>
+<button id="reset-button" style="display:none">Play again</button>
+
+<div class="player" id="player">
+
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th colspan="7">Connect4</th>
+    </tr>
+    </thead>
+    <tbody id="grid">
+    <tr>
+        <td id="0 5"></td>
+        <td id="1 5"></td>
+        <td id="2 5"></td>
+        <td id="3 5"></td>
+        <td id="4 5"></td>
+        <td id="5 5"></td>
+        <td id="6 5"></td>
+    </tr>
+
+    <tr>
+        <td id="0 4"></td>
+        <td id="1 4"></td>
+        <td id="2 4"></td>
+        <td id="3 4"></td>
+        <td id="4 4"></td>
+        <td id="5 4"></td>
+        <td id="6 4"></td>
+    </tr>
+
+    <tr>
+        <td id="0 3"></td>
+        <td id="1 3"></td>
+        <td id="2 3"></td>
+        <td id="3 3"></td>
+        <td id="4 3"></td>
+        <td id="5 3"></td>
+        <td id="6 3"></td>
+    </tr>
+
+    <tr>
+        <td id="0 2"></td>
+        <td id="1 2"></td>
+        <td id="2 2"></td>
+        <td id="3 2"></td>
+        <td id="4 2"></td>
+        <td id="5 2"></td>
+        <td id="6 2"></td>
+    </tr>
+
+    <tr>
+        <td id="0 1"></td>
+        <td id="1 1"></td>
+        <td id="2 1"></td>
+        <td id="3 1"></td>
+        <td id="4 1"></td>
+        <td id="5 1"></td>
+        <td id="6 1"></td>
+    </tr>
+
+    <tr>
+        <td id="0 0"></td>
+        <td id="1 0"></td>
+        <td id="2 0"></td>
+        <td id="3 0"></td>
+        <td id="4 0"></td>
+        <td id="5 0"></td>
+        <td id="6 0"></td>
+    </tr>
+    </tbody>
+</table>
+
+<button id = "saveButton">Save</button>
+
+<div id="savedGameMessage" style="display:none">
+    <div>Game saved!</div>
+    <div>
+        <button id="keepPlaying">Keep playing</button>
+        <button id="backToHome">Home</button>
+    </div>
+</div>
+
+</body>
+</html>
