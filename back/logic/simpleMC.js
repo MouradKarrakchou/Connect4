@@ -1,15 +1,25 @@
 let playFirst = false;
 let turn = 0;
 let board = [
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
 ];
 
 function setUp(AIplays) {
+    board = [
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+    ];
     turn = AIplays
     if (turn === 1)
         playFirst = true;
@@ -33,7 +43,7 @@ function getLegalMoves(board) {
      */
     let legalMoves = [];
     for (let col = 0; col < 7; col++) {
-        if (board[0][col] === 0) {
+        if (board[col][5] === 0) {
             legalMoves.push(col);
         }
     }
@@ -44,6 +54,7 @@ function getRandomMove(board) {
     /**
      * Returns a random legal move on the board.
      */
+
     const legalMoves = getLegalMoves(board);
     return legalMoves[Math.floor(Math.random() * legalMoves.length)];
 }
@@ -56,22 +67,26 @@ function simulateGame(board, player) {
     while (true) {
         const move = getRandomMove(board);
         board = makeMove(board, currPlayer, move);
-        if (isWin(board, currPlayer, findRaw(), move)) {
+        if (isWin(board, currPlayer, findRaw(board,move), move)) {
             return currPlayer;
         }
         if (isTie(board)) {
             return 0;
         }
-        currPlayer = currPlayer === 1 ? 2 : 1;
+        currPlayer = currPlayer === 1 ? -1 : 1;
     }
 }
 
 function findRaw(board, column) {
     let raw = 5;
-    while(board[column][raw] === 0 || raw > 0) {
+    while(board[column][raw] === 0 && raw > 0) {
         raw--;
     }
-    return raw;
+    if(raw === 0 && board[column][raw] === 0){
+        return raw;
+    }
+    return raw + 1;
+
 }
 
 function monteCarlo(board, player, numSimulations) {
@@ -80,6 +95,7 @@ function monteCarlo(board, player, numSimulations) {
      * Returns the best move based on the simulation results.
      */
     const legalMoves = getLegalMoves(board);
+    console.log("legalMoves " + legalMoves)
     let moveWins = Array(7).fill(0);
     for (let i = 0; i < numSimulations; i++) {
         const moveScores = Array(7).fill(0);
@@ -88,12 +104,14 @@ function monteCarlo(board, player, numSimulations) {
             const result = simulateGame(newBoard, player);
             moveScores[move] += result === player ? 1 : result === 0 ? 0.5 : 0;
         }
+
         moveWins[moveScores.indexOf(Math.max(...moveScores))] += 1;
     }
-
-    let c = moveWins.indexOf(Math.max(...moveWins))
-    let r = findRaw(c);
-
+    console.log("board " + board)
+    console.log("moveWins " + moveWins);
+    let c = moveWins.indexOf(Math.max(...moveWins));
+    let r = findRaw(board,c);
+console.log("r " + r)
     return [c, r];
 }
 
@@ -102,7 +120,7 @@ function makeMove(board, player, column) {
      * Returns a new board with the player's move made in the specified column.
      */
     const newBoard = board.map(col => col.slice()); // Copy the board
-    for (let row = 5; row >= 0; row--) {
+    for (let row = 0; row < 6; row--) {
         if (newBoard[column][row] === 0) {
             newBoard[column][row] = player;
             return newBoard;
