@@ -30,9 +30,10 @@ function nextMove(lastMove) {
     const start = performance.now();
     if (!playFirst)
         board[lastMove[0]][lastMove[1]] = -1;
-
     playFirst = false;
+    console.log("time avant monte carlo"+(performance.now() - start));
     let bestMoveFromMC = monteCarlo(board, 1)
+    console.log("time apres monte carlo"+(performance.now() - start));
     board[bestMoveFromMC[0]][bestMoveFromMC[1]] = 1;
     console.log("vrai temps"+(performance.now() - start));
     return bestMoveFromMC;
@@ -115,15 +116,19 @@ function monteCarlo(board, player) {
             if (performance.now() - start >= 97) break; // stop if time limit reached
         }
     }
+    console.log("time: " + (performance.now() - start));
     console.log("iteration:", numberOfIteration);
     console.log("Simulations:", simulations);
     console.log("board " + board);
     console.log("moveWins " + moveWins);
     let c = moveWins.indexOf(Math.max(...moveWins));
+    console.log("time apres indexOf: " + (performance.now() - start));
     if(Math.max(...moveWins) === 0){
         c = legalMoves[0];
     }
+    console.log("time apres le if  " + (performance.now() - start));
     let r = findRaw(board,c);
+    console.log("time apres findRaw: " + (performance.now() - start));
     console.log("r " + r)
     return [c, r];
 }
