@@ -113,6 +113,9 @@ function monteCarlo(board, player, numSimulations) {
     console.log("board " + board)
     console.log("moveWins " + moveWins);
     let c = moveWins.indexOf(Math.max(...moveWins));
+    if(Math.max(...moveWins) === 0){
+        c = legalMoves[0];
+    }
     let r = findRaw(board,c);
     console.log("r " + r)
     return [c, r];
