@@ -120,8 +120,11 @@ function monteCarlo(board, player) {
     console.log("board " + board);
     console.log("moveWins " + moveWins);
     let c = moveWins.indexOf(Math.max(...moveWins));
-    let r = findRaw(board, c);
-    console.log("r " + r);
+    if(Math.max(...moveWins) === 0){
+        c = legalMoves[0];
+    }
+    let r = findRaw(board,c);
+    console.log("r " + r)
     return [c, r];
 }
 

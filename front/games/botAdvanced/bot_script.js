@@ -113,6 +113,10 @@ function resetGame() {
     counter = 0;
     document.getElementById("message").innerText = "";
     document.getElementById("reset-button").style.display = "none";
+    socket.emit('initAdv',JSON.stringify({
+        id:roomName,
+        player:2}));
+
 }
 
 function isMoveIllegal(tab){
