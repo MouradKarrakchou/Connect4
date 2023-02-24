@@ -39,21 +39,23 @@ function setUp(AIplays) {
 }
 
 function nextMove2(lastMove) {
-    return new Promise(function(resolve) {
+    return new Promise(function(resolve, reject) {
         start = performance.now();
         if (!playFirst)
             board[lastMove[0]][lastMove[1]] = -1;
         else
             playFirst = false;
-        resolve(monteCarlo(board, 1, start));
+        setTimeout(resolve, 0, monteCarlo(board, 1, start));
     });
 }
 
-function nextMove(lastMove) {
-    start1 = performance.now();
-    nm2 = nextMove2(lastMove);
-    console.log("vrai temps"+(performance.now() - start1));
-    return nm2;
+async function nextMove(lastMove) {
+    const promise1 = new Promise((resolve, reject) => {
+        setTimeout(resolve, 100, 'TOO SLOW');
+    });
+    let value = await Promise.race([promise1, nextMove2(lastMove)]);
+    console.log(value);
+    return value;
 }
 
 function getLegalMoves(board) {
