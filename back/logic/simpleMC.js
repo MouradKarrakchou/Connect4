@@ -67,7 +67,7 @@ function simulateGame(board, player) {
     while (true) {
         const move = getRandomMove(board);
         board = makeMove(board, currPlayer, move);
-        if (isWin(board, currPlayer, findRaw(board,move), move)) {
+        if (isWin(board, currPlayer, findRaw(board,move)-1, move)) {
             return currPlayer;
         }
         if (isTie(board)) {
@@ -98,7 +98,6 @@ function monteCarlo(board, player, numSimulations) {
     console.log("legalMoves " + legalMoves)
     let moveWins = Array(7).fill(0);
     for (let i = 0; i < numSimulations; i++) {
-        const moveScores = Array(7).fill(0);
         for (const move of legalMoves) {
             const newBoard = makeMove(board, player, move);
             const result = simulateGame(newBoard, player);
@@ -109,7 +108,7 @@ function monteCarlo(board, player, numSimulations) {
     console.log("moveWins " + moveWins);
     let c = moveWins.indexOf(Math.max(...moveWins));
     let r = findRaw(board,c);
-console.log("r " + r)
+    console.log("r " + r)
     return [c, r];
 }
 
@@ -143,7 +142,7 @@ function isWin(board, player, lastRow, lastCol) {
     /**
      * Returns true if the player has won on the board, false otherwise.
      */
-        // Check row
+    // Check row
     let count = 0;
     for (let col = Math.max(lastCol - 3, 0); col <= Math.min(lastCol + 3, 6); col++) {
         if (board[col][lastRow] === player) {
