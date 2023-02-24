@@ -102,10 +102,8 @@ function monteCarlo(board, player, numSimulations) {
         for (const move of legalMoves) {
             const newBoard = makeMove(board, player, move);
             const result = simulateGame(newBoard, player);
-            moveScores[move] += result === player ? 1 : result === 0 ? 0.5 : 0;
+            moveWins[move] += result === player ? 1 : result === 0 ? 0.5 : 0;
         }
-
-        moveWins[moveScores.indexOf(Math.max(...moveScores))] += 1;
     }
     console.log("board " + board)
     console.log("moveWins " + moveWins);
@@ -120,7 +118,7 @@ function makeMove(board, player, column) {
      * Returns a new board with the player's move made in the specified column.
      */
     const newBoard = board.map(col => col.slice()); // Copy the board
-    for (let row = 0; row < 6; row--) {
+    for (let row = 0; row < 6; row++) {
         if (newBoard[column][row] === 0) {
             newBoard[column][row] = player;
             return newBoard;
