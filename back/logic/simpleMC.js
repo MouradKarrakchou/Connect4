@@ -226,9 +226,11 @@ function isWin(board, a, line,column) {
         j--;
         count++;
     }
-    return count >= 4;
+    if (count >= 4) {
+        return true;
+    }
 
-
+    return false;
 }
 
 exports.setUp = setUp;
