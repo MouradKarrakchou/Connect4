@@ -54,10 +54,7 @@ io.on('connection',socket => {
 
     socket.on('playAdv',(state) => {
         let gameState = JSON.parse(state);
-        aiAdvancedQuery.nextMove(gameState.pos).then(r => {
-            console.log("LE R "+r);
-            io.to(gameState.id).emit('doMove',JSON.stringify(r))
-        }).catch(e=> console.log("TIME OUT "+e));
+        io.to(gameState.id).emit('doMove',JSON.stringify(aiAdvancedQuery.nextMove(gameState.pos)));
     });
 
     socket.on('initAdv',(initState) => {
