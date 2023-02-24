@@ -39,12 +39,14 @@ function setUp(AIplays) {
 }
 
 function nextMove2(lastMove) {
-    start = performance.now();
-    if (!playFirst)
-        board[lastMove[0]][lastMove[1]] = -1;
-    else
-        playFirst = false;
-    return monteCarlo(board, 1, start)
+    return new Promise(function(resolve) {
+        start = performance.now();
+        if (!playFirst)
+            board[lastMove[0]][lastMove[1]] = -1;
+        else
+            playFirst = false;
+        resolve(monteCarlo(board, 1, start));
+    });
 }
 
 function nextMove(lastMove) {
@@ -124,7 +126,7 @@ function monteCarlo(board, player, start) {
             }
             moveWinsInMC[move] += result === player ? 1 : result === 0 ? 0.5 : 0;
             simulationsInMC++;
-            if (performance.now() - start >= 97) {
+            if (performance.now() - start >= 95) {
                 let c = moveWinsInMC.indexOf(Math.max(...moveWinsInMC));
                 if(Math.max(...moveWinsInMC) === 0){
                     c = legalMovesInMC[0];
