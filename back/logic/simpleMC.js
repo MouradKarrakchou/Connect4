@@ -27,13 +27,14 @@ function setUp(AIplays) {
 }
 
 function nextMove(lastMove) {
+    const start = performance.now();
     if (!playFirst)
         board[lastMove[0]][lastMove[1]] = -1;
 
     playFirst = false;
-    let bestMoveFromMC = monteCarlo(board, 1, 10000)
+    let bestMoveFromMC = monteCarlo(board, 1)
     board[bestMoveFromMC[0]][bestMoveFromMC[1]] = 1;
-
+    console.log("vrai temps"+(performance.now() - start));
     return bestMoveFromMC;
 }
 
@@ -89,32 +90,38 @@ function findRaw(board, column) {
 
 }
 
-function monteCarlo(board, player, numSimulations) {
+function monteCarlo(board, player) {
     /**
-     * Runs the Monte Carlo algorithm on the board for the given player and number of simulations.
-     * Returns the best move based on the simulation results.
+     * Runs the Monte Carlo algorithm on the board for the given player.
+     * Simulates as many games as possible in 100ms and returns the best move based on the simulation results.
      */
+    const start = performance.now();
     const legalMoves = getLegalMoves(board);
-    console.log("legalMoves " + legalMoves)
     let moveWins = Array(7).fill(0);
-    for (let i = 0; i < numSimulations; i++) {
+    let simulations = 0;
+    let numberOfIteration=0;
+    while (performance.now() - start < 97) {
+        numberOfIteration++;
         for (const move of legalMoves) {
             const newBoard = makeMove(board, player, move);
             let result;
-            if (isWin(newBoard, 1, findRaw(newBoard,move)-1, move)) {
+            if (isWin(newBoard, 1, findRaw(newBoard, move) - 1, move)) {
                 result = 1;
-            }
-            else{
+            } else {
                 result = simulateGame(newBoard, -1);
             }
             moveWins[move] += result === player ? 1 : result === 0 ? 0.5 : 0;
+            simulations++;
+            if (performance.now() - start >= 97) break; // stop if time limit reached
         }
     }
-    console.log("board " + board)
+    console.log("iteration:", numberOfIteration);
+    console.log("Simulations:", simulations);
+    console.log("board " + board);
     console.log("moveWins " + moveWins);
     let c = moveWins.indexOf(Math.max(...moveWins));
-    let r = findRaw(board,c);
-    console.log("r " + r)
+    let r = findRaw(board, c);
+    console.log("r " + r);
     return [c, r];
 }
 
