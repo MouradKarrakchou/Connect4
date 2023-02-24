@@ -19,8 +19,6 @@ let legalMovesInMC;
 let moveWinsInMC;
 let simulationsInMC;
 let newBoardAfterMove;
-let start1;
-let nm2;
 
 function setUp(AIplays) {
     board = [
@@ -38,7 +36,7 @@ function setUp(AIplays) {
     return true;
 }
 
-function nextMove2(lastMove) {
+function nextMove(lastMove) {
     return new Promise(function(resolve, reject) {
         start = performance.now();
         if (!playFirst)
@@ -49,11 +47,11 @@ function nextMove2(lastMove) {
     });
 }
 
-async function nextMove(lastMove) {
+async function TestNextMove(lastMove) {
     const promise1 = new Promise((resolve, reject) => {
         setTimeout(resolve, 100, 'TOO SLOW');
     });
-    let value = await Promise.race([promise1, nextMove2(lastMove)]);
+    let value = await Promise.race([promise1, nextMove(lastMove)]);
     console.log(value);
     return value;
 }
@@ -128,7 +126,7 @@ function monteCarlo(board, player, start) {
             }
             moveWinsInMC[move] += result === player ? 1 : result === 0 ? 0.5 : 0;
             simulationsInMC++;
-            if (performance.now() - start >= 95) {
+            if (performance.now() - start >= 85) {
                 let c = moveWinsInMC.indexOf(Math.max(...moveWinsInMC));
                 if(Math.max(...moveWinsInMC) === 0){
                     c = legalMovesInMC[0];
@@ -243,3 +241,4 @@ function isWin(board, a, line,column) {
 
 exports.setUp = setUp;
 exports.nextMove = nextMove;
+exports.TestNextMove = TestNextMove;

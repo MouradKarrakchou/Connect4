@@ -54,7 +54,7 @@ io.on('connection',socket => {
 
     socket.on('playAdv',(state) => {
         let gameState = JSON.parse(state);
-        aiAdvancedQuery.nextMove(gameState.pos).then(result => io.to(gameState.id).emit('doMove',JSON.stringify(result)));
+        aiAdvancedQuery.TestNextMove(gameState.pos).then(result => io.to(gameState.id).emit('doMove',JSON.stringify(result)));
     });
 
     socket.on('initAdv',(initState) => {
