@@ -31,7 +31,7 @@ function nextMove(lastMove) {
         board[lastMove[0]][lastMove[1]] = -1;
 
     playFirst = false;
-    let bestMoveFromMC = monteCarlo(board, 1, 1000)
+    let bestMoveFromMC = monteCarlo(board, 1, 10000)
     board[bestMoveFromMC[0]][bestMoveFromMC[1]] = 1;
 
     return bestMoveFromMC;
@@ -100,13 +100,22 @@ function monteCarlo(board, player, numSimulations) {
     for (let i = 0; i < numSimulations; i++) {
         for (const move of legalMoves) {
             const newBoard = makeMove(board, player, move);
-            const result = simulateGame(newBoard, player);
+            let result;
+            if (isWin(newBoard, 1, findRaw(newBoard,move)-1, move)) {
+                result = 1;
+            }
+            else{
+                result = simulateGame(newBoard, -1);
+            }
             moveWins[move] += result === player ? 1 : result === 0 ? 0.5 : 0;
         }
     }
     console.log("board " + board)
     console.log("moveWins " + moveWins);
     let c = moveWins.indexOf(Math.max(...moveWins));
+    if(Math.max(...moveWins) === 0){
+        c = legalMoves[0];
+    }
     let r = findRaw(board,c);
     console.log("r " + r)
     return [c, r];
@@ -138,60 +147,79 @@ function isTie(board) {
     return true;
 }
 
-function isWin(board, player, lastRow, lastCol) {
-    /**
-     * Returns true if the player has won on the board, false otherwise.
-     */
-    // Check row
-    let count = 0;
-    for (let col = Math.max(lastCol - 3, 0); col <= Math.min(lastCol + 3, 6); col++) {
-        if (board[col][lastRow] === player) {
-            count++;
-            if (count === 4) return true;
-        } else {
-            count = 0;
-        }
+function isWin(board, a, line,column) {
+    const player = board[column][line];
+    let count = 1;
+    let j = line;
+    while (j > 0 && board[column][j - 1] === player) {
+        j--;
+        count++;
+    }
+    j = line;
+    while (j < board[column].length - 1 && board[column][j + 1] === player) {
+        j++;
+        count++;
+    }
+    if (count >= 4) {
+        return true;
     }
 
-    // Check column
-    count = 0;
-    for (let row = Math.max(lastRow - 3, 0); row <= Math.min(lastRow + 3, 5); row++) {
-        if (board[lastCol][row] === player) {
-            count++;
-            if (count === 4) return true;
-        } else {
-            count = 0;
-        }
+    // Check horizontal
+    count = 1;
+    let i = column;
+    while (i > 0 && board[i - 1][line] === player) {
+        i--;
+        count++;
+    }
+    i = column;
+    while (i < board.length - 1 && board[i + 1][line] === player) {
+        i++;
+        count++;
+    }
+    if (count >= 4) {
+        return true;
     }
 
     // Check diagonal (top-left to bottom-right)
-    count = 0;
-    let row = Math.max(lastRow - 3, 0);
-    let col = Math.max(lastCol - 3, 0);
-    while (row <= Math.min(lastRow + 3, 5) && col <= Math.min(lastCol + 3, 6)) {
-        if (board[col][row] === player) {
-            count++;
-            if (count === 4) return true;
-        } else {
-            count = 0;
-        }
-        row++;
-        col++;
+
+    count = 1;
+    i = column;
+    j = line;
+    while (i > 0 && j > 0 && board[i - 1][j - 1] === player) {
+        i--;
+        j--;
+        count++;
+    }
+    i = column;
+    j = line;
+    while (i < board.length - 1 && j < board[column].length - 1 && board[i + 1][j + 1] === player) {
+        i++;
+        j++;
+        count++;
+    }
+    if (count >= 4) {
+        return true;
     }
 
-    // Check diagonal (top-right to bottom-left)
-    count = 0;
-    row = Math.max(lastRow - 3, 0);
-    col = Math.min(lastCol + 3, 6);
-    while (row <= Math.min(lastRow + 3, 5) && col >= Math.max(lastCol - 3, 0)) {
-        if (board[col][row] === player) {
-            count++;
-            if (count === 4) return true;
-        } else {
-            count = 0;
-        }
-        row++;
-        col--;
+    // Check diagonal (bottom-left to top-right)
+
+    count = 1;
+    i = column;
+    j = line;
+    while (i > 0 && j < board[column].length - 1 && board[i - 1][j + 1] === player) {
+        i--;
+        j++;
+        count++;
+    }
+    i = column;
+    j = line;
+    while (i < board.length - 1 && j > 0 && board[i + 1][j - 1] === player) {
+        i++;
+        j--;
+        count++;
+    }
+    if (count >= 4) {
+        return true;
     }
 
     return false;
