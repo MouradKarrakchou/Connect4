@@ -33,7 +33,7 @@ function init() {
             colorMessage(counter);
         }
     })
-    if (false)
+    if (true)
     {socket.emit('initAdv',JSON.stringify({
         id:roomName,
         player:1}));

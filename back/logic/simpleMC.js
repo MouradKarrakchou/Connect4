@@ -129,7 +129,10 @@ function monteCarlo(board, player, start,time) {
                 let result;
                 if (isWin(newBoard, 1, findRaw(newBoard, move) - 1, move)) {
                     result = 1;
-                } else {
+                }
+                else if (isTie(newBoard)) {
+                    result = 0.5;
+                }else {
                     result = simulateGame(newBoard, -1);
                 }
                 moveWinsInMC[move] += result === player ? 1 : result === 0 ? 0.5 : 0;
