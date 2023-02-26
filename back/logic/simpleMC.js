@@ -57,6 +57,7 @@ async function TestNextMove(lastMove) {
     });
     console.log('TOO SLOW');
     let value = await Promise.race([promise1, nextMove(lastMove)]);
+    console.log("Move Played"+value);
     return value;
 }
 
@@ -141,13 +142,14 @@ function monteCarlo(board, player, start,time) {
                     let r = findRaw(board,c);
                     if (time===96)
                     {board[c][r] = 1;
-                    console.log("board updated");}
+                    console.log("Move After Time to think"+[c, r])}
                     finalMove=[c, r];
                     notFinished=false;
                     break;
                 } // stop if time limit reached
             }
         }
+        if (time===75) console.log("Move After 75ms"+[c, r])
         setTimeout(resolve,0,finalMove);
     });
 }
