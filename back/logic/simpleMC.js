@@ -37,14 +37,17 @@ function setUp(AIplays) {
 }
 
 function nextMove(lastMove) {
-    return new Promise(function(resolve, reject) {
-        start = performance.now();
-        if (!playFirst)
-            board[lastMove[0]][lastMove[1]] = -1;
-        else
-            playFirst = false;
-        setTimeout(resolve, 0, monteCarlo(board, 1, start));
+    moveWinsInMC = Array(7).fill(0);
+    start = performance.now();
+    if (!playFirst)
+        board[lastMove[0]][lastMove[1]] = -1;
+    else
+        playFirst = false;
+    let firstValue=monteCarlo(board, 1, start,75);
+    let promise1=new Promise((resolve, reject) => {
+        setTimeout(resolve, 99-(performance.now()-start), firstValue);
     });
+    return Promise.race([monteCarlo(board, 1, start,98),promise1]);
 }
 
 async function TestNextMove(lastMove) {
@@ -52,7 +55,6 @@ async function TestNextMove(lastMove) {
         setTimeout(resolve, 100, 'TOO SLOW');
     });
     let value = await Promise.race([promise1, nextMove(lastMove)]);
-    console.log(value);
     return value;
 }
 
@@ -107,36 +109,44 @@ function findRaw(board, column) {
 
 }
 
-function monteCarlo(board, player, start) {
-    /**
-     * Runs the Monte Carlo algorithm on the board for the given player.
-     * Simulates as many games as possible in 100ms and returns the best move based on the simulation results.
-     */
-    legalMovesInMC = getLegalMoves(board);
-    moveWinsInMC = Array(7).fill(0);
-    simulationsInMC = 0;
-    while (true) {
-        for (const move of legalMovesInMC) {
-            const newBoard = makeMove(board, player, move);
-            let result;
-            if (isWin(newBoard, 1, findRaw(newBoard, move) - 1, move)) {
-                result = 1;
-            } else {
-                result = simulateGame(newBoard, -1);
-            }
-            moveWinsInMC[move] += result === player ? 1 : result === 0 ? 0.5 : 0;
-            simulationsInMC++;
-            if (performance.now() - start >= 85) {
-                let c = moveWinsInMC.indexOf(Math.max(...moveWinsInMC));
-                if(Math.max(...moveWinsInMC) === 0){
-                    c = legalMovesInMC[0];
+function monteCarlo(board, player, start,time) {
+    return new Promise(function(resolve, reject) {
+        /**
+         * Runs the Monte Carlo algorithm on the board for the given player.
+         * Simulates as many games as possible in 100ms and returns the best move based on the simulation results.
+         */
+        legalMovesInMC = getLegalMoves(board);
+        console.log(moveWinsInMC);
+        simulationsInMC = 0;
+        let finalMove;
+        let notFinished=true;
+        while (notFinished) {
+            for (const move of legalMovesInMC) {
+                const newBoard = makeMove(board, player, move);
+                let result;
+                if (isWin(newBoard, 1, findRaw(newBoard, move) - 1, move)) {
+                    result = 1;
+                } else {
+                    result = simulateGame(newBoard, -1);
                 }
-                let r = findRaw(board,c);
-                board[c][r] = 1;
-                return [c, r];
-            } // stop if time limit reached
+                moveWinsInMC[move] += result === player ? 1 : result === 0 ? 0.5 : 0;
+                simulationsInMC++;
+                if (performance.now() - start >= time) {
+                    let c = moveWinsInMC.indexOf(Math.max(...moveWinsInMC));
+                    if(Math.max(...moveWinsInMC) === 0){
+                        c = legalMovesInMC[0];
+                    }
+                    let r = findRaw(board,c);
+                    board[c][r] = 1;
+                    finalMove=[c, r];
+                    notFinished=false;
+                    break;
+                } // stop if time limit reached
+            }
         }
-    }
+        console.log(moveWinsInMC);
+        setTimeout(resolve,0,finalMove);
+    });
 }
 
 function makeMove(board, player, column) {
