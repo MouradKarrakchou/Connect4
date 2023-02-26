@@ -46,7 +46,7 @@ function nextMove(lastMove) {
         playFirst = false;
     let firstValue=monteCarlo(board, 1, start,75);
     let promise1=new Promise((resolve, reject) => {
-        setTimeout(resolve, 99-(performance.now()-start), firstValue);
+        setTimeout(resolve, 98-(performance.now()-start), firstValue);
     });
     return Promise.race([monteCarlo(board, 1, start,96),promise1]);
 }
