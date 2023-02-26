@@ -50,14 +50,13 @@ function nextMove(lastMove) {
     return Promise.race([monteCarlo(board, 1, start,92),promise1]);
 }
 
-/*
 async function TestNextMove(lastMove) {
     const promise1 = new Promise((resolve, reject) => {
         setTimeout(resolve, 100, 'TOO SLOW');
     });
     let value = await Promise.race([promise1, nextMove(lastMove)]);
     return value;
-}*/
+}
 
 function getLegalMoves(board) {
     /**
@@ -259,4 +258,4 @@ function isWin(board, a, line,column) {
 
 exports.setup = setup;
 exports.nextMove = nextMove;
-//exports.TestNextMove = TestNextMove;
+exports.TestNextMove = TestNextMove;
