@@ -55,7 +55,7 @@ function nextMove(lastMove) {
     let promise1=new Promise((resolve, reject) => {
         setTimeout(resolve, 98-(performance.now()-start), firstValue);
     });
-    return Promise.race([monteCarlo(board, 1, start,96),promise1]);
+    return Promise.race([monteCarlo(board, 1, start,94),promise1]);
 }
 
 async function TestNextMove(lastMove) {
@@ -155,7 +155,7 @@ function monteCarlo(board, player, start,time) {
                         c = legalMovesInMC[0];
                     }
                     let r = findRaw(board,c);
-                    if (time===96)
+                    if (time===94)
                     {board[c][r] = 1;
                     console.log("Move After Time to think "+[c, r])}
                     finalMove=[c, r];
