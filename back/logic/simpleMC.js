@@ -32,6 +32,7 @@ function setUp(AIplays) {
         [0, 0, 0, 0, 0, 0],
     ];
     turn = AIplays
+    playFirst = false;
     if (turn === 1)
         playFirst = true;
     return true;
@@ -49,13 +50,12 @@ function nextMove(lastMove) {
     start = performance.now();
     if (!playFirst)
         board[lastMove[0]][lastMove[1]] = -1;
-    else
-        playFirst = false;
+    playFirst = false;
     let firstValue=monteCarlo(board, 1, start,75);
     let promise1=new Promise((resolve, reject) => {
         setTimeout(resolve, 98-(performance.now()-start), firstValue);
     });
-    return Promise.race([monteCarlo(board, 1, start,94),promise1]);
+    return Promise.race([monteCarlo(board, 1, start,90),promise1]);
 }
 
 async function TestNextMove(lastMove) {
@@ -155,7 +155,7 @@ function monteCarlo(board, player, start,time) {
                         c = legalMovesInMC[0];
                     }
                     let r = findRaw(board,c);
-                    if (time===94)
+                    if (time===90)
                     {board[c][r] = 1;
                     console.log("Move After Time to think "+[c, r])}
                     finalMove=[c, r];
