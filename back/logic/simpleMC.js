@@ -19,6 +19,7 @@ let legalMovesInMC;
 let moveWinsInMC;
 let simulationsInMC;
 let newBoardAfterMove;
+let lastMoveValue;
 
 function setUp(AIplays) {
     board = [
@@ -47,7 +48,7 @@ function nextMove(lastMove) {
     let promise1=new Promise((resolve, reject) => {
         setTimeout(resolve, 99-(performance.now()-start), firstValue);
     });
-    return Promise.race([monteCarlo(board, 1, start,97),promise1]);
+    return Promise.race([monteCarlo(board, 1, start,96),promise1]);
 }
 
 async function TestNextMove(lastMove) {
@@ -137,14 +138,15 @@ function monteCarlo(board, player, start,time) {
                         c = legalMovesInMC[0];
                     }
                     let r = findRaw(board,c);
-                    board[c][r] = 1;
+                    if (time===96)
+                    {board[c][r] = 1;
+                    console.log("board updated");}
                     finalMove=[c, r];
                     notFinished=false;
                     break;
                 } // stop if time limit reached
             }
         }
-        console.log(moveWinsInMC);
         setTimeout(resolve,0,finalMove);
     });
 }
