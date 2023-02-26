@@ -119,6 +119,7 @@ function monteCarlo(board, player, start,time) {
          */
         legalMovesInMC = getLegalMoves(board);
         console.log(moveWinsInMC);
+        console.log(legalMovesInMC);
         simulationsInMC = 0;
         let finalMove;
         let notFinished=true;
