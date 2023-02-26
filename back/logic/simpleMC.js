@@ -38,6 +38,13 @@ function setUp(AIplays) {
 }
 
 function nextMove(lastMove) {
+    console.log(board[0]);
+    console.log(board[1]);
+    console.log(board[2]);
+    console.log(board[3]);
+    console.log(board[4]);
+    console.log(board[5]);
+    console.log(board[6]);
     moveWinsInMC = Array(7).fill(0);
     start = performance.now();
     if (!playFirst)
@@ -123,12 +130,16 @@ function monteCarlo(board, player, start,time) {
         simulationsInMC = 0;
         let finalMove;
         let notFinished=true;
+        let compt=0;
+        let iteration=0;
         while (notFinished) {
             for (const move of legalMovesInMC) {
+                iteration++;
                 const newBoard = makeMove(board, player, move);
                 let result;
                 if (isWin(newBoard, 1, findRaw(newBoard, move) - 1, move)) {
                     result = 1;
+                    compt++;
                 }
                 else if (isTie(newBoard)) {
                     result = 0.5;
@@ -153,6 +164,8 @@ function monteCarlo(board, player, start,time) {
                 } // stop if time limit reached
             }
         }
+        console.log("compt fond: "+compt);
+        console.log("iteration: "+iteration);
         if (time===75) console.log("Move After 75ms "+finalMove);
         setTimeout(resolve,0,finalMove);
     });
