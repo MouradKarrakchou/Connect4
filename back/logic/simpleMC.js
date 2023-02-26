@@ -19,9 +19,8 @@ let legalMovesInMC;
 let moveWinsInMC;
 let simulationsInMC;
 let newBoardAfterMove;
-let lastMoveValue;
 
-function setUp(AIplays) {
+function setup(AIplays) {
     board = [
         [0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0],
@@ -39,16 +38,8 @@ function setUp(AIplays) {
 }
 
 function nextMove(lastMove) {
-    console.log(board[0]);
-    console.log(board[1]);
-    console.log(board[2]);
-    console.log(board[3]);
-    console.log(board[4]);
-    console.log(board[5]);
-    console.log(board[6]);
     moveWinsInMC = Array(7).fill(0);
     start = performance.now();
-    console.log(playFirst);
     if (!playFirst)
         board[lastMove[0]][lastMove[1]] = -1;
     playFirst = false;
@@ -56,17 +47,17 @@ function nextMove(lastMove) {
     let promise1=new Promise((resolve, reject) => {
         setTimeout(resolve, 98-(performance.now()-start), firstValue);
     });
-    return Promise.race([monteCarlo(board, 1, start,90),promise1]);
+    return Promise.race([monteCarlo(board, 1, start,92),promise1]);
 }
 
+/*
 async function TestNextMove(lastMove) {
     const promise1 = new Promise((resolve, reject) => {
         setTimeout(resolve, 100, 'TOO SLOW');
     });
     let value = await Promise.race([promise1, nextMove(lastMove)]);
-    console.log("Move Played "+value);
     return value;
-}
+}*/
 
 function getLegalMoves(board) {
     /**
@@ -126,8 +117,6 @@ function monteCarlo(board, player, start,time) {
          * Simulates as many games as possible in 100ms and returns the best move based on the simulation results.
          */
         legalMovesInMC = getLegalMoves(board);
-        console.log(moveWinsInMC);
-        console.log(legalMovesInMC);
         simulationsInMC = 0;
         let finalMove;
         let notFinished=true;
@@ -156,18 +145,14 @@ function monteCarlo(board, player, start,time) {
                         c = legalMovesInMC[0];
                     }
                     let r = findRaw(board,c);
-                    if (time===90)
-                    {board[c][r] = 1;
-                    console.log("Move After Time to think "+[c, r])}
+                    if (time===92)
+                    {board[c][r] = 1;}
                     finalMove=[c, r];
                     notFinished=false;
                     break;
                 } // stop if time limit reached
             }
         }
-        console.log("compt fond: "+compt);
-        console.log("iteration: "+iteration);
-        if (time===75) console.log("Move After 75ms "+finalMove);
         setTimeout(resolve,0,finalMove);
     });
 }
@@ -272,6 +257,6 @@ function isWin(board, a, line,column) {
     return count >= 4;
 }
 
-exports.setUp = setUp;
+exports.setup = setup;
 exports.nextMove = nextMove;
-exports.TestNextMove = TestNextMove;
+//exports.TestNextMove = TestNextMove;
