@@ -55,7 +55,6 @@ async function TestNextMove(lastMove) {
     const promise1 = new Promise((resolve, reject) => {
         setTimeout(resolve, 100, 'TOO SLOW');
     });
-    console.log('TOO SLOW');
     let value = await Promise.race([promise1, nextMove(lastMove)]);
     console.log("Move Played"+value);
     return value;
