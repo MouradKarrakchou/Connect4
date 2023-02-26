@@ -149,7 +149,7 @@ function monteCarlo(board, player, start,time) {
                 } // stop if time limit reached
             }
         }
-        if (time===75) console.log("Move After 75ms"+[c, r])
+        if (time===75) console.log("Move After 75ms"+finalMove);
         setTimeout(resolve,0,finalMove);
     });
 }
