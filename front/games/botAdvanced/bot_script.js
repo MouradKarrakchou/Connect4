@@ -33,9 +33,19 @@ function init() {
             colorMessage(counter);
         }
     })
-    socket.emit('initAdv',JSON.stringify({
+    if (Math.round(Math.random())===0)
+    {socket.emit('initAdv',JSON.stringify({
         id:roomName,
-        player:2}));
+        player:1}));
+    socket.emit('playAdv',JSON.stringify({
+        id:roomName,
+        pos:undefined}));}
+    else {
+        socket.emit('initAdv',JSON.stringify({
+            id:roomName,
+            player:1}));
+    }
+
 }
 
 document.getElementById("logout").addEventListener('click', logout);
