@@ -48,6 +48,7 @@ function nextMove(lastMove) {
     console.log(board[6]);
     moveWinsInMC = Array(7).fill(0);
     start = performance.now();
+    console.log(playFirst);
     if (!playFirst)
         board[lastMove[0]][lastMove[1]] = -1;
     playFirst = false;

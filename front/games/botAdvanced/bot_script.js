@@ -43,7 +43,7 @@ function init() {
     else {
         socket.emit('initAdv',JSON.stringify({
             id:roomName,
-            player:1}));
+            player:2}));
     }
 
 }
