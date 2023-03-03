@@ -143,7 +143,7 @@ export function loadGame(){
     };
     console.log(values);
 
-    fetch('http://localhost:8000/api/game/retrieveGameWithId', {
+    fetch('http://15.236.190.187:8000/api/game/retrieveGameWithId', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -189,7 +189,7 @@ export function saveGame(gameType) {
         userToken:token
     };
     console.log(tab)
-    fetch('http://localhost:8000/api/game', {
+    fetch('http://15.236.190.187:8000/api/game', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

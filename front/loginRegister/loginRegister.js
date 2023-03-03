@@ -42,7 +42,7 @@ async function login() {
         password: await hash(document.getElementsByName("log_pswd")[0].value),
     };
 
-    fetch('http://localhost:8000/api/login', {
+    fetch('http://15.236.190.187:8000/api/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -78,7 +78,7 @@ async function register() {
             email: document.getElementsByName("reg_email")[0].value,
         };
 
-        fetch('http://localhost:8000/api/register', {
+        fetch('http://15.236.190.187:8000/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

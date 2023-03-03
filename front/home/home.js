@@ -17,7 +17,7 @@ function getAllGames(){
         token: token,
     };
 
-    fetch('http://localhost:8000/api/game/retrieveGames', {
+    fetch('http://15.236.190.187:8000/api/game/retrieveGames', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ function getAllGames(){
 }
 function deleteSavedGame(){
     findToken();
-    fetch(`http://localhost:8000/api/game/deleteGame`, {
+    fetch(`http://15.236.190.187:8000/api/game/deleteGame`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ function initialise(){
         tab: toTab()
     };
     console.log(tab)
-    fetch('http://localhost:8000/api/game', {
+    fetch('http://15.236.190.187:8000/api/game', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -116,7 +116,7 @@ function retrieveGame(gameTypeAndTab) {
         token: 12,
     };
 
-    fetch('http://localhost:8000/api/game', {
+    fetch('http://15.236.190.187:8000/api/game', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
