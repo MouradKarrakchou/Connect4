@@ -39,7 +39,7 @@ document.getElementById("loginButton").addEventListener('click', login);
 async function login() {
     const values = {
         username: document.getElementsByName("log_name")[0].value,
-        password: await hash(document.getElementsByName("log_pswd")[0].value),
+        password: document.getElementsByName("log_pswd")[0].value,
     };
 
     fetch('http://15.236.190.187:8000/api/login', {
@@ -74,7 +74,7 @@ async function register() {
         console.log("passwords are the same");
         const values = {
             username: document.getElementsByName("reg_name")[0].value,
-            password: await hash(clearPassword),
+            password: clearPassword,
             email: document.getElementsByName("reg_email")[0].value,
         };
 
@@ -101,7 +101,8 @@ async function register() {
         document.getElementById("errorMessage").style.display = "block";
 }
 
-function hash(data) {
+
+/*function hash(data) {
     const encoder = new TextEncoder();
     console.log(crypto.subtle);
     const message = encoder.encode(data);
@@ -119,3 +120,5 @@ async function confirmPassword(clearPassword, confirmClearPassword) {
     const confirmedHashedPassword = await hash(confirmClearPassword);
     return (hashedPassword === confirmedHashedPassword);
 }
+
+ */
