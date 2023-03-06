@@ -103,6 +103,7 @@ async function register() {
 
 function hash(data) {
     const encoder = new TextEncoder();
+    console.log(crypto.subtle);
     const message = encoder.encode(data);
     return crypto.subtle.digest('SHA-256', message)
         .then(hash => {
