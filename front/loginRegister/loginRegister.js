@@ -70,7 +70,7 @@ async function register() {
     const clearPassword = document.getElementsByName("reg_pswd")[0].value;
     const confirmClearPassword = document.getElementsByName("reg_pswd2")[0].value;
 
-    if (await confirmPassword(clearPassword, confirmClearPassword)) {
+    if (clearPassword===confirmClearPassword) {
         console.log("passwords are the same");
         const values = {
             username: document.getElementsByName("reg_name")[0].value,
