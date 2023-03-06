@@ -1,5 +1,5 @@
 // The http module contains methods to handle http queries.
-const https = require('https')
+const http = require('http')
 // Let's import our logic.
 const fileQuery = require('./queryManagers/front.js')
 const apiQuery = require('./queryManagers/api.js')
