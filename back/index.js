@@ -1,5 +1,5 @@
 // The http module contains methods to handle http queries.
-const http = require('http')
+const https = require('https')
 // Let's import our logic.
 const fileQuery = require('./queryManagers/front.js')
 const apiQuery = require('./queryManagers/api.js')
@@ -10,7 +10,7 @@ const aiAdvancedQuery = require('./logic/simpleMC.js')
 /* The http module contains a createServer function, which takes one argument, which is the function that
 ** will be called whenever a new request arrives to the server.
  */
-let server = http.createServer(function (request, response) {
+let server = https.createServer(function (request, response) {
     // First, let's check the URL to see if it's a REST request or a file request.
     // We will remove all cases of "../" in the url for security purposes.
     let filePath = request.url.split("/").filter(function(elem) {
