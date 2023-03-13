@@ -70,11 +70,11 @@ async function register() {
     const clearPassword = document.getElementsByName("reg_pswd")[0].value;
     const confirmClearPassword = document.getElementsByName("reg_pswd2")[0].value;
 
-    if (await confirmPassword(clearPassword, confirmClearPassword)) {
+    if (confirmPassword(clearPassword, confirmClearPassword)) {
         console.log("passwords are the same");
         const values = {
             username: document.getElementsByName("reg_name")[0].value,
-            password: await hash(clearPassword),
+            password: hash(clearPassword),
             email: document.getElementsByName("reg_email")[0].value,
         };
 
@@ -101,20 +101,37 @@ async function register() {
         document.getElementById("errorMessage").style.display = "block";
 }
 
-function hash(data) {
-    const encoder = new TextEncoder();
-    const message = encoder.encode(data);
-    return crypto.subtle.digest('SHA-256', message)
-        .then(hash => {
-            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
-        })
-        .catch(err => {
-            console.error(err);
-        });
+function hash(str) {
+    let key = 7;
+    let result = "";
+    for (let i = 0; i < str.length; i++) {
+        let char = str[i];
+        // If the letter is an upper case
+        if (char.match(/[A-Z]/i)) {
+            // Getting the ASCII code
+            let code = str.charCodeAt(i);
+            // Add the key to the ASCII code
+            code += key;
+            // Coming back to 'A' if we go over 'Z' (upper case)
+            if (char === char.toUpperCase() && code > 90) {
+                code = 64 + (code - 90);
+            }
+            // Coming back to 'a' if we go over 'z' (lower case)
+            else if (char === char.toLowerCase() && code > 122) {
+                code = 96 + (code - 122);
+            }
+            // Adding to the encrypted string
+            result += String.fromCharCode(code);
+        } else {
+            // If the character is not a letter, we let it as it is
+            result += char;
+        }
+    }
+    return result;
 }
 
-async function confirmPassword(clearPassword, confirmClearPassword) {
-    const hashedPassword = await hash(clearPassword);
-    const confirmedHashedPassword = await hash(confirmClearPassword);
+function confirmPassword(clearPassword, confirmClearPassword) {
+    const hashedPassword = hash(clearPassword);
+    const confirmedHashedPassword = hash(confirmClearPassword);
     return (hashedPassword === confirmedHashedPassword);
 }
