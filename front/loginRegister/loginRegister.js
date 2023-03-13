@@ -1,6 +1,7 @@
 console.log(document.cookie)
 import {findToken, findUsername} from "../games/gameManagement.js"
-
+var local = "http://localhost:8000";
+var aws = "http://15.236.190.187:8000"
 window.addEventListener("load", function () {
     if(findToken() !== "undefined" && findToken()!==undefined && findUsername() !== "undefined") {
         document.getElementById("usernameToContinueWith").innerHTML = findUsername();
@@ -39,10 +40,10 @@ document.getElementById("loginButton").addEventListener('click', login);
 async function login() {
     const values = {
         username: document.getElementsByName("log_name")[0].value,
-        password: document.getElementsByName("log_pswd")[0].value,
+        password: hash(document.getElementsByName("log_pswd")[0].value),
     };
 
-    fetch('http://15.236.190.187:8000/api/login', {
+    fetch(local+'/api/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -70,15 +71,15 @@ async function register() {
     const clearPassword = document.getElementsByName("reg_pswd")[0].value;
     const confirmClearPassword = document.getElementsByName("reg_pswd2")[0].value;
 
-    if (clearPassword===confirmClearPassword) {
+    if (confirmPassword(clearPassword, confirmClearPassword)) {
         console.log("passwords are the same");
         const values = {
             username: document.getElementsByName("reg_name")[0].value,
-            password: clearPassword,
+            password: hash(clearPassword),
             email: document.getElementsByName("reg_email")[0].value,
         };
 
-        fetch('http://15.236.190.187:8000/api/register', {
+        fetch(local+'/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -101,24 +102,37 @@ async function register() {
         document.getElementById("errorMessage").style.display = "block";
 }
 
-
-/*function hash(data) {
-    const encoder = new TextEncoder();
-    console.log(crypto.subtle);
-    const message = encoder.encode(data);
-    return crypto.subtle.digest('SHA-256', message)
-        .then(hash => {
-            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
-        })
-        .catch(err => {
-            console.error(err);
-        });
+function hash(str) {
+    let key = 7;
+    let result = "";
+    for (let i = 0; i < str.length; i++) {
+        let char = str[i];
+        // If the letter is an upper case
+        if (char.match(/[A-Z]/i)) {
+            // Getting the ASCII code
+            let code = str.charCodeAt(i);
+            // Add the key to the ASCII code
+            code += key;
+            // Coming back to 'A' if we go over 'Z' (upper case)
+            if (char === char.toUpperCase() && code > 90) {
+                code = 64 + (code - 90);
+            }
+            // Coming back to 'a' if we go over 'z' (lower case)
+            else if (char === char.toLowerCase() && code > 122) {
+                code = 96 + (code - 122);
+            }
+            // Adding to the encrypted string
+            result += String.fromCharCode(code);
+        } else {
+            // If the character is not a letter, we let it as it is
+            result += char;
+        }
+    }
+    return result;
 }
 
-async function confirmPassword(clearPassword, confirmClearPassword) {
-    const hashedPassword = await hash(clearPassword);
-    const confirmedHashedPassword = await hash(confirmClearPassword);
+function confirmPassword(clearPassword, confirmClearPassword) {
+    const hashedPassword = hash(clearPassword);
+    const confirmedHashedPassword = hash(confirmClearPassword);
     return (hashedPassword === confirmedHashedPassword);
 }
-
- */

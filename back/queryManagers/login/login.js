@@ -1,5 +1,5 @@
 const mongoDBConnection = require('../mongoDBConnection');
-
+const hashFunction = require('./register')
 
 function manageRequest(request, response) {
         if (request.method==='POST') {
@@ -12,7 +12,7 @@ function manageRequest(request, response) {
                 let currentUser=JSON.parse(body);
                 let userInfo={
                     username: currentUser.username,
-                    password: currentUser.password,
+                    password: hashFunction.hash(currentUser.password),
                 }
                 mongoDBConnection.findInDataBase(response,userInfo,"log");
             });

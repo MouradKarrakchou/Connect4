@@ -2,6 +2,8 @@
 /**
  * change color after each player play
  */
+var local = "http://localhost:8000";
+var aws = "http://15.236.190.187:8000"
 export function colorMessage(counter) {
     let color = 'Red';
     if (counter % 2 === 0) color = 'Yellow';
@@ -143,7 +145,7 @@ export function loadGame(){
     };
     console.log(values);
 
-    fetch('http://15.236.190.187:8000/api/game/retrieveGameWithId', {
+    fetch(local+'/api/game/retrieveGameWithId', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -189,7 +191,7 @@ export function saveGame(gameType) {
         userToken:token
     };
     console.log(tab)
-    fetch('http://15.236.190.187:8000/api/game', {
+    fetch(local+'/api/game', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
