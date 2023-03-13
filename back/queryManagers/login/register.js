@@ -21,7 +21,7 @@ function manageRequest(request, response) {
         request.on('end', function () {
             const values = JSON.parse(body);
             const valueToInsert={username:values.username,
-                password:values.password,
+                password:hash(values.password),
                 email:values.email,
                 token:generate_token(32),}
             const valueToCheck={username:values.username,
@@ -36,4 +36,17 @@ function manageRequest(request, response) {
     }
 }
 
+function hash(data) {
+    const encoder = new TextEncoder();
+    const message = encoder.encode(data);
+    return crypto.subtle.digest('SHA-256', message)
+        .then(hash => {
+            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
 exports.manage = manageRequest;
+exports.hash = hash;
