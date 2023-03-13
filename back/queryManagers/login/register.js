@@ -1,4 +1,5 @@
 const mongoDBConnection = require('../mongoDBConnection');
+const crypto = require("crypto");
 
 function generate_token(length){
     //edit the token allowed characters
@@ -37,15 +38,9 @@ function manageRequest(request, response) {
 }
 
 function hash(data) {
-    const encoder = new TextEncoder();
-    const message = encoder.encode(data);
-    return crypto.subtle.digest('SHA-256', message)
-        .then(hash => {
-            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
-        })
-        .catch(err => {
-            console.error(err);
-        });
+    const hash = crypto.createHash('sha256');
+    hash.update(data);
+    return hash.digest('hex')
 }
 
 exports.manage = manageRequest;
