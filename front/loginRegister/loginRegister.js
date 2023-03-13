@@ -39,7 +39,7 @@ document.getElementById("loginButton").addEventListener('click', login);
 async function login() {
     const values = {
         username: document.getElementsByName("log_name")[0].value,
-        password: await hash(document.getElementsByName("log_pswd")[0].value),
+        password: hash(document.getElementsByName("log_pswd")[0].value),
     };
 
     fetch('http://15.236.190.187:8000/api/login', {
