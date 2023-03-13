@@ -1,7 +1,13 @@
 import {toTab} from "../games/gameManagement.js";
 var local = "http://localhost:8000";
 var aws = "http://15.236.190.187:8000"
+var socket = io();
+
 let gameSaved=document.getElementById("gameSaved");
+socket.on('connect',function(roomName){
+    document.cookie = "currentMultiGame=" + roomName + ";path=/";
+});
+
 let token
 
 window.addEventListener('load', function () {
@@ -18,7 +24,7 @@ function getAllGames(){
         token: token,
     };
 
-    fetch(local+'/api/game/retrieveGames', {
+    fetch('http://15.236.190.187:8000/api/game/retrieveGames', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -106,6 +112,14 @@ function findToken(){
         }
     }
 }
+
+function findGame(){
+    findToken();
+    socket.emit('searchGame',JSON.stringify({
+        socket:token}));
+}
+
+
 
 
 function retrieveGame(gameTypeAndTab) {
