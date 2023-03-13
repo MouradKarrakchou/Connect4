@@ -1,6 +1,11 @@
 import {toTab} from "../games/gameManagement.js";
+var socket = io();
 
 let gameSaved=document.getElementById("gameSaved");
+socket.on('connect',function(roomName){
+    document.cookie = "currentMultiGame=" + roomName + ";path=/";
+});
+
 let token
 
 window.addEventListener('load', function () {
@@ -105,6 +110,14 @@ function findToken(){
         }
     }
 }
+
+function findGame(){
+    findToken();
+    socket.emit('searchGame',JSON.stringify({
+        socket:token}));
+}
+
+
 
 
 function retrieveGame(gameTypeAndTab) {

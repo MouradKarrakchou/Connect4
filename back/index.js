@@ -38,6 +38,7 @@ server.listen(8000);
 const { Server } = require("socket.io");
 const {MongoClient} = require("mongodb");
 const io = new Server(server);
+let playerInSearch=null;
 
 io.on('connection',socket => {
     socket.on('joinRoom', (roomName) => {
@@ -60,5 +61,10 @@ io.on('connection',socket => {
     socket.on('initAdv',(initState) => {
         let gameState = JSON.parse(initState);
         aiAdvancedQuery.setup(gameState.player);
+    });
+    socket.on('searchGame',(info)=>{
+        let token = JSON.parse(info).token;
+        if (playerInSearch==null) playerInSearch=token;
+        socket.on(waitInRoom)
     });
 })
