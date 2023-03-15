@@ -4,7 +4,7 @@ const http = require('http')
 const fileQuery = require('./queryManagers/front.js')
 const apiQuery = require('./queryManagers/api.js')
 const aiQuery = require('./logic/ai.js')
-const aiAdvancedQuery = require('./logic/simpleMC.js')
+const aiAdvancedQuery = require('./logic/aiMC.js')
 
 
 /* The http module contains a createServer function, which takes one argument, which is the function that
