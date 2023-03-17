@@ -61,7 +61,7 @@ function addGamesSavedHtml(tabOfGames){
         var dropdown = document.querySelector('.dropdown');
         var newItem = document.createElement('div');
         let typeOfGame='local/local_game.html';
-        if (tabOfGames[i].gameType==='bot') typeOfGame='bot/bot_game.html';
+        if (tabOfGames[i].gameType==='easy') typeOfGame='easy/bot_game.html';
         let adress = '../games/'+typeOfGame+'?id=' + tabOfGames[i]._id;
         newItem.classList.add('item');
         const trashIcon = document.createElement('i');
@@ -125,7 +125,7 @@ function findGame(){
 function retrieveGame(gameTypeAndTab) {
     let path = "";
     if(gameTypeAndTab.gameType === "local") path = "../games/local/local_game.html";
-    else if(gameTypeAndTab.gameType === "bot") path = "../games/bot/bot_game.html";
+    else if(gameTypeAndTab.gameType === "easy") path = "../games/easy/bot_game.html";
 
     const values = {
         token: 12,

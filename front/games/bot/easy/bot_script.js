@@ -1,4 +1,4 @@
-import {colorMessage, checkWin, printIllegalMove, removeIllegalMove, toTab, loadGame,saveGame,findToken} from "../gameManagement.js"
+import {colorMessage, checkWin, printIllegalMove, removeIllegalMove, toTab, loadGame,saveGame,findToken} from "../../gameManagement.js"
 
 var roomName;
 let gameOver = false;
@@ -10,7 +10,7 @@ let counter = 0;
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", function(event){play(event)});
-    document.getElementById("saveButton").addEventListener("click",function(){saveGame("bot")});
+    document.getElementById("saveButton").addEventListener("click",function(){saveGame("easy")});
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('id')!=null) {
         roomName=  findToken()+urlParams.get('id');
@@ -33,38 +33,24 @@ function init() {
             colorMessage(counter);
         }
     })
-    if (Math.round(Math.random())===0)
-    {socket.emit('initAdv',JSON.stringify({
-        id:roomName,
-        player:1}));
-    socket.emit('playAdv',JSON.stringify({
-        id:roomName,
-        pos:undefined}));}
-    else {
-        socket.emit('initAdv',JSON.stringify({
-            id:roomName,
-            player:2}));
-    }
-
 }
 
 document.getElementById("logout").addEventListener('click', logout);
 function logout() {
     document.cookie = "token=" + undefined + ";path=/";
     document.cookie = "username=" + undefined + ";path=/";
-    window.location.href = "../../loginRegister/loginRegister.html";
+    window.location.href = "../../../loginRegister/loginRegister.html";
 }
 
 function play(event) {
     let id = event.target.id;
     let tab = id.split(" ");
     if(!isMoveIllegal(tab)) {
-        let pos=startplay(tab,false);
+        startplay(tab,false);
         colorMessage(counter);
-        if (pos!=null)
-        socket.emit('playAdv',JSON.stringify({
+        socket.emit('play',JSON.stringify({
             id:roomName,
-            pos:pos}));
+            board:toTab()}));
         counter++;
     }
 }
@@ -82,8 +68,7 @@ function startplay(tab){
     let id = column + " " + line;
 
     if (document.getElementById(id).style.backgroundColor !== "")
-    {printIllegalMove();
-        return}
+        return printIllegalMove();
 
     while (line >=0 && document.getElementById(id).style.backgroundColor === "") {
         line--;
@@ -108,7 +93,7 @@ function startplay(tab){
         document.getElementById("reset-button").addEventListener("click", resetGame);
         gameOver = true;
     }
-    return ([column,line]);
+
 
 }
 
@@ -123,10 +108,6 @@ function resetGame() {
     counter = 0;
     document.getElementById("message").innerText = "";
     document.getElementById("reset-button").style.display = "none";
-    socket.emit('initAdv',JSON.stringify({
-        id:roomName,
-        player:2}));
-
 }
 
 function isMoveIllegal(tab){
