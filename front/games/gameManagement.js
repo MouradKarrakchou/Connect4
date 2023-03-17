@@ -211,6 +211,10 @@ export function saveGame(gameType) {
     document.getElementById("backToHome").addEventListener('click', function () {window.location.href = "../../home/home.html"});
 }
 
+export function surrender() {
+
+}
+
 export function isMoveIllegal(event){
     let id = event.target.id;
     let tab = id.split(" ");
