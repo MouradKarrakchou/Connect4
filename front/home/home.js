@@ -2,12 +2,20 @@ import {toTab} from "../games/gameManagement.js";
 var local = "http://localhost:8000";
 var aws = "http://15.236.190.187:8000"
 var socket = io();
+var popupwindow;
 socket.on('matchFound', (matchID) => {
     window.location.href = '../games/multiplayer/multiplayer.html';
     document.cookie = "matchID="+matchID+";path=/";
+    popupwindow.close();
+
 });
 socket.on('inQueue', (roomName) => {
     console.log("inQueue");
+     popupwindow = window.open('searching_game.html', 'popup', 'width=500,height=400,scrollbars=no,resizable=no');
+    if(!popupwindow || popupwindow.closed || typeof popupwindow.closed=='undefined') {
+        alert('Please disable your popup blocker and click the "Play" button again.');
+    }
+
 });
 let gameSaved=document.getElementById("gameSaved");
 

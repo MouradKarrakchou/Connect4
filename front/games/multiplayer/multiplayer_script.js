@@ -1,14 +1,31 @@
-import {colorMessage, checkWin, removeIllegalMove, loadGame, surrender, isMoveIllegal} from "../gameManagement.js"
+import {
+    checkWin,
+    removeIllegalMove,
+    loadGame,
+    surrender,
+    isMoveIllegal
+} from "../gameManagement.js"
 
 let counter = 0;
 let gameOver = false;
 var socket = io();
-
+let playfirst;
+socket.on('firstPlayerInit', (matchID) => {
+    playfirst=true;
+    colorMessage(counter);
+});
+socket.on('secondPlayerInit', (matchID) => {
+    playfirst=false;
+    colorMessage(counter);
+});
 document.addEventListener('DOMContentLoaded', init);
 
 window.addEventListener('load', function () {
     var urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('id')!=null) loadGame();}
+    if (urlParams.get('id')!=null) loadGame();
+    console.log({room:findInCookie("matchID="),token:findInCookie("token=")});
+    socket.emit('initMulti',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token=")}));
+}
 )
 
 document.getElementById("logout").addEventListener('click', logout);
@@ -90,4 +107,22 @@ function resetGame() {
     counter = 0;
     document.getElementById("message").innerText = "";
     document.getElementById("reset-button").style.display = "none";
+}
+//in format : "token="
+function findInCookie(str){
+    let cookies = document.cookie.split(';');
+    console.log(cookies);
+    for (let i = 0; i < cookies.length; i++) {
+        if (cookies[i].trim().startsWith(str)) {
+            return(cookies[i].trim().substring(str.length, cookies[i].trim().length));
+        }
+    }
+}
+function colorMessage(counter) {
+    let color = 'Red';
+    if (counter % 2 === 0) color = 'Yellow';
+    document.getElementById("body").style.backgroundColor = color;
+
+    if (playfirst === (counter%2===0)) document.getElementById("player").innerText = "Your turn to play"
+    else document.getElementById("player").innerText = "Opponent turn to play"
 }
