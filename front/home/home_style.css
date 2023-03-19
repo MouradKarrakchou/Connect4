@@ -47,10 +47,6 @@ fa-solid fa-user-group, fa-solid fa-earth-europe, fa-solid fa-robot {
     width: 100px;
 }
 
-fa-solid fa-earth-europe {
-    padding-right: 25px;
-}
-
 .gameLaunch {
     display: flex;
     margin: 20px;
