@@ -7,6 +7,7 @@ import {
 
 let counter = 0;
 let gameOver = false;
+let itsMyTurn;
 var socket = io();
 let playfirst;
 socket.on('firstPlayerInit', (matchID) => {
@@ -17,13 +18,33 @@ socket.on('secondPlayerInit', (matchID) => {
     playfirst=false;
     colorMessage(counter);
 });
+socket.on('win', () => {
+    console.log("C EST LA GAME");
+    document.getElementById("message").innerText =" You won! :)";
+    document.getElementById("reset-button").style.display = "block";
+    document.getElementById("reset-button").addEventListener("click", resetGame);
+    gameOver = true;
+});
+socket.on('lose', () => {
+    console.log("FF");
+    document.getElementById("message").innerText = " You lost... :( ";
+    document.getElementById("reset-button").style.display = "block";
+    document.getElementById("reset-button").addEventListener("click", resetGame);
+    gameOver = true;
+});
+socket.on('tie', () => {
+    console.log("Draw!");
+    document.getElementById("message").innerText = "Draw!";
+    document.getElementById("reset-button").style.display = "block";
+    document.getElementById("reset-button").addEventListener("click", resetGame);
+    gameOver = true;
+});
 document.addEventListener('DOMContentLoaded', init);
 
 window.addEventListener('load', function () {
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('id')!=null) loadGame();
     console.log({room:findInCookie("matchID="),token:findInCookie("token=")});
-    socket.emit('initMulti',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token=")}));
 }
 )
 
@@ -36,15 +57,14 @@ function logout() {
 
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
+    socket.emit('initMulti',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token=")}));
     document.getElementById("grid").addEventListener("click", play);
     document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);});
     document.getElementById("surrenderButton").addEventListener("click",function(){surrender()});
     socket.on('doMoveMulti',function(pos){
-        if(!isMoveIllegal(JSON.parse(pos))) {
             startplay(JSON.parse(pos));
             counter++;
             colorMessage(counter);
-        }
     })
 }
 
@@ -87,22 +107,8 @@ function startplay(tab){
     line++;
     id = column + " " + line;
     document.getElementById(id).style.backgroundColor = color;
-    if (counter === 41) {
-        console.log("Draw!");
-        document.getElementById("message").innerText = "Draw!";
-        document.getElementById("reset-button").style.display = "block";
-        document.getElementById("reset-button").addEventListener("click", resetGame);
-        gameOver = true;
-    }
-    if (checkWin() === true) {
-        console.log(color + " player wins!");
-        document.getElementById("message").innerText = color + " player wins!";
-        document.getElementById("reset-button").style.display = "block";
-        document.getElementById("reset-button").addEventListener("click", resetGame);
-        gameOver = true;
-    }
-    return ([column,line]);
 
+    return ([column,line]);
 }
 
 function resetGame() {
@@ -154,8 +160,14 @@ function colorMessage(counter) {
     let color = 'Red';
     if (counter % 2 === 0) color = 'Yellow';
     document.getElementById("body").style.backgroundColor = color;
-    if (playfirst === (counter%2===0)) document.getElementById("player").innerText = "Your turn to play"
-    else document.getElementById("player").innerText = "Opponent turn to play"
+    if (playfirst === (counter%2===0)) {
+        document.getElementById("player").innerText = "Your turn to play";
+        itsMyTurn=true;
+    }
+    else {
+        document.getElementById("player").innerText = "Opponent turn to play";
+        itsMyTurn=false;
+    }
 }
 // récupère le bouton "salut !" et ajoute un événement "click"
 document.getElementById("btn-salut").addEventListener("click", function() {
@@ -196,7 +208,7 @@ function isMoveIllegal(tab){
     let line = 5;
 
     let id = column + " " + line;
-    if (document.getElementById(id).style.backgroundColor !== "") {
+    if (document.getElementById(id).style.backgroundColor !== "" || !itsMyTurn) {
         printIllegalMove();
         return true;
     }
