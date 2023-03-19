@@ -122,4 +122,9 @@ function checkDraw(board) {
     return true;
 }
 
+function checkIllegalMove(board, column) {
+    console("Illegal Move in Backend: " + (board[column][5] !== 0));
+    return board[column][5] !== 0;
+}
+
 exports.manage = manageRequest;
