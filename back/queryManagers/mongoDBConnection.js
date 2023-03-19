@@ -1,3 +1,4 @@
+
 const MongoClient = require('mongodb').MongoClient;
 
 const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
@@ -23,7 +24,6 @@ async function findInDataBase(response,currentUser,collectionName) {
         await client.close();
     }
 }
-
 
 async function createInDataBase(response,valueToFind,collectionName,verifValue) {
     try {
@@ -71,6 +71,30 @@ async function findEverythingInDataBase(response,valueToFind,collectionName){
     }
 }
 
+//TODO check if the friend request is saved
+async function friendRequest(response, requestFrom, valueToInsert) {
+    const collectionName = "log";
+    try {
+        await client.connect();
+        console.log('Connected to MongoDB');
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+        console.log("request from: " + requestFrom);
+        const item = await collection.findOne(requestFrom);
+        console.log(item);
+
+        await collection.updateOne({token: requestFrom}, { $set: valueToInsert})
+
+    } catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    } finally {
+        await client.close();
+    }
+}
+
 exports.findInDataBase = findInDataBase;
-exports.createInDataBase= createInDataBase;
-exports.findEverythingInDataBase= findEverythingInDataBase;
+exports.createInDataBase = createInDataBase;
+exports.findEverythingInDataBase = findEverythingInDataBase;
+exports.friendRequest = friendRequest;

@@ -94,7 +94,6 @@ function addGamesSavedHtml(tabOfGames){
     }
 }
 
-
 function initialise(){
     token=findToken()
     const tab = {
@@ -167,4 +166,28 @@ function logout() {
     document.cookie = "token=" + undefined + ";path=/";
     document.cookie = "username=" + undefined + ";path=/";
     window.location.href = "../loginRegister/loginRegister.html";
+}
+
+
+
+//ADD FRIEND
+document.getElementById('friend').addEventListener('click', addFriend)
+
+function addFriend() {
+    findToken()
+    const values = {
+        from: token,
+        friend: "Alice" //TODO use search bar from the html file
+    }
+    fetch(address + '/api/friend/addFriend', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .catch(error => {
+            console.error(error);
+        });
 }

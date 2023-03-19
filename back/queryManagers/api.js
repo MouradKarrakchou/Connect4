@@ -1,6 +1,7 @@
 const apiLogin = require('./login/login.js')
 const apiRegister = require('./login/register.js')
 const apiGame = require('./game/game.js')
+const apiFriend = require('./friendRequest/friendRequest.js')
 
 // Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
 function manageRequest(request, response) {
@@ -17,6 +18,10 @@ function manageRequest(request, response) {
     }
     else if (filePath[2] === "game") {
         apiGame.manage(request, response);
+        // If it doesn't start by /api, then it's a request for a file.
+    }
+    else if (filePath[2] === "friendRequest") {
+        apiFriend.manage(request, response);
         // If it doesn't start by /api, then it's a request for a file.
     }
     else {
