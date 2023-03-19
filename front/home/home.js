@@ -3,7 +3,10 @@ var local = "http://localhost:8000";
 var aws = "http://15.236.190.187:8000"
 var socket = io();
 socket.on('matchFound', (matchID) => {
-    console.log(matchID);
+    window.location.href = '../games/online/searching_game.html';
+});
+socket.on('inQueue', (roomName) => {
+    console.log(roomName);
 });
 let gameSaved=document.getElementById("gameSaved");
 
@@ -11,7 +14,7 @@ let token;
 
 window.addEventListener('load', function () {
     getAllGames();
-    findGame();
+    document.getElementById("b").addEventListener('click', findGame);
     }
 )
 
@@ -115,7 +118,7 @@ function findToken(){
 
 function findGame(){
     findToken();
-    let roomName=  findToken()+Math.floor(Math.random() * 100000000000000000);
+    let roomName=  token+Math.floor(Math.random() * 100000000000000000);
     socket.emit('searchMultiGame',JSON.stringify({
         room:roomName,token:token}));
     document.cookie = "room="+roomName+";path=/";

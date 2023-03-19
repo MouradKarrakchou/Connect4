@@ -64,14 +64,18 @@ io.on('connection',socket => {
     });
 
     socket.on('searchMultiGame', (playerReq) => {
+        console.log("at the beginning"+roomInSearch);
         let player=JSON.parse(playerReq);
         let roomName=player.room;
         socket.join(roomName);
-        io.to(roomName).emit('inQueue', roomName);
+        io.to(roomName).emit('inQueue', "firstPlayerJoinedTheQueue");
+        console.log("Thats the player token:"+playerReq.token);
         if (roomInSearch==null){
             roomInSearch=player.room;
+            console.log("afterIncrementing"+roomInSearch);
         }
         else {
+            io.to(roomInSearch.room).emit('inQueue', "secondPlayerJoinedTheQueue");
             let matchID=getRandomNumber(0,100000000000);
             const roomInfo = {
                 player1: roomInSearch,
@@ -82,6 +86,8 @@ io.on('connection',socket => {
             io.to(roomName).emit('matchFound',matchID);
             roomInSearch=null;
         }
+        console.log("at the end"+roomInSearch);
+
     })
 })
 
