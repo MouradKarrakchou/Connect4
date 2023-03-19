@@ -1,6 +1,10 @@
 import {toTab} from "../games/gameManagement.js";
-var local = "http://localhost:8000";
-var aws = "http://15.236.190.187:8000"
+
+//To switch between local and aws, just change the address variable
+const local = "http://localhost:8000";
+const aws = "http://15.236.190.187:8000"
+const address = local;
+
 var socket = io();
 var popupwindow;
 socket.on('matchFound', (matchID) => {
@@ -36,7 +40,7 @@ function getAllGames(){
         token: token,
     };
 
-    fetch(local+`/api/game/deleteGame`, {
+    fetch(address + `/api/game/deleteGame`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -55,7 +59,7 @@ function getAllGames(){
 }
 function deleteSavedGame(){
     findToken();
-    fetch(local+`/api/game/deleteGame`, {
+    fetch(address + `/api/game/deleteGame`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -98,7 +102,7 @@ function initialise(){
         tab: toTab()
     };
     console.log(tab)
-    fetch(local+'/api/game', {
+    fetch(address + '/api/game', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -141,7 +145,7 @@ function retrieveGame(gameTypeAndTab) {
         token: 12,
     };
 
-    fetch(local+'/api/game', {
+    fetch(address + '/api/game', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

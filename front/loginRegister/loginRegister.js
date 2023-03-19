@@ -1,7 +1,11 @@
 console.log(document.cookie)
 import {findToken, findUsername} from "../games/gameManagement.js"
-var local = "http://localhost:8000";
-var aws = "http://15.236.190.187:8000"
+
+//To switch between local and aws, just change the address variable
+const local = "http://localhost:8000";
+const aws = "http://15.236.190.187:8000"
+const address = local;
+
 window.addEventListener("load", function () {
     if(findToken() !== "undefined" && findToken()!==undefined && findUsername() !== "undefined") {
         document.getElementById("usernameToContinueWith").innerHTML = findUsername();
@@ -43,7 +47,7 @@ async function login() {
         password: hash(document.getElementsByName("log_pswd")[0].value),
     };
 
-    fetch(local+'/api/login', {
+    fetch(address +'/api/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -79,7 +83,7 @@ async function register() {
             email: document.getElementsByName("reg_email")[0].value,
         };
 
-        fetch(local+'/api/register', {
+        fetch(address + '/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
