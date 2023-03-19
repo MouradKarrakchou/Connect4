@@ -212,7 +212,10 @@ export function saveGame(gameType) {
 }
 
 export function surrender() {
-
+    document.getElementById("surrenderedGameMessage").style.display = "block";
+    document.getElementById("noSurrenderKeepPlaying").addEventListener('click', function () {document.getElementById("surrenderedGameMessage").style.display = "none";});
+    //TODO surrender in the function before returning home
+    document.getElementById("SurrenderBackToHome").addEventListener('click', function () {window.location.href = "../../home/home.html"});
 }
 
 export function isMoveIllegal(event){

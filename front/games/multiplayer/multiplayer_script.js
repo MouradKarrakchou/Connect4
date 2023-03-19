@@ -21,7 +21,7 @@ function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", play);
     document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);});
-    document.getElementById("surrenderButton").addEventListener("click",function(){surrender("local")});
+    document.getElementById("surrenderButton").addEventListener("click",function(){surrender()});
 }
 
 function play(event){
