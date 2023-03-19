@@ -5,7 +5,7 @@
 //To switch between local and aws, just change the address variable
 const local = "http://localhost:8000";
 const aws = "http://15.236.190.187:8000";
-const address = local;
+const address = aws;
 
 
 export function colorMessage(counter) {
