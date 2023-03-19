@@ -37,9 +37,9 @@ server.listen(8000);
 
 const { Server } = require("socket.io");
 const {MongoClient} = require("mongodb");
-const {findToken} = require("../front/games/gameManagement");
+//const {findToken} = require("../front/games/gameManagement");
 const io = new Server(server);
-let nextRoomName=  findToken()+Math.floor(Math.random() * 100000000000000000);
+//let nextRoomName=  findToken()+Math.floor(Math.random() * 100000000000000000);
 let playerInSearch=null;
 
 io.on('connection',socket => {
@@ -75,7 +75,7 @@ io.on('connection',socket => {
         }
         else{
             socket.join(currentRoom);
-            io.to(nextRoomName).emit('goToRoom', currentRoom);
+            //io.to(nextRoomName).emit('goToRoom', currentRoom);
         }
     });
 })
