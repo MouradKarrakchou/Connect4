@@ -18,11 +18,13 @@
     font-size: 48px;
     font-weight: bold;
     margin-bottom: 10px;
+    position: relative;
 }
 
 .loading {
     text-align: center;
     position: relative;
+
 }
 
 .loader {
@@ -30,8 +32,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     background-image: url('https://previews.123rf.com/images/redlinevector/redlinevector1608/redlinevector160802093/61198068-bataille-ic%C3%B4ne-simple-illustration-vectorielle-de-deux-%C3%A9p%C3%A9es-crois%C3%A9es.jpg');
     background-size: contain;
     background-repeat: no-repeat;
