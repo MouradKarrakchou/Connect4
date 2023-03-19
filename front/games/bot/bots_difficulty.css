@@ -1,20 +1,39 @@
 .difficulties {
+    margin-top: 12%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
-.difficulties button {
+.easy {
+    display: flex;
+    margin-right: 20%;
+}
+
+.medium{
+    margin-right: 0;
+}
+
+.easy, .medium {
+    display: inline-block;
+    align-items: center;
+}
+
+
+.button {
     background-color: #4CAF50;
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 40px 150px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 10px 20px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.difficulties button:hover {
+.button:hover {
     background-color: #3e8e41;
 }
