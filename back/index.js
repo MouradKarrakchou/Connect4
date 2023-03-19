@@ -5,6 +5,7 @@ const fileQuery = require('./queryManagers/front.js')
 const apiQuery = require('./queryManagers/api.js')
 const aiQuery = require('./logic/ai.js')
 const aiAdvancedQuery = require('./logic/aiMC.js')
+const gameManagementQuery= require('./queryManagers/game/gameManagement')
 
 
 /* The http module contains a createServer function, which takes one argument, which is the function that
@@ -38,8 +39,6 @@ server.listen(8000);
 const { Server } = require("socket.io");
 const {MongoClient} = require("mongodb");
 const io = new Server(server);
-let roomInSearch=null;
-const mapGames= new Map();
 
 io.on('connection',socket => {
     socket.on('joinRoom', (roomName) => {
@@ -63,61 +62,6 @@ io.on('connection',socket => {
         aiAdvancedQuery.setup(gameState.player);
     });
 
-    socket.on('searchMultiGame', (playerReq) => {
-        console.log("at the beginning"+roomInSearch);
-        let player=JSON.parse(playerReq);
-        let roomName=player.room;
-        socket.join(roomName);
-        io.to(roomName).emit('inQueue', "firstPlayerJoinedTheQueue");
-        console.log("Thats the player token:"+playerReq.token);
-        if (roomInSearch==null){
-            roomInSearch=player;
-            console.log("afterIncrementing"+roomInSearch);
-        }
-        else {
-            console.log("THE ROOM : "+roomInSearch.room);
-            io.to(roomInSearch.room).emit('inQueue', "secondPlayerJoinedTheQueue");
-            let matchID=getRandomNumber(0,100000000000)+'';
-            const roomInfo = {
-                player1: {
-                    room:roomInSearch.room,
-                    token:roomInSearch.token,
-                    ready:false
-                },
-                player2: {
-                    room:player.room,
-                    token:player.token,
-                    ready:false
-                }
-            };
-            mapGames.set(matchID,roomInfo);
-            io.to(roomInSearch.room).emit('matchFound',matchID);
-            io.to(roomName).emit('matchFound',matchID);
-            roomInSearch=null;
-        }
-        console.log("at the end"+roomInSearch);
-    })
-
-    socket.on('initMulti', (playerReq) => {
-        let request=JSON.parse(playerReq);
-        let gameInfo=mapGames.get(request.matchID);
-        console.log("INFO OF THE GAME "+gameInfo.player1);
-        console.log("INFO OF THE GAME "+gameInfo.player2);
-
-        if (request.token===gameInfo.player1.token){
-            socket.join(gameInfo.player1.room);
-            io.to(gameInfo.player1.room).emit('firstPlayerInit',request.token);
-        }
-        else if(request.token===gameInfo.player2.token){
-            socket.join(gameInfo.player2.room);
-            io.to(gameInfo.player2.room).emit('secondPlayerInit',request.token);
-        }
-
-    })
-
 })
+gameManagementQuery.setUpSockets(io);
 
-function getRandomNumber(min, max) {
-    // Calculate a random number between min and max, inclusive
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
