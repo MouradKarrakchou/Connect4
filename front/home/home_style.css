@@ -42,9 +42,13 @@ h4{
     height: 400px;
 }
 
-fa-solid fa-user-group {
+fa-solid fa-user-group, fa-solid fa-earth-europe, fa-solid fa-robot {
     height: 100px;
     width: 100px;
+}
+
+fa-solid fa-earth-europe {
+    padding-right: 25px;
 }
 
 .gameLaunch {
@@ -53,12 +57,12 @@ fa-solid fa-user-group {
     justify-content: flex-start;
 }
 
-.buttonLaunch {
+.buttonLaunch, .onlineButton, .botButton {
     margin: auto;
     background-color: #4CAF50;
     border: none;
     color: white;
-    padding: 40px 100px;
+    padding: 40px 150px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -66,26 +70,8 @@ fa-solid fa-user-group {
     cursor: pointer;
 }
 
-div i {
+div i, icon {
     margin: auto;
-}
-
-fa-solid fa-robot {
-    height: 100px;
-    width: 100px;
-}
-
-.botButton {
-    margin: auto;
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 40px 100px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
 }
 
 .resumeButton{
