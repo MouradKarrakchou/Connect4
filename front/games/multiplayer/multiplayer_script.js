@@ -107,6 +107,29 @@ function resetGame() {
     counter = 0;
     document.getElementById("message").innerText = "";
     document.getElementById("reset-button").style.display = "none";
+
+    const chatForm = document.querySelector('#chat-form');
+    const chatInput = document.querySelector('#chat-input');
+    const chatMessages = document.querySelector('#chat-messages');
+
+// Ajouter un événement pour envoyer un message
+    chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const message = chatInput.value.trim();
+        if (message !== '') {
+            appendMessage(message, 'me');
+            // Envoyer le message au serveur (si nécessaire)
+            chatInput.value = '';
+        }
+    });
+
+// Fonction pour ajouter un message à la bulle de discussion
+    function appendMessage(message, className) {
+        const newMessage = document.createElement('div');
+        newMessage.innerText = message;
+        newMessage.classList.add('message', className);
+        chatMessages.appendChild(newMessage);
+    }
 }
 //in format : "token="
 function findInCookie(str){
@@ -126,3 +149,37 @@ function colorMessage(counter) {
     if (playfirst === (counter%2===0)) document.getElementById("player").innerText = "Your turn to play"
     else document.getElementById("player").innerText = "Opponent turn to play"
 }
+// récupère le bouton "salut !" et ajoute un événement "click"
+document.getElementById("btn-salut").addEventListener("click", function() {
+    var chatbox = document.getElementById("chat-messages");
+    // crée un nouvel élément div
+    var message = document.createElement("div");
+    // ajoute la classe "user-message" à l'élément pour le style
+    message.classList.add("user-message");
+    // ajoute le message "salut !" dans le texte de l'élément
+    message.innerText = "Salut !";
+    // ajoute l'élément à la zone de chat
+    chatbox.appendChild(message);
+});
+document.getElementById("btn-cv").addEventListener("click", function() {
+    var chatbox = document.getElementById("chat-messages");
+    // crée un nouvel élément div
+    var message = document.createElement("div");
+    // ajoute la classe "user-message" à l'élément pour le style
+    message.classList.add("user-message");
+    // ajoute le message "salut !" dans le texte de l'élément
+    message.innerText = "Comment ça va  ?";
+    // ajoute l'élément à la zone de chat
+    chatbox.appendChild(message);
+});
+document.getElementById("btn-pret").addEventListener("click", function() {
+    var chatbox = document.getElementById("chat-messages");
+    // crée un nouvel élément div
+    var message = document.createElement("div");
+    // ajoute la classe "user-message" à l'élément pour le style
+    message.classList.add("user-message");
+    // ajoute le message "salut !" dans le texte de l'élément
+    message.innerText = "Je suis prêt !";
+    // ajoute l'élément à la zone de chat
+    chatbox.appendChild(message);
+});
