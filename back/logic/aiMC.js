@@ -182,7 +182,7 @@ function isTie(board) {
     return true;
 }
 
-function isWin(board, a, line,column) {
+function isWin(board, line,column) {
     const player = board[column][line];
     let count = 1;
     let j = line;

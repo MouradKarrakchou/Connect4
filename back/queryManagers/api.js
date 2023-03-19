@@ -1,6 +1,7 @@
 const apiLogin = require('./login/login.js')
 const apiRegister = require('./login/register.js')
 const apiGame = require('./game/game.js')
+
 // Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
 function manageRequest(request, response) {
     let filePath = request.url.split("/").filter(function(elem) {
