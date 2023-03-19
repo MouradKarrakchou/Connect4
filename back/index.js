@@ -37,7 +37,9 @@ server.listen(8000);
 
 const { Server } = require("socket.io");
 const {MongoClient} = require("mongodb");
+const {findToken} = require("../front/games/gameManagement");
 const io = new Server(server);
+let nextRoomName=  findToken()+Math.floor(Math.random() * 100000000000000000);
 let playerInSearch=null;
 
 io.on('connection',socket => {
@@ -62,9 +64,18 @@ io.on('connection',socket => {
         let gameState = JSON.parse(initState);
         aiAdvancedQuery.setup(gameState.player);
     });
+
     socket.on('searchGame',(info)=>{
         let token = JSON.parse(info).token;
-        if (playerInSearch==null) playerInSearch=token;
-        socket.on(waitInRoom)
+        let currentRoom= JSON.parse(info).token;
+        if (playerInSearch==null) {
+            playerInSearch=token;
+            socket.join(currentRoom);
+            io.to(currentRoom).emit('goToRoom', currentRoom);
+        }
+        else{
+            socket.join(currentRoom);
+            io.to(nextRoomName).emit('goToRoom', currentRoom);
+        }
     });
 })

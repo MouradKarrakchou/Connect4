@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2&display=swap');
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.loading {
+    text-align: center;
+    position: relative;
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background-image: url('https://previews.123rf.com/images/redlinevector/redlinevector1608/redlinevector160802093/61198068-bataille-ic%C3%B4ne-simple-illustration-vectorielle-de-deux-%C3%A9p%C3%A9es-crois%C3%A9es.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.loader:not(.loading-text) {
+    animation: spin 1s linear infinite;
+}
+
+
+
+.loading-text {
+    font-family: 'Baloo 2', cursive;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    padding-top: 300px;
+    display: inline-block;
+}
+
+.loading-text:after {
+    content: "";
+    animation: dots 1s infinite;
+}
+
+@keyframes dots {
+    0% {
+        content: "";
+    }
+    33% {
+        content: ".";
+    }
+    66% {
+        content: "..";
+    }
+    100% {
+        content: "...";
+    }
+}

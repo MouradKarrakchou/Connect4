@@ -3,7 +3,8 @@
  * change color after each player play
  */
 var local = "http://localhost:8000";
-var aws = "http://15.236.190.187:8000"
+var aws = "http://15.236.190.187:8000";
+
 export function colorMessage(counter) {
     let color = 'Red';
     if (counter % 2 === 0) color = 'Yellow';
