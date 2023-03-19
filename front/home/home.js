@@ -3,7 +3,7 @@ import {toTab} from "../games/gameManagement.js";
 //To switch between local and aws, just change the address variable
 const local = "http://localhost:8000";
 const aws = "http://15.236.190.187:8000"
-const address = aws;
+const address = local;
 
 var socket = io();
 var popupwindow;

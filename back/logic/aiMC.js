@@ -43,19 +43,11 @@ function nextMove(lastMove) {
     if (!playFirst)
         board[lastMove[0]][lastMove[1]] = -1;
     playFirst = false;
-    let firstValue=monteCarlo(board, 1, start,75);
-    let promise1=new Promise((resolve, reject) => {
-        setTimeout(resolve, 98-(performance.now()-start), firstValue);
-    });
-    return Promise.race([monteCarlo(board, 1, start,92),promise1]);
+    return monteCarlo(board, 1, start,1000);;
 }
 
 async function TestNextMove(lastMove) {
-    const promise1 = new Promise((resolve, reject) => {
-        setTimeout(resolve, 100, 'TOO SLOW');
-    });
-    let value = await Promise.race([promise1, nextMove(lastMove)]);
-    return value;
+    return(nextMove(lastMove));
 }
 
 function getLegalMoves(board) {
@@ -139,6 +131,7 @@ function monteCarlo(board, player, start,time) {
                 moveWinsInMC[move] += result === player ? 1 : result === 0 ? 0.5 : 0;
                 simulationsInMC++;
                 if (performance.now() - start >= time) {
+                    console.log(moveWinsInMC);
                     let c = moveWinsInMC.indexOf(Math.max(...moveWinsInMC));
                     if(Math.max(...moveWinsInMC) === 0){
                         c = legalMovesInMC[0];
