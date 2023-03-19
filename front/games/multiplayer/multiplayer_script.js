@@ -2,6 +2,7 @@ import {colorMessage, checkWin, removeIllegalMove, loadGame, surrender, isMoveIl
 
 let counter = 0;
 let gameOver = false;
+var socket = io();
 
 document.addEventListener('DOMContentLoaded', init);
 

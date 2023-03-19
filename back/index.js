@@ -71,10 +71,11 @@ io.on('connection',socket => {
         io.to(roomName).emit('inQueue', "firstPlayerJoinedTheQueue");
         console.log("Thats the player token:"+playerReq.token);
         if (roomInSearch==null){
-            roomInSearch=player.room;
+            roomInSearch=player;
             console.log("afterIncrementing"+roomInSearch);
         }
         else {
+            console.log("THE ROOM : "+roomInSearch.room);
             io.to(roomInSearch.room).emit('inQueue', "secondPlayerJoinedTheQueue");
             let matchID=getRandomNumber(0,100000000000);
             const roomInfo = {

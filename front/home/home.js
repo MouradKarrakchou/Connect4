@@ -3,10 +3,11 @@ var local = "http://localhost:8000";
 var aws = "http://15.236.190.187:8000"
 var socket = io();
 socket.on('matchFound', (matchID) => {
-    window.location.href = '../games/online/searching_game.html';
+    window.location.href = '../games/multiplayer/multiplayer.html';
+    document.cookie = "matchID="+matchID+";path=/";
 });
 socket.on('inQueue', (roomName) => {
-    console.log(roomName);
+    console.log("inQueue");
 });
 let gameSaved=document.getElementById("gameSaved");
 
@@ -121,7 +122,6 @@ function findGame(){
     let roomName=  token+Math.floor(Math.random() * 100000000000000000);
     socket.emit('searchMultiGame',JSON.stringify({
         room:roomName,token:token}));
-    document.cookie = "room="+roomName+";path=/";
 }
 
 function retrieveGame(gameTypeAndTab) {
