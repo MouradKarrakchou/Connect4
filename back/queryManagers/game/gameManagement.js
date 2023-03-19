@@ -49,6 +49,17 @@ function setUpSockets(io){
                 io.to(gameInfo.player2.room).emit('secondPlayerInit',request.token);
             }
         })
+        socket.on('chat', (playerReq) => {
+            let request=JSON.parse(playerReq);
+            let gameInfo=mapGames.get(request.matchID);
+
+            if (request.token===gameInfo.player1.token){
+                io.to(gameInfo.player2.room).emit('message',request.chat);
+            }
+            else if(request.token===gameInfo.player2.token){
+                io.to(gameInfo.player1.room).emit('message',request.chat);
+            }
+        })
 
         socket.on('playMulti', (playerReq) => {
             let request=JSON.parse(playerReq);

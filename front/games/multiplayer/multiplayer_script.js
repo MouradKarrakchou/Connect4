@@ -39,6 +39,9 @@ socket.on('tie', () => {
     document.getElementById("reset-button").addEventListener("click", resetGame);
     gameOver = true;
 });
+socket.on('message', (message) => {
+    writeInChat("Opponent: "+message);
+})
 document.addEventListener('DOMContentLoaded', init);
 
 window.addEventListener('load', function () {
@@ -171,38 +174,28 @@ function colorMessage(counter) {
 }
 // récupère le bouton "salut !" et ajoute un événement "click"
 document.getElementById("btn-salut").addEventListener("click", function() {
-    var chatbox = document.getElementById("chat-messages");
-    // crée un nouvel élément div
-    var message = document.createElement("div");
-    // ajoute la classe "user-message" à l'élément pour le style
-    message.classList.add("user-message");
-    // ajoute le message "salut !" dans le texte de l'élément
-    message.innerText = "Salut !";
-    // ajoute l'élément à la zone de chat
-    chatbox.appendChild(message);
+    writeInChat("Me: Hello !");
+    socket.emit('chat',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token="),chat:"Hello !"}));
 });
 document.getElementById("btn-cv").addEventListener("click", function() {
-    var chatbox = document.getElementById("chat-messages");
-    // crée un nouvel élément div
-    var message = document.createElement("div");
-    // ajoute la classe "user-message" à l'élément pour le style
-    message.classList.add("user-message");
-    // ajoute le message "salut !" dans le texte de l'élément
-    message.innerText = "Comment ça va  ?";
-    // ajoute l'élément à la zone de chat
-    chatbox.appendChild(message);
+    writeInChat("Me: How are you ?");
+    socket.emit('chat',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token="),chat:"How are you ?"}));
 });
 document.getElementById("btn-pret").addEventListener("click", function() {
+    writeInChat("Moi: I'm ready !");
+    socket.emit('chat',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token="),chat:"I'm ready !"}));
+});
+function writeInChat(str){
     var chatbox = document.getElementById("chat-messages");
     // crée un nouvel élément div
     var message = document.createElement("div");
     // ajoute la classe "user-message" à l'élément pour le style
     message.classList.add("user-message");
     // ajoute le message "salut !" dans le texte de l'élément
-    message.innerText = "Je suis prêt !";
+    message.innerText = str;
     // ajoute l'élément à la zone de chat
     chatbox.appendChild(message);
-});
+}
 function isMoveIllegal(tab){
     let column = tab[0];
     let line = 5;
