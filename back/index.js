@@ -37,14 +37,12 @@ server.listen(8000);
 
 const { Server } = require("socket.io");
 const {MongoClient} = require("mongodb");
-//const {findToken} = require("../front/games/gameManagement");
 const io = new Server(server);
-//let nextRoomName=  findToken()+Math.floor(Math.random() * 100000000000000000);
-let playerInSearch=null;
+let roomInSearch=null;
+const mapGames= new Map();
 
 io.on('connection',socket => {
     socket.on('joinRoom', (roomName) => {
-        console.log(roomName);
         socket.join(roomName);
         io.to(roomName).emit('updateRoom', roomName);
     });
@@ -65,17 +63,29 @@ io.on('connection',socket => {
         aiAdvancedQuery.setup(gameState.player);
     });
 
-    socket.on('searchGame',(info)=>{
-        let token = JSON.parse(info).token;
-        let currentRoom= JSON.parse(info).token;
-        if (playerInSearch==null) {
-            playerInSearch=token;
-            socket.join(currentRoom);
-            io.to(currentRoom).emit('goToRoom', currentRoom);
+    socket.on('searchMultiGame', (playerReq) => {
+        let player=JSON.parse(playerReq);
+        let roomName=player.room;
+        socket.join(roomName);
+        io.to(roomName).emit('inQueue', roomName);
+        if (roomInSearch==null){
+            roomInSearch=player.room;
         }
-        else{
-            socket.join(currentRoom);
-            //io.to(nextRoomName).emit('goToRoom', currentRoom);
+        else {
+            let matchID=getRandomNumber(0,100000000000);
+            const roomInfo = {
+                player1: roomInSearch,
+                player2: player
+            };
+            mapGames.set(matchID,roomInfo);
+            io.to(roomInSearch.room).emit('matchFound',matchID);
+            io.to(roomName).emit('matchFound',matchID);
+            roomInSearch=null;
         }
-    });
+    })
 })
+
+function getRandomNumber(min, max) {
+    // Calculate a random number between min and max, inclusive
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
