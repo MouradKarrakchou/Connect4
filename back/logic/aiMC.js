@@ -43,6 +43,7 @@ function nextMove(lastMove) {
     if (!playFirst)
         board[lastMove[0]][lastMove[1]] = -1;
     playFirst = false;
+
     return monteCarlo(board, 1, start,1000);;
 }
 
@@ -79,7 +80,7 @@ function simulateGame(board, player) {
     while (true) {
         moveSim = getRandomMove(board);
         board = makeMove(board, currPlayerSim, moveSim);
-        if (isWin(board, currPlayerSim, findRaw(board,moveSim)-1, moveSim)) {
+        if (isWin(board, findRaw(board,moveSim)-1, moveSim)) {
             return currPlayerSim;
         }
         if (isTie(board)) {
@@ -118,7 +119,7 @@ function monteCarlo(board, player, start,time) {
                 iteration++;
                 const newBoard = makeMove(board, player, move);
                 let result;
-                if (isWin(newBoard, 1, findRaw(newBoard, move) - 1, move)) {
+                if (isWin(newBoard, findRaw(newBoard, move) - 1, move)) {
                     result = 1;
                     compt++;
                 }
@@ -137,8 +138,7 @@ function monteCarlo(board, player, start,time) {
                         c = legalMovesInMC[0];
                     }
                     let r = findRaw(board,c);
-                    if (time===92)
-                    {board[c][r] = 1;}
+                    board[c][r] = 1;
                     finalMove=[c, r];
                     notFinished=false;
                     break;
