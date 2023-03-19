@@ -2,16 +2,19 @@ import {toTab} from "../games/gameManagement.js";
 var local = "http://localhost:8000";
 var aws = "http://15.236.190.187:8000"
 var socket = io();
-
-let gameSaved=document.getElementById("gameSaved");
-socket.on('connect',function(roomName){
-    document.cookie = "currentMultiGame=" + roomName + ";path=/";
+socket.on('matchFound', (matchID) => {
+    window.location.href = '../games/online/searching_game.html';
 });
+socket.on('inQueue', (roomName) => {
+    console.log(roomName);
+});
+let gameSaved=document.getElementById("gameSaved");
 
-let token
+let token;
 
 window.addEventListener('load', function () {
     getAllGames();
+    document.getElementById("b").addEventListener('click', findGame);
     }
 )
 
@@ -24,7 +27,7 @@ function getAllGames(){
         token: token,
     };
 
-    fetch('http://15.236.190.187:8000/api/game/retrieveGames', {
+    fetch(local+`/api/game/deleteGame`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -115,12 +118,11 @@ function findToken(){
 
 function findGame(){
     findToken();
-    socket.emit('searchGame',JSON.stringify({
-        socket:token}));
+    let roomName=  token+Math.floor(Math.random() * 100000000000000000);
+    socket.emit('searchMultiGame',JSON.stringify({
+        room:roomName,token:token}));
+    document.cookie = "room="+roomName+";path=/";
 }
-
-
-
 
 function retrieveGame(gameTypeAndTab) {
     let path = "";
