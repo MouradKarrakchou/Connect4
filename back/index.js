@@ -101,8 +101,6 @@ io.on('connection',socket => {
     socket.on('initMulti', (playerReq) => {
         let request=JSON.parse(playerReq);
         let gameInfo=mapGames.get(request.matchID);
-        console.log("INFO OF THE GAME "+gameInfo.player1);
-        console.log("INFO OF THE GAME "+gameInfo.player2);
 
         if (request.token===gameInfo.player1.token){
             socket.join(gameInfo.player1.room);
@@ -112,7 +110,18 @@ io.on('connection',socket => {
             socket.join(gameInfo.player2.room);
             io.to(gameInfo.player2.room).emit('secondPlayerInit',request.token);
         }
-
+    })
+    socket.on('playMulti', (playerReq) => {
+        let request=JSON.parse(playerReq);
+        console.log(playerReq);
+        let gameInfo=mapGames.get(request.matchID);
+        console.log(mapGames);
+        if (request.token===gameInfo.player1.token){
+            io.to(gameInfo.player2.room).emit('doMoveMulti',JSON.stringify(request.pos));
+        }
+        else if(request.token===gameInfo.player2.token){
+            io.to(gameInfo.player1.room).emit('doMoveMulti',JSON.stringify(request.pos));
+        }
     })
 
 })
