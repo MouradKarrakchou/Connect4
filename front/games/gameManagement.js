@@ -1,9 +1,12 @@
-
 /**
  * change color after each player play
  */
-var local = "http://localhost:8000";
-var aws = "http://15.236.190.187:8000";
+
+//To switch between local and aws, just change the address variable
+const local = "http://localhost:8000";
+const aws = "http://15.236.190.187:8000";
+const address = local;
+
 
 export function colorMessage(counter) {
     let color = 'Red';
@@ -146,7 +149,7 @@ export function loadGame(){
     };
     console.log(values);
 
-    fetch(local+'/api/game/retrieveGameWithId', {
+    fetch(address + '/api/game/retrieveGameWithId', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -192,7 +195,7 @@ export function saveGame(gameType) {
         userToken:token
     };
     console.log(tab)
-    fetch(local+'/api/game', {
+    fetch(address + '/api/game', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
