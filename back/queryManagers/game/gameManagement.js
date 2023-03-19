@@ -122,9 +122,28 @@ function checkDraw(board) {
     return true;
 }
 
-function checkIllegalMove(board, column) {
-    console("Illegal Move in Backend: " + (board[column][5] !== 0));
+function checkIllegalMove(board, column, playerTurn) {
+    if (isColumnFull(board, column)) return true;
+    else if (hasPlayedTwice(board, playerTurn)) return true;
+    return false;
+}
+
+function isColumnFull(board, column) {
+    console.log("Illegal Move in Backend: " + (board[column][5] !== 0));
     return board[column][5] !== 0;
+}
+
+//player turn = 1 or -1
+function hasPlayedTwice(board, playerTurn) {
+    let sum = 0;
+    for (let column = 0; column < 7; column++) {
+        for (let line = 0; line < 6; line++) {
+            sum += board[column][line];
+        }
+    }
+
+    sum += playerTurn;
+    return sum !== 0;
 }
 
 exports.manage = manageRequest;
