@@ -2,8 +2,7 @@ import {
     checkWin,
     removeIllegalMove,
     loadGame,
-    surrender,
-    isMoveIllegal
+    surrender, printIllegalMove
 } from "../gameManagement.js"
 
 let counter = 0;
@@ -40,60 +39,70 @@ function init() {
     document.getElementById("grid").addEventListener("click", play);
     document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);});
     document.getElementById("surrenderButton").addEventListener("click",function(){surrender()});
+    socket.on('doMoveMulti',function(pos){
+        if(!isMoveIllegal(JSON.parse(pos))) {
+            startplay(JSON.parse(pos));
+            counter++;
+            colorMessage(counter);
+        }
+    })
 }
 
-function play(event){
-    if (gameOver || isMoveIllegal(event)) return
-    gameOver = !startPlay(event);
-    counter++;
+function play(event) {
+    let id = event.target.id;
+    let tab = id.split(" ");
+    if(!isMoveIllegal(tab)) {
+        let pos=startplay(tab,false);
+        colorMessage(counter);
+        if (pos!=null)
+            socket.emit('playMulti',JSON.stringify(
+                {matchID:findInCookie("matchID="),token:findInCookie("token="),pos:pos}
+            ));
+        counter++;
+    }
 }
 
-/**
- * return false if the game is finished and true is the person still plays
- * @param event
- * @returns {boolean|void}
- */
-function startPlay(event) {
+function startplay(tab){
     removeIllegalMove();
-    console.log(document.cookie.toString())
+
+    if (gameOver) return;
     let color = 'red';
     if (counter % 2 === 0) color = 'yellow';
 
-    let id = event.target.id;
-    let tab = id.split(" ");
     let column = tab[0];
     let line = 5;
 
-    id = column + " " + line;
+    let id = column + " " + line;
 
-
+    if (document.getElementById(id).style.backgroundColor !== "")
+    {printIllegalMove();
+        return}
 
     while (line >=0 && document.getElementById(id).style.backgroundColor === "") {
         line--;
         id = column + " " + line;
     }
+    console.log(counter);
 
     line++;
     id = column + " " + line;
-    console.log(id);
     document.getElementById(id).style.backgroundColor = color;
     if (counter === 41) {
         console.log("Draw!");
         document.getElementById("message").innerText = "Draw!";
         document.getElementById("reset-button").style.display = "block";
         document.getElementById("reset-button").addEventListener("click", resetGame);
-        return false;
+        gameOver = true;
     }
     if (checkWin() === true) {
         console.log(color + " player wins!");
         document.getElementById("message").innerText = color + " player wins!";
         document.getElementById("reset-button").style.display = "block";
         document.getElementById("reset-button").addEventListener("click", resetGame);
-        return false;
+        gameOver = true;
     }
+    return ([column,line]);
 
-
-    return true;
 }
 
 function resetGame() {
@@ -145,7 +154,6 @@ function colorMessage(counter) {
     let color = 'Red';
     if (counter % 2 === 0) color = 'Yellow';
     document.getElementById("body").style.backgroundColor = color;
-
     if (playfirst === (counter%2===0)) document.getElementById("player").innerText = "Your turn to play"
     else document.getElementById("player").innerText = "Opponent turn to play"
 }
@@ -183,3 +191,14 @@ document.getElementById("btn-pret").addEventListener("click", function() {
     // ajoute l'élément à la zone de chat
     chatbox.appendChild(message);
 });
+function isMoveIllegal(tab){
+    let column = tab[0];
+    let line = 5;
+
+    let id = column + " " + line;
+    if (document.getElementById(id).style.backgroundColor !== "") {
+        printIllegalMove();
+        return true;
+    }
+    return false;
+}
