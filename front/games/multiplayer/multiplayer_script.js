@@ -2,7 +2,7 @@ import {
     checkWin,
     removeIllegalMove,
     loadGame,
-    surrender, printIllegalMove
+    surrender, printIllegalMove, findToken
 } from "../gameManagement.js"
 
 let counter = 0;
@@ -10,6 +10,7 @@ let gameOver = false;
 let itsMyTurn;
 var socket = io();
 let playfirst;
+let mute = false;
 socket.on('firstPlayerInit', (matchID) => {
     playfirst=true;
     colorMessage(counter);
@@ -40,6 +41,7 @@ socket.on('tie', () => {
     gameOver = true;
 });
 socket.on('message', (message) => {
+    if (mute) return;
     writeInChat("Opponent: "+message);
 })
 document.addEventListener('DOMContentLoaded', init);
@@ -58,6 +60,7 @@ function logout() {
     window.location.href = "../../loginRegister/loginRegister.html";
 }
 
+
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
     socket.emit('initMulti',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token=")}));
@@ -70,6 +73,19 @@ function init() {
             colorMessage(counter);
     })
 }
+const muteButton = document.getElementById("mute-button");
+let isMuted = false;
+
+muteButton.addEventListener("click", () => {
+    isMuted = !isMuted;
+    if (isMuted) {
+        // Mettre la logique pour couper le son de votre chat ici.
+        muteButton.innerText = "Unmute";
+    } else {
+        // Mettre la logique pour réactiver le son de votre chat ici.
+        muteButton.innerText = "Mute";
+    }
+});
 
 function play(event) {
     let id = event.target.id;
@@ -148,6 +164,9 @@ function resetGame() {
         newMessage.classList.add('message', className);
         chatMessages.appendChild(newMessage);
     }
+
+
+
 }
 //in format : "token="
 function findInCookie(str){
@@ -177,25 +196,34 @@ document.getElementById("btn-salut").addEventListener("click", function() {
     writeInChat("Me: Hello !");
     socket.emit('chat',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token="),chat:"Hello !"}));
 });
-document.getElementById("btn-cv").addEventListener("click", function() {
-    writeInChat("Me: How are you ?");
-    socket.emit('chat',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token="),chat:"How are you ?"}));
-});
 document.getElementById("btn-pret").addEventListener("click", function() {
-    writeInChat("Moi: I'm ready !");
+    writeInChat("Me: I'm ready !");
     socket.emit('chat',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token="),chat:"I'm ready !"}));
 });
+document.getElementById("btn-wp").addEventListener("click", function() {
+    writeInChat("Me: Well Played !");
+    socket.emit('chat',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token="),chat:"Well Played !"}));
+});
+document.getElementById("btn-merci").addEventListener("click", function() {
+    writeInChat("Me: Thank You !");
+    socket.emit('chat',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token="),chat:"Thank You!"}));
+});
 function writeInChat(str){
-    var chatbox = document.getElementById("chat-messages");
-    // crée un nouvel élément div
-    var message = document.createElement("div");
-    // ajoute la classe "user-message" à l'élément pour le style
-    message.classList.add("user-message");
-    // ajoute le message "salut !" dans le texte de l'élément
-    message.innerText = str;
-    // ajoute l'élément à la zone de chat
-    chatbox.appendChild(message);
+    if(!isMuted) {
+        var chatbox = document.getElementById("chat-messages");
+        // crée un nouvel élément div
+        var message = document.createElement("div");
+        // ajoute la classe "user-message" à l'élément pour le style
+        message.classList.add("user-message");
+        // ajoute le message "salut !" dans le texte de l'élément
+        message.innerText = str;
+        // ajoute l'élément à la zone de chat
+        chatbox.appendChild(message);
+        // scroll vers le bas de la zone de chat
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
 }
+
 function isMoveIllegal(tab){
     let column = tab[0];
     let line = 5;
