@@ -10,7 +10,6 @@ let gameOver = false;
 let itsMyTurn;
 var socket = io();
 let playfirst;
-let mute = false;
 socket.on('firstPlayerInit', (matchID) => {
     playfirst=true;
     colorMessage(counter);
@@ -41,8 +40,9 @@ socket.on('tie', () => {
     gameOver = true;
 });
 socket.on('message', (message) => {
-    if (mute) return;
-    writeInChat("Opponent: "+message);
+    if (!isMuted) {
+        writeInChat("Opponent: " + message);
+    }
 })
 document.addEventListener('DOMContentLoaded', init);
 
@@ -202,6 +202,7 @@ document.getElementById("btn-pret").addEventListener("click", function() {
 });
 document.getElementById("btn-wp").addEventListener("click", function() {
     writeInChat("Me: Well Played !");
+
     socket.emit('chat',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token="),chat:"Well Played !"}));
 });
 document.getElementById("btn-merci").addEventListener("click", function() {
@@ -209,7 +210,6 @@ document.getElementById("btn-merci").addEventListener("click", function() {
     socket.emit('chat',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token="),chat:"Thank You!"}));
 });
 function writeInChat(str){
-    if(!isMuted) {
         var chatbox = document.getElementById("chat-messages");
         // crée un nouvel élément div
         var message = document.createElement("div");
@@ -221,7 +221,7 @@ function writeInChat(str){
         chatbox.appendChild(message);
         // scroll vers le bas de la zone de chat
         chatbox.scrollTop = chatbox.scrollHeight;
-    }
+
 }
 
 function isMoveIllegal(tab){
