@@ -4,7 +4,6 @@ import {toTab} from "../games/gameManagement.js";
 const local = "http://localhost:8000";
 const aws = "http://15.236.190.187:8000"
 const address = local;
-
 var socket = io();
 var popupwindow;
 socket.on('matchFound', (matchID) => {
