@@ -50,7 +50,7 @@ function getAllGames(){
         .then(response => response.json())
         .then(data => {
             //document.cookie = "token="+data.token+";path=/";
-            addGamesSavedHtml(data);
+            //addGamesSavedHtml(data);
             //window.location.href = '/games/local/local_game.html';
         })
         .catch(error => {
@@ -73,6 +73,20 @@ function deleteSavedGame(){
 
 function addGamesSavedHtml(tabOfGames){
     console.log(tabOfGames);
+    tabOfGames= [
+        {
+            gameType: 'easy',
+            _id:'2512'
+        },
+        {
+            gameType: 'easy',
+            _id:'2675'
+        },
+        {
+            gameType: 'easy',
+            _id:'2451'
+        }
+    ]
     for (let i = 0; i <tabOfGames.length ; i++) {
         var dropdown = document.querySelector('.dropdown');
         var newItem = document.createElement('div');

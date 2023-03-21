@@ -2,16 +2,26 @@ h1{
     text-align: center;
     color:red;
 }
+body{
+    background-color: #f6ffd2;
+}
 .top{
     display: flex;
     flex-direction: row;
 }
 .credentialBlock{
-    margin: auto;
     align-content: center;
     width: 40%;
     height: 400px;
-    border: 5px solid #333;
+    background-color: #fffbe3d1;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 500px;
+}
+#login{
+    background-color: rgba(150,144,133,0.53);
 }
 .login-text{
     width: 50%;
@@ -21,41 +31,123 @@ h1{
     cursor: pointer;
 }
 .signIn-text{
-    border-bottom: 5px solid #333;
-    border-left: 5px solid #333;
     width: 50%;
     text-align: center;
 }
 .signIn-text:hover{
     cursor: pointer;
 }
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
 
+.sign-in-container {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+}
 .body{
     margin-top: 40px;
+    margin-bottom: 20px;
     height: 200px;
 }
 
-.inp{
+.inp {
     display: block;
-    margin: 15px auto;
-    font-size: 20px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
 }
-.button{
-    display: block;
-    margin:auto;
-    color: rgb(104, 85, 224);
-    background-color: rgba(255, 255, 255, 1);
-    border: 1px solid rgba(104, 85, 224, 1);
-    font-size: 40px;
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
 }
 .button:hover{
     cursor: pointer;
 }
+#log {
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
 
 #reg{
     display: none;
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#retrieveSession a {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#usernameToContinueWith {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #f7f7f7;
+    color: #000;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 #usernameToContinueWith:hover{
     cursor: pointer;
+}
+@font-face {
+    font-family: Cubic;
+    src: url("./front/loginRegister/cubic.ttf") format('truetype');
+}
+#title {
+    font-family: Cubic, sans-serif;
+    font-size: 400%;
+    color: #2d3f51;
+    text-align: center;
+    margin-top: 10%;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+.shape{
+    z-index: -1;
+}
+.background .shape{
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%;
+}
+.shape:first-child{
+    background: linear-gradient(
+            #1845ad,
+            #23a2f6
+    );
+    left: 30%;
+    top: 20%;
+}
+.shape:last-child{
+    background: linear-gradient(
+            to right,
+            #ff512f,
+            #f09819
+    );
+    right: 30%;
+    bottom: 15%;
 }

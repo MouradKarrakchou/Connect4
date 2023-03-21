@@ -10,42 +10,64 @@
     <meta charset="UTF-8">
     <title>Connect4 - Home</title>
 </head>
-
-<body class="global">
-<div class="nav">
-    <a class="active">Home</a>
-    <a>Friends</a>
-    <a>Settings</a>
-    <a id="logout">Log out</a>
-</div>
-<h1 class="title">Connect 4</h1>
+<h1 class="title">Welcome to Connect4!</h1>
 <div class="home">
     <div class="menu">
+        <div class="gameLaunch" onclick="window.location.href='../games/local/local_game.html'">
+            <i class="fa-solid fa-user-group" style="font-size:100px;"></i>
+            <h1 class="onlineButton">Local game</h1>
+        </div>
+
+        <div class="gameLaunch" onclick="window.location.href='../games/local/local_game.html'">
+            <i class="fa-solid fa-earth-europe" style="font-size:100px;"></i>
+            <h1 class="buttonLaunch" id="b">Play online</h1>
+        </div>
+
+        <div class="gameLaunch" onclick="window.location.href = '../games/bot/bots_difficulty.html'">
+            <i class="fa-solid fa-robot" style="font-size:100px;"></i>
+            <h1 class="botButton">Play against AI</h1>
+        </div>
         <div class="gameLaunch">
             <i class="fa-solid fa-user-group" style="font-size:100px;"></i>
-            <button class="onlineButton" onclick="window.location.href = '../games/local/local_game.html'">Local game
-            </button>
-        </div>
-
-        <div class="gameLaunch">
-            <i class="fa-solid fa-earth-europe" style="font-size:100px;"></i>
-            <button class="buttonLaunch" id="b">Play online
-            </button>
-        </div>
-
-        <div class="gameLaunch">
-            <i class="fa-solid fa-robot" style="font-size:100px;"></i>
-            <button class="botButton" onclick="window.location.href = '../games/bot/bots_difficulty.html'">Play against AI
-            </button>
+            <h1 class="onlineButton">Friends</h1>
         </div>
     </div>
     <div class="littleMenu">
         <div class="gameSaved" id="gameSaved">
+            Your saved games:
             <div class="fas fa-trash-alt" id="trash"></div>
-            Games Saved
             <div class="dropdown">
+                <div class="item">
+                    <h4>Bot Easy</h4>
+                </div>
+                <div class="item">
+                    <h4>Bot Medium</h4>
+                </div>
+                <div class="item">
+                    <h4>Bot Hard</h4>
+                </div>
+                <div class="item">
+                    <h4>Personalized Name</h4>
+                </div>
+                <div class="item">
+                    <h4>Personalized Name</h4>
+                </div>
+                <div class="item">
+                    <h4>Personalized Name</h4>
+                </div>
+                <div class="item">
+                    <h4>Personalized Name</h4>
+                </div>
+                <div class="item">
+                    <h4>Personalized Name</h4>
+                </div>
+
             </div>
         </div>
+    </div>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
     </div>
 </div>
 </body>
