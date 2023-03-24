@@ -1,22 +1,22 @@
 import {toTab} from "../games/gameManagement.js";
-
+//TODO bind the header in bot diffculty
 //To switch between local and aws, just change the address variable
 const local = "http://localhost:8000";
 const aws = "http://15.236.190.187:8000"
 const address = local;
 
 var socket = io();
-var popupwindow;
+var popupWindow;
 socket.on('matchFound', (matchID) => {
     window.location.href = '../games/multiplayer/multiplayer.html';
     document.cookie = "matchID="+matchID+";path=/";
-    popupwindow.close();
+    popupWindow.close();
 
 });
 socket.on('inQueue', (roomName) => {
     console.log("inQueue");
-     popupwindow = window.open('searching_game.html', 'popup', 'width=500,height=400,scrollbars=no,resizable=no');
-    if(!popupwindow || popupwindow.closed || typeof popupwindow.closed=='undefined') {
+     popupWindow = window.open('searching_game.html', 'popup', 'width=500,height=400,scrollbars=no,resizable=no');
+    if(!popupWindow || popupWindow.closed || typeof popupWindow.closed=='undefined') {
         alert('Please disable your popup blocker and click the "Play" button again.');
     }
 
@@ -177,9 +177,9 @@ function addFriend() {
     findToken()
     const values = {
         from: token,
-        friend: "Alice" //TODO use search bar from the html file
+        friend: "alice" //TODO use search bar from the html file
     }
-    fetch(address + '/api/friend/addFriend', {
+    fetch(address + '/api/friendRequest', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

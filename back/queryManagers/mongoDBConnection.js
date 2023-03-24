@@ -71,19 +71,24 @@ async function findEverythingInDataBase(response,valueToFind,collectionName){
     }
 }
 
-//TODO check if the friend request is saved
-async function friendRequest(response, requestFrom, valueToInsert) {
+async function  friendRequest(response, requestFrom, valueToInsert) {
     const collectionName = "log";
     try {
         await client.connect();
-        console.log('Connected to MongoDB');
         const db = client.db("connect4");
         const collection = db.collection(collectionName);
-        console.log("request from: " + requestFrom);
-        const item = await collection.findOne(requestFrom);
-        console.log(item);
 
-        await collection.updateOne({token: requestFrom}, { $set: valueToInsert})
+        console.log("VALUE TO INSERT FRIEND: " + valueToInsert.friend)
+        const friendItem = await collection.findOne(valueToInsert.friend)
+        console.log("FRIEND ITEM: " + friendItem)
+        if (friendItem === null) {
+            //TODO send a message to the user to tell him that the friend does not exist
+        }
+
+        const item = await collection.findOne(requestFrom);
+        let map = item.friends;
+        map.set(valueToInsert.friend, "waiting");
+        await collection.updateOne({"token": requestFrom}, {$set: {friends: map}})
 
     } catch (err) {
         console.error('Token not found', err);
