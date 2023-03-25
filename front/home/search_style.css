@@ -1,11 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2&display=swap');
 
 .container {
+    position: absolute;
+    background-color: #ffffff;
+    margin: auto;
+    border: 3px solid #99a37f36;
+    left: 35%;
+    top: 30%;
+    width: 30%;
+    height: 40%;
+    padding: 30px 60px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
 .header {

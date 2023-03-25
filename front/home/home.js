@@ -14,11 +14,7 @@ socket.on('matchFound', (matchID) => {
 });
 socket.on('inQueue', (roomName) => {
     console.log("inQueue");
-     popupwindow = window.open('searching_game.html', 'popup', 'width=500,height=400,scrollbars=no,resizable=no');
-    if(!popupwindow || popupwindow.closed || typeof popupwindow.closed=='undefined') {
-        alert('Please disable your popup blocker and click the "Play" button again.');
-    }
-
+    document.getElementById("search").style.display = "block";
 });
 let gameSaved=document.getElementById("gameSaved");
 
@@ -27,6 +23,7 @@ let token;
 window.addEventListener('load', function () {
     getAllGames();
     document.getElementById("b").addEventListener('click', findGame);
+    document.getElementById("search").style.display = "none";
     }
 )
 
