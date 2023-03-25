@@ -11,13 +11,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=no">
 <body id="body">
 
-<div class="nav">
-    <a onclick="window.location.href = '../../home/home.html';">Home</a>
-    <a>Friends</a>
-    <a>Settings</a>
-    <a id="logout">Log out</a>
-</div>
-
 <div class="message" id="message"></div>
 <div id="playAgain"></div>
 <button id="reset-button" style="display:none" onclick="resetGame()">Play again</button>
@@ -26,76 +19,88 @@
 
 </div>
 
-<table>
-    <thead>
-    <tr>
-        <th colspan="7">Connect4</th>
-    </tr>
-    </thead>
-    <tbody id="grid">
-    <tr>
-        <td id="0 5"></td>
-        <td id="1 5"></td>
-        <td id="2 5"></td>
-        <td id="3 5"></td>
-        <td id="4 5"></td>
-        <td id="5 5"></td>
-        <td id="6 5"></td>
-    </tr>
+<div id="gameDisplay">
+    <div id="board">
+        <table>
+            <thead>
+            <tr>
+                <th colspan="7">Connect4</th>
+            </tr>
+            </thead>
+            <tbody id="grid">
+            <tr>
+                <td id="0 5"></td>
+                <td id="1 5"></td>
+                <td id="2 5"></td>
+                <td id="3 5"></td>
+                <td id="4 5"></td>
+                <td id="5 5"></td>
+                <td id="6 5"></td>
+            </tr>
 
-    <tr>
-        <td id="0 4"></td>
-        <td id="1 4"></td>
-        <td id="2 4"></td>
-        <td id="3 4"></td>
-        <td id="4 4"></td>
-        <td id="5 4"></td>
-        <td id="6 4"></td>
-    </tr>
+            <tr>
+                <td id="0 4"></td>
+                <td id="1 4"></td>
+                <td id="2 4"></td>
+                <td id="3 4"></td>
+                <td id="4 4"></td>
+                <td id="5 4"></td>
+                <td id="6 4"></td>
+            </tr>
 
-    <tr>
-        <td id="0 3"></td>
-        <td id="1 3"></td>
-        <td id="2 3"></td>
-        <td id="3 3"></td>
-        <td id="4 3"></td>
-        <td id="5 3"></td>
-        <td id="6 3"></td>
-    </tr>
+            <tr>
+                <td id="0 3"></td>
+                <td id="1 3"></td>
+                <td id="2 3"></td>
+                <td id="3 3"></td>
+                <td id="4 3"></td>
+                <td id="5 3"></td>
+                <td id="6 3"></td>
+            </tr>
 
-    <tr>
-        <td id="0 2"></td>
-        <td id="1 2"></td>
-        <td id="2 2"></td>
-        <td id="3 2"></td>
-        <td id="4 2"></td>
-        <td id="5 2"></td>
-        <td id="6 2"></td>
-    </tr>
+            <tr>
+                <td id="0 2"></td>
+                <td id="1 2"></td>
+                <td id="2 2"></td>
+                <td id="3 2"></td>
+                <td id="4 2"></td>
+                <td id="5 2"></td>
+                <td id="6 2"></td>
+            </tr>
 
-    <tr>
-        <td id="0 1"></td>
-        <td id="1 1"></td>
-        <td id="2 1"></td>
-        <td id="3 1"></td>
-        <td id="4 1"></td>
-        <td id="5 1"></td>
-        <td id="6 1"></td>
-    </tr>
+            <tr>
+                <td id="0 1"></td>
+                <td id="1 1"></td>
+                <td id="2 1"></td>
+                <td id="3 1"></td>
+                <td id="4 1"></td>
+                <td id="5 1"></td>
+                <td id="6 1"></td>
+            </tr>
 
-    <tr>
-        <td id="0 0"></td>
-        <td id="1 0"></td>
-        <td id="2 0"></td>
-        <td id="3 0"></td>
-        <td id="4 0"></td>
-        <td id="5 0"></td>
-        <td id="6 0"></td>
-    </tr>
-    </tbody>
-</table>
+            <tr>
+                <td id="0 0"></td>
+                <td id="1 0"></td>
+                <td id="2 0"></td>
+                <td id="3 0"></td>
+                <td id="4 0"></td>
+                <td id="5 0"></td>
+                <td id="6 0"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-<button id = "surrenderButton">Save</button>
+    <div class="menu">
+        <div class="gameLaunch" onclick="window.location.href='../../home/home.html'">
+            <h1 class="onlineButton">Home</h1>
+        </div>
+
+        <div class="gameLaunch" id="surrenderButton">
+            <h1 class="buttonLaunch">Surrender</h1>
+        </div>
+    </div>
+</div>
 
 <div id="surrenderedGameMessage" style="display:none">
     <div>Are you sure?</div>
@@ -109,11 +114,15 @@
     <div id="chat-messages">
         <!-- messages s'affichent ici -->
     </div>
+    <div id="mute-button-container">
+        <button id="mute-button">Mute</button>
+    </div>
     <form id="chat-form">
         <div id="chat-buttons">
-            <button type="button" id="btn-salut">Salut !</button>
-            <button type="button" id="btn-cv">Comment ça va ?</button>
-            <button type="button" id="btn-pret">Je suis prêt !</button>
+            <button type="button" id="btn-salut">Hello !</button>
+            <button type="button" id="btn-pret">I'm ready !</button>
+            <button type="button" id="btn-merci">Thank you !</button>
+            <button type="button" id="btn-wp">Well Played !</button>
         </div>
     </form>
 </div>

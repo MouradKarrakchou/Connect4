@@ -1,11 +1,11 @@
-import {colorMessage, checkWin, printIllegalMove, removeIllegalMove, toTab, loadGame,saveGame,findToken} from "../../gameManagement.js"
+import {checkWin, printIllegalMove, removeIllegalMove, toTab, loadGame,saveGame,findToken} from "../../gameManagement.js"
 
 var roomName;
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
 var socket = io();
 let counter = 0;
-
+let itsMyTurn;
 
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
@@ -27,11 +27,9 @@ function init() {
         console.log(roomName);
     });
     socket.on('doMove',function(pos){
-        if(!isMoveIllegal(JSON.parse(pos))) {
             startplay(JSON.parse(pos));
             counter++;
             colorMessage(counter);
-        }
     })
     if (Math.round(Math.random())===0)
     {socket.emit('initAdv',JSON.stringify({
@@ -39,11 +37,16 @@ function init() {
         player:1}));
     socket.emit('playAdv',JSON.stringify({
         id:roomName,
-        pos:undefined}));}
+        pos:undefined}));
+    itsMyTurn=false;
+        colorMessage(counter);}
     else {
         socket.emit('initAdv',JSON.stringify({
             id:roomName,
-            player:2}));
+            player:2
+        }));
+        itsMyTurn=true;
+        colorMessage(counter);
     }
 
 }
@@ -60,16 +63,17 @@ function play(event) {
     let tab = id.split(" ");
     if(!isMoveIllegal(tab)) {
         let pos=startplay(tab,false);
-        colorMessage(counter);
         if (pos!=null)
         socket.emit('playAdv',JSON.stringify({
             id:roomName,
             pos:pos}));
         counter++;
+        colorMessage(counter);
     }
 }
 
 function startplay(tab){
+    itsMyTurn=!itsMyTurn;
     removeIllegalMove();
 
     if (gameOver) return;
@@ -134,9 +138,19 @@ function isMoveIllegal(tab){
     let line = 5;
 
     let id = column + " " + line;
-    if (document.getElementById(id).style.backgroundColor !== "") {
+    if (document.getElementById(id).style.backgroundColor !== ""|| !itsMyTurn) {
         printIllegalMove();
         return true;
     }
     return false;
+}
+
+function colorMessage(counter) {
+    let color = 'Red';
+    if (counter % 2 === 0) color = 'Yellow';
+    document.getElementById("body").style.backgroundColor = color;
+    if (itsMyTurn)
+        document.getElementById("player").innerText = "Your turn to play";
+    else
+        document.getElementById("player").innerText = "Bot turn to play";
 }

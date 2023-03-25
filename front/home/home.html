@@ -2,6 +2,7 @@
 <html lang="en">
 
 <link href="/home/home_style.css" type="text/css" rel="stylesheet">
+<link href="/home/search_style.css" type="text/css" rel="stylesheet">
 <link href="/home/header_style.css" type="text/css" rel="stylesheet">
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 <script crossorigin="anonymous" src="https://kit.fontawesome.com/76ed084c57.js"></script>
@@ -10,44 +11,49 @@
     <meta charset="UTF-8">
     <title>Connect4 - Home</title>
 </head>
-
-<body class="global">
-<div class="nav">
-    <a class="active">Home</a>
-    <a>Friends</a>
-    <a>Settings</a>
-    <a id="logout">Log out</a>
-</div>
-<h1 class="title">Connect 4</h1>
+<h1 class="title">Welcome to Connect4!</h1>
 <div class="home">
     <div class="menu">
+        <div class="gameLaunch" onclick="window.location.href='../games/local/local_game.html'">
+            <i class="fa-solid fa-user-group" style="font-size:100px;"></i>
+            <h1 class="onlineButton">Local game</h1>
+        </div>
+
+        <div class="gameLaunch" id="b">
+            <i class="fa-solid fa-earth-europe" style="font-size:100px;"></i>
+            <h1 class="buttonLaunch">Play online</h1>
+        </div>
+
+        <div class="gameLaunch" onclick="window.location.href = '../games/bot/bots_difficulty.html'">
+            <i class="fa-solid fa-robot" style="font-size:100px;"></i>
+            <h1 class="botButton">Play against AI</h1>
+        </div>
         <div class="gameLaunch">
             <i class="fa-solid fa-user-group" style="font-size:100px;"></i>
-            <button class="onlineButton" onclick="window.location.href = '../games/local/local_game.html'">Local game
-            </button>
-        </div>
-
-        <div class="gameLaunch">
-            <i class="fa-solid fa-earth-europe" style="font-size:100px;"></i>
-            <button class="buttonLaunch">Play online
-            </button>
-        </div>
-
-        <div class="gameLaunch">
-            <i class="fa-solid fa-robot" style="font-size:100px;"></i>
-            <button class="botButton" onclick="window.location.href = '../games/bot/bots_difficulty.html'">Play against AI
-            </button>
+            <h1 class="onlineButton">Friends</h1>
         </div>
     </div>
     <div class="littleMenu">
         <div class="gameSaved" id="gameSaved">
+            Your saved games:
             <div class="fas fa-trash-alt" id="trash"></div>
-            Games Saved
             <div class="dropdown">
             </div>
         </div>
     </div>
-    <button id="b">CLIQUE MOI</button>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+</div>
+<div class="container" id="search">
+    <div class="header">
+        <h1>Recherche de partie</h1>
+    </div>
+    <div class="loading">
+        <img src="https://previews.123rf.com/images/redlinevector/redlinevector1608/redlinevector160802093/61198068-bataille-ic%C3%B4ne-simple-illustration-vectorielle-de-deux-%C3%A9p%C3%A9es-crois%C3%A9es.jpg" alt="Loader icon" class="loader">
+        <p class="loading-text">Recherche d'un adversaire en cours</p>
+    </div>
 </div>
 </body>
 

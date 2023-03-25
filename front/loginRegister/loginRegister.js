@@ -19,21 +19,17 @@ let buttonReg=document.getElementById("signIn")
 buttonReg.addEventListener("click",signIn_page)
 
 function signIn_page(){
-    buttonLog.style.borderBottom="5px solid #333";
-    buttonLog.style.borderRight="5px solid #333";
-    buttonReg.style.borderBottom="0px";
-    buttonReg.style.borderLeft="0px";
+    buttonLog.style.backgroundColor="#fffbe3d1";
+    buttonReg.style.backgroundColor="rgba(150,144,133,0.53)";
     document.getElementById("log").style.display="none";
-    document.getElementById("reg").style.display="inline";
+    document.getElementById("reg").style.display="block";
 }
 
 function login_page(){
-    buttonLog.style.borderBottom="0px";
-    buttonLog.style.borderRight="0px";
-    buttonReg.style.borderBottom="5px solid #333";
-    buttonReg.style.borderLeft="5px solid #333";
+    buttonReg.style.backgroundColor="#fffbe3d1";
+    buttonLog.style.backgroundColor="rgba(150,144,133,0.53)";
     document.getElementById("reg").style.display="none";
-    document.getElementById("log").style.display="inline";
+    document.getElementById("log").style.display="block";
 }
 
 document.getElementById("loginButton").addEventListener('click', login);

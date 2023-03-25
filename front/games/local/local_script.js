@@ -2,7 +2,9 @@ import {colorMessage, checkWin, printIllegalMove, removeIllegalMove, loadGame, s
 
 let counter = 0;
 let gameOver = false;
-
+const mapColor = new Map();
+mapColor.set('Yellow','#cee86bcc');
+mapColor.set('Red','#c92c2c9c');
 document.addEventListener('DOMContentLoaded', init);
 
 window.addEventListener('load', function () {

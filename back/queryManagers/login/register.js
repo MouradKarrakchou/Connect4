@@ -29,7 +29,7 @@ function manageRequest(request, response) {
                 request: []
             }
             const valueToCheck={username:values.username,
-                password:values.password,
+                password:hash(values.password),
                 }
             mongoDBConnection.createInDataBase(response,valueToInsert,"log",valueToCheck);
         });

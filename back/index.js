@@ -61,7 +61,6 @@ io.on('connection',socket => {
         let gameState = JSON.parse(initState);
         aiAdvancedQuery.setup(gameState.player);
     });
-
 })
 gameManagementQuery.setUpSockets(io);
 
