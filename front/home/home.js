@@ -1,4 +1,5 @@
 import {toTab} from "../games/gameManagement.js";
+import {findToken, token} from "../games/dataManager.js";
 //TODO bind the header in bot diffculty
 //To switch between local and aws, just change the address variable
 const local = "http://localhost:8000";
@@ -22,8 +23,6 @@ socket.on('inQueue', (roomName) => {
 
 });
 let gameSaved=document.getElementById("gameSaved");
-
-let token;
 
 window.addEventListener('load', function () {
     getAllGames();
@@ -117,17 +116,6 @@ function initialise(){
         });
 }
 
-function findToken(){
-    let cookies = document.cookie.split(';');
-    console.log(cookies);
-    for (let i = 0; i < cookies.length; i++) {
-        if (cookies[i].trim().startsWith("token=")) {
-            token=cookies[i].trim().substring("token=".length, cookies[i].trim().length);
-            break;
-        }
-    }
-}
-
 function findGame(){
     findToken();
     let roomName=  token+Math.floor(Math.random() * 100000000000000000);
@@ -166,29 +154,4 @@ function logout() {
     document.cookie = "token=" + undefined + ";path=/";
     document.cookie = "username=" + undefined + ";path=/";
     window.location.href = "../loginRegister/loginRegister.html";
-}
-
-
-
-//ADD FRIEND
-document.getElementById('friend').addEventListener('click', addFriend)
-
-function addFriend() {
-    findToken()
-    const values = {
-        from: token,
-        friend: "Kilian" //TODO use search bar from the html file
-    }
-    console.log(values.friend);
-    fetch(address + '/api/friendRequest', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values)
-    })
-        .then(response => response.json())
-        .catch(error => {
-            console.error(error);
-        });
 }
