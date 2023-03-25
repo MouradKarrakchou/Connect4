@@ -77,7 +77,6 @@ function addGamesSavedHtml(tabOfGames){
         let typeOfGame='local/local_game.html';
         if (tabOfGames[i].gameType==='easy') typeOfGame='easy/bot_game.html';
         let adress = '../games/'+typeOfGame+'?id=' + tabOfGames[i]._id;
-        newItem.classList.add('item');
         newItem.innerHTML = `<div class="item">
                         <h4>${tabOfGames[i].gameType}</h4>
                     </div>`;
