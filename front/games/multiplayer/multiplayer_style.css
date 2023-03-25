@@ -4,6 +4,10 @@ td {
     background: blue;
     margin:auto;
 }
+body{
+    zoom: 0.7;
+    overflow: hidden;
+}
 
 .player {
     margin: 2% auto;

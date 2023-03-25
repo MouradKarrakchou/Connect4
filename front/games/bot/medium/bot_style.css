@@ -5,6 +5,10 @@ td {
     margin-top: 2%;
     margin-left: 30%;
 }
+body{
+    zoom: 0.7;
+    overflow: hidden;
+}
 
 .player {
     margin: 2% auto;
