@@ -1,4 +1,4 @@
-import {findToken, token} from "../games/dataManager";
+import {findToken, token, address} from "../games/dataManager.js";
 
 document.addEventListener('DOMContentLoaded', init);
 
