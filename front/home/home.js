@@ -1,10 +1,6 @@
 import {toTab} from "../games/gameManagement.js";
-import {findToken, token} from "../games/dataManager.js";
+import {findToken, token, address} from "../games/dataManager.js";
 //TODO bind the header in bot diffculty
-//To switch between local and aws, just change the address variable
-const local = "http://localhost:8000";
-const aws = "http://15.236.190.187:8000"
-const address = local;
 
 var socket = io();
 var popupWindow;

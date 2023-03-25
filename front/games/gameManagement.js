@@ -2,11 +2,7 @@
  * change color after each player play
  */
 
-//To switch between local and aws, just change the address variable
-const local = "http://localhost:8000";
-const aws = "http://15.236.190.187:8000";
-const address = local;
-
+import {address} from "./dataManager.js";
 
 export function colorMessage(counter) {
     let color = 'Red';

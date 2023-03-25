@@ -1,10 +1,6 @@
 console.log(document.cookie)
 import {findToken, findUsername} from "../games/gameManagement.js"
-
-//To switch between local and aws, just change the address variable
-const local = "http://localhost:8000";
-const aws = "http://15.236.190.187:8000"
-const address = local;
+import {address} from "../games/dataManager.js";
 
 window.addEventListener("load", function () {
     if(findToken() !== "undefined" && findToken()!==undefined && findUsername() !== "undefined") {
