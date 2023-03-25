@@ -39,7 +39,7 @@ function getAllGames(){
         token: token,
     };
 
-    fetch(address + `/api/game/deleteGame`, {
+    fetch(address + `/api/game/retrieveGames`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ function getAllGames(){
         .then(response => response.json())
         .then(data => {
             //document.cookie = "token="+data.token+";path=/";
-            //addGamesSavedHtml(data);
+            addGamesSavedHtml(data);
             //window.location.href = '/games/local/local_game.html';
         })
         .catch(error => {
@@ -71,21 +71,6 @@ function deleteSavedGame(){
 }
 
 function addGamesSavedHtml(tabOfGames){
-    console.log(tabOfGames);
-    tabOfGames= [
-        {
-            gameType: 'easy',
-            _id:'2512'
-        },
-        {
-            gameType: 'easy',
-            _id:'2675'
-        },
-        {
-            gameType: 'easy',
-            _id:'2451'
-        }
-    ]
     for (let i = 0; i <tabOfGames.length ; i++) {
         var dropdown = document.querySelector('.dropdown');
         var newItem = document.createElement('div');
@@ -93,11 +78,9 @@ function addGamesSavedHtml(tabOfGames){
         if (tabOfGames[i].gameType==='easy') typeOfGame='easy/bot_game.html';
         let adress = '../games/'+typeOfGame+'?id=' + tabOfGames[i]._id;
         newItem.classList.add('item');
-        const trashIcon = document.createElement('i');
         newItem.innerHTML = `<div class="item">
-            <h4>${tabOfGames[i].gameType}</h4>
-            <button class="resumeButton" onclick="window.location.href = '${adress}'">Resume</button>
-        </div>`;
+                        <h4>${tabOfGames[i].gameType}</h4>
+                    </div>`;
         dropdown.appendChild(newItem);
         document.getElementById("trash").addEventListener('click', function () {
             deleteSavedGame(tabOfGames[i]._id);

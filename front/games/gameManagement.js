@@ -7,11 +7,14 @@ const local = "http://localhost:8000";
 const aws = "http://15.236.190.187:8000";
 const address = local;
 
+const mapColor = new Map();
+mapColor.set('Yellow','#cee86bcc');
+mapColor.set('Red','#c92c2c9c');
 
 export function colorMessage(counter) {
     let color = 'Red';
     if (counter % 2 === 0) color = 'Yellow';
-    document.getElementById("body").style.backgroundColor = color;
+    document.getElementById("body").style.backgroundColor = mapColor.get(color);
     document.getElementById("player").innerText = color + " turn to play"
 }
 
@@ -126,13 +129,13 @@ export function retrieveGameState(gameTab) {
             let id = j + " " + i;
             switch (gameTab[j][i]){
                 case(-1):
-                    document.getElementById(id).style.backgroundColor = "yellow";
+                    document.getElementById(id).style.backgroundColor = "#cee86bcc";
                     break;
                 case(0):
                     document.getElementById(id).style.backgroundColor = "";
                     break;
                 case(1):
-                    document.getElementById(id).style.backgroundColor = "red";
+                    document.getElementById(id).style.backgroundColor = "c92c2c9c";
                     break;
             }
         }

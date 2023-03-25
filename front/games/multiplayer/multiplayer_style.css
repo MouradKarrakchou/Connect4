@@ -2,8 +2,7 @@ table,
 td {
     border: 5px solid #333;
     background: blue;
-    margin-top: 2%;
-    margin-left: 30%;
+    margin:auto;
 }
 
 .player {
