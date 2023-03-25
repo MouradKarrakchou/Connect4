@@ -74,12 +74,13 @@ function addGamesSavedHtml(tabOfGames){
     for (let i = 0; i <tabOfGames.length ; i++) {
         var dropdown = document.querySelector('.dropdown');
         var newItem = document.createElement('div');
-        let typeOfGame='local/local_game.html';
-        if (tabOfGames[i].gameType==='easy') typeOfGame='easy/bot_game.html';
-        let adress = '../games/'+typeOfGame+'?id=' + tabOfGames[i]._id;
-        newItem.innerHTML = `<div class="item">
-                        <h4>${tabOfGames[i].gameType}</h4>
-                    </div>`;
+        let typeOfGame='/games/local/local_game.html';
+        if (tabOfGames[i].gameType==='easy') typeOfGame='/games/bot/easy/bot_game.html';
+        let address = '..'+typeOfGame+'?id=' + tabOfGames[i]._id;
+        newItem.innerHTML = `
+                            <div class="item" onclick="window.location.href='${address}'">
+                                <h4>${tabOfGames[i].gameType}</h4>
+                            </div>`;
         dropdown.appendChild(newItem);
         document.getElementById("trash").addEventListener('click', function () {
             deleteSavedGame(tabOfGames[i]._id);

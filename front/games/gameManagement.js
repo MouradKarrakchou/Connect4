@@ -129,13 +129,13 @@ export function retrieveGameState(gameTab) {
             let id = j + " " + i;
             switch (gameTab[j][i]){
                 case(-1):
-                    document.getElementById(id).style.backgroundColor = "#cee86bcc";
+                    document.getElementById(id).style.backgroundColor = "yellow";
                     break;
                 case(0):
                     document.getElementById(id).style.backgroundColor = "";
                     break;
                 case(1):
-                    document.getElementById(id).style.backgroundColor = "c92c2c9c";
+                    document.getElementById(id).style.backgroundColor = "red";
                     break;
             }
         }
