@@ -25,8 +25,9 @@ function manageRequest(request, response) {
                 password:hash(values.password),
                 email:values.email,
                 token:generate_token(32),
-                friends: new Map(),
-                request: []
+                friends: [],
+                requestSent: [],
+                requestReceived: []
             }
             const valueToCheck={username:values.username,
                 password:hash(values.password),
