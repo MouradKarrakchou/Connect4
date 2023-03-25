@@ -8,7 +8,7 @@
     left: 35%;
     top: 30%;
     width: 30%;
-    height: 40%;
+    height: 50%;
     padding: 30px 60px;
 
     display: flex;
@@ -37,7 +37,7 @@
 .loading {
     text-align: center;
     position: relative;
-
+    margin-top: 5%;
 }
 
 .loader {
