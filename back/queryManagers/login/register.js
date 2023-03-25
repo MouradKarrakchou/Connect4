@@ -26,7 +26,7 @@ function manageRequest(request, response) {
                 email:values.email,
                 token:generate_token(32),}
             const valueToCheck={username:values.username,
-                password:values.password,
+                password:hash(values.password),
                 }
             mongoDBConnection.createInDataBase(response,valueToInsert,"log",valueToCheck);
         });
