@@ -24,7 +24,9 @@ function manageRequest(request, response) {
             const valueToInsert={username:values.username,
                 password:hash(values.password),
                 email:values.email,
-                token:generate_token(32),}
+                token:generate_token(32),
+                friends: new Map()
+            }
             const valueToCheck={username:values.username,
                 password:values.password,
                 }

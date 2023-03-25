@@ -177,8 +177,9 @@ function addFriend() {
     findToken()
     const values = {
         from: token,
-        friend: "alice" //TODO use search bar from the html file
+        friend: "Benoit" //TODO use search bar from the html file
     }
+    console.log("HOME FRIEND VALUE: " + values.friend);
     fetch(address + '/api/friendRequest', {
         method: 'POST',
         headers: {

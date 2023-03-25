@@ -78,17 +78,15 @@ async function  friendRequest(response, requestFrom, valueToInsert) {
         const db = client.db("connect4");
         const collection = db.collection(collectionName);
 
-        console.log("VALUE TO INSERT FRIEND: " + valueToInsert.friend)
-        const friendItem = await collection.findOne(valueToInsert.friend)
-        console.log("FRIEND ITEM: " + friendItem)
+        const friendItem = await collection.findOne({username: valueToInsert.friend})
         if (friendItem === null) {
             //TODO send a message to the user to tell him that the friend does not exist
         }
 
-        const item = await collection.findOne(requestFrom);
+        const item = await collection.findOne({token: requestFrom.token});
         let map = item.friends;
-        map.set(valueToInsert.friend, "waiting");
-        await collection.updateOne({"token": requestFrom}, {$set: {friends: map}})
+        map[valueToInsert.friend] = "waiting";
+        await collection.updateOne({token: requestFrom.token}, {$set: {friends: map}})
 
     } catch (err) {
         console.error('Token not found', err);

@@ -11,6 +11,7 @@ function manageRequest(request, response) {
 
         request.on('end', function () {
             const values = JSON.parse(body);
+            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA: " + values.friend);
             const requestFrom = {
                 token: values.from
             };
