@@ -80,6 +80,8 @@ async function  friendRequest(response, requestFrom, valueToInsert) {
 
         // finding the friend to add
         const friendItem = await collection.findOne({username: valueToInsert});
+
+        // user not found security
         if (friendItem === null) {
             response.end(JSON.stringify({ status: 'User not found' }));
             return;
@@ -91,7 +93,7 @@ async function  friendRequest(response, requestFrom, valueToInsert) {
         let userFriends = user.friends;
         let userRequestReceived = user.requestReceived;
 
-        // security to avoid spam request or to add a friend the user already has
+        // security to avoid spam request or to add a friend the user already has or add oneself
         if (userRequest.includes(valueToInsert) || userFriends.includes(valueToInsert) || valueToInsert === user.username) {
             return;
         }
