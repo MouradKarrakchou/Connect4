@@ -42,6 +42,7 @@ body{
     cursor: pointer;
 }
 h4{
+
     font-size: 20px;
 }
 .item{
@@ -66,9 +67,23 @@ h4{
     padding: .5%;
 }
 
-fa-solid fa-user-group, fa-solid fa-earth-europe, fa-solid fa-robot {
+fa-solid fa-user-group, fa-solid fa-earth-europe, fa-solid fa-robot{
     height: 100px;
     width: 100px;
+}
+
+.profil{
+    background-color: #fffbe3d1;
+    border-top: 3px solid #99a37f36;
+    border-right: 3px solid #99a37f36;
+    border-bottom: 3px solid #99a37f36;
+    font-size: 75px;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+
+
 }
 
 .gameLaunch {
@@ -119,6 +134,7 @@ div i, icon {
 .shape{
     z-index: -2;
 }
+
 .background .shape{
     height: 200px;
     width: 200px;

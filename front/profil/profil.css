@@ -1,0 +1,10 @@
+html, body { height: 80%; width: 100%; margin: 0; }
+.title {
+    text-align: center;
+    font-size: 700%;
+}
+body{
+    background-color: #f6ffd2;
+    zoom: 0.5;
+    overflow: hidden;
+}
