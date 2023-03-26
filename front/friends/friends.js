@@ -22,7 +22,7 @@ function addFriend() {
         friend: friendQuery
     }
     console.log(values.friend);
-    fetch(address + '/api/friendRequest', {
+    fetch(address + '/api/friends/friendRequest', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -36,6 +36,46 @@ function addFriend() {
 
     console.log("Friend request sent to " + friendQuery + "!");
     document.getElementById("searchBar").value = "";
+}
+
+function getFriendList(){
+    findToken()
+    const values = {
+        token: token,
+    };
+
+    fetch(address + `/api/friends/retrieveFriendList`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .then(data => {
+            showFriendList(data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+function showFriendList(friendList) {
+    for (let i = 0; i < friendList.length; i++) {
+        let dropdown = document.querySelector('.dropdown');
+        let newItem = document.createElement('div');
+
+        newItem.innerHTML = `
+                            <div class="friend" >
+                                <h4>${friendList[i]}</h4>
+                            </div>`;
+
+        dropdown.appendChild(newItem);
+        document.getElementById("trash").addEventListener('click', function () {
+            //TODO deleteFriend(friendList[i]);
+            window.location.reload();
+        });
+    }
 }
 
 

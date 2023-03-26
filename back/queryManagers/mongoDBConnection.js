@@ -112,7 +112,33 @@ async function  friendRequest(response, requestFrom, valueToInsert) {
     }
 }
 
+async function retrieveFriendList(response, requestFrom) {
+    const collectionName = "log";
+    try {
+        // database connection
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+
+        // finding the user who does the request
+        const user = await collection.findOne({token: requestFrom});
+        let userFriends = user.friends;
+
+        // answer the data
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify(userFriends));
+
+    } catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    } finally {
+        await client.close();
+    }
+}
+
 exports.findInDataBase = findInDataBase;
 exports.createInDataBase = createInDataBase;
 exports.findEverythingInDataBase = findEverythingInDataBase;
 exports.friendRequest = friendRequest;
+exports.retrieveFriendList = retrieveFriendList;

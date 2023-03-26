@@ -11,13 +11,19 @@ function manageRequest(request, response) {
             body += data;
         });
 
-        if(filePath[3]==="friendRequest") {
+        if (filePath[3] === "friendRequest") {
             request.on('end', function () {
                 const values = JSON.parse(body);
                 mongoDBConnection.friendRequest(response, values.from, values.friend);
             });
         }
 
+        if (filePath[3] === "retrieveFriendList") {
+            request.on('end', function () {
+                const values = JSON.parse(body);
+                mongoDBConnection.retrieveFriendList(response, values.token);
+            });
+        }
 
     }
     else{
