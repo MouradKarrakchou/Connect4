@@ -27,8 +27,8 @@ function manageRequest(request, response) {
                 token:generate_token(32),
                 friends: [],
                 requestSent: [],
-                requestReceived: []
-            }
+                requestReceived: [],
+                elo: 1000,}
             const valueToCheck={username:values.username,
                 password:hash(values.password),
                 }
