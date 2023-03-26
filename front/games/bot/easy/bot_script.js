@@ -1,4 +1,4 @@
-import {colorMessage, checkWin, printIllegalMove, removeIllegalMove, toTab, loadGame,saveGame,findToken} from "../../gameManagement.js"
+import {colorMessage, checkWin, printIllegalMove, removeIllegalMove, toTab, loadGame,saveGame,findTokenReturned} from "../../gameManagement.js"
 
 var roomName;
 let gameOver = false;
@@ -13,11 +13,11 @@ function init() {
     document.getElementById("saveButton").addEventListener("click",function(){saveGame("easy")});
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('id')!=null) {
-        roomName=  findToken()+urlParams.get('id');
+        roomName=  findTokenReturned()+urlParams.get('id');
         loadGame();
     }
     else{
-        roomName=  findToken()+Math.floor(Math.random() * 100000000000000000);
+        roomName=  findTokenReturned()+Math.floor(Math.random() * 100000000000000000);
     }
     socket.on('connect',function(){
         socket.emit('joinRoom', roomName);

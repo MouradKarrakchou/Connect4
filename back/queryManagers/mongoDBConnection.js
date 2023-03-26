@@ -1,5 +1,3 @@
-const {findUsername} = require("../../front/games/gameManagement");
-
 const MongoClient = require('mongodb').MongoClient;
 
 const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';

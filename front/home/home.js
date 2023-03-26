@@ -1,5 +1,5 @@
-import {toTab} from "../games/gameManagement.js";
 import {findToken, token, address} from "../games/dataManager.js";
+import {toTab, findTokenReturned} from "../games/gameManagement.js";
 //TODO bind the header in bot diffculty
 
 var socket = io();
@@ -84,7 +84,7 @@ function addGamesSavedHtml(tabOfGames){
 }
 
 function initialise(){
-    token=findToken()
+    token=findTokenReturned()
     const tab = {
         gameType: "local",
         tab: toTab()

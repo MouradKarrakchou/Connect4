@@ -140,7 +140,7 @@ export function retrieveGameState(gameTab) {
 }
 
 export function loadGame(){
-    let token= findToken();
+    let token = findTokenReturned();
     var urlParams = new URLSearchParams(window.location.search);
 
     const values = {
@@ -177,7 +177,7 @@ function find(element){
     }
 }
 
-export function findToken() {
+export function findTokenReturned() {
     return find("token=");
 }
 
@@ -187,7 +187,7 @@ export function findUsername() {
 
 export function saveGame(gameType) {
     console.log("in saveGame")
-    let token=findToken();
+    let token = findTokenReturned();
     console.log(token);
     const tab = {
         gameType: gameType,
