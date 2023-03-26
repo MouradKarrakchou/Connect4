@@ -25,6 +25,13 @@ function manageRequest(request, response) {
             });
         }
 
+        if (filePath[3] === "removeFriend") {
+            request.on('end', function () {
+                const values = JSON.parse(body);
+                mongoDBConnection.removeFriend(response, values.token, values.friendToRemove);
+            });
+        }
+
     }
     else{
         response.statusCode = 400;

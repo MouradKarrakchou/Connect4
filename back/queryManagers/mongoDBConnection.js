@@ -1,3 +1,4 @@
+const {findUsername} = require("../../front/games/gameManagement");
 
 const MongoClient = require('mongodb').MongoClient;
 
@@ -103,6 +104,10 @@ async function  friendRequest(response, requestFrom, valueToInsert) {
         friendRequestReceived.push(user.username);
         await collection.updateOne({username: friendItem.username}, {$set: {request: friendRequestReceived}});
 
+        // response
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({ status: 'success' }));
+
     } catch (err) {
         console.error('Token not found', err);
         response.writeHead(400, {'Content-Type': 'application/json'});
@@ -137,8 +142,46 @@ async function retrieveFriendList(response, requestFrom) {
     }
 }
 
+async function removeFriend(response, requestFrom, friendToRemove) {
+    const collectionName = "log";
+    try {
+        // database connection
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+
+        // finding the user who does the request
+        const user = await collection.findOne({token: requestFrom});
+        let userFriends = user.friends;
+
+        // finding and removing the friend to remove
+        for (let i = 0; i < userFriends.length; i++) {
+            if (userFriends[i] === friendToRemove) {
+                userFriends.splice(i, 1);
+                break;
+            }
+        }
+
+        // update database
+        await collection.updateOne({token: requestFrom}, {$set: {friends: userFriends}});
+
+        // response
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({ status: 'success' }));
+
+    } catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    } finally {
+        await client.close();
+    }
+}
+
 exports.findInDataBase = findInDataBase;
 exports.createInDataBase = createInDataBase;
 exports.findEverythingInDataBase = findEverythingInDataBase;
+
 exports.friendRequest = friendRequest;
 exports.retrieveFriendList = retrieveFriendList;
+exports.removeFriend = removeFriend;

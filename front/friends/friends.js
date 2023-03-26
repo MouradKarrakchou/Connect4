@@ -10,6 +10,8 @@ function init() {
             addFriend();
         }
     });
+
+    getFriendList();
 }
 
 function addFriend() {
@@ -72,10 +74,29 @@ function showFriendList(friendList) {
 
         dropdown.appendChild(newItem);
         document.getElementById("trash").addEventListener('click', function () {
-            //TODO deleteFriend(friendList[i]);
+            removeFriend(friendList[i]);
             window.location.reload();
         });
     }
+}
+
+function removeFriend(friendToRemove) {
+    findToken();
+    fetch(address + `/api/friends/removeFriend`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            token: token,
+            friendToRemove: friendToRemove
+        })
+    })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+
+    showFriendList();
 }
 
 
