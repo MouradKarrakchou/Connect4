@@ -12,6 +12,7 @@ function init() {
     });
 
     getFriendList();
+    getFriendRequest();
 }
 
 function addFriend() {
@@ -95,8 +96,83 @@ function removeFriend(friendToRemove) {
         .then(res => res.json())
         .then(data => console.log(data))
         .catch(error => console.error(error));
-
-    showFriendList();
 }
 
+function getFriendRequest(){
+    findToken()
+    const values = {
+        token: token,
+    };
 
+    fetch(address + `/api/friends/retrieveFriendRequest`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .then(data => {
+            showFriendRequest(data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+function showFriendRequest(friendRequest) {
+    for (let i = 0; i < friendRequest.length; i++) {
+        let dropdown = document.querySelector('.dropdown');
+        let newItem = document.createElement('div');
+
+        newItem.innerHTML = `
+                            <div class="friendRequest" >
+                                <h4>${friendRequest[i]}</h4>
+                            </div>`;
+
+        dropdown.appendChild(newItem);
+
+        document.getElementById("accept").addEventListener('click', function () {
+            acceptFriendRequest(friendRequest[i]);
+            window.location.reload();
+        });
+        document.getElementById("decline").addEventListener('click', function () {
+            declineFriendRequest(friendRequest[i]);
+            window.location.reload();
+        });
+    }
+}
+
+function acceptFriendRequest(friendToAccept) {
+    findToken();
+    fetch(address + `/api/friends/acceptFriendRequest`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            token: token,
+            friendToRemove: friendToAccept
+        })
+    })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+}
+
+function declineFriendRequest(friendToDecline) {
+    findToken();
+    fetch(address + `/api/friends/declineFriendRequest`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            token: token,
+            friendToRemove: friendToDecline
+        })
+    })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+}
