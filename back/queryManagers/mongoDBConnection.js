@@ -88,10 +88,17 @@ async function  friendRequest(response, requestFrom, valueToInsert) {
         const user = await collection.findOne({token: requestFrom});
         let userRequest = user.requestSent;
         let userFriends = user.friends;
+        let userRequestReceived = user.requestReceived;
 
         // security to avoid spam request or to add a friend the user already has
         if (userRequest.includes(valueToInsert) || userFriends.includes(valueToInsert)) {
             return;
+        }
+
+        // if both the users ask each other, they automatically accept each other
+        if (userRequestReceived.includes(valueToInsert)) {
+            //TODO Vérifier la concurrence ! Si ça marche !!!
+            await acceptFriendRequest(response, requestFrom, valueToInsert);
         }
 
         // adding the friend request in the user database
