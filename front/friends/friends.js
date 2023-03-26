@@ -15,6 +15,8 @@ async function init() {
 }
 
 function addFriend() {
+    hideUserNotFoundMessage();
+
     const friendQuery = document.getElementById("searchBar").value;
     if(friendQuery === "") return;
     findToken();
@@ -32,6 +34,11 @@ function addFriend() {
         body: JSON.stringify(values)
     })
         .then(response => response.json())
+        .then(data => {
+            if (data.status ==='User not found' ) {
+                document.getElementById("userNotFoundMessage").style.display = "block";
+            }
+        })
         .catch(error => {
             console.error(error);
         });
@@ -177,4 +184,8 @@ function declineFriendRequest(friendToDecline) {
         .then(res => res.json())
         .then(data => console.log(data))
         .catch(error => console.error(error));
+}
+
+function hideUserNotFoundMessage() {
+    document.getElementById("userNotFoundMessage").style.display = "none";
 }
