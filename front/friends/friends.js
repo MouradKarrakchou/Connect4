@@ -70,10 +70,11 @@ function showFriendList(friendList) {
         newItem.innerHTML = `
                             <div class="friend" >
                                 <h4>${friendList[i]}</h4>
+                                <button class="remove" id="remove">Remove</button>
                             </div>`;
 
         dropdown.appendChild(newItem);
-        document.getElementById("trash").addEventListener('click', function () {
+        document.getElementById("remove").addEventListener('click', function () {
             removeFriend(friendList[i]);
             window.location.reload();
         });
@@ -127,6 +128,8 @@ function showFriendRequest(friendRequest) {
         newItem.innerHTML = `
                             <div class="friendRequest" >
                                 <h4>${friendRequest[i]}</h4>
+                                <button class="accept" id="accept">Accept</button>
+                                <button class="decline" id="decline">Decline</button>
                             </div>`;
 
         dropdown.appendChild(newItem);

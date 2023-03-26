@@ -158,7 +158,9 @@ async function removeFriend(response, requestFrom, friendToRemove) {
 
         // finding the user who does the request
         const user = await collection.findOne({token: requestFrom});
+        const friend = await collection.findOne({username: friendToRemove});
         let userFriends = user.friends;
+        let friendFriends = friend.friends;
 
         // finding and removing the friend to remove
         for (let i = 0; i < userFriends.length; i++) {
@@ -168,8 +170,16 @@ async function removeFriend(response, requestFrom, friendToRemove) {
             }
         }
 
+        for (let i = 0; i < friendFriends.length; i++) {
+            if (friendFriends[i] === user.username) {
+                friendFriends.splice(i, 1);
+                break;
+            }
+        }
+
         // update database
         await collection.updateOne({token: requestFrom}, {$set: {friends: userFriends}});
+        await collection.updateOne({username: friendToRemove}, {$set: {friends: friendFriends}});
 
         // response
         response.writeHead(200, {'Content-Type': 'application/json'});
@@ -235,7 +245,7 @@ async function  acceptFriendRequest(response, requestFrom, friendToAccept) {
         let userRequestReceived = user.requestReceived;
         for (let i = 0; i < userRequestReceived.length; i++) {
             if (userRequestReceived[i] === friend.username) {
-                userRequestReceived.split(i, 1);
+                userRequestReceived.splice(i, 1);
                 break;
             }
         }
@@ -243,7 +253,7 @@ async function  acceptFriendRequest(response, requestFrom, friendToAccept) {
         let friendRequestSent = friend.requestSent;
         for (let i = 0; i < friendRequestSent.length; i++) {
             if (friendRequestSent[i] === user.username) {
-                friendRequestSent.split(i, 1);
+                friendRequestSent.splice(i, 1);
                 break;
             }
         }
@@ -281,7 +291,7 @@ async function  declineFriendRequest(response, requestFrom, friendToDecline) {
         let userRequestReceived = user.requestReceived;
         for (let i = 0; i < userRequestReceived.length; i++) {
             if (userRequestReceived[i] === friend.username) {
-                userRequestReceived.split(i, 1);
+                userRequestReceived.splice(i, 1);
                 break;
             }
         }
@@ -289,7 +299,7 @@ async function  declineFriendRequest(response, requestFrom, friendToDecline) {
         let friendRequestSent = friend.requestSent;
         for (let i = 0; i < friendRequestSent.length; i++) {
             if (friendRequestSent[i] === user.username) {
-                friendRequestSent.split(i, 1);
+                friendRequestSent.splice(i, 1);
                 break;
             }
         }
