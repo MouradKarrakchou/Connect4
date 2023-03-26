@@ -80,28 +80,28 @@ async function  friendRequest(response, requestFrom, valueToInsert) {
         const collection = db.collection(collectionName);
 
         // finding the friend to add
-        const friendItem = await collection.findOne({username: valueToInsert.friend});
+        const friendItem = await collection.findOne({username: valueToInsert});
         if (friendItem === null) {
             //TODO send a message to the user to tell him that the friend does not exist
         }
 
         // finding the user who does the request
         const user = await collection.findOne({token: requestFrom});
-        let friendMap = user.friends;
+        let userRequest = user.requestSent;
 
         // security to avoid spam request
-        if (friendMap[valueToInsert.friend] === "waiting") {
+        if (userRequest.contains(valueToInsert)) {
             return;
         }
 
         // adding the friend request in the user database
-        friendMap[valueToInsert.friend] = "waiting";
-        await collection.updateOne({token: requestFrom}, {$set: {friends: friendMap}});
+        userRequest.push(valueToInsert);
+        await collection.updateOne({token: requestFrom}, {$set: {requestSent: userRequest}});
 
         // send the friend request to the friend
-        let friendRequestList = friendItem.request;
-        friendRequestList.push(user.username);
-        await collection.updateOne({username: friendItem.username}, {$set: {request: friendRequestList}});
+        let friendRequestReceived = friendItem.request;
+        friendRequestReceived.push(user.username);
+        await collection.updateOne({username: friendItem.username}, {$set: {request: friendRequestReceived}});
 
     } catch (err) {
         console.error('Token not found', err);

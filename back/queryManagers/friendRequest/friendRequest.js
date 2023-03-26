@@ -9,11 +9,7 @@ function manageRequest(request, response) {
 
         request.on('end', function () {
             const values = JSON.parse(body);
-            const valueToInsert = {
-                "requestState": "waiting",
-                "friend": values.friend
-            }
-            mongoDBConnection.friendRequest(response, values.from, valueToInsert);
+            mongoDBConnection.friendRequest(response, values.from, values.friend);
         });
     }
     else{
