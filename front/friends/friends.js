@@ -152,7 +152,7 @@ function acceptFriendRequest(friendToAccept) {
         },
         body: JSON.stringify({
             token: token,
-            friendToRemove: friendToAccept
+            friendToAccept: friendToAccept
         })
     })
         .then(res => res.json())
@@ -169,7 +169,7 @@ function declineFriendRequest(friendToDecline) {
         },
         body: JSON.stringify({
             token: token,
-            friendToRemove: friendToDecline
+            friendToDecline: friendToDecline
         })
     })
         .then(res => res.json())

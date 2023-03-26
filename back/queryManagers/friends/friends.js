@@ -18,17 +18,38 @@ function manageRequest(request, response) {
             });
         }
 
-        if (filePath[3] === "retrieveFriendList") {
+        else if (filePath[3] === "retrieveFriendList") {
             request.on('end', function () {
                 const values = JSON.parse(body);
                 mongoDBConnection.retrieveFriendList(response, values.token);
             });
         }
 
-        if (filePath[3] === "removeFriend") {
+        else if (filePath[3] === "removeFriend") {
             request.on('end', function () {
                 const values = JSON.parse(body);
                 mongoDBConnection.removeFriend(response, values.token, values.friendToRemove);
+            });
+        }
+
+        else if (filePath[3] === "retrieveFriendRequest") {
+            request.on('end', function () {
+                const values = JSON.parse(body);
+                mongoDBConnection.retrieveFriendRequest(response, values.token);
+            });
+        }
+
+        else if (filePath[3] === "acceptFriendRequest") {
+            request.on('end', function () {
+                const values = JSON.parse(body);
+                mongoDBConnection.acceptFriendRequest(response, values.token, values.friendToAccept);
+            });
+        }
+
+        else if (filePath[3] === "declineFriendRequest") {
+            request.on('end', function () {
+                const values = JSON.parse(body);
+                mongoDBConnection.declineFriendRequest(response, values.token, values.friendToDecline);
             });
         }
 
