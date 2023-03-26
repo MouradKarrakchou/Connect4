@@ -90,7 +90,7 @@ async function  friendRequest(response, requestFrom, valueToInsert) {
         let userFriends = user.friends;
 
         // security to avoid spam request or to add a friend the user already has
-        if (userRequest.contains(valueToInsert) || userFriends.contains(valueToInsert)) {
+        if (userRequest.includes(valueToInsert) || userFriends.includes(valueToInsert)) {
             return;
         }
 
@@ -99,9 +99,9 @@ async function  friendRequest(response, requestFrom, valueToInsert) {
         await collection.updateOne({token: requestFrom}, {$set: {requestSent: userRequest}});
 
         // send the friend request to the friend
-        let friendRequestReceived = friendItem.request;
+        let friendRequestReceived = friendItem.requestReceived;
         friendRequestReceived.push(user.username);
-        await collection.updateOne({username: friendItem.username}, {$set: {request: friendRequestReceived}});
+        await collection.updateOne({username: friendItem.username}, {$set: {requestReceived: friendRequestReceived}});
 
         // response
         response.writeHead(200, {'Content-Type': 'application/json'});

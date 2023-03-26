@@ -1,8 +1,7 @@
 import {findToken, token, address} from "../games/dataManager.js";
 
 document.addEventListener('DOMContentLoaded', init);
-
-function init() {
+async function init() {
     document.getElementById('addFriendButton').addEventListener('click', addFriend);
     document.getElementById("searchBar").addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
@@ -11,7 +10,7 @@ function init() {
         }
     });
 
-    getFriendList();
+    await getFriendList();
     getFriendRequest();
 }
 
@@ -41,13 +40,13 @@ function addFriend() {
     document.getElementById("searchBar").value = "";
 }
 
-function getFriendList(){
+async function getFriendList() {
     findToken()
     const values = {
         token: token,
     };
 
-    fetch(address + `/api/friends/retrieveFriendList`, {
+    await fetch(address + `/api/friends/retrieveFriendList`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -122,7 +121,7 @@ function getFriendRequest(){
 
 function showFriendRequest(friendRequest) {
     for (let i = 0; i < friendRequest.length; i++) {
-        let dropdown = document.querySelector('.dropdown');
+        let dropdown = document.querySelector('.dropdownFriendRequest');
         let newItem = document.createElement('div');
 
         newItem.innerHTML = `
