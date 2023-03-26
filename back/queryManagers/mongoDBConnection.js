@@ -178,6 +178,121 @@ async function removeFriend(response, requestFrom, friendToRemove) {
     }
 }
 
+async function retrieveFriendRequest(response, requestFrom) {
+    const collectionName = "log";
+    try {
+        // database connection
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+
+        // finding the user and its received friends requests
+        const user = await collection.findOne({token: requestFrom});
+        let userFriendRequests = user.requestReceived;
+
+        // answer the data
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify(userFriendRequests));
+
+    } catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    } finally {
+        await client.close();
+    }
+}
+
+async function  acceptFriendRequest(response, requestFrom, friendToAccept) {
+    const collectionName = "log";
+    try {
+        // database connection
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+
+        // finding the user and the friend
+        const user = await collection.findOne({token: requestFrom});
+        const friend = await collection.findOne({username: friendToAccept});
+
+        // adding each other as friend
+        let userFriendList = user.friends;
+        let friendFriendList = friend.friends;
+        userFriendList.push(friend.username);
+        friendFriendList.push(user.username);
+
+        // removing the received and sent requests
+        let userRequestReceived = user.requestReceived;
+        for (let i = 0; i < userRequestReceived.length; i++) {
+            if (userRequestReceived[i] === friend.username) {
+                userRequestReceived.split(i, 1);
+                break;
+            }
+        }
+
+        let friendRequestSent = user.requestSent;
+        for (let i = 0; i < friendRequestSent.length; i++) {
+            if (friendRequestSent[i] === user.username) {
+                friendRequestSent.split(i, 1);
+                break;
+            }
+        }
+
+        // response
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({ status: 'success' }));
+
+    } catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    } finally {
+        await client.close();
+    }
+}
+
+async function  declineFriendRequest(response, requestFrom, friendToDecline) {
+    const collectionName = "log";
+    try {
+        // database connection
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+
+        // finding the user and the friend
+        const user = await collection.findOne({token: requestFrom});
+        const friend = await collection.findOne({username: friendToDecline});
+
+        // removing the received and sent requests
+        let userRequestReceived = user.requestReceived;
+        for (let i = 0; i < userRequestReceived.length; i++) {
+            if (userRequestReceived[i] === friend.username) {
+                userRequestReceived.split(i, 1);
+                break;
+            }
+        }
+
+        let friendRequestSent = user.requestSent;
+        for (let i = 0; i < friendRequestSent.length; i++) {
+            if (friendRequestSent[i] === user.username) {
+                friendRequestSent.split(i, 1);
+                break;
+            }
+        }
+
+        // response
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({ status: 'success' }));
+
+    } catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    } finally {
+        await client.close();
+    }
+}
+
 exports.findInDataBase = findInDataBase;
 exports.createInDataBase = createInDataBase;
 exports.findEverythingInDataBase = findEverythingInDataBase;
@@ -185,3 +300,7 @@ exports.findEverythingInDataBase = findEverythingInDataBase;
 exports.friendRequest = friendRequest;
 exports.retrieveFriendList = retrieveFriendList;
 exports.removeFriend = removeFriend;
+exports.retrieveFriendRequest = retrieveFriendRequest;
+exports.acceptFriendRequest = acceptFriendRequest;
+exports.declineFriendRequest = declineFriendRequest;
+
