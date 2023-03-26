@@ -89,9 +89,10 @@ async function  friendRequest(response, requestFrom, valueToInsert) {
         // finding the user who does the request
         const user = await collection.findOne({token: requestFrom});
         let userRequest = user.requestSent;
+        let userFriends = user.friends;
 
-        // security to avoid spam request
-        if (userRequest.contains(valueToInsert)) {
+        // security to avoid spam request or to add a friend the user already has
+        if (userRequest.contains(valueToInsert) || userFriends.contains(valueToInsert)) {
             return;
         }
 
@@ -221,6 +222,10 @@ async function  acceptFriendRequest(response, requestFrom, friendToAccept) {
         userFriendList.push(friend.username);
         friendFriendList.push(user.username);
 
+        // update database
+        await collection.updateOne({token: requestFrom}, {$set: {friends: userFriendList}});
+        await collection.updateOne({username: friendToAccept}, {$set: {friends: friendFriendList}});
+
         // removing the received and sent requests
         let userRequestReceived = user.requestReceived;
         for (let i = 0; i < userRequestReceived.length; i++) {
@@ -230,13 +235,17 @@ async function  acceptFriendRequest(response, requestFrom, friendToAccept) {
             }
         }
 
-        let friendRequestSent = user.requestSent;
+        let friendRequestSent = friend.requestSent;
         for (let i = 0; i < friendRequestSent.length; i++) {
             if (friendRequestSent[i] === user.username) {
                 friendRequestSent.split(i, 1);
                 break;
             }
         }
+
+        // update database
+        await collection.updateOne({token: requestFrom}, {$set: {requestReceived: userRequestReceived}});
+        await collection.updateOne({username: friendToAccept}, {$set: {requestSent: friendRequestSent}});
 
         // response
         response.writeHead(200, {'Content-Type': 'application/json'});
@@ -272,13 +281,17 @@ async function  declineFriendRequest(response, requestFrom, friendToDecline) {
             }
         }
 
-        let friendRequestSent = user.requestSent;
+        let friendRequestSent = friend.requestSent;
         for (let i = 0; i < friendRequestSent.length; i++) {
             if (friendRequestSent[i] === user.username) {
                 friendRequestSent.split(i, 1);
                 break;
             }
         }
+
+        // update database
+        await collection.updateOne({token: requestFrom}, {$set: {requestReceived: userRequestReceived}});
+        await collection.updateOne({username: friendToDecline}, {$set: {requestSent: friendRequestSent}});
 
         // response
         response.writeHead(200, {'Content-Type': 'application/json'});
