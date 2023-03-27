@@ -144,8 +144,7 @@ async function register() {
                 if (data.status==="failure") {
                     window.alert("Username already taken");
                 } else {
-                    window.alert("Registration successful");
-                    window.location.href = '/home/home.html';
+                    window.alert("Registration successful - You can now log in");
                 }
             })
     }
