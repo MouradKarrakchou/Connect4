@@ -82,10 +82,16 @@ fa-solid fa-user-group, fa-solid fa-earth-europe, fa-solid fa-robot{
     display: inline-block;
     padding: 10px 20px;
     cursor: pointer;
-
+}
+.logout{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #fffbe3d1;
+    font-size: 75px;
+    cursor: pointer;
 
 }
-
 .gameLaunch {
     background-color: #fffbe3d1;
     border-top: 3px solid #99a37f36;

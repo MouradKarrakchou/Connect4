@@ -22,7 +22,7 @@ window.addEventListener('load', function () {
     }
 )
 
-//document.getElementById("logout").addEventListener('click', logout);
+document.getElementById("logout").addEventListener('click', logout);
 
 function getAllGames(){
     findToken()

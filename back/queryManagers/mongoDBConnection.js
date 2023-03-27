@@ -3,17 +3,28 @@ const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
-async function findInDataBase(response,currentUser,collectionName) {
+async function loginInDataBase(response,currentUser,collectionName) {
     try {
+        const jwt = require('jsonwebtoken');
+        const secret = 'secretKeyyyy';
+
         await client.connect();
         console.log('Connected to MongoDB');
         const db = client.db("connect4");
         const collection = db.collection(collectionName);
         console.log(currentUser);
         const item = await collection.findOne(currentUser);
-        console.log(item);
-        response.writeHead(200, {'Content-Type': 'application/json'});
-        response.end(JSON.stringify(item));
+
+        const token = jwt.sign({userId: item._id, name: item.name}, secret);
+
+        await collection.updateOne(
+            {username: item.username},
+            { $set: { token: token } }
+        );
+        let newItem = await collection.findOne({token:token});
+        response.writeHead(200, {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token});
+        response.end(JSON.stringify(newItem));
+        console.log("THIS IS THE TOKEN:"+token);
 
     } catch (err) {
         console.error('Failed to create database or user', err);
@@ -169,6 +180,63 @@ async function retrieveElo(response, requestFrom) {
         response.writeHead(400, {'Content-Type': 'application/json'});
         response.end(JSON.stringify({status: 'failure'}));
     } finally {
+        await client.close();
+    }
+}
+async function addWins(response, requestFrom){
+    const collectionName = "log";
+    try {
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+        const user = await collection.findOne({token: requestFrom});
+        let userWins = user.wins + 1;
+        await collection.updateOne({token: requestFrom}, {$set: {wins: userWins}});
+    }
+    catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    }
+    finally {
+        await client.close();
+    }
+}
+async function addLosses(response, requestFrom){
+    const collectionName = "log";
+    try {
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+        const user = await collection.findOne({token: requestFrom});
+        let userLosses = user.losses + 1;
+        await collection.updateOne({token: requestFrom}, {$set: {losses: userLosses}});
+    }
+    catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    }
+    finally {
+        await client.close();
+    }
+}
+async function addDraws(response, requestFrom){
+    const collectionName = "log";
+    try {
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+        const user = await collection.findOne({token: requestFrom});
+        let userDraws = user.draws + 1;
+        await collection.updateOne({token: requestFrom}, {$set: {draws: userDraws}});
+    }
+    catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    }
+    finally {
         await client.close();
     }
 }
@@ -415,7 +483,7 @@ async function  declineFriendRequest(response, requestFrom, friendToDecline) {
     }
 }
 
-exports.findInDataBase = findInDataBase;
+exports.findInDataBase = loginInDataBase;
 exports.createInDataBase = createInDataBase;
 exports.findEverythingInDataBase = findEverythingInDataBase;
 
@@ -430,5 +498,8 @@ exports.retrieveElo = retrieveElo;
 exports.retrieveWins = retrieveWins;
 exports.retrieveLosses = retrieveLosses;
 exports.retrieveDraws = retrieveDraws;
+exports.addWins = addWins;
+exports.addLosses = addLosses;
+exports.addDraws = addDraws;
 
 
