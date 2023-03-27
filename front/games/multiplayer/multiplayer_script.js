@@ -58,7 +58,7 @@ window.addEventListener('load', function () {
 }
 )
 
-document.getElementById("logout").addEventListener('click', logout);
+//document.getElementById("logout").addEventListener('click', logout);
 function logout() {
     document.cookie = "token=" + undefined + ";path=/";
     document.cookie = "username=" + undefined + ";path=/";
