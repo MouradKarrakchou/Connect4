@@ -51,6 +51,8 @@ async function login() {
             if (data && data.token) {
                 document.cookie = "token=" + data.token + ";path=/";
                 document.cookie = "username=" + data.username + ";path=/";
+                document.cookie = "elo=" + data.elo + ";path=/";
+
                 console.log(document.cookie);
                 window.location.href = '/home/home.html';
             } else {
