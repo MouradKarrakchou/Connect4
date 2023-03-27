@@ -183,6 +183,25 @@ async function retrieveElo(response, requestFrom) {
         await client.close();
     }
 }
+async function addWins(response, requestFrom){
+    const collectionName = "log";
+    try {
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+        const user = await collection.findOne({token: requestFrom});
+        let userWins = user.wins + 1;
+        await collection.updateOne({token: requestFrom}, {$set: {wins: userWins}});
+    }
+    catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    }
+    finally {
+        await client.close();
+    }
+}
 async function retrieveWins(response, requestFrom) {
     const collectionName = "log";
     try {
@@ -441,5 +460,6 @@ exports.retrieveElo = retrieveElo;
 exports.retrieveWins = retrieveWins;
 exports.retrieveLosses = retrieveLosses;
 exports.retrieveDraws = retrieveDraws;
+exports.addWins = addWins;
 
 

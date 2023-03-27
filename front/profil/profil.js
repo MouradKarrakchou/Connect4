@@ -54,6 +54,7 @@ async function findWins(){
         });
 }
 
+
 async function findLosses(){
     findToken();
     const values = {

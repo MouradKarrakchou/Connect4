@@ -32,7 +32,14 @@ function manageRequest(request, response) {
                 mongoDBConnection.retrieveDraws(response, values.token);
 
             });
-        } else {
+        }
+        else if(filePath[3] === "addWins"){
+            request.on('end', function () {
+                const values = JSON.parse(body);
+                mongoDBConnection.addWins(response, values.token);
+            });
+        }
+        else {
             response.statusCode = 400;
             response.end(`Something in your request (${request.url}) is strange...`);
         }
