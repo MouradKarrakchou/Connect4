@@ -1,4 +1,6 @@
 import {findToken, token, address} from "../games/dataManager.js";
+import {findUsername} from "../games/gameManagement.js";
+let socket = io();
 
 document.addEventListener('DOMContentLoaded', init);
 async function init() {
@@ -75,12 +77,14 @@ function showFriendList(friendList) {
         let newItem = document.createElement('div');
 
         newItem.innerHTML = `
-                            <div class="friend" >
+                            <div class="friend">
                                 <h4>${friendList[i]}</h4>
+                                <button class="challenge" id="challenge">Challenge</button>
                                 <button class="remove" id="remove">Remove</button>
                             </div>`;
 
         dropdown.appendChild(newItem);
+        document.getElementById("challenge").addEventListener('click', challenge)
         document.getElementById("remove").addEventListener('click', function () {
             removeFriend(friendList[i]);
             window.location.reload();
@@ -186,6 +190,49 @@ function declineFriendRequest(friendToDecline) {
         .catch(error => console.error(error));
 }
 
+function challenge(button) {
+    let friendName = button.parentNode.querySelector("h4").textContent
+
+    console.log("NOM DE L AMI A CHALLENGE : " + friendName);
+
+    findToken();
+    let roomName = token + Math.floor(Math.random() * 100000000000000000);
+    socket.emit('challengeFriend', JSON.stringify({
+        room: roomName,
+        name: findUsername(),
+        friendToChallenge: friendName
+    }));
+}
+
 function hideUserNotFoundMessage() {
     document.getElementById("userNotFoundMessage").style.display = "none";
 }
+
+
+socket.on('friendIsChallenging', (response) => {
+    let challengeMessage = document.querySelector('.challengeMessage');
+    let newChallenge = document.createElement('div');
+
+    newChallenge.innerHTML = `
+                            <div class="friendRequest" >
+                                <h4>${friendRequest[i]}</h4>
+                                <button class="accept" id="accept">Accept</button>
+                                <button class="decline" id="decline">Decline</button>
+                            </div>`;
+
+    dropdown.appendChild(newItem);
+
+    document.getElementById("accept").addEventListener('click', function () {
+        acceptFriendRequest(friendRequest[i]);
+        window.location.reload();
+    });
+    document.getElementById("decline").addEventListener('click', function () {
+        declineFriendRequest(friendRequest[i]);
+        window.location.reload();
+    });
+});
+
+socket.on('challengeAccepted', (matchID) => {
+    window.location.href = '../games/multiplayer/multiplayer.html';
+    document.cookie = "matchID=" + matchID + ";path=/";
+});

@@ -105,7 +105,22 @@ function setUpSockets(io){
                 }
             }
 
-        })})
+        })
+
+        socket.on('challengeFriend', (playerReq) => {
+            let request = JSON.parse(playerReq);
+            let name = request.name;
+            let roomName = request.room;
+            let friendToChallenge = request.friendToChallenge;
+
+            io.to(friendToChallenge).emit('friendIsChallenging', JSON.stringify({
+                name: name,
+                roomName: roomName
+            }))
+
+        })
+
+    })
 }
 
 function createBoard() {

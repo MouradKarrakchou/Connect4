@@ -1,6 +1,5 @@
 import {findToken, token, address} from "../games/dataManager.js";
 import {toTab, findTokenReturned} from "../games/gameManagement.js";
-//TODO bind the header in bot diffculty
 
 var socket = io();
 var popupWindow;
