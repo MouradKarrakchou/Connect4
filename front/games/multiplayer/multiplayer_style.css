@@ -140,8 +140,8 @@ tfoot {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 350px;
-    width: 350px;
+    height: 30%;
+    width: 15%;
 }
 
 #chat-messages {

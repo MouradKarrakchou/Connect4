@@ -18,16 +18,44 @@ function manageRequest(request, response) {
         });
         if (filePath[3]==null){
             request.on('end', function () {
-                mongoDBConnection.createInDataBase(response,JSON.parse(body),"games",JSON.parse(body));
+                async function createGame() {
+                    await client.connect();
+                    let bodyParsed=JSON.parse(body);
+                    const db = client.db("connect4");
+
+                    const collection = db.collection("log");
+                    console.log(bodyParsed);
+                    const item = await collection.findOne({token:bodyParsed.userToken});
+                    console.log("THIS IS ITEM");
+                    console.log(item);
+                    const tab = {
+                        gameType: bodyParsed.gameType,
+                        tab: bodyParsed.tab,
+                        userID: item._id
+                    };
+                    console.log("THIS IS TAB:")
+                    console.log(tab);
+                    await mongoDBConnection.createInDataBase(response,tab,"games",tab);
+                }
+                createGame();
             });
             }
         else if(filePath[3]==="retrieveGames"){
             request.on('end', function () {
-                let currentUser=JSON.parse(body);
-                let userInfo={
-                    userToken: currentUser.token,
+                async function findAllGames() {
+                    await client.connect();
+                    let bodyParsed=JSON.parse(body);
+                    const db = client.db("connect4");
+
+                    const collection = db.collection("log");
+                    console.log(bodyParsed);
+                    console.log(bodyParsed.token);
+                    const item = await collection.findOne({token:bodyParsed.token});
+                    console.log(item);
+
+                    await mongoDBConnection.findEverythingInDataBase(response, {userID: item._id}, "games");
                 }
-                mongoDBConnection.findEverythingInDataBase(response,userInfo,"games");
+                findAllGames();
             });
         }
 
@@ -44,9 +72,9 @@ function manageRequest(request, response) {
                         //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
                         const gameCollection = db.collection("games");
 
-                        let games = (await gameCollection.find({
-                            userToken: {$regex: new RegExp(bodyParsed.token, 'i')},
-                        }).toArray())
+                        const collection = db.collection("log");
+                        const item = await collection.findOne({token:bodyParsed.token});
+                        let games = (await gameCollection.find({userID: item._id}).toArray());
                         games=games.filter(game => game._id.toString() === bodyParsed.id);
                         response.writeHead(200, {'Content-Type': 'application/json'});
                         response.end(JSON.stringify(games[0]));
@@ -73,11 +101,16 @@ function manageRequest(request, response) {
                         console.log('Connected to MongoDB');
                         const db = client.db("connect4");
                         const gameCollection = db.collection("games");
+
+
+                        const collection = db.collection("log");
+                        const item = await collection.findOne({token:bodyParsed.token});
+
                         console.log("bodyParsed.token: ",bodyParsed.token);
-                            const result = await gameCollection.deleteMany({userToken: bodyParsed.token});
-                            console.log("Document deleted", result.deletedCount);
-                            response.writeHead(200, {'Content-Type': 'application/json'});
-                            response.end(JSON.stringify({ status: 'success' }));
+                        const result = await gameCollection.deleteMany({userID: item._id});
+                        console.log("Document deleted", result.deletedCount);
+                        response.writeHead(200, {'Content-Type': 'application/json'});
+                        response.end(JSON.stringify({ status: 'success' }));
                     } catch (err) {
                         console.error('Failed to delete the game', err);
                         response.writeHead(400, {'Content-Type': 'application/json'});
