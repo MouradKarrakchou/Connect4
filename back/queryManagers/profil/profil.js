@@ -39,6 +39,18 @@ function manageRequest(request, response) {
                 mongoDBConnection.addWins(response, values.token);
             });
         }
+        else if(filePath[3] === "addLosses"){
+            request.on('end', function () {
+                const values = JSON.parse(body);
+                mongoDBConnection.addLosses(response, values.token);
+            })
+        }
+        else if(filePath[3] === "addDraws"){
+            request.on('end', function () {
+                const values = JSON.parse(body);
+                mongoDBConnection.addDraws(response, values.token);
+            })
+        }
         else {
             response.statusCode = 400;
             response.end(`Something in your request (${request.url}) is strange...`);

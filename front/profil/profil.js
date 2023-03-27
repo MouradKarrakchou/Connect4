@@ -9,6 +9,9 @@ async function init() {
     await findWins();
     await findLosses();
     await findDraws();
+    document.getElementById("username").innerHTML = username;
+    document.getElementById("games-played").innerHTML = wins + losses + draws;
+    document.getElementById("winrate").innerHTML = Math.round((wins / (wins + losses + draws)) * 100) + "%";
 
 }
 async function findElo(){
@@ -103,6 +106,5 @@ async function findDraws(){
 
 
 // Met à jour les éléments HTML avec les statistiques réelles de l'utilisateur
-document.getElementById("username").innerHTML = username;
-document.getElementById("games-played").innerHTML = wins + losses + draws;
+
 

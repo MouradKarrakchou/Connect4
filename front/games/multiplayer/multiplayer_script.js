@@ -37,6 +37,7 @@ socket.on('lose', () => {
     document.getElementById("message").innerText = " You lost... :( ";
     document.getElementById("reset-button").style.display = "block";
     document.getElementById("reset-button").addEventListener("click", resetGame);
+    addLosses();
     gameOver = true;
 });
 socket.on('tie', () => {
@@ -44,6 +45,7 @@ socket.on('tie', () => {
     document.getElementById("message").innerText = "Draw!";
     document.getElementById("reset-button").style.display = "block";
     document.getElementById("reset-button").addEventListener("click", resetGame);
+    addDraws();
     gameOver = true;
 });
 socket.on('message', (message) => {
@@ -256,9 +258,47 @@ async function addWins(){
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            wins = data;})
+            console.log(data);})
         .catch(error => {
             console.error(error);
         });
 }
+async function addLosses(){
+    findToken();
+    const values = {
+        token: token,
+    }
+    await fetch(address + `/api/profile/addLosses`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);})
+        .catch(error => {
+            console.error(error);
+        });
+}
+async function addDraws(){
+    findToken();
+    const values = {
+        token: token,
+    }
+    await fetch(address + `/api/profile/addDraws`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);})
+        .catch(error => {
+            console.error(error);
+        });
+}
+
