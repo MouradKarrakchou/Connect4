@@ -33,10 +33,32 @@ function login_page(){
 }
 
 document.getElementById("loginButton").addEventListener('click', login);
+document.getElementById("usernameLoginInput").addEventListener("keydown", async function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        await login();
+    }
+});
+document.getElementById("passwordLoginInput").addEventListener("keydown", async function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        await login();
+    }
+});
 async function login() {
+
+    const user = document.getElementsByName("log_name")[0].value;
+    const password = hash(document.getElementsByName("log_pswd")[0].value);
+
+    if (user === "" || password === "") {
+        document.getElementById("errorMessageLogin").innerText = "Please complete all fields";
+        document.getElementById("errorMessageLogin").style.display = "block";
+        return;
+    }
+
     const values = {
-        username: document.getElementsByName("log_name")[0].value,
-        password: hash(document.getElementsByName("log_pswd")[0].value),
+        username: user,
+        password: password,
     };
 
     fetch(address +'/api/login', {
@@ -54,7 +76,8 @@ async function login() {
                 console.log(document.cookie);
                 window.location.href = '/home/home.html';
             } else {
-                window.alert("Wrong username or password");
+                document.getElementById("errorMessageLogin").innerText = "Wrong username or password";
+                document.getElementById("errorMessageLogin").style.display = "block";
             }
         })
         .catch(error => {
@@ -63,16 +86,47 @@ async function login() {
 }
 
 document.getElementById("registerButton").addEventListener('click', register);
+document.getElementById("usernameRegisterInput").addEventListener("keydown", async function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        await register();
+    }
+});
+document.getElementById("mailRegisterInput").addEventListener("keydown", async function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        await register();
+    }
+});document.getElementById("passwordRegisterInput").addEventListener("keydown", async function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        await register();
+    }
+});
+document.getElementById("confirmPasswordRegisterInput").addEventListener("keydown", async function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        await register();
+    }
+});
 async function register() {
+    const name = document.getElementsByName("reg_name")[0].value;
+    const mail = document.getElementsByName("reg_email")[0].value;
     const clearPassword = document.getElementsByName("reg_pswd")[0].value;
     const confirmClearPassword = document.getElementsByName("reg_pswd2")[0].value;
+
+    if (name === "" || mail === "" || clearPassword === "" || confirmClearPassword === "") {
+        document.getElementById("errorMessage").innerText = "Please complete all fields";
+        document.getElementById("errorMessage").style.display = "block";
+        return;
+    }
 
     if (confirmPassword(clearPassword, confirmClearPassword)) {
         console.log("passwords are the same");
         const values = {
-            username: document.getElementsByName("reg_name")[0].value,
+            username: name,
             password: hash(clearPassword),
-            email: document.getElementsByName("reg_email")[0].value,
+            email: mail,
         };
 
         fetch(address + '/api/register', {
@@ -89,13 +143,15 @@ async function register() {
                     window.alert("Username already taken");
                 } else {
                     window.alert("Registration successful");
+                    window.location.href = '/home/home.html';
                 }
             })
     }
 
-    else
-
+    else {
+        document.getElementById("errorMessage").innerText = "Passwords are not the same!";
         document.getElementById("errorMessage").style.display = "block";
+    }
 }
 
 function hash(str) {
