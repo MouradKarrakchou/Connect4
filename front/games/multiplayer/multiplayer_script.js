@@ -2,7 +2,7 @@ import {
     checkWin,
     removeIllegalMove,
     loadGame,
-    surrender, printIllegalMove, findToken
+    surrender, printIllegalMove
 } from "../gameManagement.js"
 
 let counter = 0;

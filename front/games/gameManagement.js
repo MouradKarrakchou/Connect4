@@ -158,7 +158,6 @@ export function loadGame(){
     })
         .then(response => response.json())
         .then(data => {
-            //document.cookie = "token="+data.token+";path=/";
             console.log(data);
             retrieveGameState(data.tab);
             //window.location.href = '/games/local/local_game.html';
@@ -183,6 +182,9 @@ export function findTokenReturned() {
 
 export function findUsername() {
     return find("username=");
+}
+export function findElo() {
+    return find('elo=');
 }
 
 export function saveGame(gameType) {
