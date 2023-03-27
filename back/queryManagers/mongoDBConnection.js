@@ -160,6 +160,98 @@ async function retrieveFriendList(response, requestFrom) {
         await client.close();
     }
 }
+async function retrieveElo(response, requestFrom) {
+    const collectionName = "log";
+    try {
+        // database connection
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+
+        // finding the user who does the request
+        const user = await collection.findOne({token: requestFrom});
+        const userElo = user.elo;
+        // answer the data
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify(userElo));
+
+    } catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    } finally {
+        await client.close();
+    }
+}
+async function retrieveWins(response, requestFrom) {
+    const collectionName = "log";
+    try {
+        // database connection
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+
+        // finding the user who does the request
+        const user = await collection.findOne({token: requestFrom});
+        const userWins = user.wins;
+        // answer the data
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify(userWins));
+
+    } catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    } finally {
+        await client.close();
+    }
+}
+async function retrieveLosses(response, requestFrom) {
+    const collectionName = "log";
+    try {
+        // database connection
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+
+        // finding the user who does the request
+        const user = await collection.findOne({token: requestFrom});
+        const userLosses = user.losses;
+        // answer the data
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify(userLosses));
+
+    } catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    } finally {
+        await client.close();
+    }
+}
+async function retrieveDraws(response, requestFrom) {
+    const collectionName = "log";
+    try {
+        // database connection
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+
+        // finding the user who does the request
+        const user = await collection.findOne({token: requestFrom});
+        const userDraws = user.draws;
+        // answer the data
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify(userDraws));
+
+    } catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    } finally {
+        await client.close();
+    }
+}
 
 async function removeFriend(response, requestFrom, friendToRemove) {
     const collectionName = "log";
@@ -344,4 +436,10 @@ exports.removeFriend = removeFriend;
 exports.retrieveFriendRequest = retrieveFriendRequest;
 exports.acceptFriendRequest = acceptFriendRequest;
 exports.declineFriendRequest = declineFriendRequest;
+
+exports.retrieveElo = retrieveElo;
+exports.retrieveWins = retrieveWins;
+exports.retrieveLosses = retrieveLosses;
+exports.retrieveDraws = retrieveDraws;
+
 
