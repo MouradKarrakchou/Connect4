@@ -2,7 +2,7 @@ import {
     checkWin,
     removeIllegalMove,
     loadGame,
-    surrender, printIllegalMove, findToken
+    surrender, printIllegalMove
 } from "../gameManagement.js"
 
 let counter = 0;
@@ -58,7 +58,7 @@ window.addEventListener('load', function () {
 }
 )
 
-document.getElementById("logout").addEventListener('click', logout);
+//document.getElementById("logout").addEventListener('click', logout);
 function logout() {
     document.cookie = "token=" + undefined + ";path=/";
     document.cookie = "username=" + undefined + ";path=/";

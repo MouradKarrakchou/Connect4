@@ -28,7 +28,11 @@ function manageRequest(request, response) {
                 friends: [],
                 requestSent: [],
                 requestReceived: [],
-                elo: 1000,}
+                elo: 1000,
+                wins: 0,
+                losses: 0,
+                draws: 0,
+            }
             const valueToCheck={username:values.username,
                 password:hash(values.password),
                 }

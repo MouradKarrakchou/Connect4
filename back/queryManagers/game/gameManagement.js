@@ -9,7 +9,6 @@ function setUpSockets(io){
             let roomName=player.room;
             socket.join(roomName);
             io.to(roomName).emit('inQueue', null);
-
             if (roomInSearch==null){
                 roomInSearch=player;
             }
