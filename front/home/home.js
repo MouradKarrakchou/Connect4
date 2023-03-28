@@ -1,14 +1,11 @@
 import {findToken, token, address} from "../games/dataManager.js";
 import {toTab, findTokenReturned} from "../games/gameManagement.js";
-//TODO bind the header in bot diffculty
 
 var socket = io();
-var popupWindow;
-socket.on('matchFound', (matchID) => {
-    window.location.href = '../games/multiplayer/multiplayer.html';
-    document.cookie = "matchID="+matchID+";path=/";
-    popupWindow.close();
 
+socket.on('matchFound', (matchID) => {
+    document.cookie = "matchID="+matchID+";path=/";
+    window.location.href = '../games/multiplayer/multiplayer.html';
 });
 socket.on('inQueue', (roomName) => {
     console.log("inQueue");

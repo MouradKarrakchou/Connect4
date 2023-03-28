@@ -183,10 +183,6 @@ export function findTokenReturned() {
 export function findUsername() {
     return find("username=");
 }
-export function findElo() {
-    return find('elo=');
-}
-
 export function saveGame(gameType) {
     console.log("in saveGame")
     let token = findTokenReturned();

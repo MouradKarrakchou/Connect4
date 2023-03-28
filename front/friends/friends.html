@@ -2,6 +2,7 @@
 <html lang="en">
 <link href="./friend.css" type="text/css" rel="stylesheet">
 <script type="module" src="friends.js"></script>
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 
 <head>
     <meta charset="UTF-8">
@@ -29,6 +30,16 @@
             </div>
         </div>
     </div>
+
+    <div class="challengeMessageMenu">
+        <div class="challengeMessage" id="challengeMessage">
+            Challenges requests:
+            <div class="dropdownChallengeRequest"></div>
+        </div>
+
+        <div id="waitingForChallengeAnswer" style="display: none"></div>
+    </div>
+
     <div id="chat-container">
         <div id="chat-messages">
             <!-- messages s'affichent ici -->
