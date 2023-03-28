@@ -12,6 +12,9 @@ body{
     display: flex;
     height: 100%;
 }
+#search{
+    display: none;
+}
 .menu {
     align-content: center;
     width: 60%;

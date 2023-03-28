@@ -14,14 +14,21 @@ socket.on('inQueue', (roomName) => {
     console.log("inQueue");
     document.getElementById("search").style.display = "block";
 });
+socket.on('cancel', () => {
+    document.getElementById("search").style.display = "none";
+});
 let gameSaved=document.getElementById("gameSaved");
+
 
 window.addEventListener('load', function () {
     getAllGames();
     document.getElementById("b").addEventListener('click', findGame);
-    document.getElementById("search").style.display = "none";
+    document.getElementById("cancel").addEventListener('click', cancelGame);
     }
 )
+function cancelGame() {
+    socket.emit('cancelQueue',JSON.stringify({token:token}));
+}
 
 document.getElementById("logout").addEventListener('click', logout);
 
