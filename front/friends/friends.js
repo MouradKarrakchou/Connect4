@@ -2,6 +2,7 @@ import {findToken, token, address} from "../games/dataManager.js";
 import {findUsername} from "../games/gameManagement.js";
 let socket = io();
 
+let currentFriendDiscussion;
 document.addEventListener('DOMContentLoaded', init);
 async function init() {
     document.getElementById('addFriendButton').addEventListener('click', addFriend);
@@ -77,10 +78,11 @@ function showFriendList(friendList) {
         let newItem = document.createElement('div');
 
         newItem.innerHTML = `
-                            <div class="friend">
-                                <h4>${friendList[i]}</h4>
+                            <div class="friend" >
+                                <h4 >${friendList[i]}</h4>
                                 <button class="challenge" id="challenge">Challenge</button>
-                                <button class="remove" id="remove">Remove</button>
+                                <button class="buttonFriends" id="remove">Remove</button>
+                                <button class="buttonFriends" id="message">Message</button>
                             </div>`;
 
         dropdown.appendChild(newItem);
@@ -90,6 +92,10 @@ function showFriendList(friendList) {
         document.getElementById("remove").addEventListener('click', function () {
             removeFriend(friendList[i]);
             window.location.reload();
+        });
+        document.getElementById("message").addEventListener('click', function () {
+            currentFriendDiscussion=friendList[i];
+            console.log("CURRENT FRIEND MESSAGING"+currentFriendDiscussion);
         });
     }
 }
@@ -213,6 +219,14 @@ function challenge(button) {
 function hideUserNotFoundMessage() {
     document.getElementById("userNotFoundMessage").style.display = "none";
 }
+const chatBar = document.getElementById('chatBar');
+
+chatBar.addEventListener('keydown', (event) => {
+    if (event.keyCode === 13) {
+        console.log(chatBar.value);
+        chatBar.value='';
+    }
+});
 
 // Used to save the username in the socket data to find the socket by the user in server side
 socket.emit('socketByUsername', { username: findUsername() });

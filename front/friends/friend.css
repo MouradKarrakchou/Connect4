@@ -44,6 +44,11 @@ body {
     top: 0;
     right: 0;
 }
+#message{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
 #accept{
     position: absolute;
     top: 0;
@@ -108,4 +113,48 @@ body {
 
 .dropdown a:hover, .dropdownChallengeRequest a:hover .dropdownFriendRequest a:hover {
     background-color: #f5f5f5;
+}
+
+#chat-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    border-radius: 15px 0 0 0;
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 50%;
+    width: 25%;
+}
+#chat-messages {
+    overflow-y: scroll;
+    flex-grow: 1;
+    padding: 10px;
+}
+#mute-button-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+}
+#chatBar{
+    width: 90%;
+    padding: 10px;
+    background-color: #9e9d9224;
+    border: none
+}
+#sendMsg{
+    padding: 1%;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    width: 30%;
+    text-align: center;
+    border: none
+}
+#chat-bar{
+    background-color: #fffbe3d1;
+    padding: .5%;
 }

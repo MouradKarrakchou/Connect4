@@ -15,7 +15,7 @@ socket.on('inQueue', (roomName) => {
 socket.on('cancel', () => {
     document.getElementById("search").style.display = "none";
     document.getElementById("hidingEverything").style.display = "none";
-});
+}) ;
 let gameSaved=document.getElementById("gameSaved");
 
 
