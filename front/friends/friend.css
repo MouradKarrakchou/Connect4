@@ -16,7 +16,7 @@ body {
     background-color: #9e9d9224;
 }
 
-.buttonFriends {
+.buttonFriends, .buttonAcceptChallenge {
     padding: 1%;
     border: none;
     border-radius: 1%;
@@ -67,7 +67,7 @@ body {
     bottom: 0;
     right: 0;
 }
-.friend,.friendReq{
+.friend,.friendIsChallenging,.friendReq{
     position: relative;
     background-color: rgba(231, 225, 195, 0.36);
     display: flex;
@@ -76,7 +76,7 @@ body {
     justify-content: center;
 }
 /* Style the friend list and friend request list */
-.friendMenu, .friendRequestMenu {
+.friendMenu, .challengeMessageMenu, .friendRequestMenu {
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     background-color: #fffbe3d1;
     border-top: 3px solid #99a37f36;
@@ -89,23 +89,23 @@ body {
     height: 100%;
 }
 
-.friendList, .friendRequest {
+.friendList, .challengeMessage, .friendRequest {
     font-weight: bold;
 }
 
-.dropdown, .dropdownFriendRequest {
+.dropdown, .dropdownChallengeRequest, .dropdownFriendRequest {
     margin-top: 5px;
     overflow-x: hidden;
     overflow-y: auto;
 }
 
-.dropdown a, .dropdownFriendRequest a {
+.dropdown a, .dropdownChallengeRequest a, .dropdownFriendRequest a {
     display: block;
     padding: 5px;
     color: #333;
     text-decoration: none;
 }
 
-.dropdown a:hover, .dropdownFriendRequest a:hover {
+.dropdown a:hover, .dropdownChallengeRequest a:hover .dropdownFriendRequest a:hover {
     background-color: #f5f5f5;
 }

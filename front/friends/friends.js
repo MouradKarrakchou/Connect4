@@ -227,8 +227,8 @@ socket.on('friendIsChallenging', (request) => {
     newChallenge.innerHTML = `
                             <div class="friendIsChallenging" >
                                 <h4>${challengerName} is challenging you!</h4>
-                                <button class="accept" id="acceptTheChallenge">Accept</button>
-                                <button class="decline" id="declineTheChallenge">Decline</button>
+                                <button class="buttonAcceptChallenge" id="acceptTheChallenge">Accept</button>
+                                <button class="buttonDeclineChallenge" id="declineTheChallenge">Decline</button>
                             </div>`;
 
     dropdown.appendChild(newChallenge);

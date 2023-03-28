@@ -14,7 +14,9 @@
         <input type="text" id="searchBar" placeholder="Friend's username">
         <button type= "button" class="buttonFriends" id="addFriendButton">Add friend</button>
     </div>
+
     <a class="userNotFoundMessage" id="userNotFoundMessage" style="display:none; color: red">User not found! Check spelling, otherwise it does not exist</a>
+
     <div class="friends">
         <div class="friendMenu">
             <div class="friendList" id="friendList">
@@ -23,21 +25,21 @@
             </div>
         </div>
 
+        <div class="challengeMessageMenu">
+            <div class="challengeMessage" id="challengeMessage">
+                Challenges requests:
+                <div class="dropdownChallengeRequest"></div>
+            </div>
+
+            <div id="waitingForChallengeAnswer" style="display: none"></div>
+        </div>
+
         <div class="friendRequestMenu">
             <div class="friendRequest" id="friendRequest">
                 Friends requests:
                 <div class="dropdownFriendRequest"></div>
             </div>
         </div>
-    </div>
-
-    <div class="challengeMessageMenu">
-        <div class="challengeMessage" id="challengeMessage">
-            Challenges requests:
-            <div class="dropdownChallengeRequest"></div>
-        </div>
-
-        <div id="waitingForChallengeAnswer" style="display: none"></div>
     </div>
 
 </body>
