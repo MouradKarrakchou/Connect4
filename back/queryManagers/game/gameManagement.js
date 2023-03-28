@@ -1,109 +1,149 @@
+const {MongoClient} = require("mongodb");
 let roomInSearch=null;
 const mapGames= new Map();
 
 function setUpSockets(io){
+    const MongoClient = require('mongodb').MongoClient;
+
+    const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
+    const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+    async function retrieveUserFromDataBase(token){
+        await client.connect();
+        console.log('Connected to MongoDB');
+        const db = client.db("connect4");
+        //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
+        const gameCollection = db.collection("games");
+
+        const collection = db.collection("log");
+        const item = await collection.findOne({token:token});
+        return item;
+    }
+
+    let connectedSockets = io.sockets.sockets;
+
     io.on('connection',socket => {
-        let connectedSockets = io.sockets.sockets;
-
-        socket.on('searchMultiGame', (playerReq) => {
-
-            let player=JSON.parse(playerReq);
-            let roomName=player.room;
+        socket.on('searchMultiGame', async (playerReq) => {
+            let player = JSON.parse(playerReq);
+            let roomName = player.room;
             socket.join(roomName);
+            let user = await retrieveUserFromDataBase(player.token);
+
             io.to(roomName).emit('inQueue', null);
-            if (roomInSearch==null){
-                roomInSearch=player;
-            }
-            else {
-                let matchID=getRandomNumber(0,100000000000)+'';
+            if (roomInSearch == null) {
+                roomInSearch = {
+                    room: player.room,
+                    userID: user._id.toString(),
+                    username:user.username,
+                    ready: false
+                }
+            } else if(user._id.toString()!==roomInSearch.userID) {
+                let matchID = getRandomNumber(0, 100000000000) + '';
                 const matchInfo = {
                     player1: {
-                        room:roomInSearch.room,
-                        token:roomInSearch.token,
-                        ready:false
+                        room: roomInSearch.room,
+                        userID: roomInSearch.userID,
+                        username:roomInSearch.username,
+                        ready: false
                     },
                     player2: {
-                        room:player.room,
-                        token:player.token,
-                        ready:false
+                        room: player.room,
+                        userID: user._id.toString(),
+                        username:user.username,
+                        ready: false
                     },
-                    board:createBoard()
+                    board: createBoard()
                 };
-                mapGames.set(matchID,matchInfo);
-                io.to(roomInSearch.room).emit('matchFound',matchID);
-                io.to(roomName).emit('matchFound',matchID);
+                console.log("LES INFOS ")
+                console.log(matchInfo)
+                mapGames.set(matchID, matchInfo);
+                io.to(roomInSearch.room).emit('matchFound', matchID);
+                io.to(roomName).emit('matchFound', matchID);
+                roomInSearch = null;
+            }
+            console.log("at the end" + roomInSearch);
+        })
+        socket.on('cancelQueue', async (playerReq) => {
+            let player = JSON.parse(playerReq);
+            let user = await retrieveUserFromDataBase(player.token);
+
+            if (roomInSearch != null && roomInSearch.userID===user._id.toString()) {
+                let roomName = roomInSearch.room;
                 roomInSearch=null;
+                io.to(roomName).emit('cancel');
             }
-            console.log("at the end"+roomInSearch);
         })
 
-        socket.on('initMulti', (playerReq) => {
-            let request=JSON.parse(playerReq);
-            let gameInfo=mapGames.get(request.matchID);
+        socket.on('initMulti', async (playerReq) => {
+            let request = JSON.parse(playerReq);
+            let gameInfo = mapGames.get(request.matchID);
+            let user = await retrieveUserFromDataBase(request.token);
 
-            if (request.token===gameInfo.player1.token){
+            if (user._id.toString() === gameInfo.player1.userID) {
+                console.log("player1"+user.username);
                 socket.join(gameInfo.player1.room);
-                io.to(gameInfo.player1.room).emit('firstPlayerInit',request.token);
-            }
-            else if(request.token===gameInfo.player2.token){
+                io.to(gameInfo.player1.room).emit('firstPlayerInit', undefined);
+            } else if (user._id.toString() === gameInfo.player2.userID) {
+                console.log("player2"+user.username);
                 socket.join(gameInfo.player2.room);
-                io.to(gameInfo.player2.room).emit('secondPlayerInit',request.token);
+                io.to(gameInfo.player2.room).emit('secondPlayerInit', undefined);
             }
         })
-        socket.on('chat', (playerReq) => {
-            let request=JSON.parse(playerReq);
-            let gameInfo=mapGames.get(request.matchID);
-
-            if (request.token===gameInfo.player1.token){
-                io.to(gameInfo.player2.room).emit('message',request.chat);
-            }
-            else if(request.token===gameInfo.player2.token){
-                io.to(gameInfo.player1.room).emit('message',request.chat);
+        socket.on('chat', async (playerReq) => {
+            let request = JSON.parse(playerReq);
+            let gameInfo = mapGames.get(request.matchID);
+            let user = await retrieveUserFromDataBase(request.token);
+            if (user._id.toString() === gameInfo.player1.userID) {
+                io.to(gameInfo.player2.room).emit('message', {
+                    username:gameInfo.player1.username,
+                    message:request.chat
+                });
+            } else if (user._id.toString() === gameInfo.player2.userID) {
+                io.to(gameInfo.player1.room).emit('message', {
+                    username:gameInfo.player2.username,
+                    message:request.chat
+                });
             }
         })
 
-        socket.on('playMulti', (playerReq) => {
-            let request=JSON.parse(playerReq);
+        socket.on('playMulti', async (playerReq) => {
+            let request = JSON.parse(playerReq);
             console.log(playerReq);
-            let gameInfo=mapGames.get(request.matchID);
+            let gameInfo = mapGames.get(request.matchID);
             console.log(mapGames);
             let moveToCheck;
-            if (request.token===gameInfo.player1.token && !checkIllegalMove(gameInfo.board,request.pos[0],1)){
-                gameInfo.board[request.pos[0]][request.pos[1]]=1;
-                io.to(gameInfo.player2.room).emit('doMoveMulti',JSON.stringify(request.pos));
+            let user = await retrieveUserFromDataBase(request.token);
+            if (user._id.toString() === gameInfo.player1.userID && !checkIllegalMove(gameInfo.board, request.pos[0], 1)) {
+                gameInfo.board[request.pos[0]][request.pos[1]] = 1;
+                io.to(gameInfo.player2.room).emit('doMoveMulti', JSON.stringify(request.pos));
                 moveToCheck = {
                     board: gameInfo.board,
                     playerTurn: 1,
                     i: request.pos[1],
                     j: request.pos[0],
                 }
-            }
-            else if(request.token===gameInfo.player2.token && !checkIllegalMove(gameInfo.board,request.pos[0],-1)){
-                gameInfo.board[request.pos[0]][request.pos[1]]=-1;
-                io.to(gameInfo.player1.room).emit('doMoveMulti',JSON.stringify(request.pos));
+            } else if (user._id.toString() === gameInfo.player2.userID && !checkIllegalMove(gameInfo.board, request.pos[0], -1)) {
+                gameInfo.board[request.pos[0]][request.pos[1]] = -1;
+                io.to(gameInfo.player1.room).emit('doMoveMulti', JSON.stringify(request.pos));
                 moveToCheck = {
                     board: gameInfo.board,
                     playerTurn: -1,
                     i: request.pos[1],
                     j: request.pos[0],
                 }
-            }
-            else{
+            } else {
                 return;
             }
-            let check=checkMove(moveToCheck);
-            if (check.state === "over"){
-                if (check.winner ===1){
-                    io.to(gameInfo.player1.room).emit('win',null);
-                    io.to(gameInfo.player2.room).emit('lose',null);
-                }
-                else if (check.winner ===0){
-                    io.to(gameInfo.player1.room).emit('tie',null);
-                    io.to(gameInfo.player2.room).emit('tie',null);
-                }
-                else{
-                    io.to(gameInfo.player1.room).emit('lose',null);
-                    io.to(gameInfo.player2.room).emit('win',null);
+            let check = checkMove(moveToCheck);
+            if (check.state === "over") {
+                if (check.winner === 1) {
+                    io.to(gameInfo.player1.room).emit('win', null);
+                    io.to(gameInfo.player2.room).emit('lose', null);
+                } else if (check.winner === 0) {
+                    io.to(gameInfo.player1.room).emit('tie', null);
+                    io.to(gameInfo.player2.room).emit('tie', null);
+                } else {
+                    io.to(gameInfo.player1.room).emit('lose', null);
+                    io.to(gameInfo.player2.room).emit('win', null);
                 }
             }
 

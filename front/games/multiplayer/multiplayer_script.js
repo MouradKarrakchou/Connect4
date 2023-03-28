@@ -48,9 +48,9 @@ socket.on('tie', () => {
     addDraws();
     gameOver = true;
 });
-socket.on('message', (message) => {
+socket.on('message', (req) => {
     if (!isMuted) {
-        writeInChat("Opponent: " + message);
+        writeInChat(req.username+": " + req.message);
     }
 })
 document.addEventListener('DOMContentLoaded', init);

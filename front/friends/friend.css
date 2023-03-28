@@ -1,0 +1,111 @@
+html, body { height: 80%; width: 100%; margin: 0; }
+
+/* Set default font and background color */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f6ffd2;
+}
+
+/* Style the search bar and add friend button */
+#searchBar {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    width: auto;
+    background-color: #9e9d9224;
+}
+
+.buttonFriends {
+    padding: 1%;
+    border: none;
+    border-radius: 1%;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    width: 30%;
+    text-align: center;
+    border: 2px solid #0000003d;
+}
+#decline{
+    background-color: red;
+}
+/* Style the user not found message */
+.userNotFoundMessage {
+    display: none;
+    margin-top: 10px;
+}
+.friends{
+    display: flex;
+    height: 100%;
+}
+#remove{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#accept{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#fMenu{
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    background-color: #fffbe3d1;
+    border-top: 3px solid #99a37f36;
+    border-right: 3px solid #99a37f36;
+    border-left: 3px solid #99a37f36;
+    border-bottom: 3px solid #99a37f36;
+    margin-left:auto;
+    margin-right:auto;
+    width: 20%;
+    padding: .5%;
+    margin-top: 2%;
+}
+#decline{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.friend,.friendReq{
+    position: relative;
+    background-color: rgba(231, 225, 195, 0.36);
+    display: flex;
+    margin-bottom: 4%;
+    margin-top: 3%;
+    justify-content: center;
+}
+/* Style the friend list and friend request list */
+.friendMenu, .friendRequestMenu {
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    background-color: #fffbe3d1;
+    border-top: 3px solid #99a37f36;
+    border-right: 3px solid #99a37f36;
+    border-left: 3px solid #99a37f36;
+    border-bottom: 3px solid #99a37f36;
+    margin:auto;
+    width: 20%;
+    padding: .5%;
+    height: 100%;
+}
+
+.friendList, .friendRequest {
+    font-weight: bold;
+}
+
+.dropdown, .dropdownFriendRequest {
+    margin-top: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.dropdown a, .dropdownFriendRequest a {
+    display: block;
+    padding: 5px;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown a:hover, .dropdownFriendRequest a:hover {
+    background-color: #f5f5f5;
+}

@@ -139,10 +139,10 @@ function showFriendRequest(friendRequest) {
         let newItem = document.createElement('div');
 
         newItem.innerHTML = `
-                            <div class="friendRequest" >
+                            <div class="friendReq" >
                                 <h4>${friendRequest[i]}</h4>
-                                <button class="accept" id="accept">Accept</button>
-                                <button class="decline" id="decline">Decline</button>
+                                <button class="buttonFriends" id="accept">Accept</button>
+                                <button class="buttonFriends" id="decline">Decline</button>
                             </div>`;
 
         dropdown.appendChild(newItem);
