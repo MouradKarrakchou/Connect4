@@ -135,8 +135,6 @@ function setUpSockets(io){
         })
 
         socket.on('IAcceptTheChallenge', (data) => {
-            console.log("CHALLENGE HAS BEEN ACCEPTED");
-
             const friendWhoChallenged = data.friendWhoChallenged;
             const username = data.username;
             const friendSocket = findSocketByName(friendWhoChallenged, connectedSockets);

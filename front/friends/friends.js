@@ -256,7 +256,6 @@ socket.on('notConnectedMessage', (notConnectedFriend) => {
 })
 
 socket.on('challengeAccepted', (matchID) => {
-    console.log("Challenge Accepted?")
     window.location.href = '../games/multiplayer/multiplayer.html';
     document.cookie = "matchID=" + matchID + ";path=/";
 });
