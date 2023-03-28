@@ -163,7 +163,8 @@ function setUpSockets(io){
 
             if (friendSocket !== null) {
                 friendSocket.emit('friendIsChallenging', JSON.stringify({
-                    name: name,
+                    challengerToken: request.challengerToken,
+                    name: name
                 }))
             }
             else {
@@ -174,27 +175,37 @@ function setUpSockets(io){
             }
         })
 
-        socket.on('IAcceptTheChallenge', (data) => {
-            const friendWhoChallenged = data.friendWhoChallenged;
-            const username = data.username;
-            const friendSocket = findSocketByName(friendWhoChallenged, connectedSockets);
-            const userSocket = findSocketByName(username, connectedSockets);
+        socket.on('IAcceptTheChallenge', async (data) => {
+            const challengerToken = data.challengerToken;
+            const challengedToken = data.challengedToken;
+            const challenger = await retrieveUserFromDataBase(challengerToken);
+            const challenged = await retrieveUserFromDataBase(challengedToken);
 
-            let matchID = friendWhoChallenged + username + getRandomNumber(0,100000000000) + '';
+            const challengerName = challenger.username;
+            const challengedName = challenged.username;
+
+            const challengerSocket = findSocketByName(challengerName, connectedSockets);
+            const challengedSocket = findSocketByName(challengedName, connectedSockets);
+
+            let matchID = challengerName + challengedName + getRandomNumber(0, 100000000000) + '';
 
             const matchInfo = {
                 player1: {
-                    name: friendWhoChallenged,
+                    room: challengerToken + Math.floor(Math.random() * 100000000000000000),
+                    userID: challenger._id.toString(),
+                    username: challengerName,
                 },
                 player2: {
-                    name: username,
+                    room: challengedToken + Math.floor(Math.random() * 100000000000000000),
+                    userID: challenged._id.toString(),
+                    username: challengedName,
                 },
-                board:createBoard()
+                board: createBoard()
             };
 
             mapGames.set(matchID, matchInfo);
-            friendSocket.join(matchID);
-            userSocket.join(matchID);
+            challengerSocket.join(matchID);
+            challengedSocket.join(matchID);
             io.to(matchID).emit('challengeAccepted', matchID);
         })
 

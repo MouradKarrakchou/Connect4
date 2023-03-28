@@ -195,8 +195,10 @@ function declineFriendRequest(friendToDecline) {
 // Challenge a friend
 function challenge(button) {
     let friendName = button.parentNode.querySelector("h4").textContent
+    findToken();
 
     socket.emit('challengeFriend', JSON.stringify({
+        challengerToken: token,
         name: findUsername(),
         friendToChallenge: friendName
     }));
@@ -232,7 +234,10 @@ socket.on('friendIsChallenging', (request) => {
     dropdown.appendChild(newChallenge);
 
     document.getElementById("acceptTheChallenge").addEventListener('click', function () {
+        findToken();
         socket.emit('IAcceptTheChallenge', {
+            challengerToken: data.challengerToken,
+            challengedToken: token,
             username: findUsername(),
             friendWhoChallenged: challengerName,
         });
@@ -256,8 +261,8 @@ socket.on('notConnectedMessage', (notConnectedFriend) => {
 })
 
 socket.on('challengeAccepted', (matchID) => {
-    window.location.href = '../games/multiplayer/multiplayer.html';
     document.cookie = "matchID=" + matchID + ";path=/";
+    window.location.href = '../games/multiplayer/multiplayer.html';
 });
 
 socket.on('challengeDeclined', (friendWhoDeclined) => {
