@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<link href="./friend.css" type="text/css" rel="stylesheet">
 <script type="module" src="friends.js"></script>
 
 <head>
@@ -9,21 +9,24 @@
 </head>
 
 <body>
-    <input type="text" id="searchBar" placeholder="Friend's username">
-    <button type="button" id="addFriendButton">Add friend</button>
-    <a class="userNotFoundMessage" id="userNotFoundMessage" style="display:none; color: red">User not found! Check spelling, otherwise it does not exist</a>
-
-    <div class="friendMenu">
-        <div class="friendList" id="friendList">
-            Friends list:
-            <div class="dropdown"></div>
-        </div>
+    <div id="fMenu">
+        <input type="text" id="searchBar" placeholder="Friend's username">
+        <button type= "button" class="buttonFriends" id="addFriendButton">Add friend</button>
     </div>
+    <a class="userNotFoundMessage" id="userNotFoundMessage" style="display:none; color: red">User not found! Check spelling, otherwise it does not exist</a>
+    <div class="friends">
+        <div class="friendMenu">
+            <div class="friendList" id="friendList">
+                Friends list:
+                <div class="dropdown"></div>
+            </div>
+        </div>
 
-    <div class="friendRequestMenu">
-        <div class="friendRequest" id="friendRequest">
-            Friends requests:
-            <div class="dropdownFriendRequest"></div>
+        <div class="friendRequestMenu">
+            <div class="friendRequest" id="friendRequest">
+                Friends requests:
+                <div class="dropdownFriendRequest"></div>
+            </div>
         </div>
     </div>
 </body>
