@@ -3,9 +3,7 @@ const mapGames= new Map();
 
 function setUpSockets(io){
     io.on('connection',socket => {
-
         let connectedSockets = io.sockets.sockets;
-        console.log("CONNECTED SOCKET BACKEND: " + connectedSockets)
 
         socket.on('searchMultiGame', (playerReq) => {
 
@@ -116,23 +114,28 @@ function setUpSockets(io){
             socket.username = data.username;
         });
 
-        socket.on('challengeFriend', async (playerReq) => {
+        socket.on('challengeFriend', (playerReq) => {
             let request = JSON.parse(playerReq);
             let name = request.name;
             let friendToChallenge = request.friendToChallenge;
 
-            let friendSocket = await findSocketByName(friendToChallenge, connectedSockets);
+            let friendSocket = findSocketByName(friendToChallenge, connectedSockets);
 
             if (friendSocket !== null) {
                 friendSocket.emit('friendIsChallenging', JSON.stringify({
                     name: name,
                 }))
             }
+            else {
+                let userSocket = findSocketByName(name, connectedSockets);
+                if (userSocket !== null) {
+                    userSocket.emit('notConnectedMessage', friendToChallenge);
+                }
+            }
         })
 
-        socket.on('IAcceptTheChallenge', (request) => {
+        socket.on('IAcceptTheChallenge', (data) => {
             console.log("CHALLENGE HAS BEEN ACCEPTED");
-            let data = JSON.parse(request);
 
             const friendWhoChallenged = data.friendWhoChallenged;
             const username = data.username;
@@ -157,9 +160,8 @@ function setUpSockets(io){
             io.to(matchID).emit('challengeAccepted', matchID);
         })
 
-        socket.on('IDeclineTheChallenge', (request) => {
-            let data = JSON.parse(request);
-            io.to(findSocketByName(data.friendWhoChallenged, connectedSockets).emit('challengeDeclined', data.username));
+        socket.on('IDeclineTheChallenge', (data) => {
+            findSocketByName(data.friendWhoChallenged, connectedSockets).emit('challengeDeclined', data.username);
         })
     })
 }
@@ -167,11 +169,9 @@ function setUpSockets(io){
 function findSocketByName(name, connectedSockets) {
     let socketFound = null;
 
-    for (const [key, value] of connectedSockets) {
-        let socket = value;
+    for (const [key, socket] of connectedSockets) {
         if (socket.username === name) {
-            console.log("YES LET'S GO WE FOUND IT : " + socket);
-            socketFound = value;
+            socketFound = socket;
             break;
         }
     }

@@ -203,16 +203,14 @@ function challenge(button) {
 
     console.log("Challenge sent!");
 
-    //TODO ADD A POPUP OR A MESSAGE TO SHOW THE CHALLENGE LAUNCHED
+    let waitingMessage = document.getElementById("waitingForChallengeAnswer");
+    waitingMessage.innerText = "Waiting for " + friendName + "!";
+    waitingMessage.style.display = "block";
 }
 
 function hideUserNotFoundMessage() {
     document.getElementById("userNotFoundMessage").style.display = "none";
 }
-
-//socket.on('connect', () => {
-//     console.log('connected to the server! yay!');
-// });
 
 // Used to save the username in the socket data to find the socket by the user in server side
 socket.emit('socketByUsername', { username: findUsername() });
@@ -252,6 +250,11 @@ socket.on('friendIsChallenging', (request) => {
     });
 });
 
+socket.on('notConnectedMessage', (notConnectedFriend) => {
+    let waitingMessage = document.getElementById("waitingForChallengeAnswer");
+    waitingMessage.innerText = "Oh no! " + notConnectedFriend + " is not connected!"
+})
+
 socket.on('challengeAccepted', (matchID) => {
     console.log("Challenge Accepted?")
     window.location.href = '../games/multiplayer/multiplayer.html';
@@ -259,5 +262,6 @@ socket.on('challengeAccepted', (matchID) => {
 });
 
 socket.on('challengeDeclined', (friendWhoDeclined) => {
-    //TODO AFFICHAGE POUR MONTRER QUE LE CHALLENGE LANCER A ETE REFUSE
+    let waitingMessage = document.getElementById("waitingForChallengeAnswer");
+    waitingMessage.innerText = "Oh no! " + friendWhoDeclined + " has declined your challenge!"
 })
