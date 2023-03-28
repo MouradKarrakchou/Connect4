@@ -13,9 +13,11 @@ socket.on('matchFound', (matchID) => {
 socket.on('inQueue', (roomName) => {
     console.log("inQueue");
     document.getElementById("search").style.display = "block";
+    document.getElementById("hidingEverything").style.display = "block";
 });
 socket.on('cancel', () => {
     document.getElementById("search").style.display = "none";
+    document.getElementById("hidingEverything").style.display = "none";
 });
 let gameSaved=document.getElementById("gameSaved");
 
