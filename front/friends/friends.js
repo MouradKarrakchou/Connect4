@@ -1,5 +1,5 @@
 import {findToken, token, address} from "../games/dataManager.js";
-
+let currentFriendDiscussion;
 document.addEventListener('DOMContentLoaded', init);
 async function init() {
     document.getElementById('addFriendButton').addEventListener('click', addFriend);
@@ -69,6 +69,7 @@ async function getFriendList() {
         });
 }
 
+
 function showFriendList(friendList) {
     for (let i = 0; i < friendList.length; i++) {
         let dropdown = document.querySelector('.dropdown');
@@ -77,13 +78,18 @@ function showFriendList(friendList) {
         newItem.innerHTML = `
                             <div class="friend" >
                                 <h4 >${friendList[i]}</h4>
-                                <button class="remove" id="remove">Remove</button>
+                                <button class="buttonFriends" id="remove">Remove</button>
+                                <button class="buttonFriends" id="message">Message</button>
                             </div>`;
 
         dropdown.appendChild(newItem);
         document.getElementById("remove").addEventListener('click', function () {
             removeFriend(friendList[i]);
             window.location.reload();
+        });
+        document.getElementById("message").addEventListener('click', function () {
+            currentFriendDiscussion=friendList[i];
+            console.log("CURRENT FRIEND MESSAGING"+currentFriendDiscussion);
         });
     }
 }
@@ -189,3 +195,11 @@ function declineFriendRequest(friendToDecline) {
 function hideUserNotFoundMessage() {
     document.getElementById("userNotFoundMessage").style.display = "none";
 }
+const chatBar = document.getElementById('chatBar');
+
+chatBar.addEventListener('keydown', (event) => {
+    if (event.keyCode === 13) {
+        console.log(chatBar.value);
+        chatBar.value='';
+    }
+});

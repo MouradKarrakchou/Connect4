@@ -103,6 +103,23 @@ function setUpSockets(io){
             }
         })
 
+        socket.on('friendChat', async (playerReq) => {
+            let request = JSON.parse(playerReq);
+            let gameInfo = mapGames.get(request.matchID);
+            let user = await retrieveUserFromDataBase(request.token);
+            if (user._id.toString() === gameInfo.player1.userID) {
+                io.to(gameInfo.player2.room).emit('message', {
+                    username:gameInfo.player1.username,
+                    message:request.chat
+                });
+            } else if (user._id.toString() === gameInfo.player2.userID) {
+                io.to(gameInfo.player1.room).emit('message', {
+                    username:gameInfo.player2.username,
+                    message:request.chat
+                });
+            }
+        })
+
         socket.on('playMulti', async (playerReq) => {
             let request = JSON.parse(playerReq);
             console.log(playerReq);
