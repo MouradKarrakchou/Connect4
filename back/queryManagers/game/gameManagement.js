@@ -3,6 +3,10 @@ const mapGames= new Map();
 
 function setUpSockets(io){
     io.on('connection',socket => {
+
+        let connectedSockets = io.sockets.sockets;
+        console.log("CONNECTED SOCKET BACKEND: " + connectedSockets)
+
         socket.on('searchMultiGame', (playerReq) => {
 
             let player=JSON.parse(playerReq);
@@ -107,20 +111,71 @@ function setUpSockets(io){
 
         })
 
-        socket.on('challengeFriend', (playerReq) => {
+        // Store the username linked to this socket
+        socket.on('socketByUsername', function(data) {
+            socket.username = data.username;
+        });
+
+        socket.on('challengeFriend', async (playerReq) => {
             let request = JSON.parse(playerReq);
             let name = request.name;
-            let roomName = request.room;
             let friendToChallenge = request.friendToChallenge;
 
-            io.to(friendToChallenge).emit('friendIsChallenging', JSON.stringify({
-                name: name,
-                roomName: roomName
-            }))
+            let friendSocket = await findSocketByName(friendToChallenge, connectedSockets);
 
+            if (friendSocket !== null) {
+                friendSocket.emit('friendIsChallenging', JSON.stringify({
+                    name: name,
+                }))
+            }
         })
 
+        socket.on('IAcceptTheChallenge', (request) => {
+            console.log("CHALLENGE HAS BEEN ACCEPTED");
+            let data = JSON.parse(request);
+
+            const friendWhoChallenged = data.friendWhoChallenged;
+            const username = data.username;
+            const friendSocket = findSocketByName(friendWhoChallenged, connectedSockets);
+            const userSocket = findSocketByName(username, connectedSockets);
+
+            let matchID = friendWhoChallenged + username + getRandomNumber(0,100000000000) + '';
+
+            const matchInfo = {
+                player1: {
+                    name: friendWhoChallenged,
+                },
+                player2: {
+                    name: username,
+                },
+                board:createBoard()
+            };
+
+            mapGames.set(matchID, matchInfo);
+            friendSocket.join(matchID);
+            userSocket.join(matchID);
+            io.to(matchID).emit('challengeAccepted', matchID);
+        })
+
+        socket.on('IDeclineTheChallenge', (request) => {
+            let data = JSON.parse(request);
+            io.to(findSocketByName(data.friendWhoChallenged, connectedSockets).emit('challengeDeclined', data.username));
+        })
     })
+}
+
+function findSocketByName(name, connectedSockets) {
+    let socketFound = null;
+
+    for (const [key, value] of connectedSockets) {
+        let socket = value;
+        if (socket.username === name) {
+            console.log("YES LET'S GO WE FOUND IT : " + socket);
+            socketFound = value;
+            break;
+        }
+    }
+    return socketFound;
 }
 
 function createBoard() {

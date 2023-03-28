@@ -2,6 +2,7 @@
 <html lang="en">
 
 <script type="module" src="friends.js"></script>
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 
 <head>
     <meta charset="UTF-8">
@@ -27,7 +28,12 @@
         </div>
     </div>
 
-    <div class="challengeMessage" id="challengeMessage" style="display: none"></div>
+    <div class="challengeMessageMenu">
+        <div class="challengeMessage" id="challengeMessage">
+            Challenges requests:
+            <div class="dropdownChallengeRequest"></div>
+        </div>
+    </div>
 
 </body>
 </html>
