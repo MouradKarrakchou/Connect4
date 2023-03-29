@@ -11,7 +11,17 @@ h1 {
     font-size: 40px;
     text-shadow: 2px 2px #ff9900;
 }
-
+.home{
+    background-color: #fffbe3d1;
+    border-top: 3px solid #99a37f36;
+    border-right: 3px solid #99a37f36;
+    border-bottom: 3px solid #99a37f36;
+    font-size: 50px;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+}
 h2, h3, h4 {
     margin-left: 20px;
     font-size: 30px;

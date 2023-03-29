@@ -7,12 +7,16 @@ let draws = 0;
 let elo = 1000;
 async function init() {
     await findElo();
-    await findWins();
     await findLosses();
+    await findWins();
     await findDraws();
     document.getElementById("username").innerHTML = username;
     document.getElementById("games-played").innerHTML = wins + losses + draws;
-    document.getElementById("winrate").innerHTML = Math.round((wins / (wins + losses + draws)) * 100) + "%";
+    if(wins + losses + draws != 0){
+        document.getElementById("winrate").innerHTML = Math.round((wins / (wins + losses + draws)) * 100) + "%";
+    } else {
+        document.getElementById("winrate").innerHTML = "0%";
+    }
     const rankImage = document.querySelector('#rankImage');
     if (elo < 1100 ) {
         rankImage.src = '../img/Bronze1.png';

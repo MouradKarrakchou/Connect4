@@ -183,63 +183,9 @@ async function retrieveElo(response, requestFrom) {
         await client.close();
     }
 }
-async function addWins(response, requestFrom){
-    const collectionName = "log";
-    try {
-        await client.connect();
-        const db = client.db("connect4");
-        const collection = db.collection(collectionName);
-        const user = await collection.findOne({token: requestFrom});
-        let userWins = user.wins + 1;
-        await collection.updateOne({token: requestFrom}, {$set: {wins: userWins}});
-    }
-    catch (err) {
-        console.error('Token not found', err);
-        response.writeHead(400, {'Content-Type': 'application/json'});
-        response.end(JSON.stringify({status: 'failure'}));
-    }
-    finally {
-        await client.close();
-    }
-}
-async function addLosses(response, requestFrom){
-    const collectionName = "log";
-    try {
-        await client.connect();
-        const db = client.db("connect4");
-        const collection = db.collection(collectionName);
-        const user = await collection.findOne({token: requestFrom});
-        let userLosses = user.losses + 1;
-        await collection.updateOne({token: requestFrom}, {$set: {losses: userLosses}});
-    }
-    catch (err) {
-        console.error('Token not found', err);
-        response.writeHead(400, {'Content-Type': 'application/json'});
-        response.end(JSON.stringify({status: 'failure'}));
-    }
-    finally {
-        await client.close();
-    }
-}
-async function addDraws(response, requestFrom){
-    const collectionName = "log";
-    try {
-        await client.connect();
-        const db = client.db("connect4");
-        const collection = db.collection(collectionName);
-        const user = await collection.findOne({token: requestFrom});
-        let userDraws = user.draws + 1;
-        await collection.updateOne({token: requestFrom}, {$set: {draws: userDraws}});
-    }
-    catch (err) {
-        console.error('Token not found', err);
-        response.writeHead(400, {'Content-Type': 'application/json'});
-        response.end(JSON.stringify({status: 'failure'}));
-    }
-    finally {
-        await client.close();
-    }
-}
+
+
+
 async function retrieveWins(response, requestFrom) {
     const collectionName = "log";
     try {
@@ -483,6 +429,7 @@ async function  declineFriendRequest(response, requestFrom, friendToDecline) {
     }
 }
 
+
 exports.findInDataBase = loginInDataBase;
 exports.createInDataBase = createInDataBase;
 exports.findEverythingInDataBase = findEverythingInDataBase;
@@ -498,8 +445,6 @@ exports.retrieveElo = retrieveElo;
 exports.retrieveWins = retrieveWins;
 exports.retrieveLosses = retrieveLosses;
 exports.retrieveDraws = retrieveDraws;
-exports.addWins = addWins;
-exports.addLosses = addLosses;
-exports.addDraws = addDraws;
+
 
 
