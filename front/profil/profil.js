@@ -12,11 +12,10 @@ async function init() {
     await findDraws();
     document.getElementById("username").innerHTML = username;
     document.getElementById("games-played").innerHTML = wins + losses + draws;
-    if(wins + losses + draws != 0){
-        document.getElementById("winrate").innerHTML = Math.round((wins / (wins + losses + draws)) * 100) + "%";
-    } else {
+    if(wins + losses + draws === 0){
         document.getElementById("winrate").innerHTML = "0%";
-    }
+    } else {
+        document.getElementById("winrate").innerHTML = Math.round((wins / (wins + losses + draws)) * 100) + "%";    }
     const rankImage = document.querySelector('#rankImage');
     if (elo < 1100 ) {
         rankImage.src = '../img/Bronze1.png';
