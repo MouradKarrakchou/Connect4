@@ -5,35 +5,45 @@ import {
     surrender, printIllegalMove
 } from "../gameManagement.js"
 import {address, findToken, token} from "../dataManager.js";
-
 let counter = 0;
 let gameOver = false;
 let itsMyTurn;
 var socket = io();
 let playfirst;
+var player1elo = 0;
+var player2elo = 0;
 
 const mapColor = new Map();
 mapColor.set('Yellow','#cee86bcc');
 mapColor.set('Red','#c92c2c9c');
 
-socket.on('firstPlayerInit', (matchID) => {
+socket.on('firstPlayerInit', (playersData) => {
     playfirst=true;
     colorMessage(counter);
+    player1elo = playersData.yourElo;
+    player2elo = playersData.opponentElo;
+    document.getElementById("opponentElo").innerText = "Opponent elo: " + playersData.opponentElo;
+    document.getElementById("playerElo").innerText = "Your elo: " + playersData.yourElo;
 });
-socket.on('secondPlayerInit', (matchID) => {
+socket.on('secondPlayerInit', (playersData) => {
     playfirst=false;
     colorMessage(counter);
+    document.getElementById("opponentElo").innerText = "Opponent elo: " + playersData.opponentElo;
+    document.getElementById("playerElo").innerText = "Your elo: " + playersData.yourElo;
+
 });
-socket.on('win', () => {
+socket.on('win', (data) => {
+
     console.log("C EST LA GAME");
-    document.getElementById("message").innerText =" You won! :)";
+
+    document.getElementById("message").innerText = " You won " + data + " elo points! ";
     document.getElementById("reset-button").style.display = "block";
     document.getElementById("reset-button").addEventListener("click", resetGame);
     gameOver = true;
 });
-socket.on('lose', () => {
+socket.on('lose', (data) => {
     console.log("FF");
-    document.getElementById("message").innerText = " You lost... :( ";
+    document.getElementById("message").innerText = " You lost " + data + " elo points!";
     document.getElementById("reset-button").style.display = "block";
     document.getElementById("reset-button").addEventListener("click", resetGame);
     gameOver = true;
@@ -65,7 +75,6 @@ function logout() {
     document.cookie = "username=" + undefined + ";path=/";
     window.location.href = "../../loginRegister/loginRegister.html";
 }
-
 
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
@@ -135,6 +144,7 @@ function startplay(tab){
 
     return ([column,line]);
 }
+
 
 function resetGame() {
     gameOver = false;

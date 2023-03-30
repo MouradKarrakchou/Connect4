@@ -208,7 +208,7 @@ function declineFriendRequest(friendToDecline) {
 }
 
 // Challenge a friend
-function challenge(button) {
+export function challenge(button) {
     let friendName = button.parentNode.querySelector("h4").textContent
     findToken();
 
@@ -225,37 +225,7 @@ function challenge(button) {
     waitingMessage.style.display = "block";
 }
 
-function hideUserNotFoundMessage() {
-    document.getElementById("userNotFoundMessage").style.display = "none";
-}
-const chatBar = document.getElementById('chatBar');
-
-chatBar.addEventListener('keydown', (event) => {
-    if (event.keyCode === 13) {
-        socket.emit('friendChat', { friendUsername: currentFriendDiscussion,
-        chat: chatBar.value,
-        token: token});
-        appendMessage("Me: "+chatBar.value);
-        chatBar.value='';
-    }
-});
-
-// Used to save the username in the socket data to find the socket by the user in server side
-socket.emit('socketByUsername', { username: findUsername() });
-
-socket.on('privateMessage', (request) => {
-    if (currentFriendDiscussion!==request.username){
-        currentFriendDiscussion=request.username;
-    }
-    appendMessage(currentFriendDiscussion+": "+request.message);
-})
-socket.on('allConversationPrivateMessages', (request) => {
-    request.forEach(msg=>appendMessage(msg.from+": "+msg.message))
-})
-
-socket.on('friendIsChallenging', (request) => {
-    let data = JSON.parse(request);
-
+function challenged(data) {
     let dropdown = document.querySelector('.dropdownChallengeRequest');
     let newChallenge = document.createElement('div');
     let challengerName = data.name
@@ -289,6 +259,39 @@ socket.on('friendIsChallenging', (request) => {
         dropdown.removeChild(newChallenge)
         window.location.reload();
     });
+}
+
+function hideUserNotFoundMessage() {
+    document.getElementById("userNotFoundMessage").style.display = "none";
+}
+
+const chatBar = document.getElementById('chatBar');
+
+chatBar.addEventListener('keydown', (event) => {
+    if (event.keyCode === 13) {
+        socket.emit('friendChat', { friendUsername: currentFriendDiscussion,
+            chat: chatBar.value,
+            token: token});
+        appendMessage("Me: "+chatBar.value);
+        chatBar.value='';
+    }
+});
+
+// Used to save the username in the socket data to find the socket by the user in server side
+socket.emit('socketByUsername', { username: findUsername() });
+
+socket.on('privateMessage', (request) => {
+    if (currentFriendDiscussion!==request.username){
+        currentFriendDiscussion=request.username;
+    }
+    appendMessage(currentFriendDiscussion+": "+request.message);
+})
+socket.on('allConversationPrivateMessages', (request) => {
+    request.forEach(msg=>appendMessage(msg.from+": "+msg.message))
+})
+socket.on('friendIsChallenging', (request) => {
+    let data = JSON.parse(request);
+    challenged(data);
 });
 function appendMessage(message) {
     let newItem = document.createElement('div');
@@ -298,9 +301,8 @@ function appendMessage(message) {
 }
 
 socket.on('notConnectedMessage', (notConnectedFriend) => {
-
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-    waitingMessage.innerText = "Oh no! " + notConnectedFriend + " is not connected!"
+    waitingMessage.innerText = "Oh no! " + notConnectedFriend + " is not connected! Or he is already in game..."
 })
 
 socket.on('challengeAccepted', (matchID) => {

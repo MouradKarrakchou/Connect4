@@ -1,5 +1,5 @@
 import {findToken, token, address} from "../games/dataManager.js";
-import {toTab, findTokenReturned} from "../games/gameManagement.js";
+import {toTab, findTokenReturned, findUsername} from "../games/gameManagement.js";
 
 var socket = io();
 
@@ -19,7 +19,7 @@ socket.on('cancel', () => {
 let gameSaved=document.getElementById("gameSaved");
 
 
-window.addEventListener('load', function () {
+document.addEventListener('DOMContentLoaded', function () {
     getAllGames();
     document.getElementById("b").addEventListener('click', findGame);
     document.getElementById("cancel").addEventListener('click', cancelGame);
@@ -151,3 +151,70 @@ function logout() {
     document.cookie = "username=" + undefined + ";path=/";
     window.location.href = "../loginRegister/loginRegister.html";
 }
+
+
+// ----------------------------- Challenge -----------------------------
+// When you get challenged
+function challenged(data) {
+    console.log("challenged start");
+    let dropdown = document.querySelector('.dropdownChallengeRequest');
+    let newChallenge = document.createElement('div');
+    let challengerName = data.name
+
+    newChallenge.innerHTML = `
+                            <div class="friendIsChallenging" >
+                                <h4>${challengerName} is challenging you!</h4>
+                                <button class="buttonAcceptChallenge" id="acceptTheChallenge">Accept</button>
+                                <button class="buttonDeclineChallenge" id="declineTheChallenge">Decline</button>
+                            </div>`;
+
+    dropdown.appendChild(newChallenge);
+
+    document.getElementById("acceptTheChallenge").addEventListener('click', function () {
+        findToken();
+        socket.emit('IAcceptTheChallenge', {
+            challengerToken: data.challengerToken,
+            challengedToken: token,
+            username: findUsername(),
+            friendWhoChallenged: challengerName,
+        });
+
+        dropdown.removeChild(newChallenge)
+    });
+    document.getElementById("declineTheChallenge").addEventListener('click', function () {
+        socket.emit('IDeclineTheChallenge', {
+            username: findUsername(),
+            friendWhoChallenged: challengerName
+        });
+
+        dropdown.removeChild(newChallenge)
+        window.location.reload();
+    });
+    console.log("challenged end");
+}
+
+// -------- Sockets for the challenges --------
+
+// Used to save the username in the socket data to find the socket by the user in server side
+socket.emit('socketByUsername', { username: findUsername()});
+
+socket.on('friendIsChallenging', (request) => {
+    let data = JSON.parse(request);
+    challenged(data);
+    console.log("YOU GOT CHALLENGED BRO");
+});
+
+socket.on('notConnectedMessage', (notConnectedFriend) => {
+    let waitingMessage = document.getElementById("waitingForChallengeAnswer");
+    waitingMessage.innerText = "Oh no! " + notConnectedFriend + " is not connected!"
+})
+
+socket.on('challengeAccepted', (matchID) => {
+    document.cookie = "matchID=" + matchID + ";path=/";
+    window.location.href = '../games/multiplayer/multiplayer.html';
+});
+
+socket.on('challengeDeclined', (friendWhoDeclined) => {
+    let waitingMessage = document.getElementById("waitingForChallengeAnswer");
+    waitingMessage.innerText = "Oh no! " + friendWhoDeclined + " has declined your challenge!"
+})
