@@ -4,7 +4,6 @@ let roomInSearch=null;
 const mapGames= new Map();
 const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-
 function setUpSockets(io){
     const MongoClient = require('mongodb').MongoClient;
 
@@ -20,6 +19,22 @@ function setUpSockets(io){
         const collection = db.collection("log");
         const item = await collection.findOne({token:token});
         return item;
+    }
+
+    async function saveMessageToDataBase(from,to,message){
+        await client.connect();
+        console.log('Connected to MongoDB');
+        const db = client.db("connect4");
+        const chatCollection = db.collection("chat");
+        const item = await chatCollection.insertOne({from:from,to:to,message:message});
+    }
+    async function loadAllMessageFromConversation(from,to){
+        await client.connect();
+        console.log('Connected to MongoDB');
+        const db = client.db("connect4");
+        const chatCollection = db.collection("chat");
+        const item = await chatCollection.find({ $or:[{from:from,to:to},{from:to,to:from}]}).toArray();
+        return item.map(mess => mess.message);
     }
 
     let connectedSockets = io.sockets.sockets;
@@ -108,22 +123,21 @@ function setUpSockets(io){
             }
         })
 
-        socket.on('friendChat', async (playerReq) => {
-            let request = JSON.parse(playerReq);
-            let gameInfo = mapGames.get(request.matchID);
+        socket.on('friendChat', async (request) => {
             let user = await retrieveUserFromDataBase(request.token);
-            if (user._id.toString() === gameInfo.player1.userID) {
-                io.to(gameInfo.player2.room).emit('message', {
-                    username:gameInfo.player1.username,
-                    message:request.chat
-                });
-            } else if (user._id.toString() === gameInfo.player2.userID) {
-                io.to(gameInfo.player1.room).emit('message', {
-                    username:gameInfo.player2.username,
-                    message:request.chat
-                });
-            }
-        })
+            console.log(user);
+            findSocketByName(request.friendUsername,connectedSockets).emit('privateMessage', {
+                    username:user.username,
+                    message:request.chat})
+
+            await saveMessageToDataBase(user.username,request.friendUsername,request.chat);
+        }
+        )
+        socket.on('loadFriendChat', async (request) => {
+            let user = await retrieveUserFromDataBase(request.token);
+
+            let allUserMessages=await loadAllMessageFromConversation(user.username,request.friendUsername);
+            findSocketByName(request.friendUsername,connectedSockets).emit('allConversationPrivateMessages', allUserMessages)})
 
         socket.on('playMulti', async (playerReq) => {
             let request = JSON.parse(playerReq);

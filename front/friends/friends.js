@@ -3,6 +3,8 @@ import {findUsername} from "../games/gameManagement.js";
 let socket = io();
 
 let currentFriendDiscussion;
+const chatMessages = document.querySelector('#chat-messages');
+const chatContainer= document.getElementById("chat-container");
 document.addEventListener('DOMContentLoaded', init);
 async function init() {
     document.getElementById('addFriendButton').addEventListener('click', addFriend);
@@ -95,10 +97,17 @@ function showFriendList(friendList) {
         });
         document.getElementById("message").addEventListener('click', function () {
             currentFriendDiscussion=friendList[i];
-            console.log("CURRENT FRIEND MESSAGING"+currentFriendDiscussion);
+            setupChatContainer();
         });
     }
 }
+
+function setupChatContainer(){
+    chatContainer.style.display = "flex";
+    socket.emit('loadFriendChat', { friendUsername: currentFriendDiscussion,
+        token: token});
+}
+
 
 function removeFriend(friendToRemove) {
     findToken();
@@ -223,13 +232,26 @@ const chatBar = document.getElementById('chatBar');
 
 chatBar.addEventListener('keydown', (event) => {
     if (event.keyCode === 13) {
-        console.log(chatBar.value);
+        socket.emit('friendChat', { friendUsername: currentFriendDiscussion,
+        chat: chatBar.value,
+        token: token});
+        appendMessage("Me: "+chatBar.value);
         chatBar.value='';
     }
 });
 
 // Used to save the username in the socket data to find the socket by the user in server side
 socket.emit('socketByUsername', { username: findUsername() });
+
+socket.on('privateMessage', (request) => {
+    if (currentFriendDiscussion!==request.username){
+        currentFriendDiscussion=request.username;
+    }
+    appendMessage(currentFriendDiscussion+": "+request.message);
+})
+socket.on('allConversationPrivateMessages', (request) => {
+    request.forEach(msg=>appendMessage(msg.from+": "+msg.message))
+})
 
 socket.on('friendIsChallenging', (request) => {
     let data = JSON.parse(request);
@@ -268,8 +290,15 @@ socket.on('friendIsChallenging', (request) => {
         window.location.reload();
     });
 });
+function appendMessage(message) {
+    let newItem = document.createElement('div');
+    chatContainer.style.display = "flex";
+    newItem.innerHTML = '<div className="user-message">'+message+'</div>';
+    chatMessages.appendChild(newItem);
+}
 
 socket.on('notConnectedMessage', (notConnectedFriend) => {
+
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
     waitingMessage.innerText = "Oh no! " + notConnectedFriend + " is not connected!"
 })
