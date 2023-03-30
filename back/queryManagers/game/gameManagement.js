@@ -4,6 +4,7 @@ let roomInSearch=null;
 const mapGames= new Map();
 const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+
 function setUpSockets(io){
     const MongoClient = require('mongodb').MongoClient;
 
@@ -223,6 +224,8 @@ function setUpSockets(io){
         // Store the username linked to this socket
         socket.on('socketByUsername', function(data) {
             socket.username = data.username;
+            console.log("SOCKET BY USERNAME: " + socket.username);
+            console.log("SOCKET BY USERNAME NUMBER OF CONNECTED SOCKET: " + connectedSockets.size);
         });
 
         socket.on('challengeFriend', (request) => {
