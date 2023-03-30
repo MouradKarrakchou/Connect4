@@ -2,6 +2,9 @@ import {findToken, token, address} from "../games/dataManager.js";
 import {findUsername} from "../games/gameManagement.js";
 let socket = io();
 
+let pendingChallenge = false;
+let pendingChallenged;
+
 let currentFriendDiscussion;
 const chatMessages = document.querySelector('#chat-messages');
 const chatContainer = document.getElementById("chat-container");
@@ -219,18 +222,27 @@ function declineFriendRequest(friendToDecline) {
 // Challenge a friend
 function challenge(button) {
     let friendName = button.parentNode.querySelector("h4").textContent
-    findToken();
 
-    socket.emit('challengeFriend', {
-        challengerToken: token,
-        challengedName: friendName
-    });
+    if (pendingChallenge) {
+        let messageElement = document.getElementById("waitingForChallengeAnswer");
+        messageElement.innerText = "Waiting for " + pendingChallenged +
+            "! You cannot challenge two friends at the same time! Cancel your pending challenge first"
+    } else {
+        findToken();
 
-    console.log("Challenge sent!");
+        socket.emit('challengeFriend', {
+            challengerToken: token,
+            challengedName: friendName
+        });
 
-    let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-    waitingMessage.innerText = "Waiting for " + friendName + "!";
-    waitingMessage.style.display = "block";
+        console.log("Challenge sent!");
+
+        let waitingMessage = document.getElementById("waitingForChallengeAnswer");
+        waitingMessage.innerText = "Waiting for " + friendName + "!";
+        waitingMessage.style.display = "block";
+        pendingChallenge = true;
+        pendingChallenged = friendName;
+    }
 }
 
 function challenged(data) {
@@ -304,21 +316,25 @@ function appendMessage(message) {
 }
 
 socket.on('notConnectedMessage', (challengedName) => {
+    pendingChallenge = false;
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
     waitingMessage.innerText = "Oh no! " + challengedName + " is not connected! Or he is already in game..."
 })
 
 socket.on('notFriendMessage', (challengedName) => {
+    pendingChallenge = false;
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
     waitingMessage.innerText = "Oh no! " + challengedName + " is not your friend!"
 })
 
 socket.on('challengeAccepted', (matchID) => {
+    pendingChallenge = false;
     document.cookie = "matchID=" + matchID + ";path=/";
     window.location.href = '../games/multiplayer/multiplayer.html';
 });
 
 socket.on('challengeDeclined', (challengedName) => {
+    pendingChallenge = false;
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
     waitingMessage.innerText = "Oh no! " + challengedName + " has declined your challenge!"
 })
