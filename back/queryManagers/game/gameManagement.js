@@ -182,6 +182,8 @@ function setUpSockets(io){
         // Store the username linked to this socket
         socket.on('socketByUsername', function(data) {
             socket.username = data.username;
+            console.log("SOCKET BY USERNAME: " + socket.username);
+            console.log("SOCKET BY USERNAME NUMBER OF CONNECTED SOCKET: " + connectedSockets.size);
         });
 
         socket.on('challengeFriend', (playerReq) => {
@@ -192,10 +194,12 @@ function setUpSockets(io){
             let friendSocket = findSocketByName(friendToChallenge, connectedSockets);
 
             if (friendSocket !== null) {
+                console.log("CHALLENGE FRIEND WILL BE SENT TO " + friendSocket.username);
                 friendSocket.emit('friendIsChallenging', JSON.stringify({
                     challengerToken: request.challengerToken,
                     name: name
                 }))
+                console.log("CHALLENGE FRIEND SENT TO " + friendSocket.username);
             }
             else {
                 let userSocket = findSocketByName(name, connectedSockets);
