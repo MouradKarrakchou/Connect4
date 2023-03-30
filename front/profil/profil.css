@@ -39,14 +39,13 @@ p {
     text-shadow: 1px 1px #ffffff;
 }
 
+
 #rank {
     font-style: italic;
     color: #ff9900;
     display: inline-block;
 }
-
 #rankImage{
-    position: center;
     display: inline-block;
     width: 100px;
     height: 100px;
@@ -56,6 +55,7 @@ p {
     border-radius: 50%;
     border: 3px solid #ff9900;
     box-shadow: 0 0 10px #ff9900;
+    vertical-align: middle; /* Ajout de la propriété vertical-align */
 }
 
 #games-played, #wins, #losses, #draws {
