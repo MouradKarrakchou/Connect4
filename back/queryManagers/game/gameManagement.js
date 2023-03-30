@@ -1,7 +1,10 @@
 const {MongoClient} = require("mongodb");
+const {response} = require("express");
 
 let roomInSearch=null;
 const mapGames= new Map();
+const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
+const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 function setUpSockets(io){
     const MongoClient = require('mongodb').MongoClient;
@@ -154,14 +157,23 @@ function setUpSockets(io){
             let check = checkMove(moveToCheck);
             if (check.state === "over") {
                 if (check.winner === 1) {
+                    console.log("token joueur 1 "+gameInfo.player1.username);
+                    console.log("token joueur 2 "+gameInfo.player2.username);
                     io.to(gameInfo.player1.room).emit('win', null);
                     io.to(gameInfo.player2.room).emit('lose', null);
+                    console.log()
+                    await addWins(gameInfo.player1.username)
+                    await addLosses(gameInfo.player2.username)
                 } else if (check.winner === 0) {
                     io.to(gameInfo.player1.room).emit('tie', null);
                     io.to(gameInfo.player2.room).emit('tie', null);
+                    await addDraws(gameInfo.player1.token)
+                    await addDraws(gameInfo.player2.token)
                 } else {
                     io.to(gameInfo.player1.room).emit('lose', null);
                     io.to(gameInfo.player2.room).emit('win', null);
+                    await addWins(gameInfo.player2.token)
+                    await addLosses(gameInfo.player1.token)
                 }
             }
 
@@ -171,12 +183,6 @@ function setUpSockets(io){
         socket.on('socketByUsername', function(data) {
             socket.username = data.username;
         });
-
-        socket.on('challengeRoom', (token) => {
-            let user = retrieveUserFromDataBase(token);
-            let socket = findSocketByName(user.username);
-            socket.join(user.username);
-        })
 
         socket.on('challengeFriend', (playerReq) => {
             let request = JSON.parse(playerReq);
@@ -218,11 +224,13 @@ function setUpSockets(io){
                     room: challengerToken + Math.floor(Math.random() * 100000000000000000),
                     userID: challenger._id.toString(),
                     username: challengerName,
+                    token: challengerToken
                 },
                 player2: {
                     room: challengedToken + Math.floor(Math.random() * 100000000000000000),
                     userID: challenged._id.toString(),
                     username: challengedName,
+                    token: challengedToken
                 },
                 board: createBoard()
             };
@@ -420,5 +428,75 @@ function getRandomNumber(min, max) {
     // Calculate a random number between min and max, inclusive
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+async function addWins(requestFrom){
+    const collectionName = "log";
+    try {
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+        const user = await collection.findOne({username: requestFrom});
+        let userWins = user.wins + 1;
+        await collection.updateOne({username: requestFrom}, {$set: {wins: userWins}});
+    }
+    catch (err) {
+        console.error('Token not found', err);
 
+    }
+    finally {
+        await client.close();
+    }
+}
+async function addLosses(requestFrom){
+    const collectionName = "log";
+    try {
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+        const user = await collection.findOne({username: requestFrom});
+        let userLosses = user.losses + 1;
+        await collection.updateOne({username: requestFrom}, {$set: {losses: userLosses}});
+    }
+    catch (err) {
+        console.error('Token not found', err);
+
+    }
+    finally {
+        await client.close();
+    }
+}
+async function addDraws(requestFrom){
+    const collectionName = "log";
+    try {
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+        const user = await collection.findOne({token: requestFrom});
+        let userDraws = user.draws + 1;
+        await collection.updateOne({token: requestFrom}, {$set: {draws: userDraws}});
+    }
+    catch (err) {
+        console.error('Token not found', err);
+    }
+    finally {
+        await client.close();
+    }
+}
+async function addElo(requestFrom, elo){
+    const collectionName = "log";
+    try {
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+        const user = await collection.findOne({username: requestFrom});
+        let userElo = user.elo + elo;
+        await collection.updateOne({username: requestFrom}, {$set: {elo: userElo}});
+    }
+    catch (err) {
+        console.error('Token not found', err);
+
+    }
+    finally {
+        await client.close();
+    }
+}
 exports.setUpSockets = setUpSockets;
