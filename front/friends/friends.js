@@ -199,7 +199,7 @@ function declineFriendRequest(friendToDecline) {
 }
 
 // Challenge a friend
-function challenge(button) {
+export function challenge(button) {
     let friendName = button.parentNode.querySelector("h4").textContent
     findToken();
 
@@ -216,24 +216,7 @@ function challenge(button) {
     waitingMessage.style.display = "block";
 }
 
-function hideUserNotFoundMessage() {
-    document.getElementById("userNotFoundMessage").style.display = "none";
-}
-const chatBar = document.getElementById('chatBar');
-
-chatBar.addEventListener('keydown', (event) => {
-    if (event.keyCode === 13) {
-        console.log(chatBar.value);
-        chatBar.value='';
-    }
-});
-
-// Used to save the username in the socket data to find the socket by the user in server side
-socket.emit('socketByUsername', { username: findUsername() });
-
-socket.on('friendIsChallenging', (request) => {
-    let data = JSON.parse(request);
-
+function challenged(data) {
     let dropdown = document.querySelector('.dropdownChallengeRequest');
     let newChallenge = document.createElement('div');
     let challengerName = data.name
@@ -267,11 +250,32 @@ socket.on('friendIsChallenging', (request) => {
         dropdown.removeChild(newChallenge)
         window.location.reload();
     });
+}
+
+function hideUserNotFoundMessage() {
+    document.getElementById("userNotFoundMessage").style.display = "none";
+}
+
+const chatBar = document.getElementById('chatBar');
+
+chatBar.addEventListener('keydown', (event) => {
+    if (event.keyCode === 13) {
+        console.log(chatBar.value);
+        chatBar.value='';
+    }
+});
+
+// Used to save the username in the socket data to find the socket by the user in server side
+socket.emit('socketByUsername', { username: findUsername() });
+
+socket.on('friendIsChallenging', (request) => {
+    let data = JSON.parse(request);
+    challenged(data);
 });
 
 socket.on('notConnectedMessage', (notConnectedFriend) => {
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-    waitingMessage.innerText = "Oh no! " + notConnectedFriend + " is not connected!"
+    waitingMessage.innerText = "Oh no! " + notConnectedFriend + " is not connected! Or he is already in game..."
 })
 
 socket.on('challengeAccepted', (matchID) => {

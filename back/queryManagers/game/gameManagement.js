@@ -1,4 +1,5 @@
 const {MongoClient} = require("mongodb");
+
 let roomInSearch=null;
 const mapGames= new Map();
 
@@ -170,6 +171,12 @@ function setUpSockets(io){
         socket.on('socketByUsername', function(data) {
             socket.username = data.username;
         });
+
+        socket.on('challengeRoom', (token) => {
+            let user = retrieveUserFromDataBase(token);
+            let socket = findSocketByName(user.username);
+            socket.join(user.username);
+        })
 
         socket.on('challengeFriend', (playerReq) => {
             let request = JSON.parse(playerReq);
