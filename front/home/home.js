@@ -189,25 +189,31 @@ function challenged(data) {
     let newChallenge = document.createElement('div');
     let challengerName = data.challengerName;
 
+    let friendIsChallengingClassName = "friendIsChallenging" + challengerName;
+    let acceptTheChallengeId = "acceptTheChallenge" + challengerName;
+    let declineTheChallengeId = "declineTheChallenge" + challengerName;
+
     newChallenge.innerHTML = `
-                            <div class="friendIsChallenging" >
+                            <div class="${friendIsChallengingClassName}" >
                                 <h4>${challengerName} is challenging you!</h4>
-                                <button class="buttonAcceptChallenge" id="acceptTheChallenge">Accept</button>
-                                <button class="buttonDeclineChallenge" id="declineTheChallenge">Decline</button>
+                                <button class="accept" id="${acceptTheChallengeId}">Accept</button>
+                                <button class="decline" id="${declineTheChallengeId}">Decline</button>
                             </div>`;
 
     dropdown.appendChild(newChallenge);
 
-    document.getElementById("acceptTheChallenge").addEventListener('click', function () {
+    document.getElementById(acceptTheChallengeId).addEventListener('click', function () {
         findToken();
         socket.emit('IAcceptTheChallenge', {
             challengerToken: data.challengerToken,
             challengedToken: token,
+            username: findUsername(),
+            friendWhoChallenged: challengerName,
         });
 
         dropdown.removeChild(newChallenge)
     });
-    document.getElementById("declineTheChallenge").addEventListener('click', function () {
+    document.getElementById(declineTheChallengeId).addEventListener('click', function () {
         socket.emit('IDeclineTheChallenge', {
             challengerToken: data.challengerToken,
             challengedToken: token,
@@ -215,5 +221,5 @@ function challenged(data) {
 
         dropdown.removeChild(newChallenge)
         window.location.reload();
-    });
+    })
 }
