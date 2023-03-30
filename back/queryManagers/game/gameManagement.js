@@ -52,7 +52,8 @@ function setUpSockets(io){
                     room: player.room,
                     userID: user._id.toString(),
                     username:user.username,
-                    ready: false
+                    ready: false,
+                    elo: user.elo
                 }
             } else if(user._id.toString()!==roomInSearch.userID) {
                 let matchID = getRandomNumber(0, 100000000000) + '';
@@ -61,13 +62,15 @@ function setUpSockets(io){
                         room: roomInSearch.room,
                         userID: roomInSearch.userID,
                         username:roomInSearch.username,
-                        ready: false
+                        ready: false,
+                        elo: roomInSearch.elo
                     },
                     player2: {
                         room: player.room,
                         userID: user._id.toString(),
                         username:user.username,
-                        ready: false
+                        ready: false,
+                        elo: user.elo
                     },
                     board: createBoard()
                 };
@@ -99,11 +102,17 @@ function setUpSockets(io){
             if (user._id.toString() === gameInfo.player1.userID) {
                 console.log("player1"+user.username);
                 socket.join(gameInfo.player1.room);
-                io.to(gameInfo.player1.room).emit('firstPlayerInit', undefined);
+                io.to(gameInfo.player1.room).emit('firstPlayerInit',{
+                    yourElo:gameInfo.player1.elo,
+                    opponentElo:gameInfo.player2.elo
+                });
             } else if (user._id.toString() === gameInfo.player2.userID) {
                 console.log("player2"+user.username);
                 socket.join(gameInfo.player2.room);
-                io.to(gameInfo.player2.room).emit('secondPlayerInit', undefined);
+                io.to(gameInfo.player2.room).emit('secondPlayerInit',{
+                    yourElo:gameInfo.player2.elo,
+                    opponentElo:gameInfo.player1.elo
+                });
             }
         })
         socket.on('chat', async (playerReq) => {
@@ -170,23 +179,42 @@ function setUpSockets(io){
             let check = checkMove(moveToCheck);
             if (check.state === "over") {
                 if (check.winner === 1) {
-                    console.log("token joueur 1 "+gameInfo.player1.username);
-                    console.log("token joueur 2 "+gameInfo.player2.username);
-                    io.to(gameInfo.player1.room).emit('win', null);
-                    io.to(gameInfo.player2.room).emit('lose', null);
-                    console.log()
+                    let oldElo1 = gameInfo.player1.elo;
+                    let oldElo2 = gameInfo.player2.elo;
+                    let newElo1 = calculateNewElo(gameInfo.player1.elo, gameInfo.player2.elo, 1)
+                    await addElo(gameInfo.player1.username, newElo1);
                     await addWins(gameInfo.player1.username)
                     await addLosses(gameInfo.player2.username)
+                    let newElo2 = calculateNewElo(gameInfo.player2.elo, gameInfo.player1.elo, 0)
+                    await addElo(gameInfo.player2.username, newElo2);
+                    let delta1 = newElo1 - oldElo1;
+                    let delta2 = newElo2 - oldElo2;
+                    io.to(gameInfo.player1.room).emit('win',delta1);
+                    io.to(gameInfo.player2.room).emit('lose', delta2);
+
+
                 } else if (check.winner === 0) {
                     io.to(gameInfo.player1.room).emit('tie', null);
                     io.to(gameInfo.player2.room).emit('tie', null);
-                    await addDraws(gameInfo.player1.token)
-                    await addDraws(gameInfo.player2.token)
+                    await addDraws(gameInfo.player1.username)
+                    await addDraws(gameInfo.player2.username)
                 } else {
-                    io.to(gameInfo.player1.room).emit('lose', null);
-                    io.to(gameInfo.player2.room).emit('win', null);
-                    await addWins(gameInfo.player2.token)
-                    await addLosses(gameInfo.player1.token)
+                    let oldElo1 = gameInfo.player1.elo;
+                    let oldElo2 = gameInfo.player2.elo;
+                    let newElo2 = calculateNewElo(gameInfo.player2.elo, gameInfo.player1.elo, 1);
+                    await addElo(gameInfo.player2.username,newElo2);
+                    await addWins(gameInfo.player2.username)
+                    await addLosses(gameInfo.player1.username)
+                    let newElo1 = calculateNewElo(gameInfo.player1.elo, gameInfo.player2.elo, 0)
+                    await addElo(gameInfo.player1.username,newElo1);
+                    let delta1 = oldElo1 - newElo1;
+                    let delta2 = oldElo2 - newElo2;
+                     console.log("old elo "+oldElo1);
+                     console.log("new elo "+newElo1);
+                     console.log("delta "+delta1);
+                    io.to(gameInfo.player1.room).emit('lose',delta1);
+                    io.to(gameInfo.player2.room).emit('win',delta2);
+
                 }
             }
 
@@ -197,23 +225,29 @@ function setUpSockets(io){
             socket.username = data.username;
         });
 
-        socket.on('challengeFriend', (playerReq) => {
-            let request = JSON.parse(playerReq);
-            let name = request.name;
-            let friendToChallenge = request.friendToChallenge;
+        socket.on('challengeFriend', (request) => {
+            let challengerToken = request.challengedToken;
+            let challenger = retrieveUserFromDataBase(challengerToken);
+            let challengerName = challenger.username;
+            let challengerSocket = findSocketByName(challengerName, connectedSockets);
 
-            let friendSocket = findSocketByName(friendToChallenge, connectedSockets);
+            let challengedName = request.challengedName;
+            let challengedSocket = findSocketByName(challengedName, connectedSockets);
 
-            if (friendSocket !== null) {
-                friendSocket.emit('friendIsChallenging', JSON.stringify({
-                    challengerToken: request.challengerToken,
-                    name: name
-                }))
+            if (!challenger.friends.includes(challengedName)) {
+                if (challengerSocket !== null) {
+                    challengerSocket.emit('notFriendMessage', challengedName);
+                }
+            }
+            else if (challengedSocket !== null) {
+                challengedSocket.emit('friendIsChallenging', {
+                    challengerToken: challengerToken,
+                    challengerName: challengerName
+                })
             }
             else {
-                let userSocket = findSocketByName(name, connectedSockets);
-                if (userSocket !== null) {
-                    userSocket.emit('notConnectedMessage', friendToChallenge);
+                if (challengerSocket !== null) {
+                    challengerSocket.emit('notConnectedMessage', challengedName);
                 }
             }
         })
@@ -230,32 +264,43 @@ function setUpSockets(io){
             const challengerSocket = findSocketByName(challengerName, connectedSockets);
             const challengedSocket = findSocketByName(challengedName, connectedSockets);
 
-            let matchID = challengerName + challengedName + getRandomNumber(0, 100000000000) + '';
+            if (!challenged.friends.includes(challengerName)) {
+                if (challengedSocket !== null) {
+                    challengedSocket.emit('notConnectedMessage', challengerName);
+                }
+            }
+            else {
+                let matchID = challengerName + challengedName + getRandomNumber(0, 100000000000) + '';
 
-            const matchInfo = {
-                player1: {
-                    room: challengerToken + Math.floor(Math.random() * 100000000000000000),
-                    userID: challenger._id.toString(),
-                    username: challengerName,
-                    token: challengerToken
-                },
-                player2: {
-                    room: challengedToken + Math.floor(Math.random() * 100000000000000000),
-                    userID: challenged._id.toString(),
-                    username: challengedName,
-                    token: challengedToken
-                },
-                board: createBoard()
-            };
+                const matchInfo = {
+                    player1: {
+                        room: challengerToken + Math.floor(Math.random() * 100000000000000000),
+                        userID: challenger._id.toString(),
+                        username: challengerName,
+                        token: challengerToken
+                    },
+                    player2: {
+                        room: challengedToken + Math.floor(Math.random() * 100000000000000000),
+                        userID: challenged._id.toString(),
+                        username: challengedName,
+                        token: challengedToken
+                    },
+                    board: createBoard()
+                };
 
-            mapGames.set(matchID, matchInfo);
-            challengerSocket.join(matchID);
-            challengedSocket.join(matchID);
-            io.to(matchID).emit('challengeAccepted', matchID);
+                mapGames.set(matchID, matchInfo);
+                challengerSocket.join(matchID);
+                challengedSocket.join(matchID);
+                io.to(matchID).emit('challengeAccepted', matchID);
+            }
         })
 
         socket.on('IDeclineTheChallenge', (data) => {
-            findSocketByName(data.friendWhoChallenged, connectedSockets).emit('challengeDeclined', data.username);
+            let challengerToken = data.challengerToken;
+            let challenger = retrieveUserFromDataBase(challengerToken);
+            let challengedToken = data.challengedToken;
+            let challenged = retrieveUserFromDataBase(challengedToken);
+            findSocketByName(challenger.username, connectedSockets).emit('challengeDeclined', challenged.username);
         })
     })
 }
@@ -270,6 +315,15 @@ function findSocketByName(name, connectedSockets) {
         }
     }
     return socketFound;
+}
+function calculateNewElo(playerElo, opponentElo, didWin) {
+    const kFactor = 40; // Elo rating system constant
+    const expectedScore = 1 / (1 + Math.pow(10, (opponentElo - playerElo) / 400)); // Calculate expected score based on Elo ratings
+    const actualScore = didWin ? 1 : 0; // Determine actual score based on whether the player won or lost
+
+    const newElo = playerElo + kFactor * (actualScore - expectedScore); // Calculate new Elo rating using Elo rating system formula
+
+    return Math.round(newElo); // Round new Elo rating to nearest whole number
 }
 
 function createBoard() {
@@ -483,9 +537,9 @@ async function addDraws(requestFrom){
         await client.connect();
         const db = client.db("connect4");
         const collection = db.collection(collectionName);
-        const user = await collection.findOne({token: requestFrom});
+        const user = await collection.findOne({username: requestFrom});
         let userDraws = user.draws + 1;
-        await collection.updateOne({token: requestFrom}, {$set: {draws: userDraws}});
+        await collection.updateOne({username: requestFrom}, {$set: {draws: userDraws}});
     }
     catch (err) {
         console.error('Token not found', err);
@@ -500,9 +554,7 @@ async function addElo(requestFrom, elo){
         await client.connect();
         const db = client.db("connect4");
         const collection = db.collection(collectionName);
-        const user = await collection.findOne({username: requestFrom});
-        let userElo = user.elo + elo;
-        await collection.updateOne({username: requestFrom}, {$set: {elo: userElo}});
+        await collection.updateOne({username: requestFrom}, {$set: {elo: elo}});
     }
     catch (err) {
         console.error('Token not found', err);

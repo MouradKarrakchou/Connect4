@@ -156,10 +156,9 @@ function logout() {
 // ----------------------------- Challenge -----------------------------
 // When you get challenged
 function challenged(data) {
-    console.log("challenged start");
     let dropdown = document.querySelector('.dropdownChallengeRequest');
     let newChallenge = document.createElement('div');
-    let challengerName = data.name
+    let challengerName = data.challengerName;
 
     newChallenge.innerHTML = `
                             <div class="friendIsChallenging" >
@@ -175,38 +174,38 @@ function challenged(data) {
         socket.emit('IAcceptTheChallenge', {
             challengerToken: data.challengerToken,
             challengedToken: token,
-            username: findUsername(),
-            friendWhoChallenged: challengerName,
         });
 
         dropdown.removeChild(newChallenge)
     });
     document.getElementById("declineTheChallenge").addEventListener('click', function () {
         socket.emit('IDeclineTheChallenge', {
-            username: findUsername(),
-            friendWhoChallenged: challengerName
+            challengerToken: data.challengerToken,
+            challengedToken: token,
         });
 
         dropdown.removeChild(newChallenge)
         window.location.reload();
     });
-    console.log("challenged end");
 }
 
 // -------- Sockets for the challenges --------
 
 // Used to save the username in the socket data to find the socket by the user in server side
-socket.emit('socketByUsername', { username: findUsername()});
+socket.emit('socketByUsername', { username: findUsername() });
 
-socket.on('friendIsChallenging', (request) => {
-    let data = JSON.parse(request);
+socket.on('friendIsChallenging', (data) => {
     challenged(data);
-    console.log("YOU GOT CHALLENGED BRO");
 });
 
-socket.on('notConnectedMessage', (notConnectedFriend) => {
+socket.on('notConnectedMessage', (challengedName) => {
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-    waitingMessage.innerText = "Oh no! " + notConnectedFriend + " is not connected!"
+    waitingMessage.innerText = "Oh no! " + challengedName + " is not connected! Or he is already in game..."
+})
+
+socket.on('notFriendMessage', (challengedName) => {
+    let waitingMessage = document.getElementById("waitingForChallengeAnswer");
+    waitingMessage.innerText = "Oh no! " + challengedName + " is not your friend!"
 })
 
 socket.on('challengeAccepted', (matchID) => {
@@ -214,7 +213,7 @@ socket.on('challengeAccepted', (matchID) => {
     window.location.href = '../games/multiplayer/multiplayer.html';
 });
 
-socket.on('challengeDeclined', (friendWhoDeclined) => {
+socket.on('challengeDeclined', (challengedName) => {
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-    waitingMessage.innerText = "Oh no! " + friendWhoDeclined + " has declined your challenge!"
+    waitingMessage.innerText = "Oh no! " + challengedName + " has declined your challenge!"
 })

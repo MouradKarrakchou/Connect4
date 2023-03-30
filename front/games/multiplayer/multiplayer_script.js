@@ -4,7 +4,7 @@ import {
     loadGame,
     surrender, printIllegalMove
 } from "../gameManagement.js"
-import {address, findToken, token} from "../dataManager.js";
+
 let counter = 0;
 let gameOver = false;
 let itsMyTurn;
