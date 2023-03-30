@@ -199,15 +199,14 @@ function declineFriendRequest(friendToDecline) {
 }
 
 // Challenge a friend
-export function challenge(button) {
+function challenge(button) {
     let friendName = button.parentNode.querySelector("h4").textContent
     findToken();
 
-    socket.emit('challengeFriend', JSON.stringify({
+    socket.emit('challengeFriend', {
         challengerToken: token,
-        name: findUsername(),
-        friendToChallenge: friendName
-    }));
+        challengedName: friendName
+    });
 
     console.log("Challenge sent!");
 
@@ -219,7 +218,7 @@ export function challenge(button) {
 function challenged(data) {
     let dropdown = document.querySelector('.dropdownChallengeRequest');
     let newChallenge = document.createElement('div');
-    let challengerName = data.name
+    let challengerName = data.challengerName;
 
     newChallenge.innerHTML = `
                             <div class="friendIsChallenging" >
@@ -235,16 +234,14 @@ function challenged(data) {
         socket.emit('IAcceptTheChallenge', {
             challengerToken: data.challengerToken,
             challengedToken: token,
-            username: findUsername(),
-            friendWhoChallenged: challengerName,
         });
 
         dropdown.removeChild(newChallenge)
     });
     document.getElementById("declineTheChallenge").addEventListener('click', function () {
         socket.emit('IDeclineTheChallenge', {
-            username: findUsername(),
-            friendWhoChallenged: challengerName
+            challengerToken: data.challengerToken,
+            challengedToken: token,
         });
 
         dropdown.removeChild(newChallenge)
@@ -268,14 +265,18 @@ chatBar.addEventListener('keydown', (event) => {
 // Used to save the username in the socket data to find the socket by the user in server side
 socket.emit('socketByUsername', { username: findUsername() });
 
-socket.on('friendIsChallenging', (request) => {
-    let data = JSON.parse(request);
+socket.on('friendIsChallenging', (data) => {
     challenged(data);
 });
 
-socket.on('notConnectedMessage', (notConnectedFriend) => {
+socket.on('notConnectedMessage', (challengedName) => {
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-    waitingMessage.innerText = "Oh no! " + notConnectedFriend + " is not connected! Or he is already in game..."
+    waitingMessage.innerText = "Oh no! " + challengedName + " is not connected! Or he is already in game..."
+})
+
+socket.on('notFriendMessage', (challengedName) => {
+    let waitingMessage = document.getElementById("waitingForChallengeAnswer");
+    waitingMessage.innerText = "Oh no! " + challengedName + " is not your friend!"
 })
 
 socket.on('challengeAccepted', (matchID) => {
@@ -283,7 +284,7 @@ socket.on('challengeAccepted', (matchID) => {
     window.location.href = '../games/multiplayer/multiplayer.html';
 });
 
-socket.on('challengeDeclined', (friendWhoDeclined) => {
+socket.on('challengeDeclined', (challengedName) => {
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-    waitingMessage.innerText = "Oh no! " + friendWhoDeclined + " has declined your challenge!"
+    waitingMessage.innerText = "Oh no! " + challengedName + " has declined your challenge!"
 })
