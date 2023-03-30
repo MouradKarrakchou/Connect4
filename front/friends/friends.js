@@ -3,6 +3,8 @@ import {findUsername} from "../games/gameManagement.js";
 let socket = io();
 
 let currentFriendDiscussion;
+const chatMessages = document.querySelector('#chat-messages');
+const chatContainer= document.getElementById("chat-container");
 document.addEventListener('DOMContentLoaded', init);
 async function init() {
     document.getElementById('addFriendButton').addEventListener('click', addFriend);
@@ -95,10 +97,18 @@ function showFriendList(friendList) {
         });
         document.getElementById("message").addEventListener('click', function () {
             currentFriendDiscussion=friendList[i];
-            console.log("CURRENT FRIEND MESSAGING"+currentFriendDiscussion);
+            setupChatContainer();
         });
     }
 }
+
+function setupChatContainer(){
+    chatContainer.style.display = "flex";
+    chatMessages.innerHTML='';
+    socket.emit('loadFriendChat', { friendUsername: currentFriendDiscussion,
+        token: token});
+}
+
 
 function removeFriend(friendToRemove) {
     findToken();
@@ -223,8 +233,8 @@ function challenged(data) {
     newChallenge.innerHTML = `
                             <div class="friendIsChallenging" >
                                 <h4>${challengerName} is challenging you!</h4>
-                                <button class="buttonAcceptChallenge" id="acceptTheChallenge">Accept</button>
-                                <button class="buttonDeclineChallenge" id="declineTheChallenge">Decline</button>
+                                <button class="accept" id="acceptTheChallenge">Accept</button>
+                                <button class="decline" id="declineTheChallenge">Decline</button>
                             </div>`;
 
     dropdown.appendChild(newChallenge);
@@ -234,6 +244,8 @@ function challenged(data) {
         socket.emit('IAcceptTheChallenge', {
             challengerToken: data.challengerToken,
             challengedToken: token,
+            username: findUsername(),
+            friendWhoChallenged: challengerName,
         });
 
         dropdown.removeChild(newChallenge)
@@ -257,7 +269,10 @@ const chatBar = document.getElementById('chatBar');
 
 chatBar.addEventListener('keydown', (event) => {
     if (event.keyCode === 13) {
-        console.log(chatBar.value);
+        socket.emit('friendChat', { friendUsername: currentFriendDiscussion,
+            chat: chatBar.value,
+            token: token});
+        appendMessage("Me: "+chatBar.value);
         chatBar.value='';
     }
 });
@@ -268,6 +283,13 @@ socket.emit('socketByUsername', { username: findUsername() });
 socket.on('friendIsChallenging', (data) => {
     challenged(data);
 });
+function appendMessage(message) {
+    let newItem = document.createElement('div');
+    chatContainer.style.display = "flex";
+    newItem.innerHTML = '<div className="user-message">'+message+'</div>';
+    chatMessages.appendChild(newItem);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
 
 socket.on('notConnectedMessage', (challengedName) => {
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
@@ -287,4 +309,16 @@ socket.on('challengeAccepted', (matchID) => {
 socket.on('challengeDeclined', (challengedName) => {
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
     waitingMessage.innerText = "Oh no! " + challengedName + " has declined your challenge!"
+})
+
+socket.on('privateMessage', (request) => {
+    if (currentFriendDiscussion!==request.username){
+        currentFriendDiscussion=request.username;
+        setupChatContainer();
+    }
+    appendMessage(currentFriendDiscussion+": "+request.message);
+})
+socket.on('allConversationPrivateMessages', (request) => {
+    console.log(request);
+    request.forEach(msg=>msg.from===currentFriendDiscussion?appendMessage(msg.from+": "+msg.message):appendMessage("me: "+msg.message))
 })

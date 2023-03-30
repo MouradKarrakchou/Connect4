@@ -30,6 +30,37 @@ body {
 #decline{
     background-color: red;
 }
+.message {
+    position: relative;
+    margin: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 20px;
+    max-width: 80%;
+}
+
+.message.outgoing {
+    align-self: flex-end;
+    background-color: #008CBA;
+}
+
+.message:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent #4CAF50 transparent transparent;
+    transform: translateY(-50%);
+}
+
+.message.outgoing:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+}
 /* Style the user not found message */
 .userNotFoundMessage {
     display: none;
