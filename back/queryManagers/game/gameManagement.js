@@ -1,6 +1,5 @@
 const {MongoClient} = require("mongodb");
 const {response} = require("express");
-
 let roomInSearch=null;
 const mapGames= new Map();
 const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
@@ -35,7 +34,7 @@ function setUpSockets(io){
         const db = client.db("connect4");
         const chatCollection = db.collection("chat");
         const item = await chatCollection.find({ $or:[{from:from,to:to},{from:to,to:from}]}).toArray();
-        return item.map(mess => mess.message);
+        return item;
     }
 
     let connectedSockets = io.sockets.sockets;
@@ -53,8 +52,7 @@ function setUpSockets(io){
                     room: player.room,
                     userID: user._id.toString(),
                     username:user.username,
-                    ready: false,
-                    elo: user.elo
+                    ready: false
                 }
             } else if(user._id.toString()!==roomInSearch.userID) {
                 let matchID = getRandomNumber(0, 100000000000) + '';
@@ -63,15 +61,13 @@ function setUpSockets(io){
                         room: roomInSearch.room,
                         userID: roomInSearch.userID,
                         username:roomInSearch.username,
-                        ready: false,
-                        elo: roomInSearch.elo
+                        ready: false
                     },
                     player2: {
                         room: player.room,
                         userID: user._id.toString(),
                         username:user.username,
-                        ready: false,
-                        elo: user.elo
+                        ready: false
                     },
                     board: createBoard()
                 };
@@ -103,17 +99,11 @@ function setUpSockets(io){
             if (user._id.toString() === gameInfo.player1.userID) {
                 console.log("player1"+user.username);
                 socket.join(gameInfo.player1.room);
-                io.to(gameInfo.player1.room).emit('firstPlayerInit',{
-                    yourElo:gameInfo.player1.elo,
-                    opponentElo:gameInfo.player2.elo
-                });
+                io.to(gameInfo.player1.room).emit('firstPlayerInit', undefined);
             } else if (user._id.toString() === gameInfo.player2.userID) {
                 console.log("player2"+user.username);
                 socket.join(gameInfo.player2.room);
-                io.to(gameInfo.player2.room).emit('secondPlayerInit',{
-                    yourElo:gameInfo.player2.elo,
-                    opponentElo:gameInfo.player1.elo
-                });
+                io.to(gameInfo.player2.room).emit('secondPlayerInit', undefined);
             }
         })
         socket.on('chat', async (playerReq) => {
@@ -147,7 +137,7 @@ function setUpSockets(io){
             let user = await retrieveUserFromDataBase(request.token);
 
             let allUserMessages=await loadAllMessageFromConversation(user.username,request.friendUsername);
-            findSocketByName(request.friendUsername,connectedSockets).emit('allConversationPrivateMessages', allUserMessages)})
+            findSocketByName(user.username,connectedSockets).emit('allConversationPrivateMessages', allUserMessages)})
 
         socket.on('playMulti', async (playerReq) => {
             let request = JSON.parse(playerReq);
@@ -180,42 +170,23 @@ function setUpSockets(io){
             let check = checkMove(moveToCheck);
             if (check.state === "over") {
                 if (check.winner === 1) {
-                    let oldElo1 = gameInfo.player1.elo;
-                    let oldElo2 = gameInfo.player2.elo;
-                    let newElo1 = calculateNewElo(gameInfo.player1.elo, gameInfo.player2.elo, 1)
-                    await addElo(gameInfo.player1.username, newElo1);
+                    console.log("token joueur 1 "+gameInfo.player1.username);
+                    console.log("token joueur 2 "+gameInfo.player2.username);
+                    io.to(gameInfo.player1.room).emit('win', null);
+                    io.to(gameInfo.player2.room).emit('lose', null);
+                    console.log()
                     await addWins(gameInfo.player1.username)
                     await addLosses(gameInfo.player2.username)
-                    let newElo2 = calculateNewElo(gameInfo.player2.elo, gameInfo.player1.elo, 0)
-                    await addElo(gameInfo.player2.username, newElo2);
-                    let delta1 = newElo1 - oldElo1;
-                    let delta2 = newElo2 - oldElo2;
-                    io.to(gameInfo.player1.room).emit('win',delta1);
-                    io.to(gameInfo.player2.room).emit('lose', delta2);
-
-
                 } else if (check.winner === 0) {
                     io.to(gameInfo.player1.room).emit('tie', null);
                     io.to(gameInfo.player2.room).emit('tie', null);
-                    await addDraws(gameInfo.player1.username)
-                    await addDraws(gameInfo.player2.username)
+                    await addDraws(gameInfo.player1.token)
+                    await addDraws(gameInfo.player2.token)
                 } else {
-                    let oldElo1 = gameInfo.player1.elo;
-                    let oldElo2 = gameInfo.player2.elo;
-                    let newElo2 = calculateNewElo(gameInfo.player2.elo, gameInfo.player1.elo, 1);
-                    await addElo(gameInfo.player2.username,newElo2);
-                    await addWins(gameInfo.player2.username)
-                    await addLosses(gameInfo.player1.username)
-                    let newElo1 = calculateNewElo(gameInfo.player1.elo, gameInfo.player2.elo, 0)
-                    await addElo(gameInfo.player1.username,newElo1);
-                    let delta1 = oldElo1 - newElo1;
-                    let delta2 = oldElo2 - newElo2;
-                     console.log("old elo "+oldElo1);
-                     console.log("new elo "+newElo1);
-                     console.log("delta "+delta1);
-                    io.to(gameInfo.player1.room).emit('lose',delta1);
-                    io.to(gameInfo.player2.room).emit('win',delta2);
-
+                    io.to(gameInfo.player1.room).emit('lose', null);
+                    io.to(gameInfo.player2.room).emit('win', null);
+                    await addWins(gameInfo.player2.token)
+                    await addLosses(gameInfo.player1.token)
                 }
             }
 
@@ -224,8 +195,6 @@ function setUpSockets(io){
         // Store the username linked to this socket
         socket.on('socketByUsername', function(data) {
             socket.username = data.username;
-            console.log("SOCKET BY USERNAME: " + socket.username);
-            console.log("SOCKET BY USERNAME NUMBER OF CONNECTED SOCKET: " + connectedSockets.size);
         });
 
         socket.on('challengeFriend', (playerReq) => {
@@ -236,12 +205,10 @@ function setUpSockets(io){
             let friendSocket = findSocketByName(friendToChallenge, connectedSockets);
 
             if (friendSocket !== null) {
-                console.log("CHALLENGE FRIEND WILL BE SENT TO " + friendSocket.username);
                 friendSocket.emit('friendIsChallenging', JSON.stringify({
                     challengerToken: request.challengerToken,
                     name: name
                 }))
-                console.log("CHALLENGE FRIEND SENT TO " + friendSocket.username);
             }
             else {
                 let userSocket = findSocketByName(name, connectedSockets);
@@ -303,15 +270,6 @@ function findSocketByName(name, connectedSockets) {
         }
     }
     return socketFound;
-}
-function calculateNewElo(playerElo, opponentElo, didWin) {
-    const kFactor = 40; // Elo rating system constant
-    const expectedScore = 1 / (1 + Math.pow(10, (opponentElo - playerElo) / 400)); // Calculate expected score based on Elo ratings
-    const actualScore = didWin ? 1 : 0; // Determine actual score based on whether the player won or lost
-
-    const newElo = playerElo + kFactor * (actualScore - expectedScore); // Calculate new Elo rating using Elo rating system formula
-
-    return Math.round(newElo); // Round new Elo rating to nearest whole number
 }
 
 function createBoard() {
@@ -525,9 +483,9 @@ async function addDraws(requestFrom){
         await client.connect();
         const db = client.db("connect4");
         const collection = db.collection(collectionName);
-        const user = await collection.findOne({username: requestFrom});
+        const user = await collection.findOne({token: requestFrom});
         let userDraws = user.draws + 1;
-        await collection.updateOne({username: requestFrom}, {$set: {draws: userDraws}});
+        await collection.updateOne({token: requestFrom}, {$set: {draws: userDraws}});
     }
     catch (err) {
         console.error('Token not found', err);
@@ -542,7 +500,9 @@ async function addElo(requestFrom, elo){
         await client.connect();
         const db = client.db("connect4");
         const collection = db.collection(collectionName);
-        await collection.updateOne({username: requestFrom}, {$set: {elo: elo}});
+        const user = await collection.findOne({username: requestFrom});
+        let userElo = user.elo + elo;
+        await collection.updateOne({username: requestFrom}, {$set: {elo: userElo}});
     }
     catch (err) {
         console.error('Token not found', err);

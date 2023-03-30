@@ -104,6 +104,7 @@ function showFriendList(friendList) {
 
 function setupChatContainer(){
     chatContainer.style.display = "flex";
+    chatMessages.innerHTML='';
     socket.emit('loadFriendChat', { friendUsername: currentFriendDiscussion,
         token: token});
 }
@@ -283,11 +284,13 @@ socket.emit('socketByUsername', { username: findUsername() });
 socket.on('privateMessage', (request) => {
     if (currentFriendDiscussion!==request.username){
         currentFriendDiscussion=request.username;
+        setupChatContainer();
     }
     appendMessage(currentFriendDiscussion+": "+request.message);
 })
 socket.on('allConversationPrivateMessages', (request) => {
-    request.forEach(msg=>appendMessage(msg.from+": "+msg.message))
+    console.log(request);
+    request.forEach(msg=>msg.from===currentFriendDiscussion?appendMessage(msg.from+": "+msg.message):appendMessage("me: "+msg.message))
 })
 socket.on('friendIsChallenging', (request) => {
     let data = JSON.parse(request);
@@ -298,6 +301,7 @@ function appendMessage(message) {
     chatContainer.style.display = "flex";
     newItem.innerHTML = '<div className="user-message">'+message+'</div>';
     chatMessages.appendChild(newItem);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
 socket.on('notConnectedMessage', (notConnectedFriend) => {
