@@ -17,7 +17,11 @@ async function init() {
     } else {
         document.getElementById("winrate").innerHTML = Math.round((wins / (wins + losses + draws)) * 100) + "%";    }
     const rankImage = document.querySelector('#rankImage');
-    if (elo <= 1100 ) {
+    if (elo <=50){
+        rankImage.src = '../img/nullard.png';
+        document.getElementById("rank").innerHTML = "Uninstall (" + elo + " elo)";
+    }
+    if (elo <= 1100 && elo > 500){
         rankImage.src = '../img/Bronze1.png';
         document.getElementById("rank").innerHTML = "Bronze 1 (" + elo + " elo)";
 
