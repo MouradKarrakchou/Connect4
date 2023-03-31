@@ -5,7 +5,7 @@
 <head>
     <div class="home" onclick="window.location.href='../home/home.html'">Home</div>
 
-    <title>Mon Profil</title>
+    <title>My Profile</title>
 
 </head>
 <body>
@@ -19,7 +19,66 @@
 <p>Loss : <span id="losses"></span></p>
 <p>Tie : <span id="draws"></span></p>
 <h4>Winrate : <span id ="winrate"></span></h4>
-
+<div style="width: 1000px; height: 600px; float:right;">
+<table>
+    <thead>
+    <tr>
+        <th>Success</th>
+        <th>Objective</th>
+        <th>Progression</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Novice Player </td>
+        <td>Play 10 games </td>
+        <td>
+            <div class="progress-bar">
+                <div class="progress-bar-inner" id ="novicePlayer" style="width:0%;">0%</div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>Novice Winner</td>
+        <td>Win 10 games</td>
+        <td>
+            <div class="progress-bar">
+                <div class="progress-bar-inner" id = "noviceWinner" style="width:0%;">0%</div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>O.G </td>
+        <td>Play 100 games </td>
+        <td>
+            <div class="progress-bar">
+                <div class="progress-bar-inner" id="OG" style="width:0%;">0%</div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>intermediate Player</td>
+        <td>Reach 1500 elo points</td>
+        <td>
+            <div class="progress-bar">
+                <div class="progress-bar-inner" id = "intermediatePlayer" style="width:0%;position: center;">0%</div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>You are so good</td>
+        <td>Reach 2300 elo points</td>
+        <td>
+            <div class="progress-bar">
+                <div class="progress-bar-inner" id="goodPlayer" style="width:0%;">0%</div>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>
 </body>
 <script type="module" src="profil.js"></script>
 </html>

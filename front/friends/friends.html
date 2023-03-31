@@ -4,6 +4,8 @@
 <link href="./chat.css" type="text/css" rel="stylesheet">
 <script type="module" src="friends.js"></script>
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+<script crossorigin="anonymous" src="https://kit.fontawesome.com/76ed084c57.js"></script>
 
 <head>
     <meta charset="UTF-8">
@@ -55,15 +57,15 @@
             </div>
     </div>
     <div class="chat-container" id="miniFriendContainer" style="display:none">
-        <div class="chat-header">
-            Friend List
+        <div class="chat-header" >
+            <div style="margin:auto">Friend List</div>
+            <i class="fa-solid fa-chevron-down"></i>
         </div>
-        <div class="miniFriendMenu" id="miniFriendMenu">
-            <div class="miniFriendList" id="miniFriendList">
+        <div class="miniFriendList" id="miniFriendList">
 
-                <div class="miniDropdown"></div>
-            </div>
+            <div class="miniDropdown"></div>
         </div>
     </div>
+
 </body>
 </html>

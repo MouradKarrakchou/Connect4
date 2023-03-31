@@ -21,7 +21,7 @@ async function init() {
         rankImage.src = '../img/nullard.png';
         document.getElementById("rank").innerHTML = "Uninstall (" + elo + " elo)";
     }
-    if (elo <= 1100 && elo > 500){
+    if (elo <= 1100 && elo > 50){
         rankImage.src = '../img/Bronze1.png';
         document.getElementById("rank").innerHTML = "Bronze 1 (" + elo + " elo)";
 
@@ -63,6 +63,17 @@ rankImage.src = '../img/Bronze3.png';
         document.getElementById("rank").innerHTML = "Goat (" + elo + " elo)";
 
     }
+    document.getElementById("noviceWinner").style.width = Math.min(100,Math.round((wins/10) * 100)) +"%";
+    document.getElementById("noviceWinner").innerHTML = Math.min(100,Math.round((wins/10)*100)) + "%";
+    document.getElementById("novicePlayer").style.width= Math.min(100,Math.round(((wins+losses+draws)/10)*100))+"%";
+    document.getElementById("novicePlayer").innerHTML = Math.min(100,Math.round(((wins+losses+draws)/10)*100)) + "%";
+    document.getElementById("OG").style.width = Math.min(100,Math.round(((wins+losses+draws)/100) * 100)) +"%";
+    document.getElementById("OG").innerHTML = Math.min(Math.round(((wins+losses+draws)/100)*100)) + "%";
+    document.getElementById("intermediatePlayer").style.width = Math.min(Math.round((elo/1500) * 100)) +"%";
+    document.getElementById("intermediatePlayer").innerHTML = Math.min(100,Math.round((elo/1500)*100)) + "%";
+    document.getElementById("goodPlayer").style.width = Math.min(100,Math.round((elo/2300) * 100)) +"%";
+    document.getElementById("goodPlayer").innerHTML = Math.min(Math.round((elo/2300)*100)) + "%";
+
 
 }
 export async function findElo(){
