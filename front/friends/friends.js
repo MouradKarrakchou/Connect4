@@ -3,7 +3,7 @@ import {findUsername} from "../games/gameManagement.js";
 let socket = io();
 
 let pendingChallenge = false;
-let pendingChallenged;
+let pendingChallengedName = null;
 
 let currentFriendDiscussion;
 const chatMessages = document.querySelector('#chat-messages');
@@ -11,6 +11,9 @@ const chatContainer = document.getElementById("chat-container");
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
+    await getFriendList();
+    getFriendRequest();
+
     document.getElementById('addFriendButton').addEventListener('click', addFriend);
     document.getElementById("searchBar").addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
@@ -18,9 +21,7 @@ async function init() {
             addFriend();
         }
     });
-
-    await getFriendList();
-    getFriendRequest();
+    document.getElementById("cancelChallenge").addEventListener('click', cancelChallenge);
 }
 
 function addFriend() {
@@ -225,11 +226,12 @@ function challenge(button) {
 
     if (pendingChallenge) {
         let messageElement = document.getElementById("waitingForChallengeAnswer");
-        messageElement.innerText = "Waiting for " + pendingChallenged +
+        messageElement.innerText = "Waiting for " + pendingChallengedName +
             "! You cannot challenge two friends at the same time! Cancel your pending challenge first"
     } else {
-        findToken();
+        document.getElementById("cancelChallenge").style.display = "block";
 
+        findToken();
         socket.emit('challengeFriend', {
             challengerToken: token,
             challengedName: friendName
@@ -239,9 +241,8 @@ function challenge(button) {
 
         let waitingMessage = document.getElementById("waitingForChallengeAnswer");
         waitingMessage.innerText = "Waiting for " + friendName + "!";
-        waitingMessage.style.display = "block";
         pendingChallenge = true;
-        pendingChallenged = friendName;
+        pendingChallengedName = friendName;
     }
 }
 
@@ -285,6 +286,18 @@ function challenged(data) {
     })
 }
 
+function cancelChallenge() {
+    findToken()
+    socket.emit('theChallengeIsCanceled', {
+        challengerToken: token,
+        challengedName: pendingChallengedName
+    })
+
+    pendingChallenge = false;
+    document.getElementById("waitingForChallengeAnswer").innerText = "";
+    document.getElementById("cancelChallenge").style.display = "none";
+}
+
 function hideUserNotFoundMessage() {
     document.getElementById("userNotFoundMessage").style.display = "none";
 }
@@ -316,12 +329,14 @@ function appendMessage(message) {
 }
 
 socket.on('notConnectedMessage', (challengedName) => {
+    document.getElementById("cancelChallenge").style.display = "none";
     pendingChallenge = false;
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
     waitingMessage.innerText = "Oh no! " + challengedName + " is not connected! Or he is already in game..."
 })
 
 socket.on('notFriendMessage', (challengedName) => {
+    document.getElementById("cancelChallenge").style.display = "none";
     pendingChallenge = false;
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
     waitingMessage.innerText = "Oh no! " + challengedName + " is not your friend!"
@@ -334,9 +349,18 @@ socket.on('challengeAccepted', (matchID) => {
 });
 
 socket.on('challengeDeclined', (challengedName) => {
+    document.getElementById("cancelChallenge").style.display = "none";
     pendingChallenge = false;
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
     waitingMessage.innerText = "Oh no! " + challengedName + " has declined your challenge!"
+})
+
+socket.on('challengeHasBeenCanceled', (challengerName) => {
+    let friendIsChallengingClassName = ".friendIsChallenging" + challengerName;
+    let challenge = document.querySelector(friendIsChallengingClassName).parentNode;
+    let dropdown = document.querySelector('.dropdownChallengeRequest');
+    dropdown.removeChild(challenge);
+    window.location.reload();
 })
 
 socket.on('privateMessage', (request) => {
@@ -346,9 +370,8 @@ socket.on('privateMessage', (request) => {
     }
     appendMessage(currentFriendDiscussion+": "+request.message);
 })
+
 socket.on('allConversationPrivateMessages', (request) => {
     console.log(request);
     request.forEach(msg=>msg.from===currentFriendDiscussion?appendMessage(msg.from+": "+msg.message):appendMessage("me: "+msg.message))
 })
-
-//TODO add some security on challenge: cancel challenge, cannot challenge many friends at the same time

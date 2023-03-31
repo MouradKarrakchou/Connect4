@@ -244,16 +244,11 @@ function setUpSockets(io){
         // Store the username linked to this socket
         socket.on('socketByUsername', function(data) {
             socket.username = data.username;
-            console.log("SOCKET BY USERNAME: " + socket.username);
-            console.log("SOCKET BY USERNAME NUMBER OF CONNECTED SOCKET: " + connectedSockets.size);
         });
 
         socket.on('challengeFriend', async (request) => {
             let challengerToken = request.challengerToken;
-            console.log("CHALLENGE FRIEND INCLUDES CHALLENGER TOKEN: " + challengerToken);
             let challenger = await retrieveUserFromDataBase(challengerToken);
-            console.log("CHALLENGE FRIEND INCLUDES CHALLENGER: " + challenger);
-            console.log("CHALLENGE FRIEND INCLUDES CHALLENGER FRIEND: " + challenger.friends);
 
             let challengerName = challenger.username;
             let challengerSocket = findSocketByName(challengerName, connectedSockets);
@@ -261,26 +256,17 @@ function setUpSockets(io){
             let challengedName = request.challengedName;
             let challengedSocket = findSocketByName(challengedName, connectedSockets);
 
-            console.log("CHALLENGE FRIEND INCLUDES CHALLENGED NAME: " + challengedName);
-            console.log("CHALLENGE FRIEND CHALLENGED SOCKET: " + challengedSocket);
-
             if (!challenger.friends.includes(challengedName)) {
-                console.log("CHALLENGE FRIEND NO FRIEND: " + challenger);
-
                 if (challengerSocket !== null) {
                     challengerSocket.emit('notFriendMessage', challengedName);
                 }
             } else if (challengedSocket !== null) {
-                console.log("CHALLENGE FRIEND CHALLENGING: " + challenger);
-
                 challengedSocket.emit('friendIsChallenging', {
                     challengerToken: challengerToken,
                     challengerName: challengerName
-                })
+                });
             } else {
                 if (challengerSocket !== null) {
-                    console.log("CHALLENGE FRIEND NOT CONNECTED: " + challenger);
-
                     challengerSocket.emit('notConnectedMessage', challengedName);
                 }
             }
@@ -299,6 +285,11 @@ function setUpSockets(io){
             const challengedSocket = findSocketByName(challengedName, connectedSockets);
 
             if (!challenged.friends.includes(challengerName)) {
+                if (challengedSocket !== null) {
+                    challengedSocket.emit('notFriendMessage', challengerName);
+                }
+            }
+            else if (challengerSocket === null) {
                 if (challengedSocket !== null) {
                     challengedSocket.emit('notConnectedMessage', challengerName);
                 }
@@ -336,6 +327,18 @@ function setUpSockets(io){
             let challengedToken = data.challengedToken;
             let challenged = await retrieveUserFromDataBase(challengedToken);
             findSocketByName(challenger.username, connectedSockets).emit('challengeDeclined', challenged.username);
+        })
+
+        socket.on('theChallengeIsCanceled', async (data) => {
+            let challengerToken = data.challengerToken;
+            let challenger = await retrieveUserFromDataBase(challengerToken);
+
+            let challengedName = data.challengedName;
+            let challengedSocket = findSocketByName(challengedName, connectedSockets);
+
+            if (challengedSocket !== null) {
+                challengedSocket.emit('challengeHasBeenCanceled', challenger.username);
+            }
         })
     })
 }
