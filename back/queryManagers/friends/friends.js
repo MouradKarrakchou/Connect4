@@ -52,6 +52,13 @@ function manageRequest(request, response) {
                 mongoDBConnection.declineFriendRequest(response, values.token, values.friendToDecline);
             });
         }
+        else if(filePath[3] === "retrieveNumberOfFriends"){
+            request.on('end', function () {
+                const values = JSON.parse(body);
+                mongoDBConnection.retrieveNumberOfFriends(response, values.token);
+            });
+        }
+
 
     }
     else{

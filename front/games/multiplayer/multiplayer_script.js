@@ -35,6 +35,7 @@ socket.on('secondPlayerInit', (playersData) => {
         document.getElementById("playerElo").innerText = "Your elo: " + playersData.yourElo;
     }
 });
+
 socket.on('win', (data) => {
 
     console.log("C EST LA GAME");
@@ -65,11 +66,17 @@ socket.on('tie', () => {
     document.getElementById("reset-button").addEventListener("click", resetGame);
     gameOver = true;
 });
+
 socket.on('message', (req) => {
     if (!isMuted) {
         writeInChat(req.username+": " + req.message);
     }
 })
+
+socket.on('timerReset', () => {
+    resetTimer();
+});
+
 document.addEventListener('DOMContentLoaded', init);
 
 window.addEventListener('load', function () {
@@ -87,6 +94,9 @@ function logout() {
 }
 
 function init() {
+    // Timer
+    intervalId = setInterval(timerCount, 1000);
+
     socket.emit('getPlayersNameToDisplay', null);
     socket.on('playersNameToDisplay', (names) => {
         document.getElementById("firstPlayerName").innerText = names.firstPlayerName;
@@ -99,9 +109,9 @@ function init() {
     document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);});
     document.getElementById("surrenderButton").addEventListener("click",function(){surrender()});
     socket.on('doMoveMulti',function(pos){
-            startplay(JSON.parse(pos));
-            counter++;
-            colorMessage(counter);
+        startplay(JSON.parse(pos));
+        counter++;
+        colorMessage(counter);
     })
 }
 
@@ -276,4 +286,30 @@ function isMoveIllegal(tab){
     return false;
 }
 
+
+// ------------------------------ Timer ------------------------------
+let intervalId;
+let timeLeft = 30; // 30 seconds to play
+let timer = document.getElementById('timer');
+
+function timerCount() {
+    if (timeLeft < 0) {
+        clearInterval(intervalId); // Stop the timer
+        socket.emit('timeOver', {
+            matchID: findInCookie("matchID="),
+            token: findInCookie("token="),
+            itsMyTurn: itsMyTurn
+        });
+    } else {
+        if (timeLeft < 10) timer.innerHTML = "00:0" + timeLeft;
+        else timer.innerHTML = "00:" + timeLeft;
+        timeLeft--;
+    }
+}
+
+function resetTimer() {
+    timeLeft = 30;
+    clearInterval(intervalId)
+    intervalId = setInterval(timerCount, 1000);
+}
 
