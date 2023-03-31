@@ -326,6 +326,30 @@ async function retrieveFriendRequest(response, requestFrom) {
         await client.close();
     }
 }
+async function retrieveNumberOfFriends(response, requestFrom) {
+    const collectionName = "log";
+    try {
+        // database connection
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection(collectionName);
+
+        // finding the user and its received friends requests
+        const user = await collection.findOne({token: requestFrom});
+        let userFriends = user.friends;
+
+        // answer the data
+        response.writeHead(200, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify(userFriends.length));
+
+    } catch (err) {
+        console.error('Token not found', err);
+        response.writeHead(400, {'Content-Type': 'application/json'});
+        response.end(JSON.stringify({status: 'failure'}));
+    } finally {
+        await client.close();
+    }
+}
 
 async function  acceptFriendRequest(response, requestFrom, friendToAccept) {
     const collectionName = "log";
@@ -440,6 +464,7 @@ exports.removeFriend = removeFriend;
 exports.retrieveFriendRequest = retrieveFriendRequest;
 exports.acceptFriendRequest = acceptFriendRequest;
 exports.declineFriendRequest = declineFriendRequest;
+exports.retrieveNumberOfFriends = retrieveNumberOfFriends;
 
 exports.retrieveElo = retrieveElo;
 exports.retrieveWins = retrieveWins;

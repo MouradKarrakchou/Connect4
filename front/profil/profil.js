@@ -5,7 +5,9 @@ let wins = 0
 let losses = 0;
 let draws = 0;
 let elo = 1000;
+let numberFriends = 0;
 async function init() {
+    await findNumberOfFriends();
     await findElo();
     await findLosses();
     await findWins();
@@ -73,6 +75,15 @@ rankImage.src = '../img/Bronze3.png';
     document.getElementById("intermediatePlayer").innerHTML = Math.min(100,Math.round((elo/1500)*100)) + "%";
     document.getElementById("goodPlayer").style.width = Math.min(100,Math.round((elo/2300) * 100)) +"%";
     document.getElementById("goodPlayer").innerHTML = Math.min(Math.round((elo/2300)*100)) + "%";
+    document.getElementById("legendWinner").style.width = Math.min(100,Math.round((wins/100) * 100)) +"%";
+    document.getElementById("legendWinner").innerHTML = Math.min(100,Math.round((wins/100)*100)) + "%";
+    document.getElementById("intermediateWinner").style.width = Math.min(100,Math.round((wins/25) * 100)) +"%";
+    document.getElementById("intermediateWinner").innerHTML = Math.min(100,Math.round((wins/25)*100)) + "%";
+    document.getElementById("legendPlayer").style.width = Math.min(100,Math.round(((wins+losses+draws)/200)*100))+"%";
+    document.getElementById("legendPlayer").innerHTML = Math.min(100,Math.round(((wins+losses+draws)/200)*100)) + "%";
+    document.getElementById("good-guy").style.width = Math.min(100,Math.round((numberFriends/5)*100))+"%";
+    document.getElementById("good-guy").innerHTML = Math.min(100,Math.round((numberFriends/5)*100)) + "%";
+
 
 
 }
@@ -92,6 +103,26 @@ export async function findElo(){
         .then(data => {
             console.log(data);
             elo = data;})
+        .catch(error => {
+            console.error(error);
+        });
+}
+async function findNumberOfFriends(){
+    findToken();
+    const values = {
+        token: token,
+    }
+    await fetch(address + `/api/friends/retrieveNumberOfFriends`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            numberFriends = data;})
         .catch(error => {
             console.error(error);
         });
