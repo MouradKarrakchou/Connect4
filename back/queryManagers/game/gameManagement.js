@@ -246,6 +246,8 @@ function setUpSockets(io){
                 }
             }
 
+            io.to(gameInfo.player1.room).emit('timerReset', null);
+            io.to(gameInfo.player2.room).emit('timerReset', null);
         })
 
         // Store the username linked to this socket
