@@ -5,6 +5,9 @@ const mapGames= new Map();
 const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
+let firstPlayerName;
+let secondPlayerName;
+
 function setUpSockets(io){
     const MongoClient = require('mongodb').MongoClient;
 
@@ -81,6 +84,10 @@ function setUpSockets(io){
                 mapGames.set(matchID, matchInfo);
                 io.to(roomInSearch.room).emit('matchFound', matchID);
                 io.to(roomName).emit('matchFound', matchID);
+
+                firstPlayerName = matchInfo.player1.username;
+                secondPlayerName = matchInfo.player2.username;
+
                 roomInSearch = null;
             }
             console.log("at the end" + roomInSearch);
@@ -314,12 +321,22 @@ function setUpSockets(io){
                     isFriendGame: true
                 };
 
+                firstPlayerName = challengerName;
+                secondPlayerName = challengedName;
+
                 mapGames.set(matchID, matchInfo);
                 challengerSocket.join(matchID);
                 challengedSocket.join(matchID);
                 io.to(matchID).emit('challengeAccepted', matchID);
             }
         })
+
+        socket.on('getPlayersNameToDisplay', () => {
+            socket.emit('playersNameToDisplay', {
+                firstPlayerName: firstPlayerName,
+                secondPlayerName: secondPlayerName
+            })
+        });
 
         socket.on('IDeclineTheChallenge', async (data) => {
             let challengerToken = data.challengerToken;
