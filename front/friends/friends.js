@@ -68,6 +68,7 @@ async function getFriendList() {
         .then(response => response.json())
         .then(data => {
             showFriendList(data);
+            showMiniFriendList(data);
         })
         .catch(error => {
             console.error(error);
@@ -103,6 +104,7 @@ function showFriendList(friendList) {
 }
 
 function setupChatContainer(){
+    miniFriendContainer.style.display="none";
     chatContainer.style.display = "flex";
     chatMessages.innerHTML='';
     socket.emit('loadFriendChat', { friendUsername: currentFriendDiscussion,
@@ -322,3 +324,41 @@ socket.on('allConversationPrivateMessages', (request) => {
     console.log(request);
     request.forEach(msg=>msg.from===currentFriendDiscussion?appendMessage(msg.from+": "+msg.message):appendMessage("me: "+msg.message))
 })
+
+
+///////////////////////////////////////////////////////////////////////////////
+let miniFriendContainer=document.getElementById("miniFriendContainer");
+document.getElementById("chat-header").addEventListener('click',displayMiniFriends)
+
+function displayMiniFriends(){
+    console.log("click");
+    miniFriendContainer.style.display = "block";
+    document.getElementById("chat-container").style.display = "none";
+}
+
+function showMiniFriendList(friendList) {
+    console.log(friendList);
+    for (let i = 0; i < friendList.length; i++) {
+        let dropdown = document.querySelector('.miniDropdown');
+        let newItem = document.createElement('div');
+        newItem.innerHTML = `
+                            <div class="friend" >
+                                <h4 >${friendList[i]}</h4>
+                                <button class="challenge" id="challenge">Challenge</button>
+                                <button class="buttonFriends" id="remove">Remove</button>
+                                <button class="buttonFriends" id="message">Message</button>
+                            </div>`;
+        newItem.getElementsByClassName("challenge").item(0).addEventListener('click', function () {
+            challenge(this);
+        });
+        newItem.querySelector('#remove').addEventListener('click', function () {
+            removeFriend(friendList[i]);
+            window.location.reload();
+        });
+        newItem.querySelector('#message').addEventListener('click', function () {
+            currentFriendDiscussion=friendList[i];
+            setupChatContainer();
+        });
+        dropdown.appendChild(newItem);
+    }
+}

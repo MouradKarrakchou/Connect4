@@ -130,7 +130,7 @@ tfoot {
 #gameDisplay{
     display: flex;
 }
-#chat-container {
+.chat-container {
     position: fixed;
     bottom: 0;
     left: 0;
