@@ -39,7 +39,7 @@ socket.on('win', (data) => {
 
     console.log("C EST LA GAME");
 if(data != null) {
-    document.getElementById("message").innerText = " You won " + data + " elo points! ";
+    document.getElementById("message").innerText = " You won " + Math.abs(data) + " elo points! ";
 }else{
     document.getElementById("message").innerText = " You won ! ";
 }
@@ -50,7 +50,7 @@ if(data != null) {
 socket.on('lose', (data) => {
     console.log("FF");
     if(data != null) {
-        document.getElementById("message").innerText = " You lost " + data + " elo points!";
+        document.getElementById("message").innerText = " You lost " + Math.abs(data) + " elo points!";
     }else{
         document.getElementById("message").innerText = " You lost ! "
     }
