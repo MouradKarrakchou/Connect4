@@ -183,7 +183,7 @@ function retrieveGame(gameTypeAndTab) {
 function logout() {
     document.cookie = "token=" + undefined + ";path=/";
     document.cookie = "username=" + undefined + ";path=/";
-    window.location.href = "../loginRegister/loginRegister.html";
+    window.location.href = "/";
 }
 
 
