@@ -49,21 +49,33 @@
     <div class="chat-container" id="chat-container" style="display:none">
             <div class="chat-header" id="chat-header">
             </div>
-            <div id="chat-messages">
+            <div id="chat-messages" style="height: 45vh">
                 <!-- messages s'affichent ici -->
             </div>
-            <div id="chat-bar">
+            <div id="chat-bar" style="height: 5vh">
                 <input type="text" id="chatBar" placeholder="Hey">
             </div>
     </div>
-    <div class="chat-container" id="miniFriendContainer" style="display:none">
-        <div class="chat-header" >
-            <div style="margin:auto">Friend List</div>
-            <i class="fa-solid fa-chevron-down"></i>
+    <div class="chat-container" id="miniFriendContainer">
+        <div class="chat-header" id="mini-chat-header">
+            <div style="margin:auto">Menu</div>
+            <i class="fa-solid fa-chevron-down" id="chevron-down" style="display:none"></i>
+            <i class="fa-solid fa-chevron-up" id="chevron-up" style="display:block"></i>
+            <div></div>
         </div>
-        <div class="miniFriendList" id="miniFriendList">
+        <div id="mini-container-content" style="display:none; height: 50vh">
+            <div class="choice-header">
+                <div id="miniFriendsContacts" style="width: 50%; background-color: rgba(0,0,0,0.06)">
+                    <iconify-icon icon="fa-solid:user-friends" style="font-size: 2.4em;"></iconify-icon>
+                </div>
+                <div id="miniNotification" style="width: 50%;">
+                    <iconify-icon icon="mdi:bell-notification" style="font-size: 2.4em; margin:auto"></iconify-icon>
+                </div>
+            </div>
+            <div class="miniFriendList" id="miniFriendList">
 
-            <div class="miniDropdown"></div>
+                <div class="miniDropdown"></div>
+            </div>
         </div>
     </div>
 

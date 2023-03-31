@@ -8,8 +8,10 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 50%;
     width: 25%;
+}
+.mini-container-content{
+    height:50% ;
 }
 #chat-messages {
     overflow-y: scroll;
@@ -43,11 +45,43 @@
     border-radius: 15px 15px 0 0;
     display:flex;
 }
+.choice-header{
+    background-color: #9e9d9224;
+    border: none;
+    text-align: center;
+    display:flex;
+    justify-content: space-between;
+}
+.choice-header:hover{
+    cursor: pointer;
+}
+.chat-header{
+    cursor: pointer;
+}
+
+
 
 #message{
     position: absolute;
     bottom: 0;
     right: 0;
+}
+
+#miniNotification:hover{
+    background-color: rgba(0,0,0,0.06);
+}
+
+#miniFriendsContacts:hover{
+    background-color: rgba(0,0,0,0.06);
+}
+.miniFriend:hover{
+    cursor: pointer;
+}
+.icon_mini{
+    width: 33.33%;
+}
+.icon_mini:hover{
+    background-color: rgba(0,0,0,0.06);;
 }
 .message {
     position: relative;
@@ -58,6 +92,7 @@
     border-radius: 20px;
     max-width: 80%;
 }
+
 
 .message.outgoing {
     align-self: flex-end;
@@ -116,7 +151,6 @@
 .miniFriend{
     position: relative;
     background-color: rgba(231, 225, 195, 0.36);
-    padding: 5px;
     text-align: center;
 }
 .fa-message{
@@ -132,4 +166,7 @@
 }
 iconStyle + iconStyle {
     margin-left: 10px;
+}
+.mini-Friend-name:hover{
+    background-color: rgba(0,0,0,0.06);
 }

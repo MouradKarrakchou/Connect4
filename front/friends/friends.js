@@ -6,13 +6,15 @@ let pendingChallenge = false;
 let pendingChallengedName = null;
 
 let currentFriendDiscussion;
-const chatMessages = document.querySelector('#chat-messages');
-const chatContainer = document.getElementById("chat-container");
+let chatMessages;
+let chatContainer;
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
     await getFriendList();
     getFriendRequest();
+    chatMessages = document.getElementById("chat-messages");
+    chatContainer = document.getElementById("chat-container");
 
     document.getElementById('addFriendButton').addEventListener('click', addFriend);
     document.getElementById("searchBar").addEventListener("keydown", function (event) {
@@ -100,7 +102,7 @@ function showFriendList(friendList) {
         dropdown.appendChild(newItem);
 
         document.getElementById(idChallenge).addEventListener('click', function () {
-            challenge(this);
+            challenge(friendList[i]);
         });
         document.getElementById(idRemove).addEventListener('click', function () {
             removeFriend(friendList[i]);
@@ -112,11 +114,13 @@ function showFriendList(friendList) {
 }
 
 function setupChatContainer(friend){
+    let newItem = document.createElement('div');
+    newItem.innerHTML=`${friend}`;
+    document.getElementById("chat-header").appendChild(newItem);
     miniFriendContainer.style.display="none";
-    currentFriendDiscussion = friend;
     chatContainer.style.display = "flex";
     chatMessages.innerHTML='';
-    socket.emit('loadFriendChat', { friendUsername: currentFriendDiscussion,
+    socket.emit('loadFriendChat', { friendUsername: friend,
         token: token});
 }
 
@@ -226,8 +230,7 @@ function declineFriendRequest(friendToDecline) {
 }
 
 // Challenge a friend
-function challenge(button) {
-    let friendName = button.parentNode.querySelector("h4").textContent
+function challenge(friendName) {
 
     if (pendingChallenge) {
         let messageElement = document.getElementById("waitingForChallengeAnswer");
@@ -310,10 +313,11 @@ function hideUserNotFoundMessage() {
 const chatBar = document.getElementById('chatBar');
 
 chatBar.addEventListener('keydown', (event) => {
-    if (event.keyCode === 13) {
+    if (event.key === "Enter") {
         socket.emit('friendChat', { friendUsername: currentFriendDiscussion,
             chat: chatBar.value,
             token: token});
+        console.log("ITS ME WHO IS WRITING");
         appendMessage("Me: "+chatBar.value);
         chatBar.value='';
     }
@@ -383,9 +387,26 @@ socket.on('allConversationPrivateMessages', (request) => {
 
 
 ///////////////////////////////////////////////////////////////////////////////
+
 let miniFriendContainer=document.getElementById("miniFriendContainer");
 document.getElementById("chat-header").addEventListener('click',displayMiniFriends)
+document.getElementById("mini-chat-header").addEventListener('click',displayMiniMenu)
+let miniContainerContent=document.getElementById("mini-container-content");
 
+function displayMiniMenu(){
+    if (miniContainerContent.style.display==="block")
+    {
+        miniContainerContent.style.display="none";
+        document.getElementById("chevron-down").style.display="none";
+        document.getElementById("chevron-up").style.display="block";
+    }
+    else
+    {
+        miniContainerContent.style.display="block"
+        document.getElementById("chevron-down").style.display="block";
+        document.getElementById("chevron-up").style.display="none";
+    }
+}
 function displayMiniFriends(){
     console.log("click");
     miniFriendContainer.style.display = "block";
@@ -404,13 +425,18 @@ function showMiniFriendList(friendList) {
         let idRemove = "removeMini" + friendList[i];
         let idMessage = "messageMini" + friendList[i];
 
-        newItem.innerHTML = `
-                            <div class="miniFriend" id=${idDivFriend} style="font-size: 2em;" >
-                                ${friendList[i]}
+        newItem.innerHTML = ` <div class="miniFriend" style="font-size: 2em;" >
+                                <div class="mini-Friend-name" id=${idDivFriend}>${friendList[i]}</div>
                                 <div class="miniFriendMenu" id=${idMiniFriendMenu} style="display: none; justify-content: space-between;">
-                                  <i class="fa-solid fa-message iconStyle" style="font-size: 1.2em; margin-left: 15%;" id=${idMessage}></i>
-                                  <iconify-icon class="fight iconStyle" style="font-size: 1.2em; margin:auto" icon="mdi:sword-cross" id=${idChallenge}></iconify-icon>
-                                  <i class="fa-solid fa-xmark iconStyle" style="font-size: 1.5em; margin-right: 15%;" id="${idRemove}"></i>
+                                     <div class="icon_mini">
+                                        <i class="fa-solid fa-message iconStyle" style="font-size: 1.2em; margin-left: 15%;" id=${idMessage}></i>
+                                     </div>
+                                    <div class="icon_mini">
+                                      <iconify-icon class="fight iconStyle" style="font-size: 1.2em; margin:auto" icon="mdi:sword-cross" id=${idChallenge}></iconify-icon>
+                                    </div>
+                                    <div class="icon_mini">
+                                        <i class="fa-solid fa-xmark iconStyle" style="font-size: 1.5em; margin-right: 15%;" id="${idRemove}"></i>
+                                    </div>
                                 </div>
                             </div>`;
 
@@ -419,11 +445,12 @@ function showMiniFriendList(friendList) {
         document.getElementById(idDivFriend).addEventListener('click', function () {
             if (document.getElementById(idMiniFriendMenu).style.display === "flex")
                 document.getElementById(idMiniFriendMenu).style.display = "none";
-            document.getElementById(idMiniFriendMenu).style.display = "flex";
+            else
+                document.getElementById(idMiniFriendMenu).style.display = "flex";
         });
 
         document.getElementById(idChallenge).addEventListener('click', function () {
-            challenge(this);
+            challenge(friendList[i]);
         });
         document.getElementById(idRemove).addEventListener('click', function () {
             removeFriend(friendList[i]);
