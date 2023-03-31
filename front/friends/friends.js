@@ -8,6 +8,7 @@ let pendingChallengedName = null;
 let currentFriendDiscussion;
 let chatMessages;
 let chatContainer;
+let friendList;
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
@@ -24,6 +25,8 @@ async function init() {
         }
     });
     document.getElementById("cancelChallenge").addEventListener('click', cancelChallenge);
+    findToken();
+    socket.emit('findAllMessagePending', {token: token});
 }
 
 function addFriend() {
@@ -74,6 +77,7 @@ async function getFriendList() {
     })
         .then(response => response.json())
         .then(data => {
+            friendList=data;
             showFriendList(data);
             showMiniFriendList(data);
         })
@@ -108,6 +112,7 @@ function showFriendList(friendList) {
             removeFriend(friendList[i]);
         });
         document.getElementById(idMessage).addEventListener('click', function () {
+            currentFriendDiscussion=friendList[i];
             setupChatContainer(friendList[i]);
         });
     }
@@ -115,7 +120,13 @@ function showFriendList(friendList) {
 
 function setupChatContainer(friend){
     let newItem = document.createElement('div');
-    newItem.innerHTML=`${friend}`;
+    newItem.innerHTML = `<i class="fa-solid fa-chevron-left" style="margin-left: 0px;"></i>
+                     <div style="margin: auto;">${friend}</div>`;
+    document.getElementById("chat-header").innerHTML = '';
+    newItem.style.display = 'flex';
+    newItem.style.alignItems = 'center';
+    newItem.style.justifyContent = 'center';
+    newItem.style.width = '95%';
     document.getElementById("chat-header").appendChild(newItem);
     miniFriendContainer.style.display="none";
     chatContainer.style.display = "flex";
@@ -329,6 +340,14 @@ socket.emit('socketByUsername', { username: findUsername() });
 socket.on('friendIsChallenging', (data) => {
     challenged(data);
 });
+socket.on('loadAllMessagePending', (data) => {
+    friendList.forEach(friend=>document.getElementById("notificationMini"+friend).style.display='none')
+    document.getElementById("iconNotif").style.display='none';
+    if(data.length>0)
+        document.getElementById("iconNotif").style.display='block';
+    data.forEach(message=>document.getElementById("notificationMini"+message.from).style.display='block');
+
+});
 function appendMessage(message) {
     let newItem = document.createElement('div');
     chatContainer.style.display = "flex";
@@ -373,16 +392,21 @@ socket.on('challengeHasBeenCanceled', (challengerName) => {
 })
 
 socket.on('privateMessage', (request) => {
+    console.log(request);
+    console.log(currentFriendDiscussion);
     if (currentFriendDiscussion!==request.username){
         currentFriendDiscussion=request.username;
-        setupChatContainer();
+        setupChatContainer(request.username);
     }
-    appendMessage(currentFriendDiscussion+": "+request.message);
+    else{
+        appendMessage(currentFriendDiscussion+": "+request.message);
+    }
 })
 
 socket.on('allConversationPrivateMessages', (request) => {
     console.log(request);
-    request.forEach(msg=>msg.from===currentFriendDiscussion?appendMessage(msg.from+": "+msg.message):appendMessage("me: "+msg.message))
+    console.log(currentFriendDiscussion);
+    request.forEach(msg=>msg.from===currentFriendDiscussion?appendMessage(msg.from+": "+msg.message):appendMessage("Me: "+msg.message))
 })
 
 
@@ -419,6 +443,7 @@ function showMiniFriendList(friendList) {
         let dropdown = document.querySelector('.miniDropdown');
         let newItem = document.createElement('div');
 
+        let idIconMessage="notificationMini" + friendList[i];
         let idDivFriend = "friendMini" + friendList[i];
         let idMiniFriendMenu="friendMiniMenu"+friendList[i];
         let idChallenge = "challengeMini" + friendList[i];
@@ -426,16 +451,19 @@ function showMiniFriendList(friendList) {
         let idMessage = "messageMini" + friendList[i];
 
         newItem.innerHTML = ` <div class="miniFriend" style="font-size: 2em;" >
-                                <div class="mini-Friend-name" id=${idDivFriend}>${friendList[i]}</div>
-                                <div class="miniFriendMenu" id=${idMiniFriendMenu} style="display: none; justify-content: space-between;">
-                                     <div class="icon_mini">
-                                        <i class="fa-solid fa-message iconStyle" style="font-size: 1.2em; margin-left: 15%;" id=${idMessage}></i>
+                                <div style="display: flex;">
+                                    <iconify-icon icon="mdi:message-notification" id=${idIconMessage} style="display:none;color:darkred;font-size: 0.5em;"></iconify-icon>
+                                    <div class="mini-Friend-name" style="margin:auto;width: 100%;" id=${idDivFriend}>${friendList[i]}</div>
+                                </div>
+                                <div class="miniFriendMenu" id=${idMiniFriendMenu} style="display: none; justify-content: space-between;"">
+                                     <div class="icon_mini" id=${idMessage}>
+                                        <i class="fa-solid fa-message iconStyle" style="font-size: 1.2em; margin-left: 15%;"></i>
                                      </div>
-                                    <div class="icon_mini">
-                                      <iconify-icon class="fight iconStyle" style="font-size: 1.2em; margin:auto" icon="mdi:sword-cross" id=${idChallenge}></iconify-icon>
+                                    <div class="icon_mini" id=${idChallenge}>
+                                      <iconify-icon class="fight iconStyle" style="font-size: 1.2em; margin:auto;" icon="mdi:sword-cross"></iconify-icon>
                                     </div>
-                                    <div class="icon_mini">
-                                        <i class="fa-solid fa-xmark iconStyle" style="font-size: 1.5em; margin-right: 15%;" id="${idRemove}"></i>
+                                    <div class="icon_mini" id="${idRemove}">
+                                        <i class="fa-solid fa-xmark iconStyle" style="font-size: 1.5em; margin-right: 15%;"></i>
                                     </div>
                                 </div>
                             </div>`;
@@ -456,6 +484,7 @@ function showMiniFriendList(friendList) {
             removeFriend(friendList[i]);
         });
         document.getElementById(idMessage).addEventListener('click', function () {
+            currentFriendDiscussion=friendList[i];
             setupChatContainer(friendList[i]);
         });
     }

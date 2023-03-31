@@ -25,18 +25,29 @@ function setUpSockets(io){
         return item;
     }
 
-    async function saveMessageToDataBase(from,to,message){
+    async function saveMessageToDataBase(from,to,message,heRead){
         await client.connect();
         console.log('Connected to MongoDB');
         const db = client.db("connect4");
         const chatCollection = db.collection("chat");
-        const item = await chatCollection.insertOne({from:from,to:to,message:message});
+        const item = await chatCollection.insertOne({from:from,to:to,message:message,heRead:heRead});
+    }
+    async function loadAllMessagePending(to){
+        await client.connect();
+        console.log('Connected to MongoDB');
+        const db = client.db("connect4");
+        const chatCollection = db.collection("chat");
+        const item = await chatCollection.find({to:to,heRead:false}).toArray();
+        return item;
     }
     async function loadAllMessageFromConversation(from,to){
         await client.connect();
         console.log('Connected to MongoDB');
         const db = client.db("connect4");
         const chatCollection = db.collection("chat");
+        console.log("updating: from "+from+" to "+to);
+        await chatCollection.updateMany({from:from,to: to}, {$set: {heRead: true}});
+        findSocketByName(to,connectedSockets).emit('loadAllMessagePending', loadAllMessagePending(to));
         const item = await chatCollection.find({ $or:[{from:from,to:to},{from:to,to:from}]}).toArray();
         return item;
     }
@@ -152,17 +163,28 @@ function setUpSockets(io){
         socket.on('friendChat', async (request) => {
             let user = await retrieveUserFromDataBase(request.token);
             console.log(user);
-            findSocketByName(request.friendUsername,connectedSockets).emit('privateMessage', {
+            let heRead=false;
+            if (findSocketByName(request.friendUsername,connectedSockets)!==null)
+            {
+                findSocketByName(request.friendUsername,connectedSockets).emit('privateMessage', {
                     username:user.username,
                     message:request.chat})
+                heRead=true;
+            }
 
-            await saveMessageToDataBase(user.username,request.friendUsername,request.chat);
+
+            await saveMessageToDataBase(user.username,request.friendUsername,request.chat,heRead);
         }
         )
+        socket.on('findAllMessagePending', async (request) => {
+            let user = await retrieveUserFromDataBase(request.token);
+            let allUserMessages=await loadAllMessagePending(user.username);
+            findSocketByName(user.username,connectedSockets).emit('loadAllMessagePending', allUserMessages);
+        })
         socket.on('loadFriendChat', async (request) => {
             let user = await retrieveUserFromDataBase(request.token);
 
-            let allUserMessages=await loadAllMessageFromConversation(user.username,request.friendUsername);
+            let allUserMessages=await loadAllMessageFromConversation(request.friendUsername,user.username);
             findSocketByName(user.username,connectedSockets).emit('allConversationPrivateMessages', allUserMessages)})
 
         socket.on('playMulti', async (playerReq) => {
@@ -327,6 +349,7 @@ function setUpSockets(io){
 
         // Store the username linked to this socket
         socket.on('socketByUsername', function(data) {
+            console.log("THIS USERNAME HAS LOGED WITH SOCKET "+data.username)
             socket.username = data.username;
         });
 
