@@ -295,7 +295,11 @@ let timer = document.getElementById('timer');
 function timerCount() {
     if (timeLeft < 0) {
         clearInterval(intervalId); // Stop the timer
-        // Player lost
+        socket.emit('timeOver', {
+            matchID: findInCookie("matchID="),
+            token: findInCookie("token="),
+            itsMyTurn: itsMyTurn
+        });
     } else {
         if (timeLeft < 10) timer.innerHTML = "00:0" + timeLeft;
         else timer.innerHTML = "00:" + timeLeft;
