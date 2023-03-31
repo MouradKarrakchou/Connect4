@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     getAllGames();
     document.getElementById("b").addEventListener('click', findGame);
     document.getElementById("cancel").addEventListener('click', cancelGame);
+    document.getElementById("title").innerText = "Welcome to Connect4 " + findUsername() + "!";
 
         // -------- Sockets for the challenges --------
 
@@ -183,7 +184,7 @@ function retrieveGame(gameTypeAndTab) {
 function logout() {
     document.cookie = "token=" + undefined + ";path=/";
     document.cookie = "username=" + undefined + ";path=/";
-    window.location.href = "../loginRegister/loginRegister.html";
+    window.location.href = "/";
 }
 
 
