@@ -213,22 +213,20 @@ function findInCookie(str){
 }
 function colorMessage(counter) {
     let color = 'Red';
-    let playerTurn = document.getElementById("secondPlayerName").innerText;
-    if (counter % 2 === 0) {
-        color = 'Yellow';
-        playerTurn = document.getElementById("firstPlayerName").innerText;
-    }
+    if (counter % 2 === 0) {color = 'Yellow';    }
+
+    let firstPlayerTurn = document.getElementById("firstPlayerName").innerText;
+    let secondPlayerTurn = document.getElementById("secondPlayerName").innerText;
 
     document.getElementById("body").style.backgroundColor = mapColor.get(color);
-
-    let message = "";
+    let message;
     if (playfirst === (counter%2===0)) {
-        message = playerTurn + " turns to play";
-        document.getElementById("player").innerText = message;
+        document.getElementById("player").innerText = "Your turn to play";
         itsMyTurn=true;
     }
     else {
-        message = playerTurn + " turns to play";
+        if (color === 'Yellow') message = firstPlayerTurn + " turns to play";
+        else message = secondPlayerTurn + " turns to play";
         document.getElementById("player").innerText = message;
         itsMyTurn=false;
     }
