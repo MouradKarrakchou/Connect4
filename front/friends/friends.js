@@ -397,24 +397,39 @@ function showMiniFriendList(friendList) {
     for (let i = 0; i < friendList.length; i++) {
         let dropdown = document.querySelector('.miniDropdown');
         let newItem = document.createElement('div');
+
+        let idDivFriend = "friendMini" + friendList[i];
+        let idMiniFriendMenu="friendMiniMenu"+friendList[i];
+        let idChallenge = "challengeMini" + friendList[i];
+        let idRemove = "removeMini" + friendList[i];
+        let idMessage = "messageMini" + friendList[i];
+
         newItem.innerHTML = `
-                            <div class="friend" >
-                                <h4 >${friendList[i]}</h4>
-                                <button class="challenge" id="challenge">Challenge</button>
-                                <button class="buttonFriends" id="remove">Remove</button>
-                                <button class="buttonFriends" id="message">Message</button>
+                            <div class="miniFriend" id=${idDivFriend} style="font-size: 2em;" >
+                                ${friendList[i]}
+                                <div class="miniFriendMenu" id=${idMiniFriendMenu} style="display: none; justify-content: space-between;">
+                                  <i class="fa-solid fa-message iconStyle" style="font-size: 1.2em; margin-left: 15%;" id=${idMessage}></i>
+                                  <iconify-icon class="fight iconStyle" style="font-size: 1.2em; margin:auto" icon="mdi:sword-cross" id=${idChallenge}></iconify-icon>
+                                  <i class="fa-solid fa-xmark iconStyle" style="font-size: 1.5em; margin-right: 15%;" id="${idRemove}"></i>
+                                </div>
                             </div>`;
-        newItem.getElementsByClassName("challenge").item(0).addEventListener('click', function () {
+
+        dropdown.appendChild(newItem);
+
+        document.getElementById(idDivFriend).addEventListener('click', function () {
+            if (document.getElementById(idMiniFriendMenu).style.display === "flex")
+                document.getElementById(idMiniFriendMenu).style.display = "none";
+            document.getElementById(idMiniFriendMenu).style.display = "flex";
+        });
+
+        document.getElementById(idChallenge).addEventListener('click', function () {
             challenge(this);
         });
-        newItem.querySelector('#remove').addEventListener('click', function () {
+        document.getElementById(idRemove).addEventListener('click', function () {
             removeFriend(friendList[i]);
-            window.location.reload();
         });
-        newItem.querySelector('#message').addEventListener('click', function () {
-            currentFriendDiscussion=friendList[i];
-            setupChatContainer();
+        document.getElementById(idMessage).addEventListener('click', function () {
+            setupChatContainer(friendList[i]);
         });
-        dropdown.appendChild(newItem);
     }
 }

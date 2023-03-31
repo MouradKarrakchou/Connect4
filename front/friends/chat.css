@@ -41,6 +41,7 @@
     border: none;
     text-align: center;
     border-radius: 15px 15px 0 0;
+    display:flex;
 }
 
 #message{
@@ -110,4 +111,25 @@
     margin-top: 5px;
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+.miniFriend{
+    position: relative;
+    background-color: rgba(231, 225, 195, 0.36);
+    padding: 5px;
+    text-align: center;
+}
+.fa-message{
+    margin-left: 0px;
+    margin-right: auto;
+}
+.fa-xmark{
+    margin-left: auto;
+    margin-right: 0px;
+}
+.fight{
+    margin: auto;
+}
+iconStyle + iconStyle {
+    margin-left: 10px;
 }
