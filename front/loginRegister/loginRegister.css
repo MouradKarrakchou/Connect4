@@ -112,10 +112,6 @@ body{
 #usernameToContinueWith:hover{
     cursor: pointer;
 }
-@font-face {
-    font-family: Cubic;
-    src: url("./front/loginRegister/cubic.ttf") format('truetype');
-}
 #title {
     font-family: Cubic, sans-serif;
     font-size: 400%;
