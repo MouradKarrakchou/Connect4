@@ -54,7 +54,7 @@ function setUpSockets(io){
                     userID: user._id.toString(),
                     username:user.username,
                     ready: false,
-                    elo: user.elo
+                    elo: user.elo,
                 }
             } else if(user._id.toString()!==roomInSearch.userID) {
                 let matchID = getRandomNumber(0, 100000000000) + '';
@@ -73,7 +73,8 @@ function setUpSockets(io){
                         ready: false,
                         elo: user.elo
                     },
-                    board: createBoard()
+                    board: createBoard(),
+                    isFriendGame: false
                 };
                 console.log("LES INFOS ")
                 console.log(matchInfo)
@@ -103,17 +104,25 @@ function setUpSockets(io){
             if (user._id.toString() === gameInfo.player1.userID) {
                 console.log("player1"+user.username);
                 socket.join(gameInfo.player1.room);
-                io.to(gameInfo.player1.room).emit('firstPlayerInit',{
-                    yourElo:gameInfo.player1.elo,
-                    opponentElo:gameInfo.player2.elo
-                });
+                if (gameInfo.isFriendGame) {
+                    io.to(gameInfo.player1.room).emit('firstPlayerInit', null);
+                } else {
+                    io.to(gameInfo.player1.room).emit('firstPlayerInit', {
+                        yourElo: gameInfo.player1.elo,
+                        opponentElo: gameInfo.player2.elo
+                    });
+                }
             } else if (user._id.toString() === gameInfo.player2.userID) {
                 console.log("player2"+user.username);
                 socket.join(gameInfo.player2.room);
-                io.to(gameInfo.player2.room).emit('secondPlayerInit',{
-                    yourElo:gameInfo.player2.elo,
-                    opponentElo:gameInfo.player1.elo
-                });
+                if (gameInfo.isFriendGame) {
+                    io.to(gameInfo.player2.room).emit('secondPlayerInit', null);
+                } else {
+                    io.to(gameInfo.player2.room).emit('secondPlayerInit', {
+                        yourElo: gameInfo.player2.elo,
+                        opponentElo: gameInfo.player1.elo
+                    });
+                }
             }
         })
         socket.on('chat', async (playerReq) => {
@@ -180,42 +189,53 @@ function setUpSockets(io){
             let check = checkMove(moveToCheck);
             if (check.state === "over") {
                 if (check.winner === 1) {
-                    let oldElo1 = gameInfo.player1.elo;
-                    let oldElo2 = gameInfo.player2.elo;
-                    let newElo1 = calculateNewElo(gameInfo.player1.elo, gameInfo.player2.elo, 1)
-                    await addElo(gameInfo.player1.username, newElo1);
-                    await addWins(gameInfo.player1.username)
-                    await addLosses(gameInfo.player2.username)
-                    let newElo2 = calculateNewElo(gameInfo.player2.elo, gameInfo.player1.elo, 0)
-                    await addElo(gameInfo.player2.username, newElo2);
-                    let delta1 = newElo1 - oldElo1;
-                    let delta2 = newElo2 - oldElo2;
-                    io.to(gameInfo.player1.room).emit('win',delta1);
-                    io.to(gameInfo.player2.room).emit('lose', delta2);
-
+                    if (gameInfo.isFriendGame) {
+                        io.to(gameInfo.player1.room).emit('win', null);
+                        io.to(gameInfo.player2.room).emit('lose', null);
+                    }
+                    else {
+                        let oldElo1 = gameInfo.player1.elo;
+                        let oldElo2 = gameInfo.player2.elo;
+                        let newElo1 = calculateNewElo(gameInfo.player1.elo, gameInfo.player2.elo, 1)
+                        await addElo(gameInfo.player1.username, newElo1);
+                        await addWins(gameInfo.player1.username)
+                        await addLosses(gameInfo.player2.username)
+                        let newElo2 = calculateNewElo(gameInfo.player2.elo, gameInfo.player1.elo, 0)
+                        await addElo(gameInfo.player2.username, newElo2);
+                        let delta1 = newElo1 - oldElo1;
+                        let delta2 = newElo2 - oldElo2;
+                        io.to(gameInfo.player1.room).emit('win', delta1);
+                        io.to(gameInfo.player2.room).emit('lose', delta2);
+                    }
 
                 } else if (check.winner === 0) {
                     io.to(gameInfo.player1.room).emit('tie', null);
                     io.to(gameInfo.player2.room).emit('tie', null);
                     await addDraws(gameInfo.player1.username)
                     await addDraws(gameInfo.player2.username)
-                } else {
-                    let oldElo1 = gameInfo.player1.elo;
-                    let oldElo2 = gameInfo.player2.elo;
-                    let newElo2 = calculateNewElo(gameInfo.player2.elo, gameInfo.player1.elo, 1);
-                    await addElo(gameInfo.player2.username,newElo2);
-                    await addWins(gameInfo.player2.username)
-                    await addLosses(gameInfo.player1.username)
-                    let newElo1 = calculateNewElo(gameInfo.player1.elo, gameInfo.player2.elo, 0)
-                    await addElo(gameInfo.player1.username,newElo1);
-                    let delta1 = oldElo1 - newElo1;
-                    let delta2 = oldElo2 - newElo2;
-                     console.log("old elo "+oldElo1);
-                     console.log("new elo "+newElo1);
-                     console.log("delta "+delta1);
-                    io.to(gameInfo.player1.room).emit('lose',delta1);
-                    io.to(gameInfo.player2.room).emit('win',delta2);
 
+                } else {
+                    if (gameInfo.isFriendGame) {
+                        io.to(gameInfo.player1.room).emit('win', null);
+                        io.to(gameInfo.player2.room).emit('lose', null);
+                    }
+                    else {
+                        let oldElo1 = gameInfo.player1.elo;
+                        let oldElo2 = gameInfo.player2.elo;
+                        let newElo2 = calculateNewElo(gameInfo.player2.elo, gameInfo.player1.elo, 1);
+                        await addElo(gameInfo.player2.username, newElo2);
+                        await addWins(gameInfo.player2.username)
+                        await addLosses(gameInfo.player1.username)
+                        let newElo1 = calculateNewElo(gameInfo.player1.elo, gameInfo.player2.elo, 0)
+                        await addElo(gameInfo.player1.username, newElo1);
+                        let delta1 = oldElo1 - newElo1;
+                        let delta2 = oldElo2 - newElo2;
+                        console.log("old elo " + oldElo1);
+                        console.log("new elo " + newElo1);
+                        console.log("delta " + delta1);
+                        io.to(gameInfo.player1.room).emit('lose', delta1);
+                        io.to(gameInfo.player2.room).emit('win', delta2);
+                    }
                 }
             }
 
@@ -224,13 +244,12 @@ function setUpSockets(io){
         // Store the username linked to this socket
         socket.on('socketByUsername', function(data) {
             socket.username = data.username;
-            console.log("SOCKET BY USERNAME: " + socket.username);
-            console.log("SOCKET BY USERNAME NUMBER OF CONNECTED SOCKET: " + connectedSockets.size);
         });
 
-        socket.on('challengeFriend', (request) => {
-            let challengerToken = request.challengedToken;
-            let challenger = retrieveUserFromDataBase(challengerToken);
+        socket.on('challengeFriend', async (request) => {
+            let challengerToken = request.challengerToken;
+            let challenger = await retrieveUserFromDataBase(challengerToken);
+
             let challengerName = challenger.username;
             let challengerSocket = findSocketByName(challengerName, connectedSockets);
 
@@ -241,14 +260,12 @@ function setUpSockets(io){
                 if (challengerSocket !== null) {
                     challengerSocket.emit('notFriendMessage', challengedName);
                 }
-            }
-            else if (challengedSocket !== null) {
+            } else if (challengedSocket !== null) {
                 challengedSocket.emit('friendIsChallenging', {
                     challengerToken: challengerToken,
                     challengerName: challengerName
-                })
-            }
-            else {
+                });
+            } else {
                 if (challengerSocket !== null) {
                     challengerSocket.emit('notConnectedMessage', challengedName);
                 }
@@ -269,6 +286,11 @@ function setUpSockets(io){
 
             if (!challenged.friends.includes(challengerName)) {
                 if (challengedSocket !== null) {
+                    challengedSocket.emit('notFriendMessage', challengerName);
+                }
+            }
+            else if (challengerSocket === null) {
+                if (challengedSocket !== null) {
                     challengedSocket.emit('notConnectedMessage', challengerName);
                 }
             }
@@ -288,7 +310,8 @@ function setUpSockets(io){
                         username: challengedName,
                         token: challengedToken
                     },
-                    board: createBoard()
+                    board: createBoard(),
+                    isFriendGame: true
                 };
 
                 mapGames.set(matchID, matchInfo);
@@ -298,12 +321,24 @@ function setUpSockets(io){
             }
         })
 
-        socket.on('IDeclineTheChallenge', (data) => {
+        socket.on('IDeclineTheChallenge', async (data) => {
             let challengerToken = data.challengerToken;
-            let challenger = retrieveUserFromDataBase(challengerToken);
+            let challenger = await retrieveUserFromDataBase(challengerToken);
             let challengedToken = data.challengedToken;
-            let challenged = retrieveUserFromDataBase(challengedToken);
+            let challenged = await retrieveUserFromDataBase(challengedToken);
             findSocketByName(challenger.username, connectedSockets).emit('challengeDeclined', challenged.username);
+        })
+
+        socket.on('theChallengeIsCanceled', async (data) => {
+            let challengerToken = data.challengerToken;
+            let challenger = await retrieveUserFromDataBase(challengerToken);
+
+            let challengedName = data.challengedName;
+            let challengedSocket = findSocketByName(challengedName, connectedSockets);
+
+            if (challengedSocket !== null) {
+                challengedSocket.emit('challengeHasBeenCanceled', challenger.username);
+            }
         })
     })
 }

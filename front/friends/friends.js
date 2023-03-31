@@ -2,11 +2,18 @@ import {findToken, token, address} from "../games/dataManager.js";
 import {findUsername} from "../games/gameManagement.js";
 let socket = io();
 
+let pendingChallenge = false;
+let pendingChallengedName = null;
+
 let currentFriendDiscussion;
 const chatMessages = document.querySelector('#chat-messages');
-const chatContainer= document.getElementById("chat-container");
+const chatContainer = document.getElementById("chat-container");
 document.addEventListener('DOMContentLoaded', init);
+
 async function init() {
+    await getFriendList();
+    getFriendRequest();
+
     document.getElementById('addFriendButton').addEventListener('click', addFriend);
     document.getElementById("searchBar").addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
@@ -14,9 +21,7 @@ async function init() {
             addFriend();
         }
     });
-
-    await getFriendList();
-    getFriendRequest();
+    document.getElementById("cancelChallenge").addEventListener('click', cancelChallenge);
 }
 
 function addFriend() {
@@ -80,31 +85,35 @@ function showFriendList(friendList) {
         let dropdown = document.querySelector('.dropdown');
         let newItem = document.createElement('div');
 
+        let idChallenge = "challenge" + friendList[i];
+        let idRemove = "remove" + friendList[i];
+        let idMessage = "message" + friendList[i];
+
         newItem.innerHTML = `
                             <div class="friend" >
                                 <h4 >${friendList[i]}</h4>
-                                <button class="challenge" id="challenge">Challenge</button>
-                                <button class="buttonFriends" id="remove">Remove</button>
-                                <button class="buttonFriends" id="message">Message</button>
+                                <button class="challenge" id=${idChallenge}>Challenge</button>
+                                <button class="buttonFriends" id=${idRemove}>Remove</button>
+                                <button class="buttonFriends" id=${idMessage}>Message</button>
                             </div>`;
 
         dropdown.appendChild(newItem);
-        document.getElementById("challenge").addEventListener('click', function () {
+
+        document.getElementById(idChallenge).addEventListener('click', function () {
             challenge(this);
         });
-        document.getElementById("remove").addEventListener('click', function () {
+        document.getElementById(idRemove).addEventListener('click', function () {
             removeFriend(friendList[i]);
-            window.location.reload();
         });
-        document.getElementById("message").addEventListener('click', function () {
-            currentFriendDiscussion=friendList[i];
-            setupChatContainer();
+        document.getElementById(idMessage).addEventListener('click', function () {
+            setupChatContainer(friendList[i]);
         });
     }
 }
 
-function setupChatContainer(){
+function setupChatContainer(friend){
     miniFriendContainer.style.display="none";
+    currentFriendDiscussion = friend;
     chatContainer.style.display = "flex";
     chatMessages.innerHTML='';
     socket.emit('loadFriendChat', { friendUsername: currentFriendDiscussion,
@@ -127,6 +136,7 @@ function removeFriend(friendToRemove) {
         .then(res => res.json())
         .then(data => console.log(data))
         .catch(error => console.error(error));
+    window.location.reload();
 }
 
 function getFriendRequest(){
@@ -156,20 +166,23 @@ function showFriendRequest(friendRequest) {
         let dropdown = document.querySelector('.dropdownFriendRequest');
         let newItem = document.createElement('div');
 
+        let acceptId = "accept" + friendRequest[i];
+        let declineId = "decline" + friendRequest[i];
+
         newItem.innerHTML = `
                             <div class="friendReq" >
                                 <h4>${friendRequest[i]}</h4>
-                                <button class="buttonFriends" id="accept">Accept</button>
-                                <button class="buttonFriends" id="decline">Decline</button>
+                                <button class="buttonFriends" id="${acceptId}">Accept</button>
+                                <button class="buttonFriends" id="${declineId}">Decline</button>
                             </div>`;
 
         dropdown.appendChild(newItem);
 
-        document.getElementById("accept").addEventListener('click', function () {
+        document.getElementById(acceptId).addEventListener('click', function () {
             acceptFriendRequest(friendRequest[i]);
             window.location.reload();
         });
-        document.getElementById("decline").addEventListener('click', function () {
+        document.getElementById(declineId).addEventListener('click', function () {
             declineFriendRequest(friendRequest[i]);
             window.location.reload();
         });
@@ -191,6 +204,7 @@ function acceptFriendRequest(friendToAccept) {
         .then(res => res.json())
         .then(data => console.log(data))
         .catch(error => console.error(error));
+    window.location.reload();
 }
 
 function declineFriendRequest(friendToDecline) {
@@ -208,23 +222,33 @@ function declineFriendRequest(friendToDecline) {
         .then(res => res.json())
         .then(data => console.log(data))
         .catch(error => console.error(error));
+    window.location.reload();
 }
 
 // Challenge a friend
 function challenge(button) {
     let friendName = button.parentNode.querySelector("h4").textContent
-    findToken();
 
-    socket.emit('challengeFriend', {
-        challengerToken: token,
-        challengedName: friendName
-    });
+    if (pendingChallenge) {
+        let messageElement = document.getElementById("waitingForChallengeAnswer");
+        messageElement.innerText = "Waiting for " + pendingChallengedName +
+            "! You cannot challenge two friends at the same time! Cancel your pending challenge first"
+    } else {
+        document.getElementById("cancelChallenge").style.display = "block";
 
-    console.log("Challenge sent!");
+        findToken();
+        socket.emit('challengeFriend', {
+            challengerToken: token,
+            challengedName: friendName
+        });
 
-    let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-    waitingMessage.innerText = "Waiting for " + friendName + "!";
-    waitingMessage.style.display = "block";
+        console.log("Challenge sent!");
+
+        let waitingMessage = document.getElementById("waitingForChallengeAnswer");
+        waitingMessage.innerText = "Waiting for " + friendName + "!";
+        pendingChallenge = true;
+        pendingChallengedName = friendName;
+    }
 }
 
 function challenged(data) {
@@ -232,16 +256,20 @@ function challenged(data) {
     let newChallenge = document.createElement('div');
     let challengerName = data.challengerName;
 
+    let friendIsChallengingClassName = "friendIsChallenging" + challengerName;
+    let acceptTheChallengeId = "acceptTheChallenge" + challengerName;
+    let declineTheChallengeId = "declineTheChallenge" + challengerName;
+
     newChallenge.innerHTML = `
-                            <div class="friendIsChallenging" >
+                            <div class="${friendIsChallengingClassName}" >
                                 <h4>${challengerName} is challenging you!</h4>
-                                <button class="accept" id="acceptTheChallenge">Accept</button>
-                                <button class="decline" id="declineTheChallenge">Decline</button>
+                                <button class="accept" id="${acceptTheChallengeId}">Accept</button>
+                                <button class="decline" id="${declineTheChallengeId}">Decline</button>
                             </div>`;
 
     dropdown.appendChild(newChallenge);
 
-    document.getElementById("acceptTheChallenge").addEventListener('click', function () {
+    document.getElementById(acceptTheChallengeId).addEventListener('click', function () {
         findToken();
         socket.emit('IAcceptTheChallenge', {
             challengerToken: data.challengerToken,
@@ -252,7 +280,7 @@ function challenged(data) {
 
         dropdown.removeChild(newChallenge)
     });
-    document.getElementById("declineTheChallenge").addEventListener('click', function () {
+    document.getElementById(declineTheChallengeId).addEventListener('click', function () {
         socket.emit('IDeclineTheChallenge', {
             challengerToken: data.challengerToken,
             challengedToken: token,
@@ -260,7 +288,19 @@ function challenged(data) {
 
         dropdown.removeChild(newChallenge)
         window.location.reload();
-    });
+    })
+}
+
+function cancelChallenge() {
+    findToken()
+    socket.emit('theChallengeIsCanceled', {
+        challengerToken: token,
+        challengedName: pendingChallengedName
+    })
+
+    pendingChallenge = false;
+    document.getElementById("waitingForChallengeAnswer").innerText = "";
+    document.getElementById("cancelChallenge").style.display = "none";
 }
 
 function hideUserNotFoundMessage() {
@@ -294,23 +334,38 @@ function appendMessage(message) {
 }
 
 socket.on('notConnectedMessage', (challengedName) => {
+    document.getElementById("cancelChallenge").style.display = "none";
+    pendingChallenge = false;
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
     waitingMessage.innerText = "Oh no! " + challengedName + " is not connected! Or he is already in game..."
 })
 
 socket.on('notFriendMessage', (challengedName) => {
+    document.getElementById("cancelChallenge").style.display = "none";
+    pendingChallenge = false;
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
     waitingMessage.innerText = "Oh no! " + challengedName + " is not your friend!"
 })
 
 socket.on('challengeAccepted', (matchID) => {
+    pendingChallenge = false;
     document.cookie = "matchID=" + matchID + ";path=/";
     window.location.href = '../games/multiplayer/multiplayer.html';
 });
 
 socket.on('challengeDeclined', (challengedName) => {
+    document.getElementById("cancelChallenge").style.display = "none";
+    pendingChallenge = false;
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
     waitingMessage.innerText = "Oh no! " + challengedName + " has declined your challenge!"
+})
+
+socket.on('challengeHasBeenCanceled', (challengerName) => {
+    let friendIsChallengingClassName = ".friendIsChallenging" + challengerName;
+    let challenge = document.querySelector(friendIsChallengingClassName).parentNode;
+    let dropdown = document.querySelector('.dropdownChallengeRequest');
+    dropdown.removeChild(challenge);
+    window.location.reload();
 })
 
 socket.on('privateMessage', (request) => {
@@ -320,6 +375,7 @@ socket.on('privateMessage', (request) => {
     }
     appendMessage(currentFriendDiscussion+": "+request.message);
 })
+
 socket.on('allConversationPrivateMessages', (request) => {
     console.log(request);
     request.forEach(msg=>msg.from===currentFriendDiscussion?appendMessage(msg.from+": "+msg.message):appendMessage("me: "+msg.message))

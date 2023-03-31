@@ -20,30 +20,40 @@ mapColor.set('Red','#c92c2c9c');
 socket.on('firstPlayerInit', (playersData) => {
     playfirst=true;
     colorMessage(counter);
-    player1elo = playersData.yourElo;
-    player2elo = playersData.opponentElo;
-    document.getElementById("opponentElo").innerText = "Opponent elo: " + playersData.opponentElo;
-    document.getElementById("playerElo").innerText = "Your elo: " + playersData.yourElo;
+    if (playersData != null) {
+        player1elo = playersData.yourElo;
+        player2elo = playersData.opponentElo;
+        document.getElementById("opponentElo").innerText = "Opponent elo: " + playersData.opponentElo;
+        document.getElementById("playerElo").innerText = "Your elo: " + playersData.yourElo;
+    }
 });
 socket.on('secondPlayerInit', (playersData) => {
     playfirst=false;
     colorMessage(counter);
-    document.getElementById("opponentElo").innerText = "Opponent elo: " + playersData.opponentElo;
-    document.getElementById("playerElo").innerText = "Your elo: " + playersData.yourElo;
-
+    if (playersData != null) {
+        document.getElementById("opponentElo").innerText = "Opponent elo: " + playersData.opponentElo;
+        document.getElementById("playerElo").innerText = "Your elo: " + playersData.yourElo;
+    }
 });
 socket.on('win', (data) => {
 
     console.log("C EST LA GAME");
-
+if(data != null) {
     document.getElementById("message").innerText = " You won " + data + " elo points! ";
+}else{
+    document.getElementById("message").innerText = " You won ! ";
+}
     document.getElementById("reset-button").style.display = "block";
     document.getElementById("reset-button").addEventListener("click", resetGame);
     gameOver = true;
 });
 socket.on('lose', (data) => {
     console.log("FF");
-    document.getElementById("message").innerText = " You lost " + data + " elo points!";
+    if(data != null) {
+        document.getElementById("message").innerText = " You lost " + data + " elo points!";
+    }else{
+        document.getElementById("message").innerText = " You lost ! "
+    }
     document.getElementById("reset-button").style.display = "block";
     document.getElementById("reset-button").addEventListener("click", resetGame);
     gameOver = true;
