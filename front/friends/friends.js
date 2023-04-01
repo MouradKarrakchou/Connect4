@@ -25,6 +25,7 @@ async function init() {
         }
     });
     document.getElementById("cancelChallenge").addEventListener('click', cancelChallenge);
+    document.getElementById("cancelChallengeMini").addEventListener('click', cancelChallenge);
     findToken();
     socket.emit('findAllMessagePending', {token: token});
 }
@@ -262,6 +263,8 @@ function challenge(friendName) {
             "! You cannot challenge two friends at the same time! Cancel your pending challenge first"
     } else {
         document.getElementById("cancelChallenge").style.display = "block";
+        document.getElementById("cancelChallengeMini").style.display = "block";
+        document.getElementById("ok-btn").style.display = "none";
 
         findToken();
         socket.emit('challengeFriend', {
@@ -274,6 +277,7 @@ function challenge(friendName) {
         let waitingMessage = document.getElementById("waitingForChallengeAnswer");
         notification.style.display="flex";
         notifText.innerText="Waiting for " + friendName + "!";
+
         //TODO remove
         waitingMessage.innerText = "Waiting for " + friendName + "!";
         pendingChallenge = true;
@@ -331,6 +335,8 @@ function cancelChallenge() {
     pendingChallenge = false;
     document.getElementById("waitingForChallengeAnswer").innerText = "";
     document.getElementById("cancelChallenge").style.display = "none";
+    window.location.reload();
+
 }
 
 function hideUserNotFoundMessage() {
