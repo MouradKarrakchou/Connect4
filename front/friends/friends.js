@@ -18,7 +18,6 @@ async function init() {
     chatMessages = document.getElementById("chat-messages");
     chatContainer = document.getElementById("chat-container");
 
-    document.getElementById('addFriendButton').addEventListener('click', addFriend);
     document.getElementById("searchBar").addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -31,6 +30,7 @@ async function init() {
 }
 
 function addFriend() {
+    console.log("CLICK")
     hideUserNotFoundMessage();
 
     const friendQuery = document.getElementById("searchBar").value;
