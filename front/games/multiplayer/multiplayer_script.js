@@ -37,7 +37,7 @@ socket.on('secondPlayerInit', (playersData) => {
 });
 
 socket.on('win', (data) => {
-
+    gameOver = true;
     console.log("C EST LA GAME");
 if(data != null) {
     document.getElementById("message").innerText = " You won " + Math.abs(data) + " elo points! ";
@@ -46,9 +46,9 @@ if(data != null) {
 }
     document.getElementById("reset-button").style.display = "block";
     document.getElementById("reset-button").addEventListener("click", resetGame);
-    gameOver = true;
 });
 socket.on('lose', (data) => {
+    gameOver = true;
     console.log("FF");
     if(data != null) {
         document.getElementById("message").innerText = " You lost " + Math.abs(data) + " elo points!";
@@ -57,14 +57,13 @@ socket.on('lose', (data) => {
     }
     document.getElementById("reset-button").style.display = "block";
     document.getElementById("reset-button").addEventListener("click", resetGame);
-    gameOver = true;
 });
 socket.on('tie', () => {
+    gameOver = true;
     console.log("Draw!");
     document.getElementById("message").innerText = "Draw!";
     document.getElementById("reset-button").style.display = "block";
     document.getElementById("reset-button").addEventListener("click", resetGame);
-    gameOver = true;
 });
 
 socket.on('message', (req) => {
@@ -76,6 +75,14 @@ socket.on('message', (req) => {
 socket.on('timerReset', () => {
     resetTimer();
 });
+
+socket.on('stopTimer', () => {
+    clearInterval(intervalId);
+})
+
+socket.on('updateColor', () => {
+    colorMessage(counter);
+})
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -106,13 +113,13 @@ function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
     socket.emit('initMulti',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token=")}));
     document.getElementById("grid").addEventListener("click", play);
-    document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);});
+    //document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);});
     document.getElementById("surrenderButton").addEventListener("click",function(){surrender()});
-    socket.on('doMoveMulti',function(pos){
-        startplay(JSON.parse(pos));
-        counter++;
-        colorMessage(counter);
-    })
+    socket.on('doMoveMulti', function (pos) {
+            startplay(JSON.parse(pos));
+            counter++;
+            //colorMessage(counter);
+        });
 }
 
 const muteButton = document.getElementById("mute-button");
@@ -134,10 +141,9 @@ function play(event) {
     let tab = id.split(" ");
     if(!isMoveIllegal(tab)) {
         let pos=startplay(tab,false);
-        colorMessage(counter);
-        if (pos!=null)
-            socket.emit('playMulti',JSON.stringify(
-                {matchID:findInCookie("matchID="),token:findInCookie("token="),pos:pos}
+        if (pos != null)
+            socket.emit('playMulti', JSON.stringify(
+                {matchID: findInCookie("matchID="), token: findInCookie("token="), pos: pos}
             ));
         counter++;
     }
@@ -222,23 +228,26 @@ function findInCookie(str){
     }
 }
 function colorMessage(counter) {
-    let color = 'Red';
-    if (counter % 2 === 0) {color = 'Yellow';    }
+    if (!gameOver) {
+        let color = 'Red';
+        if (counter % 2 === 0) {
+            color = 'Yellow';
+        }
 
-    let firstPlayerTurn = document.getElementById("firstPlayerName").innerText;
-    let secondPlayerTurn = document.getElementById("secondPlayerName").innerText;
+        let firstPlayerTurn = document.getElementById("firstPlayerName").innerText;
+        let secondPlayerTurn = document.getElementById("secondPlayerName").innerText;
 
-    document.getElementById("body").style.backgroundColor = mapColor.get(color);
-    let message;
-    if (playfirst === (counter%2===0)) {
-        document.getElementById("player").innerText = "Your turn to play";
-        itsMyTurn=true;
-    }
-    else {
-        if (color === 'Yellow') message = firstPlayerTurn + " turns to play";
-        else message = secondPlayerTurn + " turns to play";
-        document.getElementById("player").innerText = message;
-        itsMyTurn=false;
+        document.getElementById("body").style.backgroundColor = mapColor.get(color);
+        let message;
+        if (playfirst === (counter % 2 === 0)) {
+            document.getElementById("player").innerText = "Your turn to play";
+            itsMyTurn = true;
+        } else {
+            if (color === 'Yellow') message = firstPlayerTurn + " turns to play";
+            else message = secondPlayerTurn + " turns to play";
+            document.getElementById("player").innerText = message;
+            itsMyTurn = false;
+        }
     }
 }
 // récupère le bouton "salut !" et ajoute un événement "click"
@@ -301,7 +310,7 @@ function timerCount() {
             itsMyTurn: itsMyTurn
         });
     } else {
-        if (timeLeft < 10) timer.innerHTML = "00:0" + timeLeft;
+        if (timeLeft < 10) {timer.style.color = 'red'; timer.innerHTML = "00:0" + timeLeft;}
         else timer.innerHTML = "00:" + timeLeft;
         timeLeft--;
     }

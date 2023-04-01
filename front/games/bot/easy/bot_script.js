@@ -8,7 +8,7 @@ let counter = 0;
 
 
 function init() {
-    window.addEventListener("load", function (){colorMessage(counter);})
+    window.addEventListener("load", function (){colorMessage(counter); document.getElementById("player").innerText = "Your turn to play";})
     document.getElementById("grid").addEventListener("click", function(event){play(event)});
     document.getElementById("saveButton").addEventListener("click",function(){saveGame("easy")});
     var urlParams = new URLSearchParams(window.location.search);
@@ -30,16 +30,8 @@ function init() {
         if(!isMoveIllegal(JSON.parse(pos))) {
             startplay(JSON.parse(pos));
             counter++;
-            colorMessage(counter);
         }
     })
-}
-
-document.getElementById("logout").addEventListener('click', logout);
-function logout() {
-    document.cookie = "token=" + undefined + ";path=/";
-    document.cookie = "username=" + undefined + ";path=/";
-    window.location.href = "../../../loginRegister/loginRegister.html";
 }
 
 function play(event) {
@@ -47,11 +39,13 @@ function play(event) {
     let tab = id.split(" ");
     if(!isMoveIllegal(tab)) {
         startplay(tab,false);
-        colorMessage(counter);
-        socket.emit('play',JSON.stringify({
-            id:roomName,
-            board:toTab()}));
-        counter++;
+        if (!gameOver) {
+            socket.emit('play', JSON.stringify({
+                id: roomName,
+                board: toTab()
+            }));
+            counter++;
+        }
     }
 }
 
@@ -88,13 +82,12 @@ function startplay(tab){
     }
     if (checkWin() === true) {
         console.log(color + " player wins!");
-        document.getElementById("message").innerText = color + " player wins!";
+        if (color === 'yellow') document.getElementById("message").innerText = "You won!";
+        else document.getElementById("message").innerText = color + " player wins!";
         document.getElementById("reset-button").style.display = "block";
         document.getElementById("reset-button").addEventListener("click", resetGame);
         gameOver = true;
     }
-
-
 }
 
 function resetGame() {

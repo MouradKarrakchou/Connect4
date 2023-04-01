@@ -221,6 +221,9 @@ function setUpSockets(io){
                     if (gameInfo.isFriendGame) {
                         io.to(gameInfo.player1.room).emit('win', null);
                         io.to(gameInfo.player2.room).emit('lose', null);
+
+                        io.to(gameInfo.player1.room).emit('stopTimer', null);
+                        io.to(gameInfo.player2.room).emit('stopTimer', null);
                     }
                     else {
                         let oldElo1 = gameInfo.player1.elo;
@@ -235,11 +238,18 @@ function setUpSockets(io){
                         let delta2 = newElo2 - oldElo2;
                         io.to(gameInfo.player1.room).emit('win', delta1);
                         io.to(gameInfo.player2.room).emit('lose', delta2);
+
+                        io.to(gameInfo.player1.room).emit('stopTimer', null);
+                        io.to(gameInfo.player2.room).emit('stopTimer', null);
                     }
 
                 } else if (check.winner === 0) {
                     io.to(gameInfo.player1.room).emit('tie', null);
                     io.to(gameInfo.player2.room).emit('tie', null);
+
+                    io.to(gameInfo.player1.room).emit('stopTimer', null);
+                    io.to(gameInfo.player2.room).emit('stopTimer', null);
+
                     await addDraws(gameInfo.player1.username)
                     await addDraws(gameInfo.player2.username)
 
@@ -247,6 +257,9 @@ function setUpSockets(io){
                     if (gameInfo.isFriendGame) {
                         io.to(gameInfo.player1.room).emit('lose', null);
                         io.to(gameInfo.player2.room).emit('win', null);
+
+                        io.to(gameInfo.player1.room).emit('stopTimer', null);
+                        io.to(gameInfo.player2.room).emit('stopTimer', null);
                     }
                     else {
                         let oldElo1 = gameInfo.player1.elo;
@@ -264,12 +277,19 @@ function setUpSockets(io){
                         console.log("delta " + delta1);
                         io.to(gameInfo.player1.room).emit('lose', delta1);
                         io.to(gameInfo.player2.room).emit('win', delta2);
+
+                        io.to(gameInfo.player1.room).emit('stopTimer', null);
+                        io.to(gameInfo.player2.room).emit('stopTimer', null);
                     }
                 }
             }
 
-            io.to(gameInfo.player1.room).emit('timerReset', null);
-            io.to(gameInfo.player2.room).emit('timerReset', null);
+            else {
+                io.to(gameInfo.player1.room).emit('updateColor', null);
+                io.to(gameInfo.player2.room).emit('updateColor', null);
+                io.to(gameInfo.player1.room).emit('timerReset', null);
+                io.to(gameInfo.player2.room).emit('timerReset', null);
+            }
         })
 
         let playerStillInGameNumber = 0;
