@@ -371,7 +371,6 @@ socket.on('loadAllMessagePending', (data) => {
     if(data.length>0)
         document.getElementById("iconNotif").style.display='block';
     data.forEach(message=>document.getElementById("notificationMini"+message.from).style.display='block');
-
 });
 function appendMessage(message) {
     let newItem = document.createElement('div');
@@ -429,10 +428,12 @@ socket.on('privateMessage', (request) => {
     console.log(request);
     console.log(currentFriendDiscussion);
     if (currentFriendDiscussion!==request.username){
-        currentFriendDiscussion=request.username;
-        setupChatContainer(request.username);
+        socket.emit('findAllMessagePending', {token: token});
+        //currentFriendDiscussion=request.username;
+        //setupChatContainer(request.username);
     }
-    appendMessage(currentFriendDiscussion+": "+request.message);
+    else
+        appendMessage(currentFriendDiscussion+": "+request.message);
 })
 
 socket.on('allConversationPrivateMessages', (request) => {
