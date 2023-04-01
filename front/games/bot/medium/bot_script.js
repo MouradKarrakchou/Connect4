@@ -21,7 +21,7 @@ function colorMessage(counter) {
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", function(event){play(event)});
-    document.getElementById("saveButton").addEventListener("click",function(){saveGame("easy")});
+    document.getElementById("saveButton").addEventListener("click",function(){saveGame("medium")});
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('id')!=null) {
         roomName=  findTokenReturned()+urlParams.get('id');
@@ -116,8 +116,15 @@ function startplay(tab){
         console.log(color + " player wins!");
         if (!itsMyTurn) document.getElementById("message").innerText = "You won!";
         else document.getElementById("message").innerText = color + " player wins!";
+        document.getElementById("saveButton").style.display = "none";
+        document.getElementById("saveButton").style.pointerEvents = "none";
         document.getElementById("reset-button").style.display = "block";
-        document.getElementById("reset-button").addEventListener("click", resetGame);
+        document.getElementById("reset-button").addEventListener("click", function (){
+            resetGame();
+            document.getElementById("saveButton").style.display = "block";
+            document.getElementById("saveButton").style.pointerEvents = "auto";
+
+        });
         gameOver = true;
     }
     return ([column,line]);
