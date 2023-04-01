@@ -301,7 +301,7 @@ function timerCount() {
             itsMyTurn: itsMyTurn
         });
     } else {
-        if (timeLeft < 10) timer.innerHTML = "00:0" + timeLeft;
+        if (timeLeft < 10) {timer.style.color = 'red'; timer.innerHTML = "00:0" + timeLeft;}
         else timer.innerHTML = "00:" + timeLeft;
         timeLeft--;
     }
