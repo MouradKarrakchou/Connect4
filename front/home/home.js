@@ -110,6 +110,7 @@ function addGamesSavedHtml(tabOfGames){
         var newItem = document.createElement('div');
         let typeOfGame='/games/local/local_game.html';
         if (tabOfGames[i].gameType==='easy') typeOfGame='/games/bot/easy/bot_game.html';
+        else if (tabOfGames[i].gameType==='medium') typeOfGame='/games/bot/medium/bot_game.html';
         let address = '..'+typeOfGame+'?id=' + tabOfGames[i]._id;
         newItem.innerHTML = `
                             <div class="item" onclick="window.location.href='${address}'">
@@ -158,6 +159,7 @@ function retrieveGame(gameTypeAndTab) {
     let path = "";
     if(gameTypeAndTab.gameType === "local") path = "../games/local/local_game.html";
     else if(gameTypeAndTab.gameType === "easy") path = "../games/easy/bot_game.html";
+    else if(gameTypeAndTab.gameType === "medium") path = "../games/medium/bot_game.html";
 
     const values = {
         token: 12,

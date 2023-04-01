@@ -84,8 +84,15 @@ function startplay(tab){
         console.log(color + " player wins!");
         if (color === 'yellow') document.getElementById("message").innerText = "You won!";
         else document.getElementById("message").innerText = color + " player wins!";
+        document.getElementById("saveButton").style.display = "none";
+        document.getElementById("saveButton").style.pointerEvents = "none";
         document.getElementById("reset-button").style.display = "block";
-        document.getElementById("reset-button").addEventListener("click", resetGame);
+        document.getElementById("reset-button").addEventListener("click", function (){
+            resetGame();
+            document.getElementById("saveButton").style.display = "block";
+            document.getElementById("saveButton").style.pointerEvents = "auto";
+
+        });
         gameOver = true;
     }
 }

@@ -384,6 +384,7 @@ function setUpSockets(io){
         socket.on('surrender', async (data) => {
             let surrenderedPlayer = await retrieveUserFromDataBase(data.token);
             let surrenderedPlayerName = surrenderedPlayer.username;
+            console.log("surrendered player name: " + surrenderedPlayerName)
 
             let gameInfo = mapGames.get(data.matchID);
             let player1Room = gameInfo.player1.room;
