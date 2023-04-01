@@ -52,6 +52,9 @@ function addFriend() {
         .then(response => response.json())
         .then(data => {
             if (data.status ==='User not found' ) {
+                notification.style.display="flex";
+                notifText.innerText="User not found! Check spelling, otherwise it does not exist";
+                //TODO remove
                 document.getElementById("userNotFoundMessage").style.display = "block";
             }
         })
@@ -250,6 +253,10 @@ function declineFriendRequest(friendToDecline) {
 function challenge(friendName) {
 
     if (pendingChallenge) {
+        notification.style.display="flex";
+        notifText.innerText="Waiting for " + pendingChallengedName +
+            "! You cannot challenge two friends at the same time! Cancel your pending challenge first";
+        //TODO remove
         let messageElement = document.getElementById("waitingForChallengeAnswer");
         messageElement.innerText = "Waiting for " + pendingChallengedName +
             "! You cannot challenge two friends at the same time! Cancel your pending challenge first"
@@ -265,6 +272,9 @@ function challenge(friendName) {
         console.log("Challenge sent!");
 
         let waitingMessage = document.getElementById("waitingForChallengeAnswer");
+        notification.style.display="flex";
+        notifText.innerText="Waiting for " + friendName + "!";
+        //TODO remove
         waitingMessage.innerText = "Waiting for " + friendName + "!";
         pendingChallenge = true;
         pendingChallengedName = friendName;
@@ -368,6 +378,9 @@ function appendMessage(message) {
 socket.on('notConnectedMessage', (challengedName) => {
     document.getElementById("cancelChallenge").style.display = "none";
     pendingChallenge = false;
+    notification.style.display="flex";
+    notifText.innerText= "Oh no! " + challengedName + " is not connected! Or he is already in game...";
+    //TODO remove
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
     waitingMessage.innerText = "Oh no! " + challengedName + " is not connected! Or he is already in game..."
 })
@@ -375,8 +388,11 @@ socket.on('notConnectedMessage', (challengedName) => {
 socket.on('notFriendMessage', (challengedName) => {
     document.getElementById("cancelChallenge").style.display = "none";
     pendingChallenge = false;
+    notification.style.display="flex";
+    notifText.innerText= "Oh no! " + challengedName + " is not your friend!";
+    //TODO remove
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-    waitingMessage.innerText = "Oh no! " + challengedName + " is not your friend!"
+    waitingMessage.innerText = "Oh no! " + challengedName + " is not your friend!";
 })
 
 socket.on('challengeAccepted', (matchID) => {
@@ -388,8 +404,11 @@ socket.on('challengeAccepted', (matchID) => {
 socket.on('challengeDeclined', (challengedName) => {
     document.getElementById("cancelChallenge").style.display = "none";
     pendingChallenge = false;
+    notification.style.display="flex";
+    notifText.innerText= "Oh no! " + challengedName + " has declined your challenge!"
+    //TODO remove
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-    waitingMessage.innerText = "Oh no! " + challengedName + " has declined your challenge!"
+    waitingMessage.innerText = "Oh no! " + challengedName + " has declined your challenge!";
 })
 
 socket.on('challengeHasBeenCanceled', (challengerName) => {
@@ -580,3 +599,12 @@ document.getElementById("miniFriendsContacts").addEventListener('click', functio
     document.getElementById("miniFriendList").style.display = "block";
     document.getElementById("miniNotificationList").style.display = "none";
 });
+
+
+const notification = document.querySelector('.notification');
+const okBtn = document.querySelector('.ok-btn');
+
+okBtn.addEventListener('click', function() {
+    notification.style.display = 'none';
+});
+let notifText=document.getElementById("notificationTextMessage");
