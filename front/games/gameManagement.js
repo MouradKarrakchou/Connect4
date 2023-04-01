@@ -210,7 +210,7 @@ export function saveGame(gameType) {
 
     document.getElementById("savedGameMessage").style.display = "block";
     document.getElementById("keepPlaying").addEventListener('click', function () {document.getElementById("savedGameMessage").style.display = "none"});
-    document.getElementById("backToHome").addEventListener('click', function () {window.location.href = "../../home/home.html"});
+    document.getElementById("backToHome").addEventListener('click', function () {window.location.href = "/home/home.html"});
 }
 
 export function surrender() {

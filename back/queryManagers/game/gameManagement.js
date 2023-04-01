@@ -492,7 +492,7 @@ function findSocketByName(name, connectedSockets) {
     return socketFound;
 }
 function calculateNewElo(playerElo, opponentElo, didWin) {
-    const kFactor = 40; // Elo rating system constant
+    const kFactor = 45; // Elo rating system constant
     const expectedScore = 1 / (1 + Math.pow(10, (opponentElo - playerElo) / 400)); // Calculate expected score based on Elo ratings
     const actualScore = didWin ? 1 : 0; // Determine actual score based on whether the player won or lost
 
