@@ -120,10 +120,10 @@
 }
 
 #searchBar {
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     border: none;
     border-radius: 5px;
-    margin-right: 10px;
     width: 100%;
     background-color: #9e9d9224;
 }
