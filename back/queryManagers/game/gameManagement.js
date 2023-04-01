@@ -367,6 +367,71 @@ function setUpSockets(io){
             playerStillInGameNumber = 0;
         });
 
+        socket.on('surrender', async (data) => {
+            let surrenderedPlayer = await retrieveUserFromDataBase(data.token);
+            let surrenderedPlayerName = surrenderedPlayer.username;
+
+            let gameInfo = mapGames.get(data.matchID);
+            let player1Room = gameInfo.player1.room;
+            let player2Room = gameInfo.player2.room;
+
+            let losingPlayerRoom;
+            let winningPlayerRoom;
+
+            let didPlayer1Win;
+            let didPlayer2Win;
+
+            if (surrenderedPlayerName === gameInfo.player1.username) {
+                losingPlayerRoom = player1Room;
+                winningPlayerRoom = player2Room;
+                didPlayer1Win = 0;
+                didPlayer2Win = 1;
+            } else {
+                losingPlayerRoom = player2Room;
+                winningPlayerRoom = player1Room;
+                didPlayer1Win = 1;
+                didPlayer2Win = 0;
+            }
+
+            if (gameInfo.isFriendGame) {
+                io.to(losingPlayerRoom).emit('lose', null);
+                io.to(winningPlayerRoom).emit('win', null);
+
+                io.to(gameInfo.player1.room).emit('stopTimer', null);
+                io.to(gameInfo.player2.room).emit('stopTimer', null);
+            } else {
+                let oldElo1 = gameInfo.player1.elo;
+                let oldElo2 = gameInfo.player2.elo;
+                let newElo1 = calculateNewElo(gameInfo.player1.elo, gameInfo.player2.elo, didPlayer1Win)
+                let newElo2 = calculateNewElo(gameInfo.player2.elo, gameInfo.player1.elo, didPlayer2Win);
+
+                let delta1 = oldElo1 - newElo1;
+                let delta2 = oldElo2 - newElo2;
+
+                await addElo(gameInfo.player1.username, newElo1);
+                await addElo(gameInfo.player2.username, newElo2);
+
+                if (didPlayer1Win === 1) {
+                    await addWins(gameInfo.player1.username);
+                    await addLosses(gameInfo.player2.username);
+                    io.to(losingPlayerRoom).emit('lose', delta2);
+                    io.to(winningPlayerRoom).emit('win', delta1);
+
+                    io.to(gameInfo.player1.room).emit('stopTimer', null);
+                    io.to(gameInfo.player2.room).emit('stopTimer', null);
+                } else {
+                    await addWins(gameInfo.player2.username);
+                    await addLosses(gameInfo.player1.username);
+                    io.to(losingPlayerRoom).emit('lose', delta1);
+                    io.to(winningPlayerRoom).emit('win', delta2);
+
+                    io.to(gameInfo.player1.room).emit('stopTimer', null);
+                    io.to(gameInfo.player2.room).emit('stopTimer', null);
+                }
+            }
+
+        });
+
         // Store the username linked to this socket
         socket.on('socketByUsername', function(data) {
             console.log("THIS USERNAME HAS LOGED WITH SOCKET "+data.username)

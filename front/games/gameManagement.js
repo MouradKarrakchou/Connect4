@@ -213,12 +213,6 @@ export function saveGame(gameType) {
     document.getElementById("backToHome").addEventListener('click', function () {window.location.href = "/home/home.html"});
 }
 
-export function surrender() {
-    document.getElementById("surrenderedGameMessage").style.display = "block";
-    document.getElementById("noSurrenderKeepPlaying").addEventListener('click', function () {document.getElementById("surrenderedGameMessage").style.display = "none";});
-    document.getElementById("SurrenderBackToHome").addEventListener('click', function () {window.location.href = "../../home/home.html"});
-}
-
 export function isMoveIllegal(event){
     let id = event.target.id;
     let tab = id.split(" ");
