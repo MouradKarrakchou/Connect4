@@ -410,6 +410,8 @@ socket.on('challengeDeclined', (challengedName) => {
     document.getElementById("cancelChallenge").style.display = "none";
     pendingChallenge = false;
     notification.style.display="flex";
+    document.getElementById("cancelChallengeMini").style.display = "none";
+    document.getElementById("ok-btn").style.display = "block";
     notifText.innerText= "Oh no! " + challengedName + " has declined your challenge!"
     //TODO remove
     let waitingMessage = document.getElementById("waitingForChallengeAnswer");
