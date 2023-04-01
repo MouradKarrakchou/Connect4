@@ -12,17 +12,10 @@ window.addEventListener('load', function () {
     if (urlParams.get('id')!=null) loadGame();}
 )
 
-document.getElementById("logout").addEventListener('click', logout);
-function logout() {
-    document.cookie = "token=" + undefined + ";path=/";
-    document.cookie = "username=" + undefined + ";path=/";
-    window.location.href = "../../loginRegister/loginRegister.html";
-}
-
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", play);
-    document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);});
+    document.getElementById("grid").addEventListener("click", function (){if (!gameOver) colorMessage(counter);});
     document.getElementById("saveButton").addEventListener("click",function(){saveGame("local")});
 }
 

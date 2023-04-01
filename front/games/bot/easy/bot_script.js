@@ -8,7 +8,7 @@ let counter = 0;
 
 
 function init() {
-    window.addEventListener("load", function (){colorMessage(counter);})
+    window.addEventListener("load", function (){colorMessage(counter); document.getElementById("player").innerText = "Your turn to play";})
     document.getElementById("grid").addEventListener("click", function(event){play(event)});
     document.getElementById("saveButton").addEventListener("click",function(){saveGame("easy")});
     var urlParams = new URLSearchParams(window.location.search);
@@ -30,7 +30,6 @@ function init() {
         if(!isMoveIllegal(JSON.parse(pos))) {
             startplay(JSON.parse(pos));
             counter++;
-            colorMessage(counter);
         }
     })
 }
@@ -41,7 +40,6 @@ function play(event) {
     if(!isMoveIllegal(tab)) {
         startplay(tab,false);
         if (!gameOver) {
-            colorMessage(counter);
             socket.emit('play', JSON.stringify({
                 id: roomName,
                 board: toTab()

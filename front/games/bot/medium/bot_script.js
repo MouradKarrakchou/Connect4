@@ -1,4 +1,4 @@
-import {checkWin, printIllegalMove, removeIllegalMove, toTab, loadGame,saveGame,findTokenReturned, colorMessage} from "../../gameManagement.js"
+import {checkWin, printIllegalMove, removeIllegalMove, toTab, loadGame,saveGame,findTokenReturned} from "../../gameManagement.js"
 
 var roomName;
 let gameOver = false;
@@ -6,6 +6,17 @@ document.addEventListener('DOMContentLoaded', init);
 var socket = io();
 let counter = 0;
 export let itsMyTurn;
+
+const mapColor = new Map();
+mapColor.set('Yellow','#cee86bcc');
+mapColor.set('Red','#c92c2c9c');
+function colorMessage(counter) {
+    let color = 'Red';
+    if (counter % 2 === 0) color = 'Yellow';
+    document.getElementById("body").style.backgroundColor = mapColor.get(color);
+    if (itsMyTurn) document.getElementById("player").innerText = "Your turn to play";
+    else document.getElementById("player").innerText = color + " turn to play";
+}
 
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
@@ -29,7 +40,7 @@ function init() {
     socket.on('doMove',function(pos){
             startplay(JSON.parse(pos));
             counter++;
-            colorMessage(counter);
+            if (!gameOver) colorMessage(counter);
     })
     if (Math.round(Math.random())===0)
     {socket.emit('initAdv',JSON.stringify({
@@ -39,24 +50,18 @@ function init() {
         id:roomName,
         pos:undefined}));
     itsMyTurn=false;
-        colorMessage(counter);}
+        if (!gameOver) colorMessage(counter);}
     else {
         socket.emit('initAdv',JSON.stringify({
             id:roomName,
             player:2
         }));
         itsMyTurn=true;
-        colorMessage(counter);
+        if (!gameOver) colorMessage(counter);
     }
 
 }
 
-document.getElementById("logout").addEventListener('click', logout);
-function logout() {
-    document.cookie = "token=" + undefined + ";path=/";
-    document.cookie = "username=" + undefined + ";path=/";
-    window.location.href = "../../../loginRegister/loginRegister.html";
-}
 
 function play(event) {
     let id = event.target.id;

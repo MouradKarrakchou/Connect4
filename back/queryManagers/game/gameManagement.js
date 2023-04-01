@@ -268,8 +268,12 @@ function setUpSockets(io){
                 }
             }
 
-            io.to(gameInfo.player1.room).emit('timerReset', null);
-            io.to(gameInfo.player2.room).emit('timerReset', null);
+            else {
+                io.to(gameInfo.player1.room).emit('updateColor', null);
+                io.to(gameInfo.player2.room).emit('updateColor', null);
+                io.to(gameInfo.player1.room).emit('timerReset', null);
+                io.to(gameInfo.player2.room).emit('timerReset', null);
+            }
         })
 
         let playerStillInGameNumber = 0;
