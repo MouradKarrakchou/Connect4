@@ -1,11 +1,11 @@
-import {checkWin, printIllegalMove, removeIllegalMove, toTab, loadGame,saveGame,findTokenReturned} from "../../gameManagement.js"
+import {checkWin, printIllegalMove, removeIllegalMove, toTab, loadGame,saveGame,findTokenReturned, colorMessage} from "../../gameManagement.js"
 
 var roomName;
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
 var socket = io();
 let counter = 0;
-let itsMyTurn;
+export let itsMyTurn;
 
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
@@ -63,12 +63,14 @@ function play(event) {
     let tab = id.split(" ");
     if(!isMoveIllegal(tab)) {
         let pos=startplay(tab,false);
-        if (pos!=null)
-        socket.emit('playAdv',JSON.stringify({
-            id:roomName,
-            pos:pos}));
-        counter++;
-        colorMessage(counter);
+        if (!gameOver) {
+            if (pos!=null) socket.emit('playAdv', JSON.stringify({
+                                id: roomName,
+                                pos: pos
+                            }));
+            counter++;
+            colorMessage(counter);
+        }
     }
 }
 
@@ -107,7 +109,8 @@ function startplay(tab){
     }
     if (checkWin() === true) {
         console.log(color + " player wins!");
-        document.getElementById("message").innerText = color + " player wins!";
+        if (!itsMyTurn) document.getElementById("message").innerText = "You won!";
+        else document.getElementById("message").innerText = color + " player wins!";
         document.getElementById("reset-button").style.display = "block";
         document.getElementById("reset-button").addEventListener("click", resetGame);
         gameOver = true;
@@ -143,14 +146,4 @@ function isMoveIllegal(tab){
         return true;
     }
     return false;
-}
-
-function colorMessage(counter) {
-    let color = 'Red';
-    if (counter % 2 === 0) color = 'Yellow';
-    document.getElementById("body").style.backgroundColor = color;
-    if (itsMyTurn)
-        document.getElementById("player").innerText = "Your turn to play";
-    else
-        document.getElementById("player").innerText = "Bot turn to play";
 }
