@@ -1,10 +1,14 @@
 html, body { height: 80%; width: 100%; margin: 0; }
-
+@font-face {
+    font-family: retro;
+    src: url(../font/retro.ttf);
+}
 /* Set default font and background color */
 body {
-    font-family: Arial, sans-serif;
+    font-family: retro;
     background-color: #f6ffd2;
 }
+
 
 
 .buttonFriends, .buttonAcceptChallenge {

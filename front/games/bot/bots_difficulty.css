@@ -1,4 +1,10 @@
-html, body { background-color: #f6ffd2;}
+html, body {
+    font-family: retro;
+    background-color: #f6ffd2;}
+@font-face {
+    font-family: retro;
+    src: url(../../font/retro.ttf);
+}
 
 .difficulties {
     margin-top: 12%;

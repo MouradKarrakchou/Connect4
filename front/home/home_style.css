@@ -1,12 +1,24 @@
-html, body { height: 80%; width: 100%; margin: 0; }
+@font-face {
+    font-family: retro;
+    src: url(../font/retro.ttf);
+}
+
+html, body {
+    height: 80%; width: 100%; margin: 0; }
+
+
+
 .title {
     text-align: center;
     font-size: 400%;
 }
+
 body{
+    font-family: retro;
     background-color: #f6ffd2;
     zoom: 0.5;
     overflow: hidden;
+
 }
 .home{
     display: flex;
@@ -29,7 +41,6 @@ body{
     height: 60%;
 }
 .gameSaved{
-    font-family: HUN;
     font-weight: bold;
     height: 10%;
     text-align: left;
@@ -118,7 +129,6 @@ fa-solid fa-user-group, fa-solid fa-earth-europe, fa-solid fa-robot{
     display: inline-block;
     font-size: 400%;
     cursor: pointer;
-    font-family: HUN;
 }
 
 div i, icon {

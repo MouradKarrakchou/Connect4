@@ -1,7 +1,11 @@
 html, body { height: 80%; width: 100%; margin: 0; }
+@font-face {
+    font-family: retro;
+    src: url(../../font/retro.ttf);
+}
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: retro;
     zoom: 0.7;
     overflow: hidden;
 }
@@ -65,7 +69,6 @@ td {
     display: inline-block;
     font-size: 200%;
     cursor: pointer;
-    font-family: HUN;
 }
 .gameLaunch:hover{
     width: 130%;

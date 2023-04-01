@@ -1,3 +1,7 @@
+@font-face {
+    font-family: retro;
+    src: url(../font/retro.ttf);
+}
 h1{
     text-align: center;
     color:red;
@@ -6,6 +10,7 @@ body{
     background-color: #f6ffd2;
     zoom : 0.7;
     overflow: hidden;
+    font-family: retro;
 }
 .top{
     display: flex;
@@ -113,7 +118,6 @@ body{
     cursor: pointer;
 }
 #title {
-    font-family: Cubic, sans-serif;
     font-size: 400%;
     color: #2d3f51;
     text-align: center;

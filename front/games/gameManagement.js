@@ -160,7 +160,6 @@ export function loadGame(){
         .then(data => {
             console.log(data);
             retrieveGameState(data.tab);
-            //window.location.href = '/games/local/local_game.html';
         })
         .catch(error => {
             console.error(error);
