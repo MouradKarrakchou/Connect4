@@ -2,7 +2,7 @@ import {
     checkWin,
     removeIllegalMove,
     loadGame,
-    surrender, printIllegalMove
+    printIllegalMove
 } from "../gameManagement.js"
 
 let counter = 0;
@@ -155,18 +155,27 @@ function init() {
     })
     socket.emit('initMulti', JSON.stringify({matchID: findInCookie("matchID="), token: findInCookie("token=")}));
     document.getElementById("grid").addEventListener("click", play);
-
-    //document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);});
     document.getElementById("surrenderButton").addEventListener("click",function(){surrender()});
     socket.on('doMoveMulti', function (pos) {
             startplay(JSON.parse(pos));
             counter++;
-            //colorMessage(counter);
         });
     document.getElementById("grid").addEventListener("click", function () {
         colorMessage(counter);
     });
 
+}
+
+function surrender() {
+    document.getElementById("surrenderedGameMessage").style.display = "block";
+    document.getElementById("noSurrenderKeepPlaying").addEventListener('click', function () {document.getElementById("surrenderedGameMessage").style.display = "none";});
+    document.getElementById("SurrenderBackToHome").addEventListener('click', function () {
+        socket.emit('surrender', {
+            matchID: findInCookie("matchID="),
+            token: findInCookie("token=")
+        });
+        document.getElementById("surrenderedGameMessage").style.display = "none";
+    });
 }
 
 const muteButton = document.getElementById("mute-button");
