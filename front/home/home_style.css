@@ -94,14 +94,13 @@ fa-solid fa-user-group, fa-solid fa-earth-europe, fa-solid fa-robot{
     padding: 10px 20px;
     cursor: pointer;
 }
-#logout{
+.logout{
     position: absolute;
     top: 10px;
     right: 10px;
     background-color: #fffbe3d1;
-    font-size: 75px;
+    font-size: 90px;
     cursor: pointer;
-    font-family: retro;
 
 }
 .gameLaunch {
