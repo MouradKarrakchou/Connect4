@@ -8,6 +8,12 @@
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 <script crossorigin="anonymous" src="https://kit.fontawesome.com/76ed084c57.js"></script>
 
+<link href="./friend.css" type="text/css" rel="stylesheet">
+<link href="./chat.css" type="text/css" rel="stylesheet">
+<script type="module" src="friends.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+<script crossorigin="anonymous" src="https://kit.fontawesome.com/76ed084c57.js"></script>
+
 <head>
     <meta charset="UTF-8">
     <title>Connect4 - Home</title>
@@ -22,21 +28,21 @@
 <div class="home">
     <div class="menu">
         <div class="gameLaunch" onclick="window.location.href='../games/local/local_game.html'">
-            <i class="fa-solid fa-user-group" style="font-size:100px;"></i>
+            <i class="fa-solid fa-user-group ic" style="font-size:100px;"></i>
             <h1 class="onlineButton">Local game</h1>
         </div>
 
         <div class="gameLaunch" id="b">
-            <i class="fa-solid fa-earth-europe" style="font-size:100px;"></i>
+            <i class="fa-solid fa-earth-europe ic" style="font-size:100px;"></i>
             <h1 class="buttonLaunch">Play online</h1>
         </div>
 
         <div class="gameLaunch" onclick="window.location.href = '../games/bot/bots_difficulty.html'">
-            <i class="fa-solid fa-robot" style="font-size:100px;"></i>
+            <i class="fa-solid fa-robot ic" style="font-size:100px;"></i>
             <h1 class="botButton">Play against AI</h1>
         </div>
         <div class="gameLaunch" onclick="window.location.href = '../friends/friends.html'">
-            <i class="fa-solid fa-user-group" style="font-size:100px;"></i>
+            <i class="fa-solid fa-user-group ic" style="font-size:100px;"></i>
             <h1 class="onlineButton">Friends</h1>
         </div>
     </div>
@@ -76,6 +82,71 @@
     </div>
     <button id="cancel"> Cancel Queue</button>
 </div>
+
+
+
+
+
+
+<div class="chat-container" id="chat-container" style="display:none;z-index: 5;font-size:34px;">
+    <div class="chat-header" id="chat-header">
+    </div>
+    <div id="chat-messages" style="height: 100vh">
+        <!-- messages s'affichent ici -->
+    </div>
+    <div id="chat-bar" style="height: 5vh">
+        <input type="text" id="chatBar" placeholder="Hey">
+    </div>
+</div>
+<div class="chat-container" id="miniFriendContainer">
+    <div class="chat-header" id="mini-chat-header">
+        <iconify-icon class="fight iconStyle glow" id="iconNotifFight1" style="margin:0; display:none; color:darkred;" icon="mdi:sword-cross"></iconify-icon>
+        <iconify-icon class="glow" icon="mdi:message-notification" id="iconNotif" style="display:none; color:darkred;"></iconify-icon>
+        <iconify-icon class="glow" icon="fluent-mdl2:add-friend" id="iconNotifFriendRequest1" style="display:none; color:forestgreen;"></iconify-icon>
+        <div style="margin:auto">Menu</div>
+        <i class="fa-solid fa-chevron-down" id="chevron-down" style="display:none;margin:0;"></i>
+        <i class="fa-solid fa-chevron-up" id="chevron-up" style="display:block;margin:0;"></i>
+        <div></div>
+    </div>
+    <div id="mini-container-content" style="width: 100%;display:none; height: 100vh">
+        <div class="choice-header">
+            <div id="miniFriendsContacts" style="width: 50%; background-color: rgba(0,0,0,0.06)">
+                <iconify-icon icon="fa-solid:user-friends" style="font-size: 2.4em;"></iconify-icon>
+            </div>
+            <div id="miniNotification" style="width: 50%; display: flex">
+                <iconify-icon class="fight iconStyle" id="iconNotifFight2" style="margin:0; display:none; color:darkred;" icon="mdi:sword-cross"></iconify-icon>
+                <iconify-icon icon="fluent-mdl2:add-friend" id="iconNotifFriendRequest2" style="display:none; color:forestgreen;"></iconify-icon>
+                <iconify-icon icon="mdi:bell-notification" style="font-size: 2.4em; margin:auto"></iconify-icon>
+            </div>
+        </div>
+        <div class="miniFriendList" id="miniFriendList">
+            <div class="miniDropdown "></div>
+            <div id="fMenu">
+                <input type="text" id="searchBar" style="font-size: 23px" placeholder="Add Friend: type username">
+            </div>
+        </div>
+        <div class="miniNotificationList" id="miniNotificationList" style="display: none;">
+
+            <div class="miniDropdownNotification"></div>
+        </div>
+    </div>
+</div>
+<div class="notification" style="display: none">
+    <div class="notification-content">
+        <p id="notificationTextMessage"></p>
+        <button class="ok-btn" id="ok-btn">OK</button>
+        <button class="ok-btn" style="display: none" id="cancelChallengeMini" >Cancel</button>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
 </body>
 
 <script type="module" src="home.js"></script>
