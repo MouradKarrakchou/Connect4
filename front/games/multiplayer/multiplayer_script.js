@@ -12,6 +12,35 @@ var socket = io();
 let playfirst;
 var player1elo = 0;
 var player2elo = 0;
+const home = document.getElementById("home");
+const surrenderBtn = document.getElementById("surrenderButton");
+const noSurrenderKeepPlayingBtn = document.getElementById("noSurrenderKeepPlaying");
+const surrenderBackToHomeBtn = document.getElementById("SurrenderBackToHome");
+const allElements = document.querySelectorAll("*:not(#noSurrenderKeepPlaying):not(#SurrenderBackToHome)");
+
+surrenderBtn.addEventListener("click", function() {
+    allElements.forEach(function (element) {
+        element.style.pointerEvents = "none";
+    });
+    surrenderBackToHomeBtn.style.pointerEvents = "auto";
+    noSurrenderKeepPlayingBtn.style.pointerEvents = "auto";
+    surrender();
+});
+
+noSurrenderKeepPlayingBtn.addEventListener("click", function() {
+    // Réactiver tous les éléments de la page
+    allElements.forEach(function (element) {
+        element.style.pointerEvents = "auto";
+    });
+});
+
+surrenderBackToHomeBtn.addEventListener("click", function() {
+    // Réactiver tous les éléments de la page
+    allElements.forEach(function (element) {
+        element.style.pointerEvents = "auto";
+    });
+});
+
 
 const mapColor = new Map();
 mapColor.set('Yellow','#cee86bcc');
@@ -44,8 +73,8 @@ if(data != null) {
 }else{
     document.getElementById("message").innerText = " You won ! ";
 }
-    document.getElementById("reset-button").style.display = "block";
-    document.getElementById("reset-button").addEventListener("click", resetGame);
+
+    gameOver = true;
 });
 socket.on('lose', (data) => {
     gameOver = true;
@@ -55,15 +84,16 @@ socket.on('lose', (data) => {
     }else{
         document.getElementById("message").innerText = " You lost ! "
     }
-    document.getElementById("reset-button").style.display = "block";
-    document.getElementById("reset-button").addEventListener("click", resetGame);
+
+    gameOver = true;
 });
 socket.on('tie', () => {
     gameOver = true;
     console.log("Draw!");
     document.getElementById("message").innerText = "Draw!";
-    document.getElementById("reset-button").style.display = "block";
-    document.getElementById("reset-button").addEventListener("click", resetGame);
+
+    gameOver = true;
+
 });
 
 socket.on('message', (req) => {
@@ -110,9 +140,12 @@ function init() {
         document.getElementById("secondPlayerName").innerText = names.secondPlayerName;
     });
 
-    window.addEventListener("load", function (){colorMessage(counter);})
-    socket.emit('initMulti',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token=")}));
+    window.addEventListener("load", function () {
+        colorMessage(counter);
+    })
+    socket.emit('initMulti', JSON.stringify({matchID: findInCookie("matchID="), token: findInCookie("token=")}));
     document.getElementById("grid").addEventListener("click", play);
+
     //document.getElementById("grid").addEventListener("click", function (){colorMessage(counter);});
     document.getElementById("surrenderButton").addEventListener("click",function(){surrender()});
     socket.on('doMoveMulti', function (pos) {
@@ -120,6 +153,10 @@ function init() {
             counter++;
             //colorMessage(counter);
         });
+    document.getElementById("grid").addEventListener("click", function () {
+        colorMessage(counter);
+    });
+
 }
 
 const muteButton = document.getElementById("mute-button");

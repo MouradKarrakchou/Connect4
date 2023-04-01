@@ -12,13 +12,10 @@
 <body id="body">
 
 <div class="message" id="message"></div>
-<div id="playAgain"></div>
-<button id="reset-button" style="display:none" onclick="resetGame()">Play again</button>
-
 <div class="player" id="player">
 </div>
-<div class="playerElo" id="playerElo"></div>
-<div class="opponentElo" id="opponentElo"></div>
+<div class="playerElo" id="playerElo">test</div>
+<div class="opponentElo" id="opponentElo">test1</div>
 
 <div id="gameDisplay">
     <div id="board">
@@ -93,21 +90,18 @@
     </div>
 
     <div class="menu">
-        <div class="gameLaunch" onclick="window.location.href='../../home/home.html'">
-            <h1 class="onlineButton">Home</h1>
-        </div>
-
         <div class="gameLaunch" id="surrenderButton">
             <h1 class="buttonLaunch">Surrender</h1>
         </div>
+        <div class="gameLaunch" id="home">
+            <h1 class="buttonLaunch">Back to home</h1>
     </div>
 </div>
 
 <div id="surrenderedGameMessage" style="display:none">
-    <div>Are you sure?</div>
-    <div>
-        <button id="noSurrenderKeepPlaying">No, I am a warrior and I will keep playing!</button>
-        <button id="SurrenderBackToHome">Yes, I am weak and I want to surrender...</button>
+    <div class="buttons-container">
+        <button class="disabled" id="noSurrenderKeepPlaying">No, I am a warrior and I will keep playing!</button>
+        <button class ="disabled" id="SurrenderBackToHome">Yes, I am weak and I want to surrender...</button>
     </div>
 </div>
 
@@ -127,8 +121,8 @@
         </div>
     </form>
 </div>
-
 <div id="timer"></div>
+
 
 <div id="firstPlayerName" style="display: none"></div>
 <div id="secondPlayerName" style="display: none"></div>
