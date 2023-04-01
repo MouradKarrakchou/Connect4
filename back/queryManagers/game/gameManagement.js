@@ -164,13 +164,9 @@ function setUpSockets(io){
             let user = await retrieveUserFromDataBase(request.token);
             console.log(user);
             let heRead=false;
-            if (findSocketByName(request.friendUsername,connectedSockets)!==null)
-            {
-                findSocketByName(request.friendUsername,connectedSockets).emit('privateMessage', {
-                    username:user.username,
-                    message:request.chat})
-                heRead=true;
-            }
+            findSocketByName(request.friendUsername,connectedSockets).emit('privateMessage', {
+                username:user.username,
+                message:request.chat})
 
 
             await saveMessageToDataBase(user.username,request.friendUsername,request.chat,heRead);
