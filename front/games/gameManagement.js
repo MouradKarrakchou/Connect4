@@ -4,8 +4,6 @@
 
 import {address} from "./dataManager.js";
 
-import {itsMyTurn} from "./bot/medium/bot_script.js";
-
 const mapColor = new Map();
 mapColor.set('Yellow','#cee86bcc');
 mapColor.set('Red','#c92c2c9c');
@@ -14,8 +12,8 @@ export function colorMessage(counter) {
     let color = 'Red';
     if (counter % 2 === 0) color = 'Yellow';
     document.getElementById("body").style.backgroundColor = mapColor.get(color);
-    if (itsMyTurn) document.getElementById("player").innerText = "Your turn to play";
-    else document.getElementById("player").innerText = color + " turn to play"
+    document.getElementById("player").innerText = color + " turn to play";
+
 }
 
 export function checkWin() {
