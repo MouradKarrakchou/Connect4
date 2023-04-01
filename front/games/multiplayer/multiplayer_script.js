@@ -41,6 +41,10 @@ surrenderBackToHomeBtn.addEventListener("click", function() {
     });
 });
 
+home.addEventListener("click", function() {
+    window.location.href = '../../home/home.html';
+});
+
 
 const mapColor = new Map();
 mapColor.set('Yellow','#cee86bcc');
@@ -73,7 +77,9 @@ if(data != null) {
 }else{
     document.getElementById("message").innerText = " You won ! ";
 }
-
+home.style.pointer = "cursor";
+home.style.display = "block"
+surrenderBtn.replaceWith(home);
     gameOver = true;
 });
 socket.on('lose', (data) => {
@@ -84,14 +90,18 @@ socket.on('lose', (data) => {
     }else{
         document.getElementById("message").innerText = " You lost ! "
     }
-
+    home.style.pointer = "cursor";
+    home.style.display = "block"
+    surrenderBtn.replaceWith(home);
     gameOver = true;
 });
 socket.on('tie', () => {
     gameOver = true;
     console.log("Draw!");
     document.getElementById("message").innerText = "Draw!";
-
+    home.style.pointer = "cursor";
+    home.style.display = "block"
+    surrenderBtn.replaceWith(home);
     gameOver = true;
 
 });
