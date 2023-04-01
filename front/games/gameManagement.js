@@ -13,7 +13,6 @@ export function colorMessage(counter) {
     if (counter % 2 === 0) color = 'Yellow';
     document.getElementById("body").style.backgroundColor = mapColor.get(color);
     document.getElementById("player").innerText = color + " turn to play";
-
 }
 
 export function checkWin() {
