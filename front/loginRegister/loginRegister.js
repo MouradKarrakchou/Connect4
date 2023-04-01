@@ -121,6 +121,12 @@ async function register() {
         return;
     }
 
+    if (!isEmailFormatValid(mail)) {
+        document.getElementById("errorMessage").innerText = "Invalid email format - Please enter your email";
+        document.getElementById("errorMessage").style.display = "block";
+        return;
+    }
+
     if (confirmPassword(clearPassword, confirmClearPassword)) {
         console.log("passwords are the same");
         const values = {
@@ -142,6 +148,7 @@ async function register() {
                 if (data.status==="failure") {
                     window.alert("Username already taken");
                 } else {
+                    document.getElementById("errorMessage").style.display = "none";
                     window.alert("Registration successful - You can now log in");
                 }
             })
@@ -186,4 +193,9 @@ function confirmPassword(clearPassword, confirmClearPassword) {
     const hashedPassword = hash(clearPassword);
     const confirmedHashedPassword = hash(confirmClearPassword);
     return (hashedPassword === confirmedHashedPassword);
+}
+
+function isEmailFormatValid(mail) {
+    const emailRegex = /\S+@\S+\.\S+/;
+    return emailRegex.test(mail);
 }
