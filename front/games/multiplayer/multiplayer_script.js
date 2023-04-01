@@ -76,6 +76,10 @@ socket.on('timerReset', () => {
     resetTimer();
 });
 
+socket.on('stopTimer', () => {
+    clearInterval(intervalId);
+})
+
 socket.on('updateColor', () => {
     colorMessage(counter);
 })
