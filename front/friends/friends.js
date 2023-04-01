@@ -340,6 +340,7 @@ function displayMiniMenu(){
 }
 function displayMiniFriends(){
     console.log("click");
+    currentFriendDiscussion=null;
     miniFriendContainer.style.display = "block";
     document.getElementById("chat-container").style.display = "none";
 }
@@ -377,13 +378,13 @@ function showMiniFriendList(friendList) {
                             </div>`;
 
         dropdown.appendChild(newItem);
-
         document.getElementById(idDivFriend).addEventListener('click', function () {
             if (document.getElementById(idMiniFriendMenu).style.display === "flex")
                 document.getElementById(idMiniFriendMenu).style.display = "none";
             else
                 document.getElementById(idMiniFriendMenu).style.display = "flex";
-        });
+        }
+        );
 
         document.getElementById(idChallenge).addEventListener('click', function () {
             challengeMini(friendList[i]);
@@ -452,7 +453,6 @@ function showFriendRequestMini(friendRequest) {
                                 <button class="decline" id="${declineId}">Decline</button>
                             </div>`;
         dropdown.insertBefore(newItem,dropdown.firstChild);
-
         document.getElementById(acceptId).addEventListener('click', function () {
             acceptFriendRequest(friendRequest[i]);
             window.location.reload();
