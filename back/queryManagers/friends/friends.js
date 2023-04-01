@@ -1,5 +1,6 @@
 const mongoDBConnection = require("../mongoDBConnection");
 
+
 function manageRequest(request, response) {
     let filePath = request.url.split("/").filter(function(elem) {
         return elem !== "..";

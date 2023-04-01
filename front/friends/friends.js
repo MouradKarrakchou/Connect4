@@ -9,6 +9,7 @@ let currentFriendDiscussion;
 let chatMessages;
 let chatContainer;
 let friendList;
+
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
@@ -169,7 +170,12 @@ function getFriendRequest(){
     })
         .then(response => response.json())
         .then(data => {
+            if (data.length>0) {
+                document.getElementById("iconNotifFriendRequest1").style.display='block';
+                document.getElementById("iconNotifFriendRequest2").style.display='block';
+            }
             showFriendRequest(data);
+            showFriendRequestMini(data);
         })
         .catch(error => {
             console.error(error);
@@ -338,7 +344,10 @@ chatBar.addEventListener('keydown', (event) => {
 socket.emit('socketByUsername', { username: findUsername() });
 
 socket.on('friendIsChallenging', (data) => {
+    document.getElementById("iconNotifFight1").style.display='block';
+    document.getElementById("iconNotifFight2").style.display='block';
     challenged(data);
+    challengedMini(data);
 });
 socket.on('loadAllMessagePending', (data) => {
     friendList.forEach(friend=>document.getElementById("notificationMini"+friend).style.display='none')
@@ -398,9 +407,7 @@ socket.on('privateMessage', (request) => {
         currentFriendDiscussion=request.username;
         setupChatContainer(request.username);
     }
-    else{
-        appendMessage(currentFriendDiscussion+": "+request.message);
-    }
+    appendMessage(currentFriendDiscussion+": "+request.message);
 })
 
 socket.on('allConversationPrivateMessages', (request) => {
@@ -436,6 +443,7 @@ function displayMiniFriends(){
     miniFriendContainer.style.display = "block";
     document.getElementById("chat-container").style.display = "none";
 }
+
 
 function showMiniFriendList(friendList) {
     console.log(friendList);
@@ -489,3 +497,86 @@ function showMiniFriendList(friendList) {
         });
     }
 }
+
+function challengedMini(data) {
+    let dropdown = document.querySelector('.miniDropdownNotification');
+    let newChallenge = document.createElement('div');
+    let challengerName = data.challengerName;
+
+    let friendIsChallengingClassName = "mini_friendIsChallenging" + challengerName;
+    let acceptTheChallengeId = "mini_acceptTheChallenge" + challengerName;
+    let declineTheChallengeId = "mini_declineTheChallenge" + challengerName;
+
+    newChallenge.innerHTML = `
+                            <div class="${friendIsChallengingClassName}" style="display: flex; background-color: rgba(231, 225, 195, 0.36); padding:3%;">
+                                <div style="margin: auto;">${challengerName} is challenging you!</div>
+                                <button class="accept" id="${acceptTheChallengeId}">Accept</button>
+                                <button class="decline" id="${declineTheChallengeId}">Decline</button>
+                            </div>`;
+
+    dropdown.insertBefore(newChallenge,dropdown.firstChild);
+
+    document.getElementById(acceptTheChallengeId).addEventListener('click', function () {
+        findToken();
+        socket.emit('IAcceptTheChallenge', {
+            challengerToken: data.challengerToken,
+            challengedToken: token,
+            username: findUsername(),
+            friendWhoChallenged: challengerName,
+        });
+
+        dropdown.removeChild(newChallenge)
+    });
+    document.getElementById(declineTheChallengeId).addEventListener('click', function () {
+        socket.emit('IDeclineTheChallenge', {
+            challengerToken: data.challengerToken,
+            challengedToken: token,
+        });
+
+        dropdown.removeChild(newChallenge)
+        window.location.reload();
+    })
+}
+function showFriendRequestMini(friendRequest) {
+    for (let i = 0; i < friendRequest.length; i++) {
+        let dropdown = document.querySelector('.miniDropdownNotification');
+        let newItem = document.createElement('div');
+
+        let acceptId = "mini-accept" + friendRequest[i];
+        let declineId = "mini-decline" + friendRequest[i];
+
+        newItem.innerHTML = `
+                            <div class="friendReq" style="display: flex; background-color: rgba(231, 225, 195, 0.36); padding:3%;">
+                                <div style="margin:auto">Friend request from ${friendRequest[i]}</div>
+                                <button class="accept" id="${acceptId}">Accept</button>
+                                <button class="decline" id="${declineId}">Decline</button>
+                            </div>`;
+        dropdown.insertBefore(newItem,dropdown.firstChild);
+
+        document.getElementById(acceptId).addEventListener('click', function () {
+            acceptFriendRequest(friendRequest[i]);
+            window.location.reload();
+        });
+        document.getElementById(declineId).addEventListener('click', function () {
+            declineFriendRequest(friendRequest[i]);
+            window.location.reload();
+        });
+    }
+}
+
+
+document.getElementById("miniNotification").addEventListener('click', function () {
+        document.getElementById("iconNotifFight1").style.display='none';
+        document.getElementById("iconNotifFight2").style.display='none';
+        document.getElementById("miniNotification").style.backgroundColor="rgba(0,0,0,0.06)";
+        document.getElementById("miniFriendsContacts").style.backgroundColor="";
+        document.getElementById("miniFriendList").style.display = "none";
+        document.getElementById("miniNotificationList").style.display = "block";
+});
+
+document.getElementById("miniFriendsContacts").addEventListener('click', function () {
+    document.getElementById("miniFriendsContacts").style.backgroundColor="rgba(0,0,0,0.06)";
+    document.getElementById("miniNotification").style.backgroundColor="";
+    document.getElementById("miniFriendList").style.display = "block";
+    document.getElementById("miniNotificationList").style.display = "none";
+});
