@@ -80,7 +80,6 @@ if(data != null) {
 home.style.pointer = "cursor";
 home.style.display = "block"
 surrenderBtn.replaceWith(home);
-    gameOver = true;
 });
 socket.on('lose', (data) => {
     gameOver = true;
@@ -93,7 +92,6 @@ socket.on('lose', (data) => {
     home.style.pointer = "cursor";
     home.style.display = "block"
     surrenderBtn.replaceWith(home);
-    gameOver = true;
 });
 socket.on('tie', () => {
     gameOver = true;
@@ -102,8 +100,6 @@ socket.on('tie', () => {
     home.style.pointer = "cursor";
     home.style.display = "block"
     surrenderBtn.replaceWith(home);
-    gameOver = true;
-
 });
 
 socket.on('message', (req) => {
@@ -133,13 +129,6 @@ window.addEventListener('load', function () {
 }
 )
 
-//document.getElementById("logout").addEventListener('click', logout);
-function logout() {
-    document.cookie = "token=" + undefined + ";path=/";
-    document.cookie = "username=" + undefined + ";path=/";
-    window.location.href = "../../loginRegister/loginRegister.html";
-}
-
 function init() {
     // Timer
     intervalId = setInterval(timerCount, 1000);
@@ -160,9 +149,7 @@ function init() {
             startplay(JSON.parse(pos));
             counter++;
         });
-    document.getElementById("grid").addEventListener("click", function () {
-        colorMessage(counter);
-    });
+
 
 }
 
