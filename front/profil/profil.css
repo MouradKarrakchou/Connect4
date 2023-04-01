@@ -1,6 +1,10 @@
+@font-face {
+    font-family: retro;
+    src: url(../font/retro.ttf);
+}
 body {
     background-color: #f6ffd2;
-    font-family: HUN, cursive, sans-serif;
+    font-family: retro;
     font-size: 20px;
     zoom: 0.6;
     overflow: hidden;

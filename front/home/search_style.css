@@ -1,5 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2&display=swap');
+@font-face {
+    font-family: retro;
+    src: url(../font/retro.ttf);
+}
 
+body{
+    font-family: retro;
+}
 .container {
     position: absolute;
     background-color: #ffffff;
@@ -41,7 +47,6 @@
 }
 
 .header h1 {
-    font-family: 'Baloo 2', cursive;
     font-size: 48px;
     font-weight: bold;
     margin-bottom: 10px;
@@ -93,7 +98,6 @@
 
 
 .loading-text {
-    font-family: 'Baloo 2', cursive;
     font-size: 24px;
     font-weight: bold;
     margin: 0;

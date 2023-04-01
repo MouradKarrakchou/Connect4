@@ -103,7 +103,7 @@ function setupChatContainer(friend){
 }
 
 
-function removeFriend(friendToRemove) {
+async function removeFriend(friendToRemove) {
     findToken();
     fetch(address + `/api/friends/removeFriend`, {
         method: 'POST',
@@ -116,9 +116,9 @@ function removeFriend(friendToRemove) {
         })
     })
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => {
+        })
         .catch(error => console.error(error));
-    window.location.reload();
 }
 
 function getFriendRequest(){
@@ -136,6 +136,8 @@ function getFriendRequest(){
     })
         .then(response => response.json())
         .then(data => {
+            document.getElementById("iconNotifFriendRequest1").style.display='none';
+            document.getElementById("iconNotifFriendRequest2").style.display='none';
             if (data.length>0) {
                 document.getElementById("iconNotifFriendRequest1").style.display='block';
                 document.getElementById("iconNotifFriendRequest2").style.display='block';
@@ -147,7 +149,7 @@ function getFriendRequest(){
         });
 }
 
-function acceptFriendRequest(friendToAccept) {
+async function acceptFriendRequest(friendToAccept) {
     findToken();
     fetch(address + `/api/friends/acceptFriendRequest`, {
         method: 'POST',
@@ -160,12 +162,14 @@ function acceptFriendRequest(friendToAccept) {
         })
     })
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(async data => {
+            await getFriendList();
+            getFriendRequest();
+        })
         .catch(error => console.error(error));
-    window.location.reload();
 }
 
-function declineFriendRequest(friendToDecline) {
+async function declineFriendRequest(friendToDecline) {
     findToken();
     fetch(address + `/api/friends/declineFriendRequest`, {
         method: 'POST',
@@ -178,9 +182,9 @@ function declineFriendRequest(friendToDecline) {
         })
     })
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => {
+        })
         .catch(error => console.error(error));
-    window.location.reload();
 }
 
 // Challenge a friend
@@ -215,10 +219,10 @@ function cancelChallengeMini() {
         challengerToken: token,
         challengedName: pendingChallengedName
     })
-
+    document.getElementById("cancelChallengeMini").style.display = "block";
+    document.getElementById("ok-btn").style.display = "none";
+    notification.style.display = 'none';
     pendingChallenge = false;
-
-    window.location.reload();
 
 }
 
@@ -291,8 +295,11 @@ socket.on('challengeDeclined', (challengedName) => {
     notifText.innerText= "Oh no! " + challengedName + " has declined your challenge!";
 })
 
-socket.on('challengeHasBeenCanceled', () => {
-    window.location.reload();
+socket.on('challengeHasBeenCanceled', (challengerName) => {
+    let id= "mini_Challenge"+ challengerName;
+    let dropdown = document.querySelector('.miniDropdownNotification');
+    let challengeDiv= document.getElementById(id);
+    dropdown.removeChild(challengeDiv);
 })
 
 socket.on('privateMessage', (request) => {
@@ -340,12 +347,15 @@ function displayMiniMenu(){
 }
 function displayMiniFriends(){
     console.log("click");
+    currentFriendDiscussion=null;
     miniFriendContainer.style.display = "block";
     document.getElementById("chat-container").style.display = "none";
 }
 
 
 function showMiniFriendList(friendList) {
+    let dropdown = document.querySelector('.miniDropdown');
+    dropdown.innerHTML='';
     console.log(friendList);
     for (let i = 0; i < friendList.length; i++) {
         let dropdown = document.querySelector('.miniDropdown');
@@ -377,18 +387,19 @@ function showMiniFriendList(friendList) {
                             </div>`;
 
         dropdown.appendChild(newItem);
-
         document.getElementById(idDivFriend).addEventListener('click', function () {
             if (document.getElementById(idMiniFriendMenu).style.display === "flex")
                 document.getElementById(idMiniFriendMenu).style.display = "none";
             else
                 document.getElementById(idMiniFriendMenu).style.display = "flex";
-        });
+        }
+        );
 
         document.getElementById(idChallenge).addEventListener('click', function () {
             challengeMini(friendList[i]);
         });
         document.getElementById(idRemove).addEventListener('click', function () {
+            dropdown.removeChild(newItem);
             removeFriend(friendList[i]);
         });
         document.getElementById(idMessage).addEventListener('click', function () {
@@ -400,8 +411,11 @@ function showMiniFriendList(friendList) {
 
 function challengedMini(data) {
     let dropdown = document.querySelector('.miniDropdownNotification');
+
     let newChallenge = document.createElement('div');
     let challengerName = data.challengerName;
+
+    newChallenge.id= "mini_Challenge"+ challengerName;
 
     let friendIsChallengingClassName = "mini_friendIsChallenging" + challengerName;
     let acceptTheChallengeId = "mini_acceptTheChallenge" + challengerName;
@@ -425,7 +439,7 @@ function challengedMini(data) {
             friendWhoChallenged: challengerName,
         });
 
-        dropdown.removeChild(newChallenge)
+        dropdown.removeChild(newChallenge);
     });
     document.getElementById(declineTheChallengeId).addEventListener('click', function () {
         socket.emit('IDeclineTheChallenge', {
@@ -433,13 +447,13 @@ function challengedMini(data) {
             challengedToken: token,
         });
 
-        dropdown.removeChild(newChallenge)
-        window.location.reload();
+        dropdown.removeChild(newChallenge);
     })
 }
 function showFriendRequestMini(friendRequest) {
+    let dropdown = document.querySelector('.miniDropdownNotification');
+    dropdown.innerHTML='';
     for (let i = 0; i < friendRequest.length; i++) {
-        let dropdown = document.querySelector('.miniDropdownNotification');
         let newItem = document.createElement('div');
 
         let acceptId = "mini-accept" + friendRequest[i];
@@ -452,14 +466,13 @@ function showFriendRequestMini(friendRequest) {
                                 <button class="decline" id="${declineId}">Decline</button>
                             </div>`;
         dropdown.insertBefore(newItem,dropdown.firstChild);
-
         document.getElementById(acceptId).addEventListener('click', function () {
             acceptFriendRequest(friendRequest[i]);
-            window.location.reload();
+            dropdown.removeChild(newItem);
         });
         document.getElementById(declineId).addEventListener('click', function () {
             declineFriendRequest(friendRequest[i]);
-            window.location.reload();
+            dropdown.removeChild(newItem);
         });
     }
 }

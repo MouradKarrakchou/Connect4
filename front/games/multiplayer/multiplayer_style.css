@@ -4,10 +4,15 @@ td {
     background: blue;
     margin:auto;
 }
+@font-face {
+    font-family: retro;
+    src: url(../../font/retro.ttf);
+}
 body{
     zoom: 0.7;
     overflow: hidden;
     position: relative;
+    font-family: retro;
 }
 
 .player {
@@ -42,7 +47,6 @@ body{
     display: inline-block;
     font-size: 200%;
     cursor: pointer;
-    font-family: HUN;
 }
 .gameLaunch:hover{
     width: 130%;
@@ -151,7 +155,6 @@ tfoot {
     left: 65%;
     transform: translate(-50%, -50%);
     font-size: 40px;
-    font-family: "Baloo 2", cursive;
     font-weight: bold;
 }
 
@@ -169,7 +172,6 @@ tfoot {
     left: 70%;
     transform: translate(-50%, -50%);
     font-size: 40px;
-    font-family: "Baloo 2", cursive;
     font-weight: bold;
 }
 #noSurrenderKeepPlaying, #SurrenderBackToHome {
@@ -207,7 +209,6 @@ tfoot {
     left: 70%;
     transform: translate(-50%, -50%);
     font-size: 40px;
-    font-family: "Baloo 2", cursive;
     font-weight: bold;
 }
 

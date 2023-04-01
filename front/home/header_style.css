@@ -1,6 +1,11 @@
+@font-face {
+    font-family: retro;
+    src: url(../font/retro.ttf);
+}
+
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: retro;
 }
 
 .nav {
