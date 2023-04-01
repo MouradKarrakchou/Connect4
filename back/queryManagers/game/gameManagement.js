@@ -4,6 +4,7 @@ let roomInSearch=null;
 const mapGames= new Map();
 const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+const ObjectID = require('mongodb').ObjectId;
 
 let firstPlayerName;
 let secondPlayerName;
@@ -31,6 +32,7 @@ function setUpSockets(io){
         const db = client.db("connect4");
         const chatCollection = db.collection("chat");
         const item = await chatCollection.insertOne({from:from,to:to,message:message,heRead:heRead});
+        return item;
     }
     async function loadAllMessagePending(to){
         await client.connect();
@@ -164,12 +166,14 @@ function setUpSockets(io){
             let user = await retrieveUserFromDataBase(request.token);
             console.log(user);
             let heRead=false;
-            findSocketByName(request.friendUsername,connectedSockets).emit('privateMessage', {
-                username:user.username,
-                message:request.chat})
 
 
-            await saveMessageToDataBase(user.username,request.friendUsername,request.chat,heRead);
+            let item=await saveMessageToDataBase(user.username,request.friendUsername,request.chat,heRead);
+            if (findSocketByName(request.friendUsername,connectedSockets)!==null)
+                findSocketByName(request.friendUsername,connectedSockets).emit('privateMessage', {
+                    username:user.username,
+                    message:request.chat,
+                    item:item});
         }
         )
         socket.on('findAllMessagePending', async (request) => {
@@ -182,6 +186,20 @@ function setUpSockets(io){
 
             let allUserMessages=await loadAllMessageFromConversation(request.friendUsername,user.username);
             findSocketByName(user.username,connectedSockets).emit('allConversationPrivateMessages', allUserMessages)})
+
+        socket.on('setToRead', async (request) => {
+            console.log(request);
+            let to = await retrieveUserFromDataBase(request.token);
+
+            await client.connect();
+
+            const db = client.db("connect4");
+            const chatCollection = db.collection("chat");
+            console.log("THIS IS TO WHO WE PUSH"+to);
+            let updated= await chatCollection.updateOne({_id:new ObjectID(request.item.insertedId),to:to.username}, {$set: {heRead: true}});
+            if (updated.modifiedCount>0)
+                findSocketByName(to.username,connectedSockets).emit('loadAllMessagePending', loadAllMessagePending(to));
+        })
 
         socket.on('playMulti', async (playerReq) => {
             let request = JSON.parse(playerReq);

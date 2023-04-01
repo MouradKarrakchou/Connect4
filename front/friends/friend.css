@@ -67,40 +67,6 @@ body {
     margin-bottom: 0%;
     margin-top: 0%;
 }
-/* Style the friend list and friend request list */
-.friendMenu, .challengeMessageMenu, .friendRequestMenu {
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    background-color: #fffbe3d1;
-    border-top: 3px solid #99a37f36;
-    border-right: 3px solid #99a37f36;
-    border-left: 3px solid #99a37f36;
-    border-bottom: 3px solid #99a37f36;
-    margin:auto;
-    width: 20%;
-    padding: .5%;
-    height: 100%;
-}
-
-.friendList, .challengeMessage, .friendRequest {
-    font-weight: bold;
-}
-
-.dropdown, .dropdownChallengeRequest, .dropdownFriendRequest {
-    margin-top: 5px;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-.dropdown a, .dropdownChallengeRequest a, .dropdownFriendRequest a {
-    display: block;
-    padding: 5px;
-    color: #333;
-    text-decoration: none;
-}
-
-.dropdown a:hover, .dropdownChallengeRequest a:hover .dropdownFriendRequest a:hover {
-    background-color: #f5f5f5;
-}
 
 
 .notification {

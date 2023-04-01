@@ -24,15 +24,12 @@ async function init() {
             addFriend();
         }
     });
-    document.getElementById("cancelChallenge").addEventListener('click', cancelChallenge);
-    document.getElementById("cancelChallengeMini").addEventListener('click', cancelChallenge);
+    document.getElementById("cancelChallengeMini").addEventListener('click', cancelChallengeMini);
     findToken();
     socket.emit('findAllMessagePending', {token: token});
 }
 
 function addFriend() {
-    console.log("CLICK")
-    hideUserNotFoundMessage();
 
     const friendQuery = document.getElementById("searchBar").value;
     if(friendQuery === "") return;
@@ -55,8 +52,6 @@ function addFriend() {
             if (data.status ==='User not found' ) {
                 notification.style.display="flex";
                 notifText.innerText="User not found! Check spelling, otherwise it does not exist";
-                //TODO remove
-                document.getElementById("userNotFoundMessage").style.display = "block";
             }
         })
         .catch(error => {
@@ -83,44 +78,11 @@ async function getFriendList() {
         .then(response => response.json())
         .then(data => {
             friendList=data;
-            showFriendList(data);
             showMiniFriendList(data);
         })
         .catch(error => {
             console.error(error);
         });
-}
-
-function showFriendList(friendList) {
-    for (let i = 0; i < friendList.length; i++) {
-        let dropdown = document.querySelector('.dropdown');
-        let newItem = document.createElement('div');
-
-        let idChallenge = "challenge" + friendList[i];
-        let idRemove = "remove" + friendList[i];
-        let idMessage = "message" + friendList[i];
-
-        newItem.innerHTML = `
-                            <div class="friend" >
-                                <h4 >${friendList[i]}</h4>
-                                <button class="challenge" id=${idChallenge}>Challenge</button>
-                                <button class="buttonFriends" id=${idRemove}>Remove</button>
-                                <button class="buttonFriends" id=${idMessage}>Message</button>
-                            </div>`;
-
-        dropdown.appendChild(newItem);
-
-        document.getElementById(idChallenge).addEventListener('click', function () {
-            challenge(friendList[i]);
-        });
-        document.getElementById(idRemove).addEventListener('click', function () {
-            removeFriend(friendList[i]);
-        });
-        document.getElementById(idMessage).addEventListener('click', function () {
-            currentFriendDiscussion=friendList[i];
-            setupChatContainer(friendList[i]);
-        });
-    }
 }
 
 function setupChatContainer(friend){
@@ -178,40 +140,11 @@ function getFriendRequest(){
                 document.getElementById("iconNotifFriendRequest1").style.display='block';
                 document.getElementById("iconNotifFriendRequest2").style.display='block';
             }
-            showFriendRequest(data);
             showFriendRequestMini(data);
         })
         .catch(error => {
             console.error(error);
         });
-}
-
-function showFriendRequest(friendRequest) {
-    for (let i = 0; i < friendRequest.length; i++) {
-        let dropdown = document.querySelector('.dropdownFriendRequest');
-        let newItem = document.createElement('div');
-
-        let acceptId = "accept" + friendRequest[i];
-        let declineId = "decline" + friendRequest[i];
-
-        newItem.innerHTML = `
-                            <div class="friendReq" >
-                                <h4>${friendRequest[i]}</h4>
-                                <button class="buttonFriends" id="${acceptId}">Accept</button>
-                                <button class="buttonFriends" id="${declineId}">Decline</button>
-                            </div>`;
-
-        dropdown.appendChild(newItem);
-
-        document.getElementById(acceptId).addEventListener('click', function () {
-            acceptFriendRequest(friendRequest[i]);
-            window.location.reload();
-        });
-        document.getElementById(declineId).addEventListener('click', function () {
-            declineFriendRequest(friendRequest[i]);
-            window.location.reload();
-        });
-    }
 }
 
 function acceptFriendRequest(friendToAccept) {
@@ -251,18 +184,13 @@ function declineFriendRequest(friendToDecline) {
 }
 
 // Challenge a friend
-function challenge(friendName) {
+function challengeMini(friendName) {
 
     if (pendingChallenge) {
         notification.style.display="flex";
         notifText.innerText="Waiting for " + pendingChallengedName +
             "! You cannot challenge two friends at the same time! Cancel your pending challenge first";
-        //TODO remove
-        let messageElement = document.getElementById("waitingForChallengeAnswer");
-        messageElement.innerText = "Waiting for " + pendingChallengedName +
-            "! You cannot challenge two friends at the same time! Cancel your pending challenge first"
     } else {
-        document.getElementById("cancelChallenge").style.display = "block";
         document.getElementById("cancelChallengeMini").style.display = "block";
         document.getElementById("ok-btn").style.display = "none";
 
@@ -273,59 +201,15 @@ function challenge(friendName) {
         });
 
         console.log("Challenge sent!");
-
-        let waitingMessage = document.getElementById("waitingForChallengeAnswer");
         notification.style.display="flex";
         notifText.innerText="Waiting for " + friendName + "!";
-
-        //TODO remove
-        waitingMessage.innerText = "Waiting for " + friendName + "!";
         pendingChallenge = true;
         pendingChallengedName = friendName;
     }
 }
 
-function challenged(data) {
-    let dropdown = document.querySelector('.dropdownChallengeRequest');
-    let newChallenge = document.createElement('div');
-    let challengerName = data.challengerName;
 
-    let friendIsChallengingClassName = "friendIsChallenging" + challengerName;
-    let acceptTheChallengeId = "acceptTheChallenge" + challengerName;
-    let declineTheChallengeId = "declineTheChallenge" + challengerName;
-
-    newChallenge.innerHTML = `
-                            <div class="${friendIsChallengingClassName}" >
-                                <h4>${challengerName} is challenging you!</h4>
-                                <button class="accept" id="${acceptTheChallengeId}">Accept</button>
-                                <button class="decline" id="${declineTheChallengeId}">Decline</button>
-                            </div>`;
-
-    dropdown.appendChild(newChallenge);
-
-    document.getElementById(acceptTheChallengeId).addEventListener('click', function () {
-        findToken();
-        socket.emit('IAcceptTheChallenge', {
-            challengerToken: data.challengerToken,
-            challengedToken: token,
-            username: findUsername(),
-            friendWhoChallenged: challengerName,
-        });
-
-        dropdown.removeChild(newChallenge)
-    });
-    document.getElementById(declineTheChallengeId).addEventListener('click', function () {
-        socket.emit('IDeclineTheChallenge', {
-            challengerToken: data.challengerToken,
-            challengedToken: token,
-        });
-
-        dropdown.removeChild(newChallenge)
-        window.location.reload();
-    })
-}
-
-function cancelChallenge() {
+function cancelChallengeMini() {
     findToken()
     socket.emit('theChallengeIsCanceled', {
         challengerToken: token,
@@ -333,14 +217,9 @@ function cancelChallenge() {
     })
 
     pendingChallenge = false;
-    document.getElementById("waitingForChallengeAnswer").innerText = "";
-    document.getElementById("cancelChallenge").style.display = "none";
+
     window.location.reload();
 
-}
-
-function hideUserNotFoundMessage() {
-    document.getElementById("userNotFoundMessage").style.display = "none";
 }
 
 const chatBar = document.getElementById('chatBar');
@@ -362,12 +241,13 @@ socket.emit('socketByUsername', { username: findUsername() });
 socket.on('friendIsChallenging', (data) => {
     document.getElementById("iconNotifFight1").style.display='block';
     document.getElementById("iconNotifFight2").style.display='block';
-    challenged(data);
     challengedMini(data);
 });
 socket.on('loadAllMessagePending', (data) => {
     friendList.forEach(friend=>document.getElementById("notificationMini"+friend).style.display='none')
+    console.log(data);
     document.getElementById("iconNotif").style.display='none';
+    data=data.filter(message=>document.getElementById("notificationMini"+message.from)!==null);
     if(data.length>0)
         document.getElementById("iconNotif").style.display='block';
     data.forEach(message=>document.getElementById("notificationMini"+message.from).style.display='block');
@@ -381,23 +261,20 @@ function appendMessage(message) {
 }
 
 socket.on('notConnectedMessage', (challengedName) => {
-    document.getElementById("cancelChallenge").style.display = "none";
+    document.getElementById("cancelChallengeMini").style.display = "none";
+    document.getElementById("ok-btn").style.display = "block";
     pendingChallenge = false;
     notification.style.display="flex";
     notifText.innerText= "Oh no! " + challengedName + " is not connected! Or he is already in game...";
-    //TODO remove
-    let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-    waitingMessage.innerText = "Oh no! " + challengedName + " is not connected! Or he is already in game..."
+
 })
 
 socket.on('notFriendMessage', (challengedName) => {
-    document.getElementById("cancelChallenge").style.display = "none";
+    document.getElementById("cancelChallengeMini").style.display = "none";
+    document.getElementById("ok-btn").style.display = "block";
     pendingChallenge = false;
     notification.style.display="flex";
     notifText.innerText= "Oh no! " + challengedName + " is not your friend!";
-    //TODO remove
-    let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-    waitingMessage.innerText = "Oh no! " + challengedName + " is not your friend!";
 })
 
 socket.on('challengeAccepted', (matchID) => {
@@ -407,22 +284,14 @@ socket.on('challengeAccepted', (matchID) => {
 });
 
 socket.on('challengeDeclined', (challengedName) => {
-    document.getElementById("cancelChallenge").style.display = "none";
     pendingChallenge = false;
     notification.style.display="flex";
     document.getElementById("cancelChallengeMini").style.display = "none";
     document.getElementById("ok-btn").style.display = "block";
-    notifText.innerText= "Oh no! " + challengedName + " has declined your challenge!"
-    //TODO remove
-    let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-    waitingMessage.innerText = "Oh no! " + challengedName + " has declined your challenge!";
+    notifText.innerText= "Oh no! " + challengedName + " has declined your challenge!";
 })
 
-socket.on('challengeHasBeenCanceled', (challengerName) => {
-    let friendIsChallengingClassName = ".friendIsChallenging" + challengerName;
-    let challenge = document.querySelector(friendIsChallengingClassName).parentNode;
-    let dropdown = document.querySelector('.dropdownChallengeRequest');
-    dropdown.removeChild(challenge);
+socket.on('challengeHasBeenCanceled', () => {
     window.location.reload();
 })
 
@@ -435,7 +304,10 @@ socket.on('privateMessage', (request) => {
         //setupChatContainer(request.username);
     }
     else
+    {
+        socket.emit('setToRead', {token: token,item:request.item});
         appendMessage(currentFriendDiscussion+": "+request.message);
+    }
 })
 
 socket.on('allConversationPrivateMessages', (request) => {
@@ -514,7 +386,7 @@ function showMiniFriendList(friendList) {
         });
 
         document.getElementById(idChallenge).addEventListener('click', function () {
-            challenge(friendList[i]);
+            challengeMini(friendList[i]);
         });
         document.getElementById(idRemove).addEventListener('click', function () {
             removeFriend(friendList[i]);

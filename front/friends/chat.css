@@ -99,10 +99,6 @@
     background-color: #008CBA;
 }
 
-.friends{
-    display: flex;
-    height: 100%;
-}
 #remove{
     position: absolute;
     top: 0;
