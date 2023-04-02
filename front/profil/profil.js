@@ -21,7 +21,10 @@ let draws = 0;
 let elo = 1000;
 let numberFriends = 0;
 
-// Initialize the page
+/**
+ * Initialize the page
+ * @returns {Promise<void>}
+ */
 export async function init() {
     // Get the username from the url - it could be the user profile or his friend profile
     const urlParams = new URLSearchParams(window.location.search);
@@ -132,7 +135,11 @@ export async function init() {
     document.getElementById("good-guy").innerHTML = Math.min(100,Math.round((numberFriends/5)*100)) + "%";
 }
 
-// Get the statistics from the backend
+/**
+ * Get the statistics from the backend
+ * @param friendName
+ * @returns {Promise<void>}
+ */
  async function findAllStats(friendName){
     findToken();
     const values = {
