@@ -1,6 +1,6 @@
 .chat-container {
     position: fixed;
-    bottom: 0;
+    bottom: 0%;
     left: 0;
     background-color: #fff;
     border-radius: 15px 15px 0 0;
@@ -10,7 +10,7 @@
     justify-content: space-between;
     width: 25%;
 }
-.mini-container-content{
+#mini-container-content{
     height:50% ;
 }
 #chat-messages {
@@ -18,12 +18,14 @@
     flex-grow: 1;
     padding: 10px;
 }
-#chatBar{
-    width: 90%;
-    padding: 10px;
+#chatBar {
+    width: 100%;
     background-color: #9e9d9224;
-    border: none
+    border: none;
+    font-size: 40px;
+    height: 10vh;
 }
+
 #sendMsg{
     padding: 1%;
     background-color: #4CAF50;
@@ -36,6 +38,15 @@
 #chat-bar{
     background-color: #fffbe3d1;
     padding: .5%;
+    border-top: 3px solid #99a37f36;
+    border-right: 3px solid #99a37f36;
+    border-left: 3px solid #99a37f36;
+    border-bottom: 3px solid #99a37f36;
+    margin-top: 2%;
+    display: flex;
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
 }
 .chat-header{
     padding: 10px;
@@ -57,14 +68,6 @@
 }
 .chat-header{
     cursor: pointer;
-}
-
-
-
-#message{
-    position: absolute;
-    bottom: 0;
-    right: 0;
 }
 
 #miniNotification:hover{

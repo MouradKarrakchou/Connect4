@@ -18,7 +18,13 @@ td {
     margin:auto;
 }
 
+#user-message{
+    font-size: 12px;
+}
+#chatBar{
+    bottom: 10px;
 
+}
 .player {
     margin: 2% 12%;
     width: 50%;
