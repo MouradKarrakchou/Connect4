@@ -46,7 +46,6 @@ body {
     display: flex;
     bottom: 0;
     width: 99%;
-    height: 7%;
 }
 #decline{
     position: absolute;
