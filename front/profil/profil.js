@@ -6,12 +6,14 @@ let losses = 0;
 let draws = 0;
 let elo = 1000;
 let numberFriends = 0;
-async function init() {
-    await findNumberOfFriends();
-    await findElo();
-    await findLosses();
-    await findWins();
-    await findDraws();
+
+
+export async function init() {
+    const urlParams = new URLSearchParams(window.location.search);
+    let username = urlParams.get('name');
+    console.log("username " + username);
+    console.log("url " + urlParams.get('name'));
+    await findAllStats(username);
     document.getElementById("username").innerHTML = username;
     document.getElementById("games-played").innerHTML = wins + losses + draws;
     if(wins + losses + draws === 0){
@@ -87,10 +89,43 @@ rankImage.src = '../img/Bronze3.png';
 
 
 }
+ async function findAllStats(friendName){
+    findToken();
+    const values = {
+        token: token,
+        friendName: friendName
+    }
+    await fetch(address + `/api/profile/retrieveAllStats`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            draws = data.draws;
+            document.getElementById("draws").innerHTML = draws;
+            wins = data.wins;
+            document.getElementById("wins").innerHTML = wins;
+            losses = data.losses;
+            document.getElementById("losses").innerHTML = losses;
+            elo = data.eloPlayer;
+            numberFriends = data.nbFriends;
+
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+/*
+console.log("elo: " + elo);
 export async function findElo(){
     findToken();
     const values = {
         token: token,
+        username: "b"
     }
      await fetch(address + `/api/profile/retrieveElo`, {
         method: 'POST',
@@ -102,15 +137,16 @@ export async function findElo(){
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            elo = data;})
+            elo = data.elo;})
         .catch(error => {
             console.error(error);
         });
 }
-async function findNumberOfFriends(){
+export async function findNumberOfFriends(){
     findToken();
     const values = {
         token: token,
+
     }
     await fetch(address + `/api/friends/retrieveNumberOfFriends`, {
         method: 'POST',
@@ -127,8 +163,8 @@ async function findNumberOfFriends(){
             console.error(error);
         });
 }
-var username = findUsername();
-async function findWins(){
+
+export async function findWins(){
     findToken();
     const values = {
         token: token,
@@ -151,7 +187,7 @@ async function findWins(){
 }
 
 
-async function findLosses(){
+export async function findLosses(){
     findToken();
     const values = {
         token: token,
@@ -174,7 +210,7 @@ async function findLosses(){
         });
 }
 
-async function findDraws(){
+export async function findDraws(){
     findToken();
     const values = {
         token: token,
@@ -194,6 +230,10 @@ async function findDraws(){
         .catch(error => {
             console.error(error);
         });
+}
+*/
+
+
 }
 
 
