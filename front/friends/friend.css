@@ -85,6 +85,16 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.miniDropdown{
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.miniDropdownNotification{
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
 .notification-content {
     display: flex;
     flex-direction: column;

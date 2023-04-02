@@ -75,13 +75,8 @@ h5{
 }
 table {
     border-collapse: collapse;
-    width: 200%;
     text-align: center;
     float: right;
-    margin-right: 0px;
-    position: absolute;
-    display: inline-block;
-    top: 20%;
 }
 thead {
     color: black;
@@ -123,3 +118,55 @@ tbody {
     color: #ff0000;
     text-shadow: 1px 1px #ffffff;
 }
+.homepage{
+    background-color: #fffbe3d1;
+    border: 3px solid #99a37f36;
+    height: fit-content;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.homepage:hover{
+    cursor: pointer;
+}
+
+.shape{
+    z-index: -2;
+}
+
+.background .shape{
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%;
+}
+.shape:first-child{
+    background: linear-gradient(
+            #1845ad,
+            #23a2f6
+    );
+    left: 30%;
+    top: 20%;
+}
+.shape:last-child{
+    background: linear-gradient(
+            to right,
+            #ff512f,
+            #f09819
+    );
+    right: 30%;
+    bottom: 15%;
+}
+
+
+.image-background {
+    background-repeat: no-repeat;
+    background-size: 25%;
+    background-position: bottom right;
+    height: 100vh;
+}
+
