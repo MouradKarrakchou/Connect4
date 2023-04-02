@@ -365,6 +365,7 @@ function showMiniFriendList(friendList) {
         let idDivFriend = "friendMini" + friendList[i];
         let idMiniFriendMenu="friendMiniMenu"+friendList[i];
         let idChallenge = "challengeMini" + friendList[i];
+        let idProfil = "profilMini" + friendList[i];
         let idRemove = "removeMini" + friendList[i];
         let idMessage = "messageMini" + friendList[i];
 
@@ -380,6 +381,9 @@ function showMiniFriendList(friendList) {
                                     <div class="icon_mini" id=${idChallenge}>
                                       <iconify-icon class="fight iconStyle" style="font-size: 1.2em; margin:auto;" icon="mdi:sword-cross"></iconify-icon>
                                     </div>
+                                    <div class="icon_mini" id="${idProfil}">
+                                        <iconify-icon icon="healthicons:ui-user-profile" style="font-size: 1.5em; margin: auto;"></iconify-icon>
+                                    </div>
                                     <div class="icon_mini" id="${idRemove}">
                                         <i class="fa-solid fa-xmark iconStyle" style="font-size: 1.5em; margin-right: 15%;"></i>
                                     </div>
@@ -387,6 +391,9 @@ function showMiniFriendList(friendList) {
                             </div>`;
 
         dropdown.appendChild(newItem);
+        document.getElementById(idProfil).addEventListener('click',function(){
+            window.location.href='/profil/profil.html?name='+friendList[i];
+        })
         document.getElementById(idDivFriend).addEventListener('click', function () {
             if (document.getElementById(idMiniFriendMenu).style.display === "flex")
                 document.getElementById(idMiniFriendMenu).style.display = "none";
