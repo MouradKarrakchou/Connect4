@@ -229,7 +229,6 @@ export function saveGame(info) {
             console.error(error);
         });
 
-    document.getElementById("savedGameMessage").style.display = "block";
     document.getElementById("keepPlaying").addEventListener('click', function () {document.getElementById("savedGameMessage").style.display = "none"});
     document.getElementById("backToHome").addEventListener('click', function () {window.location.href = "/home/home.html"});
 }
