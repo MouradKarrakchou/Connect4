@@ -6,6 +6,7 @@ import {
     loadGame,
     saveGame,
     findTokenReturned,
+    getCount,
     retrieveGameState
 } from "../../gameManagement.js"
 import {address} from "../../dataManager.js";
@@ -16,8 +17,8 @@ document.addEventListener('DOMContentLoaded', init);
 var socket = io();
 let counter = 0;
 export let itsMyTurn;
-let startInversered=false;
 const mapColor = new Map();
+let startInversered=false;
 mapColor.set('Yellow','#cee86bcc');
 mapColor.set('Red','#c92c2c9c');
 function colorMessage(counter) {
@@ -29,6 +30,7 @@ function colorMessage(counter) {
 }
 
 function init() {
+    roomName=  findTokenReturned()+Math.floor(Math.random() * 100000000000000000);
     window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", function(event){play(event)});
     document.getElementById("saveButton").addEventListener("click",function(){saveGame({gameType:"medium",startInversered:startInversered})});
@@ -46,27 +48,27 @@ function init() {
             if (!gameOver) colorMessage(counter);
     })
     if (urlParams.get('id')!=null) {
-        roomName=  findTokenReturned()+urlParams.get('id');
         loadGame();
         loadFirstPlayer();
     }
     else{
-        roomName=  findTokenReturned()+Math.floor(Math.random() * 100000000000000000);
         if (Math.round(Math.random())===0)
-        {socket.emit('initAdv',JSON.stringify({
+        {startInversered=true;
+            socket.emit('initAdv',{
+                reloadingGame: false,
             id:roomName,
-            player:1}));
+            player:1});
         socket.emit('playAdv',JSON.stringify({
             id:roomName,
             pos:undefined}));
         itsMyTurn=false;
             if (!gameOver) colorMessage(counter);}
         else {
-            startInversered=true;
-            socket.emit('initAdv',JSON.stringify({
+            socket.emit('initAdv',{
+                reloadingGame: false,
                 id:roomName,
                 player:2
-            }));
+            });
             itsMyTurn=true;
             if (!gameOver) colorMessage(counter);}}
     }
@@ -151,10 +153,10 @@ function resetGame() {
     counter = 0;
     document.getElementById("message").innerText = "";
     document.getElementById("reset-button").style.display = "none";
-    socket.emit('initAdv',JSON.stringify({
+    socket.emit('initAdv',{
+        reloadingGame: false,
         id:roomName,
-        player:2}));
-
+        player:2});
 }
 
 function isMoveIllegal(tab){
@@ -188,24 +190,15 @@ async function loadFirstPlayer() {
     })
         .then(response => response.json())
         .then(data => {
-            roomName=  findTokenReturned()+Math.floor(Math.random() * 100000000000000000);
-            if (!data.startInversered)
-            {socket.emit('initAdv',JSON.stringify({
+            counter=getCount();
+            socket.emit('initAdv',{
                 id:roomName,
-                player:1}));
-                socket.emit('playAdv',JSON.stringify({
-                    id:roomName,
-                    pos:undefined}));
-                itsMyTurn=false;
-                if (!gameOver) colorMessage(counter);}
-            else {
-                startInversered=true;
-                socket.emit('initAdv',JSON.stringify({
-                    id:roomName,
-                    player:2
-                }));
-                itsMyTurn=true;
-                if (!gameOver) colorMessage(counter);}
+                player:2,
+                startInversered:data.startInversered,
+                reloadingGame: true,
+                tab:data.tab});
+            itsMyTurn=true;
+            if (!gameOver) colorMessage(counter);
         })
         .catch(error => {
             console.error(error);
