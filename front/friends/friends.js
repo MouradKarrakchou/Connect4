@@ -344,12 +344,14 @@ function displayMiniMenu(){
         miniContainerContent.style.display="none";
         document.getElementById("chevron-down").style.display="none";
         document.getElementById("chevron-up").style.display="block";
+        miniFriendContainer.style.height="";
     }
     else
     {
         miniContainerContent.style.display="block"
         document.getElementById("chevron-down").style.display="block";
         document.getElementById("chevron-up").style.display="none";
+        miniFriendContainer.style.height="50%";
     }
 }
 function displayMiniFriends(){

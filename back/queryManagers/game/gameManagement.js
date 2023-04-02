@@ -50,6 +50,8 @@ function setUpSockets(io){
         const db = client.db("connect4");
         const chatCollection = db.collection("chat");
         const item = await chatCollection.find({to:to,heRead:false}).toArray();
+        console.log("MESSAGE PENDING");
+        console.log(item);
         return item;
     }
     async function loadAllMessageFromConversation(from,to){
@@ -59,7 +61,7 @@ function setUpSockets(io){
         const chatCollection = db.collection("chat");
         console.log("updating: from "+from+" to "+to);
         await chatCollection.updateMany({from:from,to: to}, {$set: {heRead: true}});
-        findSocketByName(to,connectedSockets).emit('loadAllMessagePending', loadAllMessagePending(to));
+        findSocketByName(to,connectedSockets).emit('loadAllMessagePending', await loadAllMessagePending(to));
         const item = await chatCollection.find({ $or:[{from:from,to:to},{from:to,to:from}]}).toArray();
         return item;
     }

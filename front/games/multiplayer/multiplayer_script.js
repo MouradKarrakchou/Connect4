@@ -312,7 +312,7 @@ document.getElementById("btn-merci").addEventListener("click", function() {
     socket.emit('chat',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token="),chat:"Thank You!"}));
 });
 function writeInChat(str){
-        var chatbox = document.getElementById("chat-messages");
+        var chatbox = document.getElementById("chat-messages-bis");
         // crée un nouvel élément div
         var message = document.createElement("div");
         // ajoute la classe "user-message" à l'élément pour le style
