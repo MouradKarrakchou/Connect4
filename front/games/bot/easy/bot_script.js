@@ -9,8 +9,6 @@ import {
     findTokenReturned,
     notLoggedRedirection
 } from "../../gameManagement.js"
-// If not logged in, redirected to the login page
-notLoggedRedirection();
 
 var roomName;
 let gameOver = false;
@@ -20,27 +18,33 @@ let counter = 0;
 
 
 
-function init() {
+async function init() {
+    // If not logged in, redirected to the login page
+    await notLoggedRedirection();
 
-    window.addEventListener("load", function (){colorMessage(counter); document.getElementById("player").innerText = "Your turn to play";})
-    document.getElementById("grid").addEventListener("click", function(event){play(event)});
+    window.addEventListener("load", function () {
+        colorMessage(counter);
+        document.getElementById("player").innerText = "Your turn to play";
+    })
+    document.getElementById("grid").addEventListener("click", function (event) {
+        play(event)
+    });
     var urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('id')!=null) {
-        roomName=  findTokenReturned()+urlParams.get('id');
+    if (urlParams.get('id') != null) {
+        roomName = findTokenReturned() + urlParams.get('id');
         loadGame();
+    } else {
+        roomName = findTokenReturned() + Math.floor(Math.random() * 100000000000000000);
     }
-    else{
-        roomName=  findTokenReturned()+Math.floor(Math.random() * 100000000000000000);
-    }
-    socket.on('connect',function(){
+    socket.on('connect', function () {
         socket.emit('joinRoom', roomName);
     });
-    socket.on('updateRoom',function(id){
+    socket.on('updateRoom', function (id) {
         console.log(id);
         console.log(roomName);
     });
-    socket.on('doMove',function(pos){
-        if(!isMoveIllegal(JSON.parse(pos))) {
+    socket.on('doMove', function (pos) {
+        if (!isMoveIllegal(JSON.parse(pos))) {
             startplay(JSON.parse(pos));
             counter++;
         }

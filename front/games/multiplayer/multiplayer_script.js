@@ -9,8 +9,6 @@ import {
 
 
 
-// If not logged in, redirected to the login page
-notLoggedRedirection();
 let counter = 0;
 let gameOver = false;
 let itsMyTurn;
@@ -135,8 +133,9 @@ window.addEventListener('load', function () {
 }
 )
 
-function init() {
-
+async function init() {
+    // If not logged in, redirected to the login page
+    await notLoggedRedirection();
     // Timer
     intervalId = setInterval(timerCount, 1000);
 
@@ -151,11 +150,13 @@ function init() {
     })
     socket.emit('initMulti', JSON.stringify({matchID: findInCookie("matchID="), token: findInCookie("token=")}));
     document.getElementById("grid").addEventListener("click", play);
-    document.getElementById("surrenderButton").addEventListener("click",function(){surrender()});
+    document.getElementById("surrenderButton").addEventListener("click", function () {
+        surrender()
+    });
     socket.on('doMoveMulti', function (pos) {
-            startplay(JSON.parse(pos));
-            counter++;
-        });
+        startplay(JSON.parse(pos));
+        counter++;
+    });
 
 
 }

@@ -1,8 +1,6 @@
 import {findToken, token, address} from "../games/dataManager.js";
 import {findUsername, notLoggedRedirection} from "../games/gameManagement.js";
 let socket = io();
-// If not logged in, redirected to the login page
-notLoggedRedirection();
 
 let pendingChallenge = false;
 let pendingChallengedName = null;
@@ -15,6 +13,8 @@ let friendList;
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
+    // If not logged in, redirected to the login page
+    await notLoggedRedirection();
 
     await getFriendList();
     getFriendRequest();

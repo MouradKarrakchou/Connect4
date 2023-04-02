@@ -10,8 +10,7 @@ import {
     retrieveGameState, notLoggedRedirection
 } from "../../gameManagement.js"
 import {address} from "../../dataManager.js";
-// If not logged in, redirected to the login page
-notLoggedRedirection();
+
 var roomName;
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
@@ -31,49 +30,57 @@ function colorMessage(counter) {
     else document.getElementById("player").innerText = color + " turn to play";
 }
 
-function init() {
-
-    roomName=  findTokenReturned()+Math.floor(Math.random() * 100000000000000000);
-    window.addEventListener("load", function (){colorMessage(counter);})
-    document.getElementById("grid").addEventListener("click", function(event){play(event)});
+async function init() {
+    // If not logged in, redirected to the login page
+    await notLoggedRedirection();
+    roomName = findTokenReturned() + Math.floor(Math.random() * 100000000000000000);
+    window.addEventListener("load", function () {
+        colorMessage(counter);
+    })
+    document.getElementById("grid").addEventListener("click", function (event) {
+        play(event)
+    });
     var urlParams = new URLSearchParams(window.location.search);
-    socket.on('connect',function(){
+    socket.on('connect', function () {
         socket.emit('joinRoom', roomName);
     });
-    socket.on('updateRoom',function(id){
+    socket.on('updateRoom', function (id) {
         console.log(id);
         console.log(roomName);
     });
-    socket.on('doMove',function(pos){
-            startplay(JSON.parse(pos));
-            counter++;
-            if (!gameOver) colorMessage(counter);
+    socket.on('doMove', function (pos) {
+        startplay(JSON.parse(pos));
+        counter++;
+        if (!gameOver) colorMessage(counter);
     })
-    if (urlParams.get('id')!=null) {
+    if (urlParams.get('id') != null) {
         loadGame();
         loadFirstPlayer();
-    }
-    else{
-        if (Math.round(Math.random())===0)
-        {startInversered=true;
-            socket.emit('initAdv',{
+    } else {
+        if (Math.round(Math.random()) === 0) {
+            startInversered = true;
+            socket.emit('initAdv', {
                 reloadingGame: false,
-            id:roomName,
-            player:1});
-        socket.emit('playAdv',JSON.stringify({
-            id:roomName,
-            pos:undefined}));
-        itsMyTurn=false;
-            if (!gameOver) colorMessage(counter);}
-        else {
-            socket.emit('initAdv',{
-                reloadingGame: false,
-                id:roomName,
-                player:2
+                id: roomName,
+                player: 1
             });
-            itsMyTurn=true;
-            if (!gameOver) colorMessage(counter);}}
+            socket.emit('playAdv', JSON.stringify({
+                id: roomName,
+                pos: undefined
+            }));
+            itsMyTurn = false;
+            if (!gameOver) colorMessage(counter);
+        } else {
+            socket.emit('initAdv', {
+                reloadingGame: false,
+                id: roomName,
+                player: 2
+            });
+            itsMyTurn = true;
+            if (!gameOver) colorMessage(counter);
+        }
     }
+}
 
 
 function play(event) {

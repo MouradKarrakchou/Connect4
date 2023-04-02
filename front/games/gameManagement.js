@@ -190,9 +190,23 @@ function find(element){
     }
 }
 
-export function notLoggedRedirection() {
+export async function notLoggedRedirection() {
+
     let token = findTokenReturned();
-    if (token === undefined || token === "undefined") window.location.href = "/";
+    let response = await fetch(address + '/api/game/verifToken', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            token: token
+        })
+    });
+
+    let data = await response.json();
+    console.log(data);
+
+    if (token === undefined || token === "undefined"||!data.userReel) window.location.href = "/";
 }
 
 export function findTokenReturned() {

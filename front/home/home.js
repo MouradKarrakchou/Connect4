@@ -12,7 +12,6 @@ import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../g
  * @author Ayoub IMAMI
  */
 
-notLoggedRedirection();
 var socket = io();
 
 
@@ -32,9 +31,9 @@ socket.on('cancel', () => {
 let gameSaved=document.getElementById("gameSaved");
 
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     // If not logged in, redirected to the login page
-
+    await notLoggedRedirection();
     setTimeout(getAllGames, 200);
     document.getElementById("b").addEventListener('click', findGame);
     document.getElementById("cancel").addEventListener('click', cancelGame);

@@ -10,8 +10,6 @@ import {
     notLoggedRedirection
 } from "../gameManagement.js"
 
-// If not logged in, redirected to the login page
-notLoggedRedirection();
 let counter = 0;
 let gameOver = false;
 const mapColor = new Map();
@@ -30,11 +28,16 @@ window.addEventListener('load', async function () {
     }
 )
 
-function init() {
-
-    window.addEventListener("load", function (){colorMessage(counter);})
+async function init() {
+    // If not logged in, redirected to the login page
+    await notLoggedRedirection();
+    window.addEventListener("load", function () {
+        colorMessage(counter);
+    })
     document.getElementById("grid").addEventListener("click", play);
-    document.getElementById("grid").addEventListener("click", function (){if (!gameOver) colorMessage(counter);});
+    document.getElementById("grid").addEventListener("click", function () {
+        if (!gameOver) colorMessage(counter);
+    });
 
 }
 
