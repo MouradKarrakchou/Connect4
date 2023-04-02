@@ -127,15 +127,3 @@ tfoot {
     cursor: pointer;
 }
 
-#savedGameMessage {
-    position: absolute;
-    background-color: #77ff68;
-    opacity: 0.8;
-    margin: auto;
-    text-align: center;
-    border: thin black;
-    font-size: 4.5em;
-    left: 35%;
-    top: 40%;
-    padding: 30px 60px;
-}
