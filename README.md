@@ -1,5 +1,15 @@
 # PS8 - Puissance4Quarts
 
+## Authors
+
+[Weel Ben Aissa](https://github.com/weelBenAissa)
+
+[Mourad Karrakchou](https://github.com/Mouradkarrakchou)
+
+[Ayoub Imami](https://github.com/AyoubIMAMI)
+
+---
+
 The code of this repo is split in 2 folders:
 * api/ manages the server. It contains a server which differentiate REST requests from HTTP file requests, and so
 return either files or REST responses accordingly.
