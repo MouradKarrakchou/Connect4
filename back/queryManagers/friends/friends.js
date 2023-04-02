@@ -50,17 +50,8 @@ function manageRequest(request, response) {
         else if (filePath[3] === "declineFriendRequest") {
             request.on('end', function () {
                 const values = JSON.parse(body);
-                mongoDBConnection.declineFriendRequest(response, values.token, values.friendToDecline);
-            });
+                mongoDBConnection.declineFriendRequest(response, values.token, values.friendToDecline);});
         }
-        else if(filePath[3] === "retrieveNumberOfFriends"){
-            request.on('end', function () {
-                const values = JSON.parse(body);
-                mongoDBConnection.retrieveNumberOfFriends(response, values.token);
-            });
-        }
-
-
     }
     else{
         response.statusCode = 400;
