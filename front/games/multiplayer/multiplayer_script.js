@@ -2,7 +2,7 @@ import {
     checkWin,
     removeIllegalMove,
     loadGame,
-    printIllegalMove
+    printIllegalMove, notLoggedRedirection
 } from "../gameManagement.js"
 
 let counter = 0;
@@ -130,6 +130,9 @@ window.addEventListener('load', function () {
 )
 
 function init() {
+    // If not logged in, redirected to the login page
+    notLoggedRedirection();
+
     // Timer
     intervalId = setInterval(timerCount, 1000);
 

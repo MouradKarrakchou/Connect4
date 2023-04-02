@@ -1,4 +1,14 @@
-import {colorMessage, checkWin, getCount,printIllegalMove, removeIllegalMove, loadGame, saveGame, isMoveIllegal} from "../gameManagement.js"
+import {
+    colorMessage,
+    checkWin,
+    getCount,
+    printIllegalMove,
+    removeIllegalMove,
+    loadGame,
+    saveGame,
+    isMoveIllegal,
+    notLoggedRedirection
+} from "../gameManagement.js"
 
 let counter = 0;
 let gameOver = false;
@@ -17,6 +27,9 @@ window.addEventListener('load', async function () {
 )
 
 function init() {
+    // If not logged in, redirected to the login page
+    notLoggedRedirection();
+
     window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", play);
     document.getElementById("grid").addEventListener("click", function (){if (!gameOver) colorMessage(counter);});

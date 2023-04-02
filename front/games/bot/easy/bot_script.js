@@ -1,4 +1,14 @@
-import {colorMessage, checkWin, printIllegalMove, removeIllegalMove, toTab, loadGame,saveGame,findTokenReturned} from "../../gameManagement.js"
+import {
+    colorMessage,
+    checkWin,
+    printIllegalMove,
+    removeIllegalMove,
+    toTab,
+    loadGame,
+    saveGame,
+    findTokenReturned,
+    notLoggedRedirection
+} from "../../gameManagement.js"
 
 var roomName;
 let gameOver = false;
@@ -8,6 +18,9 @@ let counter = 0;
 
 
 function init() {
+    // If not logged in, redirected to the login page
+    notLoggedRedirection();
+
     window.addEventListener("load", function (){colorMessage(counter); document.getElementById("player").innerText = "Your turn to play";})
     document.getElementById("grid").addEventListener("click", function(event){play(event)});
     document.getElementById("saveButton").addEventListener("click",function(){saveGame({gameType:"easy",startInversed:false})});

@@ -7,7 +7,7 @@ import {
     saveGame,
     findTokenReturned,
     getCount,
-    retrieveGameState
+    retrieveGameState, notLoggedRedirection
 } from "../../gameManagement.js"
 import {address} from "../../dataManager.js";
 
@@ -30,6 +30,9 @@ function colorMessage(counter) {
 }
 
 function init() {
+    // If not logged in, redirected to the login page
+    notLoggedRedirection();
+
     roomName=  findTokenReturned()+Math.floor(Math.random() * 100000000000000000);
     window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", function(event){play(event)});
