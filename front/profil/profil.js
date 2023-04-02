@@ -12,6 +12,8 @@ import {notLoggedRedirection} from "../games/gameManagement.js";
  * @author Mourad KARRAKCHOU
  * @author Ayoub IMAMI
  */
+// If not logged in, redirected to the login page
+notLoggedRedirection();
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -27,8 +29,6 @@ let numberFriends = 0;
  * @returns {Promise<void>}
  */
 export async function init() {
-    // If not logged in, redirected to the login page
-    notLoggedRedirection();
 
     // Get the username from the url - it could be the user profile or his friend profile
     const urlParams = new URLSearchParams(window.location.search);

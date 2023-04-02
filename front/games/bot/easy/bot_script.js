@@ -9,6 +9,8 @@ import {
     findTokenReturned,
     notLoggedRedirection
 } from "../../gameManagement.js"
+// If not logged in, redirected to the login page
+notLoggedRedirection();
 
 var roomName;
 let gameOver = false;
@@ -16,15 +18,9 @@ document.addEventListener('DOMContentLoaded', init);
 var socket = io();
 let counter = 0;
 
-let notification;
-let cancelChallengeMiniSave;
-let okButton;
-let searchBarNotification;
 
 
 function init() {
-    // If not logged in, redirected to the login page
-    notLoggedRedirection();
 
     window.addEventListener("load", function (){colorMessage(counter); document.getElementById("player").innerText = "Your turn to play";})
     document.getElementById("grid").addEventListener("click", function(event){play(event)});

@@ -1,6 +1,6 @@
 import {findToken, token, address} from "../games/dataManager.js";
 import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../games/gameManagement.js";
-
+notLoggedRedirection();
 var socket = io();
 
 socket.on('matchFound', (matchID) => {
@@ -21,7 +21,6 @@ let gameSaved=document.getElementById("gameSaved");
 
 document.addEventListener('DOMContentLoaded', function () {
     // If not logged in, redirected to the login page
-    notLoggedRedirection();
 
     setTimeout(getAllGames, 200);
     document.getElementById("b").addEventListener('click', findGame);

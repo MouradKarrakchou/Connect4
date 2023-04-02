@@ -5,6 +5,8 @@ import {
     printIllegalMove, notLoggedRedirection
 } from "../gameManagement.js"
 
+// If not logged in, redirected to the login page
+notLoggedRedirection();
 let counter = 0;
 let gameOver = false;
 let itsMyTurn;
@@ -130,8 +132,6 @@ window.addEventListener('load', function () {
 )
 
 function init() {
-    // If not logged in, redirected to the login page
-    notLoggedRedirection();
 
     // Timer
     intervalId = setInterval(timerCount, 1000);
