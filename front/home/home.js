@@ -24,42 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("b").addEventListener('click', findGame);
     document.getElementById("cancel").addEventListener('click', cancelGame);
     document.getElementById("title").innerText = "Welcome to Connect4 " + findUsername() + "!";
-
-        // -------- Sockets for the challenges --------
-
-// Used to save the username in the socket data to find the socket by the user in server side
-        socket.emit('socketByUsername', { username: findUsername() });
-
-        socket.on('friendIsChallenging', (data) => {
-            challenged(data);
-        });
-
-        socket.on('notConnectedMessage', (challengedName) => {
-            document.getElementById("cancelChallenge").style.display = "none";
-            let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-            waitingMessage.innerText = "Oh no! " + challengedName + " is not connected! Or he is already in game..."
-        })
-
-        socket.on('notFriendMessage', (challengedName) => {
-            document.getElementById("cancelChallenge").style.display = "none";
-            let waitingMessage = document.getElementById("waitingForChallengeAnswer");
-            waitingMessage.innerText = "Oh no! " + challengedName + " is not your friend!"
-        })
-
-        socket.on('challengeAccepted', (matchID) => {
-            document.cookie = "matchID=" + matchID + ";path=/";
-            window.location.href = '../games/multiplayer/multiplayer.html';
-        });
-
-        socket.on('challengeHasBeenCanceled', (challengerName) => {
-            let friendIsChallengingClassName = ".friendIsChallenging" + challengerName;
-            let challenge = document.querySelector(friendIsChallengingClassName).parentNode;
-            let dropdown = document.querySelector('.dropdownChallengeRequest');
-            dropdown.removeChild(challenge);
-            window.location.reload();
-        })
-    }
-)
+})
 function cancelGame() {
     socket.emit('cancelQueue',JSON.stringify({token:token}));
 }
@@ -188,6 +153,7 @@ function retrieveGame(gameTypeAndTab) {
 }
 
 function logout() {
+    localStorage.removeItem('theChallengerList');
     document.cookie = "token=" + undefined + ";path=/";
     document.cookie = "username=" + undefined + ";path=/";
     window.location.href = "/";

@@ -27,6 +27,13 @@ async function init() {
     document.getElementById("cancelChallengeMini").addEventListener('click', cancelChallengeMini);
     findToken();
     socket.emit('findAllMessagePending', {token: token});
+
+    let theChallengerList = JSON.parse(localStorage.getItem("theChallengerList"));
+    setTimeout(() => {
+        theChallengerList.forEach(function(challengerName) {
+            challengedMini(challengerName);
+        })
+    }, 200);
 }
 
 function addFriend() {
@@ -242,10 +249,9 @@ chatBar.addEventListener('keydown', (event) => {
 // Used to save the username in the socket data to find the socket by the user in server side
 socket.emit('socketByUsername', { username: findUsername() });
 
-socket.on('friendIsChallenging', (data) => {
-    document.getElementById("iconNotifFight1").style.display='block';
-    document.getElementById("iconNotifFight2").style.display='block';
-    challengedMini(data);
+socket.on('friendIsChallenging', (challengerName) => {
+    addChallengerNameToLocalStorage(challengerName);
+    challengedMini(challengerName);
 });
 socket.on('loadAllMessagePending', (data) => {
     friendList.forEach(friend=>document.getElementById("notificationMini"+friend).style.display='none')
@@ -284,7 +290,7 @@ socket.on('notFriendMessage', (challengedName) => {
 socket.on('challengeAccepted', (matchID) => {
     pendingChallenge = false;
     document.cookie = "matchID=" + matchID + ";path=/";
-    window.location.href = '../games/multiplayer/multiplayer.html';
+    window.location.href = '/games/multiplayer/multiplayer.html';
 });
 
 socket.on('challengeDeclined', (challengedName) => {
@@ -296,6 +302,7 @@ socket.on('challengeDeclined', (challengedName) => {
 })
 
 socket.on('challengeHasBeenCanceled', (challengerName) => {
+    removeChallengerNameFromLocalStorage(challengerName);
     let id= "mini_Challenge"+ challengerName;
     let dropdown = document.querySelector('.miniDropdownNotification');
     let challengeDiv= document.getElementById(id);
@@ -416,17 +423,38 @@ function showMiniFriendList(friendList) {
     }
 }
 
-function challengedMini(data) {
+function addChallengerNameToLocalStorage(challengerName) {
+    let theChallengerList = JSON.parse(localStorage.getItem("theChallengerList"));
+    theChallengerList.push(challengerName);
+    localStorage.setItem("theChallengerList", JSON.stringify(theChallengerList));
+}
+
+function removeChallengerNameFromLocalStorage(challengerName) {
+    let theChallengerList = JSON.parse(localStorage.getItem("theChallengerList"));
+    let index = theChallengerList.indexOf(challengerName);
+    if (index !== -1) theChallengerList.splice(index, 1);
+    localStorage.setItem("theChallengerList", JSON.stringify(theChallengerList));
+}
+
+function challengedMini(challengerName) {
+    document.getElementById("iconNotifFight1").style.display='block';
+    document.getElementById("iconNotifFight2").style.display='block';
+
     let dropdown = document.querySelector('.miniDropdownNotification');
+    console.log("CHALLENGED MINI dropdown: " + dropdown);
 
     let newChallenge = document.createElement('div');
-    let challengerName = data.challengerName;
+    console.log("CHALLENGED MINI newChallenge: " + newChallenge);
 
     newChallenge.id= "mini_Challenge"+ challengerName;
+    console.log("CHALLENGED MINI newChallenge ID: " + newChallenge.id);
 
     let friendIsChallengingClassName = "mini_friendIsChallenging" + challengerName;
+    console.log("CHALLENGED MINI friendischallengingclassname: " + friendIsChallengingClassName);
     let acceptTheChallengeId = "mini_acceptTheChallenge" + challengerName;
+    console.log("CHALLENGED MINI accpet the challeneg ID: " + acceptTheChallengeId);
     let declineTheChallengeId = "mini_declineTheChallenge" + challengerName;
+    console.log("CHALLENGED MINI decline the challenge ID: " + declineTheChallengeId);
 
     newChallenge.innerHTML = `
                             <div class="${friendIsChallengingClassName}" style="display: flex; background-color: rgba(231, 225, 195, 0.36); padding:3%;">
@@ -434,27 +462,32 @@ function challengedMini(data) {
                                 <button class="accept" id="${acceptTheChallengeId}">Accept</button>
                                 <button class="decline" id="${declineTheChallengeId}">Decline</button>
                             </div>`;
+    console.log("CHALLENGED MINI newChallenge.innerHTML: " + newChallenge.innerHTML);
 
     dropdown.insertBefore(newChallenge,dropdown.firstChild);
+    console.log("CHALLENGED MINI inserted (only listeners left without console.log)");
 
     document.getElementById(acceptTheChallengeId).addEventListener('click', function () {
         findToken();
+        removeChallengerNameFromLocalStorage(challengerName);
         socket.emit('IAcceptTheChallenge', {
-            challengerToken: data.challengerToken,
             challengedToken: token,
             username: findUsername(),
-            friendWhoChallenged: challengerName,
+            challengerName: challengerName,
         });
 
         dropdown.removeChild(newChallenge);
+        console.log("CHALLENGED MINI REMOVED!!!");
     });
     document.getElementById(declineTheChallengeId).addEventListener('click', function () {
+        removeChallengerNameFromLocalStorage(challengerName);
         socket.emit('IDeclineTheChallenge', {
-            challengerToken: data.challengerToken,
+            challengerName: challengerName,
             challengedToken: token,
         });
 
         dropdown.removeChild(newChallenge);
+        console.log("CHALLENGED MINI REMOVED!!!");
     })
 }
 function showFriendRequestMini(friendRequest) {
