@@ -5,7 +5,13 @@ import {
     printIllegalMove, notLoggedRedirection
 } from "../gameManagement.js"
 
-
+/**
+ * this class manage the multiplayer game with the timer, elo calculation and the surrender button
+ * @author Weel BEN AISSA
+ * @author Mourad KARRAKCHOU
+ * @author Ayoub IMAMI
+ * @type {number}
+ */
 
 
 
@@ -22,6 +28,8 @@ const noSurrenderKeepPlayingBtn = document.getElementById("noSurrenderKeepPlayin
 const surrenderBackToHomeBtn = document.getElementById("SurrenderBackToHome");
 const allElements = document.querySelectorAll("*:not(#noSurrenderKeepPlaying):not(#SurrenderBackToHome)");
 
+
+//for disable the page and make only the surrender button clickable
 surrenderBtn.addEventListener("click", function() {
     allElements.forEach(function (element) {
         element.style.pointerEvents = "none";
@@ -37,7 +45,7 @@ noSurrenderKeepPlayingBtn.addEventListener("click", function() {
         element.style.pointerEvents = "auto";
     });
 });
-
+//to re set the page clickable
 surrenderBackToHomeBtn.addEventListener("click", function() {
     // Réactiver tous les éléments de la page
     allElements.forEach(function (element) {
@@ -72,10 +80,9 @@ socket.on('secondPlayerInit', (playersData) => {
         document.getElementById("playerElo").innerText = "Your elo: " + playersData.yourElo;
     }
 });
-
+//emit to send when the player win or lose
 socket.on('win', (data) => {
     gameOver = true;
-    console.log("C EST LA GAME");
 if(data != null) {
     document.getElementById("message").innerText = " You won " + Math.abs(data) + " elo points! ";
 }else{
@@ -105,7 +112,9 @@ socket.on('tie', () => {
     home.style.display = "block"
     surrenderBtn.replaceWith(home);
 });
-
+/**
+ * the socket for the chat in game and the mute button for not get spammed
+ */
 socket.on('message', (req) => {
     if (!isMuted) {
         writeInChat(req.username+": " + req.message);
@@ -161,6 +170,9 @@ async function init() {
 
 }
 
+/**
+ * Function to surrender and emit the sockets win or lose to the server
+ */
 function surrender() {
     document.getElementById("surrenderedGameMessage").style.display = "block";
     document.getElementById("noSurrenderKeepPlaying").addEventListener('click', function () {document.getElementById("surrenderedGameMessage").style.display = "none";});
@@ -229,7 +241,7 @@ function startplay(tab){
     return ([column,line]);
 }
 
-
+//unused here
 function resetGame() {
     gameOver = false;
     for (let i = 0; i < 6; i++) {
@@ -257,17 +269,23 @@ function resetGame() {
         }
     });
 
-// Fonction pour ajouter un message à la bulle de discussion
+
+    /**
+     * function to append a message to the chatbox
+     * @param message the message to append
+     * @param className the class of the message
+     */
     function appendMessage(message, className) {
         const newMessage = document.createElement('div');
         newMessage.innerText = message;
         newMessage.classList.add('message', className);
         chatMessages.appendChild(newMessage);
     }
-
-
-
 }
+
+
+
+
 //in format : "token="
 function findInCookie(str){
     let cookies = document.cookie.split(';');
@@ -319,6 +337,11 @@ document.getElementById("btn-merci").addEventListener("click", function() {
     writeInChat("Me: Thank You !");
     socket.emit('chat',JSON.stringify({matchID:findInCookie("matchID="),token:findInCookie("token="),chat:"Thank You!"}));
 });
+
+/**
+ * function to write a message in the chatbox with the good format and style
+ * @param str
+ */
 function writeInChat(str){
         var chatbox = document.getElementById("chat-messages-bis");
         // crée un nouvel élément div
@@ -352,6 +375,9 @@ let intervalId;
 let timeLeft = 30; // 30 seconds to play
 let timer = document.getElementById('timer');
 
+/**
+ * function to start the timer and to update the timer when a player plays
+ */
 function timerCount() {
     if (timeLeft < 0) {
         clearInterval(intervalId); // Stop the timer
@@ -367,6 +393,7 @@ function timerCount() {
     }
 }
 
+//reset to 30 seconds
 function resetTimer() {
     timeLeft = 30;
     clearInterval(intervalId)

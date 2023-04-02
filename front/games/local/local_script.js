@@ -16,7 +16,10 @@ const mapColor = new Map();
 mapColor.set('Yellow','#cee86bcc');
 mapColor.set('Red','#c92c2c9c');
 document.addEventListener('DOMContentLoaded', init);
-
+/**
+ * This class manage the local game
+ *
+ */
 
 window.addEventListener('load', async function () {
         var urlParams = new URLSearchParams(window.location.search);
@@ -94,6 +97,10 @@ function startPlay(event) {
 
     return true;
 }
+
+/**
+ * play again when the game is finished
+ */
 
 function resetGame() {
     gameOver = false;

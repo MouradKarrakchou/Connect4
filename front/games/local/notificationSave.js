@@ -1,5 +1,11 @@
 import {saveGame} from "../gameManagement.js";
 
+/**
+ * This class manage the notification to save the game with a personalized name
+ * @author Weel BEN AISSA
+ * @author Mourad KARRAKCHOU
+ * @author Ayoub IMAMI
+ */
 let notification;
 let cancelChallengeMiniSave;
 let okButton;
