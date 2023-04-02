@@ -1,7 +1,20 @@
 import {findToken, token, address} from "../games/dataManager.js";
 import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../games/gameManagement.js";
+
+/**
+ * This class manage the home page
+ *
+ * He can choose various game modes and access to the rest of our website.
+ *
+ *
+ * @author Weel BEN AISSA
+ * @author Mourad KARRAKCHOU
+ * @author Ayoub IMAMI
+ */
+
 notLoggedRedirection();
 var socket = io();
+
 
 socket.on('matchFound', (matchID) => {
     document.cookie = "matchID="+matchID+";path=/";

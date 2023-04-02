@@ -1,5 +1,11 @@
 /**
- * change color after each player play
+ * This class has a lot of function for the game.
+ *
+ * It is used by the various game modes and help to change everything.
+ *
+ * @author Weel BEN AISSA
+ * @author Mourad KARRAKCHOU
+ * @author Ayoub IMAMI
  */
 
 import {address} from "./dataManager.js";

@@ -1,3 +1,13 @@
+/**
+ * Here we have a special class to keep the token and retrieve it easily and we got the local/aws adress
+ *
+ *
+ * @author Weel BEN AISSA
+ * @author Mourad KARRAKCHOU
+ * @author Ayoub IMAMI
+ */
+
+
 
 //To switch between local and aws, just change the address variable
 const local = "http://localhost:8000";

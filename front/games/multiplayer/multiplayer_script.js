@@ -5,6 +5,10 @@ import {
     printIllegalMove, notLoggedRedirection
 } from "../gameManagement.js"
 
+
+
+
+
 // If not logged in, redirected to the login page
 notLoggedRedirection();
 let counter = 0;
