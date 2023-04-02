@@ -124,6 +124,10 @@ function addGamesSavedHtml(tabOfGames){
 
     }
 }
+document.getElementById("profil").addEventListener('click', function () {
+    let username = findUsername();
+    window.location.href = '../profil/profil.html?name=' + username;
+});
 
 function initialise(){
     token=findTokenReturned()
