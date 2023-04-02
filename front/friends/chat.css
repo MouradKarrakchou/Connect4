@@ -1,7 +1,7 @@
 .chat-container {
     position: fixed;
-    bottom: 10px;
-    left: 0;
+    bottom: 0px;
+    right: 0;
     background-color: #fff;
     border-radius: 15px 15px 0 0;
     box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
@@ -11,7 +11,7 @@
     width: 25%;
 }
 #mini-container-content{
-    height:50% ;
+    height:90% ;
 }
 #chat-messages {
     overflow-y: scroll;
@@ -85,36 +85,11 @@
 .icon_mini:hover{
     background-color: rgba(0,0,0,0.06);;
 }
-.message {
-    position: relative;
-    margin: 10px;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 20px;
-    max-width: 80%;
-}
-
-
-.message.outgoing {
-    align-self: flex-end;
-    background-color: #008CBA;
-}
 
 #remove{
     position: absolute;
     top: 0;
     right: 0;
-}
-.message:before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: -20px;
-    border-width: 10px;
-    border-style: solid;
-    border-color: transparent #4CAF50 transparent transparent;
-    transform: translateY(-50%);
 }
 
 #searchBar {
@@ -138,10 +113,16 @@
 
 #miniFriendList{
     font-weight: bold;
+    height: 100%;
 }
 
-#miniDropDown{
-    margin-top: 5px;
+.miniDropdown{
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 80%;
+}
+
+.miniDropdownNotification{
     overflow-x: hidden;
     overflow-y: auto;
 }

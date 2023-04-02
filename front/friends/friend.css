@@ -26,11 +26,6 @@ body {
     background-color: red;
 }
 
-.message.outgoing:after {
-    content: "";
-    position: absolute;
-    top: 50%;
-}
 /* Style the user not found message */
 .userNotFoundMessage {
     display: none;
@@ -48,11 +43,10 @@ body {
     border-right: 3px solid #99a37f36;
     border-left: 3px solid #99a37f36;
     border-bottom: 3px solid #99a37f36;
-    margin-top: 2%;
     display: flex;
-    position: absolute;
     bottom: 0;
     width: 99%;
+    height: 7%;
 }
 #decline{
     position: absolute;
@@ -85,14 +79,6 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.miniDropdown{
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-.miniDropdownNotification{
-    overflow-x: hidden;
-    overflow-y: auto;
-}
 
 
 .notification-content {
