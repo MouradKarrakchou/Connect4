@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', init);
 var socket = io();
 let counter = 0;
 
+let notification;
+let cancelChallengeMiniSave;
+let okButton;
+let searchBarNotification;
+
 
 function init() {
     // If not logged in, redirected to the login page
@@ -23,7 +28,6 @@ function init() {
 
     window.addEventListener("load", function (){colorMessage(counter); document.getElementById("player").innerText = "Your turn to play";})
     document.getElementById("grid").addEventListener("click", function(event){play(event)});
-    document.getElementById("saveButton").addEventListener("click",function(){saveGame({gameType:"easy",startInversed:false})});
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('id')!=null) {
         roomName=  findTokenReturned()+urlParams.get('id');
@@ -45,6 +49,7 @@ function init() {
             counter++;
         }
     })
+
 }
 
 function play(event) {

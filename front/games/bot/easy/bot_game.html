@@ -13,6 +13,12 @@
 <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
 <script crossorigin="anonymous" src="https://kit.fontawesome.com/76ed084c57.js"></script>
 
+<script type="module" src="../../local/notificationSave.js"></script>
+
+<script>
+    window.typeofGame="easy";
+</script>
+
 
 <head>
     <meta charset="UTF-8">
@@ -113,11 +119,15 @@
     </div>
 </div>
 
-<div id="savedGameMessage" style="display:none">
-    <div>Game saved!</div>
-    <div>
-        <button id="keepPlaying">Keep playing</button>
-        <button id="backToHome">Home</button>
+<div class="notification" id="notificationSave" style="display: none">
+    <div class="notification-content" style="margin:auto;font-size: 40px;">
+        <p id="notificationTextMessageSave"> Put the name of the saved game:</p>
+        <input type="text" id="searchBarNotification" style="padding-top: 10px;padding-bottom: 10px;background-color: #9e9d9224;margin: auto;width: 80%;height: 15%;font-size: 50%;" placeholder="myFavoriteGame">
+        <div style="display: flex">
+            <button class="ok-btn" id="ok-btn-save" style="margin-right: 10%;background-color: green;">OK</button>
+            <button class="ok-btn" id="cancelChallengeMini-Save"style="margin-left: 10%;background-color: red" >Cancel</button>
+        </div>
+
     </div>
 </div>
 

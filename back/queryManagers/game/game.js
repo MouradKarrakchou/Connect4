@@ -30,6 +30,7 @@ function manageRequest(request, response) {
                     console.log(item);
                     const tab = {
                         gameType: bodyParsed.gameType,
+                        name: bodyParsed.name,
                         tab: bodyParsed.tab,
                         userID: item._id
                     };
