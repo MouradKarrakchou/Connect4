@@ -16,7 +16,7 @@ function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", play);
     document.getElementById("grid").addEventListener("click", function (){if (!gameOver) colorMessage(counter);});
-    document.getElementById("saveButton").addEventListener("click",function(){saveGame("local")});
+    document.getElementById("saveButton").addEventListener("click",function(){saveGame({gameType:"local",startInversed:false})});
 }
 
 function play(event){

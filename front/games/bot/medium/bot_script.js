@@ -1,4 +1,14 @@
-import {checkWin, printIllegalMove, removeIllegalMove, toTab, loadGame,saveGame,findTokenReturned} from "../../gameManagement.js"
+import {
+    checkWin,
+    printIllegalMove,
+    removeIllegalMove,
+    toTab,
+    loadGame,
+    saveGame,
+    findTokenReturned,
+    retrieveGameState
+} from "../../gameManagement.js"
+import {address} from "../../dataManager.js";
 
 var roomName;
 let gameOver = false;
@@ -6,7 +16,7 @@ document.addEventListener('DOMContentLoaded', init);
 var socket = io();
 let counter = 0;
 export let itsMyTurn;
-
+let startInversered=false;
 const mapColor = new Map();
 mapColor.set('Yellow','#cee86bcc');
 mapColor.set('Red','#c92c2c9c');
@@ -21,15 +31,8 @@ function colorMessage(counter) {
 function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", function(event){play(event)});
-    document.getElementById("saveButton").addEventListener("click",function(){saveGame("medium")});
+    document.getElementById("saveButton").addEventListener("click",function(){saveGame({gameType:"medium",startInversered:startInversered})});
     var urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('id')!=null) {
-        roomName=  findTokenReturned()+urlParams.get('id');
-        loadGame();
-    }
-    else{
-        roomName=  findTokenReturned()+Math.floor(Math.random() * 100000000000000000);
-    }
     socket.on('connect',function(){
         socket.emit('joinRoom', roomName);
     });
@@ -42,25 +45,31 @@ function init() {
             counter++;
             if (!gameOver) colorMessage(counter);
     })
-    if (Math.round(Math.random())===0)
-    {socket.emit('initAdv',JSON.stringify({
-        id:roomName,
-        player:1}));
-    socket.emit('playAdv',JSON.stringify({
-        id:roomName,
-        pos:undefined}));
-    itsMyTurn=false;
-        if (!gameOver) colorMessage(counter);}
-    else {
-        socket.emit('initAdv',JSON.stringify({
-            id:roomName,
-            player:2
-        }));
-        itsMyTurn=true;
-        if (!gameOver) colorMessage(counter);
+    if (urlParams.get('id')!=null) {
+        roomName=  findTokenReturned()+urlParams.get('id');
+        loadGame();
+        loadFirstPlayer();
     }
-
-}
+    else{
+        roomName=  findTokenReturned()+Math.floor(Math.random() * 100000000000000000);
+        if (Math.round(Math.random())===0)
+        {socket.emit('initAdv',JSON.stringify({
+            id:roomName,
+            player:1}));
+        socket.emit('playAdv',JSON.stringify({
+            id:roomName,
+            pos:undefined}));
+        itsMyTurn=false;
+            if (!gameOver) colorMessage(counter);}
+        else {
+            startInversered=true;
+            socket.emit('initAdv',JSON.stringify({
+                id:roomName,
+                player:2
+            }));
+            itsMyTurn=true;
+            if (!gameOver) colorMessage(counter);}}
+    }
 
 
 function play(event) {
@@ -159,3 +168,47 @@ function isMoveIllegal(tab){
     }
     return false;
 }
+
+async function loadFirstPlayer() {
+    let token = findTokenReturned();
+    var urlParams = new URLSearchParams(window.location.search);
+
+    const values = {
+        token: token,
+        id: urlParams.get('id'),
+    };
+    console.log(values);
+
+    await fetch(address + '/api/game/retrieveGameWithId', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .then(data => {
+            roomName=  findTokenReturned()+Math.floor(Math.random() * 100000000000000000);
+            if (!data.startInversered)
+            {socket.emit('initAdv',JSON.stringify({
+                id:roomName,
+                player:1}));
+                socket.emit('playAdv',JSON.stringify({
+                    id:roomName,
+                    pos:undefined}));
+                itsMyTurn=false;
+                if (!gameOver) colorMessage(counter);}
+            else {
+                startInversered=true;
+                socket.emit('initAdv',JSON.stringify({
+                    id:roomName,
+                    player:2
+                }));
+                itsMyTurn=true;
+                if (!gameOver) colorMessage(counter);}
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+

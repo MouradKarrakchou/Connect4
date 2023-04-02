@@ -182,12 +182,13 @@ export function findTokenReturned() {
 export function findUsername() {
     return find("username=");
 }
-export function saveGame(gameType) {
+export function saveGame(info) {
     console.log("in saveGame")
     let token = findTokenReturned();
     console.log(token);
     const tab = {
-        gameType: gameType,
+        startInversered: info.startInversered,
+        gameType: info.gameType,
         tab: toTab(),
         userToken:token
     };
