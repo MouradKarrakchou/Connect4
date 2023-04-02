@@ -167,7 +167,8 @@ tbody {
 .image-background {
     background-repeat: no-repeat;
     background-size: 15%;
-    background-position: bottom right;
-    height: 100vh;
+    background-position: bottom left;
+    height: 130vh;
+    border-radius: 50%;
 }
 

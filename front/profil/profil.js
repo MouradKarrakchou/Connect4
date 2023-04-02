@@ -30,9 +30,7 @@ export async function init() {
     const urlParams = new URLSearchParams(window.location.search);
     let username = urlParams.get('name');
     await findAllStats(username);
-
-    // Displaying user information
-    document.getElementById("username").innerHTML = "Look at all your achivements "+username+"!!!";
+    document.getElementById("username").innerHTML = username+"'s achievements";
     document.getElementById("games-played").innerHTML = wins + losses + draws;
 
     if(wins + losses + draws === 0) document.getElementById("winrate").innerHTML = "0%";
@@ -44,73 +42,59 @@ export async function init() {
     // Selecting the rank according to the elo
     if (elo <=50){
         rankImage.src = '../img/nullard.png';
-        rankImageBackground.style.backgroundImage='url(../img/nullard.png)';
         document.getElementById("rank").innerHTML = "Uninstall (" + elo + " elo)";
     }
 
     if (elo <= 1100 && elo > 50){
         rankImage.src = '../img/Bronze1.png';
-        rankImageBackground.style.backgroundImage='url(../img/Bronze1.png)';
         document.getElementById("rank").innerHTML = "Bronze 1 (" + elo + " elo)";
     }
     else if (elo <= 1200 && elo > 1100) {
         rankImage.src = '../img/Bronze2.png';
-        rankImageBackground.style.backgroundImage='url(../img/Bronze2.png)';
         document.getElementById("rank").innerHTML = "Bronze 2 (" + elo + " elo)" ;
     }
     else if (elo <= 1300 && elo > 1200) {
         rankImage.src = '../img/Bronze3.png';
-        rankImageBackground.style.backgroundImage='url(../img/Bronze3.png';
         document.getElementById("rank").innerHTML = "Bronze 3 (" + elo + " elo)";
     }
     else if (elo <= 1400 && elo > 1300) {
         rankImage.src = '../img/Bronze4.png';
-        rankImageBackground.style.backgroundImage='url(../img/Bronze4.png';
         document.getElementById("rank").innerHTML = "Bronze 4 (" + elo + " elo)";
     }
     else if (elo <= 1500 && elo > 1400) {
         rankImage.src = '../img/Silver1.png';
-        rankImageBackground.style.backgroundImage='url(../img/Silver1.png)';
         document.getElementById("rank").innerHTML = "Silver 1 (" + elo + " elo)";
     }
     else if (elo <= 1600 && elo > 1500) {
         rankImage.src = '../img/Silver2.png';
-        rankImageBackground.style.backgroundImage='url(../img/Silver2.png)';
         document.getElementById("rank").innerHTML = "Silver 2 (" + elo + " elo)";
     }
     else if (elo <= 1700 && elo > 1600) {
         rankImage.src = '../img/Silver3.png';
-        rankImageBackground.style.backgroundImage='url(../img/Silver3.png)';
         document.getElementById("rank").innerHTML = "Silver 3 (" + elo + " elo)";
     }
     else if (elo <= 1800 && elo > 1700) {
         rankImage.src = '../img/Silver4.png';
-        rankImageBackground.style.backgroundImage='url(../img/Silver4.png)';
         document.getElementById("rank").innerHTML = "Silver 4 (" + elo + " elo)";
     }
     else if (elo <= 1900 && elo > 1800) {
         rankImage.src = '../img/Gold1.png';
-        rankImageBackground.style.backgroundImage='url(../img/Gold1.png)';
         document.getElementById("rank").innerHTML = "Gold 1 (" + elo + " elo)";
     }
     else if (elo <= 2000 && elo > 1900) {
         rankImage.src = '../img/Gold2.png';
-        rankImageBackground.style.backgroundImage='url(../img/Gold2.png)';
         document.getElementById("rank").innerHTML = "Gold 2 (" + elo + " elo)";
     }
     else if (elo <= 2100 && elo > 2000) {
         rankImage.src = '../img/Gold3.png';
-        rankImageBackground.style.backgroundImage='url(../img/Gold4.png)';
         document.getElementById("rank").innerHTML = "Gold 3 (" + elo + " elo)";
     }
     else if (elo <= 2200 && elo > 2100) {
         rankImage.src = '../img/Gold4.png';
-        rankImageBackground.style.backgroundImage='url(../img/Gold4.png)';
         document.getElementById("rank").innerHTML = "Gold 4 (" + elo + " elo)";
     }
     else if (elo>2200){
         rankImage.src = '../img/Goat.png';
-        rankImageBackground.style.backgroundImage='url(../img/Goat.png)';
         document.getElementById("rank").innerHTML = "Goat (" + elo + " elo)";
     }
 
