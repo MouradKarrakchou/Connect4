@@ -199,7 +199,8 @@ export function saveGame(info) {
         startInversered: info.startInversered,
         gameType: info.gameType,
         tab: toTab(),
-        userToken:token
+        userToken:token,
+        name:info.name
     };
     console.log(tab)
     fetch(address + '/api/game', {

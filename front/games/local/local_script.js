@@ -7,12 +7,14 @@ mapColor.set('Yellow','#cee86bcc');
 mapColor.set('Red','#c92c2c9c');
 document.addEventListener('DOMContentLoaded', init);
 
+
 window.addEventListener('load', async function () {
         var urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('id') != null) await loadGame();
         counter = getCount();
         console.log(counter);
         colorMessage(counter);
+
     }
 )
 
@@ -20,7 +22,7 @@ function init() {
     window.addEventListener("load", function (){colorMessage(counter);})
     document.getElementById("grid").addEventListener("click", play);
     document.getElementById("grid").addEventListener("click", function (){if (!gameOver) colorMessage(counter);});
-    document.getElementById("saveButton").addEventListener("click",function(){saveGame({gameType:"local",startInversed:false})});
+
 }
 
 function play(event){

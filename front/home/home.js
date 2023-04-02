@@ -79,7 +79,7 @@ function addGamesSavedHtml(tabOfGames){
         let address = '..'+typeOfGame+'?id=' + tabOfGames[i]._id;
         newItem.innerHTML = `
                             <div class="item" onclick="window.location.href='${address}'">
-                                <h4>${tabOfGames[i].gameType}</h4>
+                                <h4>${tabOfGames[i].gameType}: ${tabOfGames[i].name}</h4>
                             </div>`;
         dropdown.appendChild(newItem);
         document.getElementById("trash").addEventListener('click', function () {

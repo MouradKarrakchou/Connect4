@@ -23,7 +23,6 @@
 <button id="reset-button" style="display:none" onclick="resetGame()">Play again</button>
 
 <div class="player" id="player">
-
 </div>
 <div id="gameDisplay">
     <div id="board">
@@ -168,11 +167,28 @@
     </div>
 </div>
 
+<div class="notification" id="notificationSave" style="display: none">
+    <div class="notification-content" style="margin:auto;font-size: 40px;">
+        <p id="notificationTextMessageSave"> Put the name of the saved game:</p>
+        <input type="text" id="searchBarNotification" style="padding-top: 10px;padding-bottom: 10px;background-color: #9e9d9224;margin: auto;width: 80%;height: 15%;font-size: 50%;" placeholder="myFavoriteGame">
+        <div style="display: flex">
+            <button class="ok-btn" id="ok-btn-save" style="margin-right: 10%;background-color: green; height: ">OK</button>
+            <button class="ok-btn" id="cancelChallengeMini-Save"style="margin-left: 10%;background-color: red" >Cancel</button>
+        </div>
+
+    </div>
+</div>
 
 
 
 
 </body>
 
+<script>
+    window.typeofGame="local";
+</script>
+
+
 <script type="module" src="local_script.js"></script>
+<script type="module" src="notificationSave.js"></script>
 </html>
