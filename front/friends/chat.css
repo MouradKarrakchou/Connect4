@@ -1,6 +1,6 @@
 .chat-container {
     position: fixed;
-    bottom: 0%;
+    bottom: 10px;
     left: 0;
     background-color: #fff;
     border-radius: 15px 15px 0 0;
@@ -44,9 +44,8 @@
     border-bottom: 3px solid #99a37f36;
     margin-top: 2%;
     display: flex;
-    position: absolute;
     bottom: 5px;
-    width: 100%;
+    width: 98%;
 }
 .chat-header{
     padding: 10px;
