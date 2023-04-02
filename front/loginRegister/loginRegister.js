@@ -3,6 +3,7 @@ import {findTokenReturned, findUsername} from "../games/gameManagement.js"
 import {address} from "../games/dataManager.js";
 
 window.addEventListener("load", function () {
+    localStorage.setItem("theChallengerList", JSON.stringify([]));
     if(findTokenReturned() !== "undefined" && findTokenReturned()!==undefined && findUsername() !== "undefined") {
         document.getElementById("usernameToContinueWith").innerHTML = findUsername();
         document.getElementById("retrieveSession").style.display = "block";

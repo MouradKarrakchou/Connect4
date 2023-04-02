@@ -100,12 +100,13 @@ body {
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 30px;
     cursor: pointer;
     margin-top: auto;
 }
 #notificationTextMessage{
     margin:auto;
+    font-size: 40px;
 }
 
 .ok-btn:hover {

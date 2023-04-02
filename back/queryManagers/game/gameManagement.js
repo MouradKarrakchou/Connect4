@@ -26,6 +26,16 @@ function setUpSockets(io){
         return item;
     }
 
+    async function retrieveUserFromDataBaseByName(name){
+        await client.connect();
+        const db = client.db("connect4");
+        const collection = db.collection("log");
+        console.log("--- CONNECTED TO MONGODB ---");
+        let user = await collection.findOne({username: name});
+        console.log("--- CONNECTED TO MONGODB USER RETRIEVED ---: " + user);
+        return user;
+    }
+
     async function saveMessageToDataBase(from,to,message,heRead){
         await client.connect();
         console.log('Connected to MongoDB');
@@ -470,10 +480,7 @@ function setUpSockets(io){
                     challengerSocket.emit('notFriendMessage', challengedName);
                 }
             } else if (challengedSocket !== null) {
-                challengedSocket.emit('friendIsChallenging', {
-                    challengerToken: challengerToken,
-                    challengerName: challengerName
-                });
+                challengedSocket.emit('friendIsChallenging', challengerName);
             } else {
                 if (challengerSocket !== null) {
                     challengerSocket.emit('notConnectedMessage', challengedName);
@@ -482,12 +489,14 @@ function setUpSockets(io){
         })
 
         socket.on('IAcceptTheChallenge', async (data) => {
-            const challengerToken = data.challengerToken;
-            const challengedToken = data.challengedToken;
-            const challenger = await retrieveUserFromDataBase(challengerToken);
-            const challenged = await retrieveUserFromDataBase(challengedToken);
+            const challengerName = data.challengerName;
+            console.log("CHALLENR NAME BEFORE TOSTRING: " + challengerName);
+            const challenger = await retrieveUserFromDataBaseByName(challengerName);
+            console.log("CHALLENR BEFORE TOSTRING: " + challenger);
+            const challengerToken = challenger.token;
 
-            const challengerName = challenger.username;
+            const challengedToken = data.challengedToken;
+            const challenged = await retrieveUserFromDataBase(challengedToken);
             const challengedName = challenged.username;
 
             const challengerSocket = findSocketByName(challengerName, connectedSockets);
@@ -505,7 +514,7 @@ function setUpSockets(io){
             }
             else {
                 let matchID = challengerName + challengedName + getRandomNumber(0, 100000000000) + '';
-
+                console.log("CHALLENR ID BEFORE TOSTRING: " + challenger._id);
                 const matchInfo = {
                     player1: {
                         room: challengerToken + Math.floor(Math.random() * 100000000000000000),
@@ -541,8 +550,8 @@ function setUpSockets(io){
         });
 
         socket.on('IDeclineTheChallenge', async (data) => {
-            let challengerToken = data.challengerToken;
-            let challenger = await retrieveUserFromDataBase(challengerToken);
+            let challengerName = data.challengerName;
+            let challenger = await retrieveUserFromDataBaseByName(challengerName);
             let challengedToken = data.challengedToken;
             let challenged = await retrieveUserFromDataBase(challengedToken);
             findSocketByName(challenger.username, connectedSockets).emit('challengeDeclined', challenged.username);

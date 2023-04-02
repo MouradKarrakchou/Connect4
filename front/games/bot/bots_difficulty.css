@@ -1,10 +1,12 @@
-html, body {
-    font-family: retro;
-    background-color: #f6ffd2;}
 @font-face {
     font-family: retro;
     src: url(../../font/retro.ttf);
 }
+html, body {
+    font-family: retro;
+    background-color: #f6ffd2;
+}
+
 
 .difficulties {
     margin-top: 12%;
@@ -30,9 +32,9 @@ html, body {
 
 
 .button {
-    background-color: #4CAF50;
+    background-color: rgba(206, 232, 107, 0.8);
     border: none;
-    color: white;
+    color: black;
     padding: 40px 150px;
     text-align: center;
     text-decoration: none;
@@ -40,8 +42,23 @@ html, body {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-family: retro;
 }
-
+.homepage{
+    background-color: #fffbe3d1;
+    border: 3px solid #99a37f36;
+    height: fit-content;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.homepage:hover{
+    cursor: pointer;
+}
 .button:hover {
-    background-color: #3e8e41;
+    background-color: rgba(206, 232, 107, 0.8);
 }
