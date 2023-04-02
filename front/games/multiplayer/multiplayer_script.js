@@ -236,7 +236,7 @@ function resetGame() {
 
     const chatForm = document.querySelector('#chat-form');
     const chatInput = document.querySelector('#chat-input');
-    const chatMessages = document.querySelector('#chat-messages');
+    const chatMessages = document.querySelector('#chat-messages-bis');
 
 // Ajouter un événement pour envoyer un message
     chatForm.addEventListener('submit', (e) => {
