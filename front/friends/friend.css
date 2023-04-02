@@ -115,3 +115,6 @@ body {
 .ok-btn:hover {
     background-color: #0069d9;
 }
+#user-message{
+    font-size: 12px;
+}
