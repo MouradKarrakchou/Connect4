@@ -1,87 +1,120 @@
-import {findUsername} from "../games/gameManagement.js";
 import {findToken, token, address} from "../games/dataManager.js";
+
+/**
+ * This class manage the users profile
+ * There are:
+ *  - the rank
+ *  - the statistics
+ *  - the success
+ *
+ * @author Weel BEN AISSA
+ * @author Mourad KARRAKCHOU
+ * @author Ayoub IMAMI
+ */
+
 document.addEventListener('DOMContentLoaded', init);
+
+// Statistics, rank and success
 let wins = 0
 let losses = 0;
 let draws = 0;
 let elo = 1000;
 let numberFriends = 0;
 
-
+/**
+ * Initialize the page
+ * @returns {Promise<void>}
+ */
 export async function init() {
+    // Get the username from the url - it could be the user profile or his friend profile
     const urlParams = new URLSearchParams(window.location.search);
     let username = urlParams.get('name');
-    console.log("username " + username);
-    console.log("url " + urlParams.get('name'));
     await findAllStats(username);
+
+    // Displaying user information
     document.getElementById("username").innerHTML = "Look at all your achivements "+username+"!!!";
     document.getElementById("games-played").innerHTML = wins + losses + draws;
-    if(wins + losses + draws === 0){
-        document.getElementById("winrate").innerHTML = "0%";
-    } else {
-        document.getElementById("winrate").innerHTML = Math.round((wins / (wins + losses + draws)) * 100) + "%";    }
+
+    if(wins + losses + draws === 0) document.getElementById("winrate").innerHTML = "0%";
+    else document.getElementById("winrate").innerHTML = Math.round((wins / (wins + losses + draws)) * 100) + "%";
+
     const rankImage = document.querySelector('#rankImage');
     const rankImageBackground = document.querySelector('#rankImageBackground');
+
+    // Selecting the rank according to the elo
     if (elo <=50){
         rankImage.src = '../img/nullard.png';
         rankImageBackground.style.backgroundImage='url(../img/nullard.png)';
         document.getElementById("rank").innerHTML = "Uninstall (" + elo + " elo)";
     }
+
     if (elo <= 1100 && elo > 50){
         rankImage.src = '../img/Bronze1.png';
         rankImageBackground.style.backgroundImage='url(../img/Bronze1.png)';
         document.getElementById("rank").innerHTML = "Bronze 1 (" + elo + " elo)";
-
-    } else if (elo <= 1200 && elo > 1100) {
+    }
+    else if (elo <= 1200 && elo > 1100) {
         rankImage.src = '../img/Bronze2.png';
         rankImageBackground.style.backgroundImage='url(../img/Bronze2.png)';
         document.getElementById("rank").innerHTML = "Bronze 2 (" + elo + " elo)" ;
-    } else if (elo <= 1300 && elo > 1200) {
+    }
+    else if (elo <= 1300 && elo > 1200) {
         rankImage.src = '../img/Bronze3.png';
         rankImageBackground.style.backgroundImage='url(../img/Bronze3.png';
         document.getElementById("rank").innerHTML = "Bronze 3 (" + elo + " elo)";
-    } else if (elo <= 1400 && elo > 1300) {
+    }
+    else if (elo <= 1400 && elo > 1300) {
         rankImage.src = '../img/Bronze4.png';
         rankImageBackground.style.backgroundImage='url(../img/Bronze4.png';
         document.getElementById("rank").innerHTML = "Bronze 4 (" + elo + " elo)";
-    } else if (elo <= 1500 && elo > 1400) {
+    }
+    else if (elo <= 1500 && elo > 1400) {
         rankImage.src = '../img/Silver1.png';
         rankImageBackground.style.backgroundImage='url(../img/Silver1.png)';
         document.getElementById("rank").innerHTML = "Silver 1 (" + elo + " elo)";
-    } else if (elo <= 1600 && elo > 1500) {
+    }
+    else if (elo <= 1600 && elo > 1500) {
         rankImage.src = '../img/Silver2.png';
         rankImageBackground.style.backgroundImage='url(../img/Silver2.png)';
         document.getElementById("rank").innerHTML = "Silver 2 (" + elo + " elo)";
-    } else if (elo <= 1700 && elo > 1600) {
+    }
+    else if (elo <= 1700 && elo > 1600) {
         rankImage.src = '../img/Silver3.png';
         rankImageBackground.style.backgroundImage='url(../img/Silver3.png)';
         document.getElementById("rank").innerHTML = "Silver 3 (" + elo + " elo)";
-    } else if (elo <= 1800 && elo > 1700) {
+    }
+    else if (elo <= 1800 && elo > 1700) {
         rankImage.src = '../img/Silver4.png';
         rankImageBackground.style.backgroundImage='url(../img/Silver4.png)';
         document.getElementById("rank").innerHTML = "Silver 4 (" + elo + " elo)";
-    } else if (elo <= 1900 && elo > 1800) {
+    }
+    else if (elo <= 1900 && elo > 1800) {
         rankImage.src = '../img/Gold1.png';
         rankImageBackground.style.backgroundImage='url(../img/Gold1.png)';
         document.getElementById("rank").innerHTML = "Gold 1 (" + elo + " elo)";
-    } else if (elo <= 2000 && elo > 1900) {
+    }
+    else if (elo <= 2000 && elo > 1900) {
         rankImage.src = '../img/Gold2.png';
         rankImageBackground.style.backgroundImage='url(../img/Gold2.png)';
         document.getElementById("rank").innerHTML = "Gold 2 (" + elo + " elo)";
-    } else if (elo <= 2100 && elo > 2000) {
+    }
+    else if (elo <= 2100 && elo > 2000) {
         rankImage.src = '../img/Gold3.png';
         rankImageBackground.style.backgroundImage='url(../img/Gold4.png)';
         document.getElementById("rank").innerHTML = "Gold 3 (" + elo + " elo)";
-    } else if (elo <= 2200 && elo > 2100) {
+    }
+    else if (elo <= 2200 && elo > 2100) {
         rankImage.src = '../img/Gold4.png';
         rankImageBackground.style.backgroundImage='url(../img/Gold4.png)';
         document.getElementById("rank").innerHTML = "Gold 4 (" + elo + " elo)";
-    } else if (elo>2200){
+    }
+    else if (elo>2200){
         rankImage.src = '../img/Goat.png';
         rankImageBackground.style.backgroundImage='url(../img/Goat.png)';
         document.getElementById("rank").innerHTML = "Goat (" + elo + " elo)";
-
     }
+
+    // Displaying the success
     document.getElementById("noviceWinner").style.width = Math.min(100,Math.round((wins/10) * 100)) +"%";
     document.getElementById("noviceWinner").innerHTML = Math.min(100,Math.round((wins/10)*100)) + "%";
     document.getElementById("novicePlayer").style.width= Math.min(100,Math.round(((wins+losses+draws)/10)*100))+"%";
@@ -100,10 +133,13 @@ export async function init() {
     document.getElementById("legendPlayer").innerHTML = Math.min(100,Math.round(((wins+losses+draws)/200)*100)) + "%";
     document.getElementById("good-guy").style.width = Math.min(100,Math.round((numberFriends/5)*100))+"%";
     document.getElementById("good-guy").innerHTML = Math.min(100,Math.round((numberFriends/5)*100)) + "%";
-
-
-
 }
+
+/**
+ * Get the statistics from the backend
+ * @param friendName
+ * @returns {Promise<void>}
+ */
  async function findAllStats(friendName){
     findToken();
     const values = {
@@ -133,129 +169,4 @@ export async function init() {
         .catch(error => {
             console.error(error);
         });
-
-/*
-console.log("elo: " + elo);
-export async function findElo(){
-    findToken();
-    const values = {
-        token: token,
-        username: "b"
-    }
-     await fetch(address + `/api/profile/retrieveElo`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values)
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            elo = data.elo;})
-        .catch(error => {
-            console.error(error);
-        });
 }
-export async function findNumberOfFriends(){
-    findToken();
-    const values = {
-        token: token,
-
-    }
-    await fetch(address + `/api/friends/retrieveNumberOfFriends`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values)
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            numberFriends = data;})
-        .catch(error => {
-            console.error(error);
-        });
-}
-
-export async function findWins(){
-    findToken();
-    const values = {
-        token: token,
-    }
-    await fetch(address + `/api/profile/retrieveWins`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values)
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            wins = data;
-            document.getElementById("wins").innerHTML = data;        })
-        .catch(error => {
-            console.error(error);
-        });
-}
-
-
-export async function findLosses(){
-    findToken();
-    const values = {
-        token: token,
-    }
-    await fetch(address + `/api/profile/retrieveLosses`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values)
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            losses = data;
-            document.getElementById("losses").innerHTML = data;
-        })
-        .catch(error => {
-            console.error(error);
-        });
-}
-
-export async function findDraws(){
-    findToken();
-    const values = {
-        token: token,
-    }
-    await fetch(address + `/api/profile/retrieveDraws`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values)
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            draws = data;
-            document.getElementById("draws").innerHTML = data;        })
-        .catch(error => {
-            console.error(error);
-        });
-}
-*/
-
-
-}
-
-
-
-
-
-
-// Met à jour les éléments HTML avec les statistiques réelles de l'utilisateur
-
-
