@@ -782,6 +782,7 @@ async function addWins(requestFrom){
 async function addLosses(requestFrom){
     const collectionName = "log";
     try {
+        console.log("ONE MORE LOST");
         await client.connect();
         const db = client.db("connect4");
         const collection = db.collection(collectionName);
