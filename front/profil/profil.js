@@ -1,4 +1,5 @@
 import {findToken, token, address} from "../games/dataManager.js";
+import {notLoggedRedirection} from "../games/gameManagement.js";
 
 /**
  * This class manage the users profile
@@ -26,6 +27,9 @@ let numberFriends = 0;
  * @returns {Promise<void>}
  */
 export async function init() {
+    // If not logged in, redirected to the login page
+    notLoggedRedirection();
+
     // Get the username from the url - it could be the user profile or his friend profile
     const urlParams = new URLSearchParams(window.location.search);
     let username = urlParams.get('name');

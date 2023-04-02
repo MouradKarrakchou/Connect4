@@ -184,6 +184,11 @@ function find(element){
     }
 }
 
+export function notLoggedRedirection() {
+    let token = findTokenReturned();
+    if (token === undefined || token === "undefined") window.location.href = "/";
+}
+
 export function findTokenReturned() {
     return find("token=");
 }
