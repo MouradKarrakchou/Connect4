@@ -116,7 +116,7 @@ tfoot {
 #gameDisplay{
     display: flex;
 }
-#chat-container {
+#chat-container-bis {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -132,7 +132,7 @@ tfoot {
 
 }
 
-#chat-messages {
+#chat-messages-bis {
     overflow-y: scroll;
     flex-grow: 1;
     padding: 10px;
@@ -276,6 +276,6 @@ tfoot {
     font-size: 20px;
 }
 
-#chat-messages::-webkit-scrollbar {
+#chat-messages-bis::-webkit-scrollbar {
     display: none;
 }
