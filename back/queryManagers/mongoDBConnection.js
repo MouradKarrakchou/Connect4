@@ -1,9 +1,16 @@
 
 const MongoClient = require('mongodb').MongoClient;
-
+//url to connect to the database
 const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
+/**
+ * This function log in the user in the database and change the token
+ * @param response
+ * @param currentUser user to log in
+ * @param collectionName name of the collection to use here its log
+ * @returns {Promise<void>}
+ */
 async function loginInDataBase(response,currentUser,collectionName) {
     try {
         const jwt = require('jsonwebtoken');
@@ -36,6 +43,15 @@ async function loginInDataBase(response,currentUser,collectionName) {
     }
 }
 
+/**
+ * This function create a new user in the database
+ * @param response
+ * @param valueToFind value to find in the database
+ * @param collectionName name of the collection to use here its log
+ * @param verifValue value to verify if the user already exist
+ * @returns {Promise<void>}
+ */
+
 async function createInDataBase(response,valueToFind,collectionName,verifValue) {
     try {
         await client.connect();
@@ -62,6 +78,14 @@ async function createInDataBase(response,valueToFind,collectionName,verifValue) 
     }
 }
 
+/**
+ * This function find everything in the database that match the valueToFind
+ * @param response
+ * @param valueToFind value to find in the database
+ * @param collectionName name of the collection to use here its log
+ * @returns {Promise<void>}
+ */
+
 async function findEverythingInDataBase(response,valueToFind,collectionName){
     try {
         await client.connect();
@@ -81,6 +105,14 @@ async function findEverythingInDataBase(response,valueToFind,collectionName){
         await client.close();
     }
 }
+
+/**
+ * this function add a friend request to a user in the database
+ * @param response
+ * @param requestFrom user who does the request
+ * @param valueToInsert friend to add
+ * @returns {Promise<void>}
+ */
 
 async function  friendRequest(response, requestFrom, valueToInsert) {
     const collectionName = "log";
@@ -137,6 +169,12 @@ async function  friendRequest(response, requestFrom, valueToInsert) {
     }
 }
 
+/**
+ * Retrieve the friend list of a user
+ * @param response the response to send
+ * @param requestFrom the user who does the request
+ * @returns {Promise<void>}
+ */
 async function retrieveFriendList(response, requestFrom) {
     const collectionName = "log";
     try {
@@ -161,6 +199,14 @@ async function retrieveFriendList(response, requestFrom) {
         await client.close();
     }
 }
+
+/**
+ * Retrieve all the stats of a user (elo, win, lose, draw)
+ * @param response
+ * @param requestFrom user who does the request
+ * @param friendName friendName because we use this function to see the stats of a friend
+ * @returns {Promise<void>}
+ */
 async function retrieveAllStats(response, requestFrom,friendName){
     const collectionName = "log";
     try {
@@ -201,6 +247,14 @@ async function retrieveAllStats(response, requestFrom,friendName){
         await client.close();
     }
 }
+
+/**
+ * Remove a friend from the friend list of a user
+ * @param response
+ * @param requestFrom user who does the request
+ * @param friendToRemove friend to remove
+ * @returns {Promise<void>}
+ */
 async function removeFriend(response, requestFrom, friendToRemove) {
     const collectionName = "log";
     try {
@@ -247,6 +301,13 @@ async function removeFriend(response, requestFrom, friendToRemove) {
     }
 }
 
+/**
+ * retrieve the friends requests of a user
+ * @param response
+ * @param requestFrom user who does the request
+ * @returns {Promise<void>}
+ */
+
 async function retrieveFriendRequest(response, requestFrom) {
     const collectionName = "log";
     try {
@@ -272,6 +333,13 @@ async function retrieveFriendRequest(response, requestFrom) {
     }
 }
 
+/**
+ * Accept a friend request
+ * @param response
+ * @param requestFrom user who does the request
+ * @param friendToAccept friend to accept
+ * @returns {Promise<void>}
+ */
 
 async function  acceptFriendRequest(response, requestFrom, friendToAccept) {
     const collectionName = "log";
@@ -329,6 +397,13 @@ async function  acceptFriendRequest(response, requestFrom, friendToAccept) {
     }
 }
 
+/**
+ * Decline a friend request
+ * @param response
+ * @param requestFrom user who does the request (the one who received the request)
+ * @param friendToDecline friend to decline
+ * @returns {Promise<void>}
+ */
 async function  declineFriendRequest(response, requestFrom, friendToDecline) {
     const collectionName = "log";
     try {
@@ -375,7 +450,7 @@ async function  declineFriendRequest(response, requestFrom, friendToDecline) {
     }
 }
 
-
+// here we exports all the functions to be used in other files
 exports.findInDataBase = loginInDataBase;
 exports.createInDataBase = createInDataBase;
 exports.findEverythingInDataBase = findEverythingInDataBase;

@@ -1,4 +1,10 @@
 const mongoDBConnection = require("../mongoDBConnection");
+
+/**
+ * This function manages the request to the profil API
+ * @param request
+ * @param response
+ */
 function manageRequest(request, response) {
     let filePath = request.url.split("/").filter(function (elem) {
         return elem !== "..";

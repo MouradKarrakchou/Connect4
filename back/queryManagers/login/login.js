@@ -1,6 +1,12 @@
 const mongoDBConnection = require('../mongoDBConnection');
 const hashFunction = require('./register')
 
+/**
+ * This function manages the request to the login API
+ * @param request
+ * @param response
+ */
+
 function manageRequest(request, response) {
         if (request.method==='POST') {
             let body = '';

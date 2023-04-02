@@ -1,6 +1,11 @@
 const mongoDBConnection = require('../mongoDBConnection');
 const crypto = require("crypto");
 
+/**
+ * this function generates a random token
+ * @param length
+ * @returns {string}
+ */
 function generate_token(length){
     //edit the token allowed characters
     var a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split("");
@@ -12,6 +17,11 @@ function generate_token(length){
     return b.join("");
 }
 
+/**
+ * This function manages the request to the register API
+ * @param request
+ * @param response
+ */
 function manageRequest(request, response) {
     if (request.method==='POST'){
         let body='';
@@ -45,6 +55,11 @@ function manageRequest(request, response) {
     }
 }
 
+/**
+ * This function hashes the password using sha256
+ * @param data password to hash
+ * @returns {string}
+ */
 function hash(data) {
     const hash = crypto.createHash('sha256');
     hash.update(data);

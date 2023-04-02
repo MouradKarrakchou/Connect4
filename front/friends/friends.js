@@ -39,6 +39,10 @@ async function init() {
     }, 200);
 }
 
+/**
+ * This function is used to send a friend request to a user
+ * with a call to the API in the backend
+ */
 function addFriend() {
 
     const friendQuery = document.getElementById("searchBar").value;
@@ -72,6 +76,11 @@ function addFriend() {
     document.getElementById("searchBar").value = "";
 }
 
+/**
+ * This function is used to get the friend list of the user
+ * with a call to the API in the backend
+ * @returns {Promise<void>}
+ */
 async function getFriendList() {
     findToken()
     const values = {
@@ -95,6 +104,11 @@ async function getFriendList() {
         });
 }
 
+/**
+ * this function is used to set up the chat container between the user and a friend
+ * with the style and the content
+ * @param friend
+ */
 function setupChatContainer(friend){
     let newItem = document.createElement('div');
     newItem.innerHTML = `<i class="fa-solid fa-chevron-left" style="margin-left: 0px;"></i>
@@ -112,6 +126,12 @@ function setupChatContainer(friend){
         token: token});
 }
 
+/**
+ * This function is used to remove a friend from the friend list
+ * with a call to the API in the backend
+ * @param friendToRemove
+ * @returns {Promise<void>}
+ */
 
 async function removeFriend(friendToRemove) {
     findToken();
@@ -131,6 +151,10 @@ async function removeFriend(friendToRemove) {
         .catch(error => console.error(error));
 }
 
+/**
+ * This function is used to get the friend request of the user
+ * with a call to the API in the backend
+ */
 function getFriendRequest(){
     findToken()
     const values = {
@@ -159,7 +183,14 @@ function getFriendRequest(){
         });
 }
 
+/**
+ * This function is used to accept a friend request, in the database
+ * the friend request is deleted and the two users are added to each other's friend list
+ * @param friendToAccept friend to accept
+ * @returns {Promise<void>}
+ */
 async function acceptFriendRequest(friendToAccept) {
+    // the current token
     findToken();
     fetch(address + `/api/friends/acceptFriendRequest`, {
         method: 'POST',
@@ -179,6 +210,12 @@ async function acceptFriendRequest(friendToAccept) {
         .catch(error => console.error(error));
 }
 
+/**
+ * This function is used to decline a friend request, in the database
+ * the friend request is deleted and the two users are added to each other's friend list
+ * @param friendToDecline friend to decline
+ * @returns {Promise<void>}
+ */
 async function declineFriendRequest(friendToDecline) {
     findToken();
     fetch(address + `/api/friends/declineFriendRequest`, {
@@ -197,7 +234,11 @@ async function declineFriendRequest(friendToDecline) {
         .catch(error => console.error(error));
 }
 
-// Challenge a friend
+/**
+ * This function is used to challenge a friend, send a notification to the friend
+ *
+ * @param friendName friend to challenge
+ */
 function challengeMini(friendName) {
 
     if (pendingChallenge) {
@@ -222,7 +263,9 @@ function challengeMini(friendName) {
     }
 }
 
-
+/**
+ * This function is used to cancel a challenge if the user is waiting for a friend to accept
+ */
 function cancelChallengeMini() {
     findToken()
     socket.emit('theChallengeIsCanceled', {
@@ -265,6 +308,11 @@ socket.on('loadAllMessagePending', (data) => {
         document.getElementById("iconNotif").style.display='block';
     data.forEach(message=>document.getElementById("notificationMini"+message.from).style.display='block');
 });
+
+/**
+ * This function is used to append a message to the chat
+ * @param message
+ */
 function appendMessage(message) {
     let newItem = document.createElement('div');
     chatContainer.style.display = "flex";
@@ -273,6 +321,10 @@ function appendMessage(message) {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+/**
+ * the following sockets are used to manage the challenge and keep the challenge up
+ * even if the user refresh the page or go to another page
+ */
 socket.on('notConnectedMessage', (challengedName) => {
     document.getElementById("cancelChallengeMini").style.display = "none";
     document.getElementById("ok-btn").style.display = "block";
@@ -334,13 +386,16 @@ socket.on('allConversationPrivateMessages', (request) => {
 })
 
 
-///////////////////////////////////////////////////////////////////////////////
+
 
 let miniFriendContainer=document.getElementById("miniFriendContainer");
 document.getElementById("chat-header").addEventListener('click',displayMiniFriends)
 document.getElementById("mini-chat-header").addEventListener('click',displayMiniMenu)
 let miniContainerContent=document.getElementById("mini-container-content");
 
+/**
+ * This function is used to display the mini friend list
+ */
 function displayMiniMenu(){
     if (miniContainerContent.style.display==="block")
     {
@@ -357,6 +412,10 @@ function displayMiniMenu(){
         miniFriendContainer.style.height="50%";
     }
 }
+
+/**
+ * This function is used to display the friend list in the menu
+ */
 function displayMiniFriends(){
     console.log("click");
     currentFriendDiscussion=null;
@@ -364,7 +423,10 @@ function displayMiniFriends(){
     document.getElementById("chat-container").style.display = "none";
 }
 
-
+/**
+ * This function is used to display all the friends in the mini friend list
+ * @param friendList the list of friends ( list of string)
+ */
 function showMiniFriendList(friendList) {
     let dropdown = document.querySelector('.miniDropdown');
     dropdown.innerHTML='';
@@ -428,6 +490,10 @@ function showMiniFriendList(friendList) {
     }
 }
 
+/**
+ * This function is used to display the chat container
+ * @param challengerName
+ */
 function addChallengerNameToLocalStorage(challengerName) {
     let theChallengerList = JSON.parse(localStorage.getItem("theChallengerList"));
     theChallengerList.push(challengerName);

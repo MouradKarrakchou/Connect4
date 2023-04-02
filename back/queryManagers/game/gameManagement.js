@@ -35,7 +35,6 @@ function setUpSockets(io){
      */
     async function retrieveUserFromDataBase(token){
         await client.connect();
-        console.log('Connected to MongoDB');
         const db = client.db("connect4");
         //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
         const gameCollection = db.collection("games");
@@ -55,9 +54,7 @@ function setUpSockets(io){
         await client.connect();
         const db = client.db("connect4");
         const collection = db.collection("log");
-        console.log("--- CONNECTED TO MONGODB ---");
         let user = await collection.findOne({username: name});
-        console.log("--- CONNECTED TO MONGODB USER RETRIEVED ---: " + user);
         return user;
     }
 
@@ -71,7 +68,6 @@ function setUpSockets(io){
      */
     async function saveMessageToDataBase(from,to,message,heRead){
         await client.connect();
-        console.log('Connected to MongoDB');
         const db = client.db("connect4");
         const chatCollection = db.collection("chat");
         const item = await chatCollection.insertOne({from:from,to:to,message:message,heRead:heRead});
@@ -79,8 +75,8 @@ function setUpSockets(io){
     }
 
     /**
-     * this function
-     * @param to
+     * this function load all the messages to a user
+     * @param to the user who received the message
      * @returns {Promise<WithId<Document>[]>}
      */
     async function loadAllMessagePending(to){
@@ -89,10 +85,15 @@ function setUpSockets(io){
         const db = client.db("connect4");
         const chatCollection = db.collection("chat");
         const item = await chatCollection.find({to:to,heRead:false}).toArray();
-        console.log("MESSAGE PENDING");
-        console.log(item);
         return item;
     }
+
+    /**
+     * load all the messages from a user to another
+     * @param from the user who sent the message
+     * @param to the user who received the message
+     * @returns {Promise<WithId<Document>[]>}
+     */
     async function loadAllMessageFromConversation(from,to){
         await client.connect();
         console.log('Connected to MongoDB');
@@ -105,6 +106,10 @@ function setUpSockets(io){
         return item;
     }
 
+    /**
+     * the nexts functions are created to setup our sockets and to manage the game
+     * @type {T | Map<SocketId, Socket<ListenEvents, EmitEvents, ServerSideEvents, SocketData>>}
+     */
     let connectedSockets = io.sockets.sockets;
 
     io.on('connection',socket => {
@@ -143,7 +148,6 @@ function setUpSockets(io){
                     board: createBoard(),
                     isFriendGame: false
                 };
-                console.log("LES INFOS ")
                 console.log(matchInfo)
                 mapGames.set(matchID, matchInfo);
                 io.to(roomInSearch.room).emit('matchFound', matchID);
@@ -246,7 +250,6 @@ function setUpSockets(io){
 
             const db = client.db("connect4");
             const chatCollection = db.collection("chat");
-            console.log("THIS IS TO WHO WE PUSH"+to);
             let updated= await chatCollection.updateOne({_id:new ObjectID(request.item.insertedId),to:to.username}, {$set: {heRead: true}});
             if (updated.modifiedCount>0)
                 findSocketByName(to.username,connectedSockets).emit('loadAllMessagePending', loadAllMessagePending(to));
@@ -610,6 +613,12 @@ function setUpSockets(io){
     })
 }
 
+/**
+ * Find a socket by its name
+ * @param name the name of the socket
+ * @param connectedSockets the list of connected sockets
+ * @returns {null}
+ */
 function findSocketByName(name, connectedSockets) {
     let socketFound = null;
 
@@ -621,6 +630,14 @@ function findSocketByName(name, connectedSockets) {
     }
     return socketFound;
 }
+
+/**
+ * Calculate the new Elo rating of a player
+ * @param playerElo the current Elo rating of the player
+ * @param opponentElo the current Elo rating of the opponent
+ * @param didWin whether the player won or lost
+ * @returns {number}
+ */
 function calculateNewElo(playerElo, opponentElo, didWin) {
     const kFactor = 45; // Elo rating system constant
     const expectedScore = 1 / (1 + Math.pow(10, (opponentElo - playerElo) / 400)); // Calculate expected score based on Elo ratings
@@ -643,15 +660,12 @@ function createBoard() {
     ];
 }
 
-/*
-const moveToCheck = {
-                board: move.board,
-                playerTurn: move.playerTurn,
-                i: move.i,
-                j: move.password,
-            }
- */
 
+/**
+ * Check if a move is valid
+ * @param moveToCheck the move to check
+ * @returns {{winner: number, state: string}|{winner: (number|*), state: string}|{winner: string, state: string}}
+ */
 function checkMove(moveToCheck) {
     let board = moveToCheck.board
     let column = parseInt(moveToCheck.j);
@@ -684,18 +698,6 @@ function checkMove(moveToCheck) {
         count++;
     }
     i = column;
-    console.log(board[0]);
-    console.log(board[1]);
-    console.log(board[2]);
-    console.log(board[3]);
-    console.log(board[4]);
-    console.log(board[5]);
-    console.log(board[6]);
-    console.log("LE I "+i);
-    console.log("LE board de i "+board[i] );
-    console.log("LE I+1 "+(i+1));
-    console.log("LE board de i+1 "+board[i+1] );
-    console.log("LE BOARD DE 4"+board[4] )
     while (i < board.length - 1 && board[i + 1][line] === player) {
         i++;
         count++;
@@ -762,6 +764,11 @@ function checkMove(moveToCheck) {
     }
 }
 
+/**
+ * Check if the game is a draw
+ * @param board
+ * @returns {boolean}
+ */
 function checkDraw(board) {
     // Returns true if the board is full and there is no winner, false otherwise.
     for (let col = 0; col < 7; col++) {
@@ -772,12 +779,25 @@ function checkDraw(board) {
     return true;
 }
 
+/**
+ * Check if a move is illegal
+ * @param board
+ * @param column
+ * @param playerTurn
+ * @returns {boolean}
+ */
 function checkIllegalMove(board, column, playerTurn) {
     if (isColumnFull(board, column)) return true;
     else if (hasPlayedTwice(board, playerTurn)) return true;
     return false;
 }
 
+/**
+ * Check if a column is full
+ * @param board
+ * @param column
+ * @returns {boolean}
+ */
 function isColumnFull(board, column) {
     console.log("Illegal Move in Backend(full): " + (board[column][5] !== 0));
     return board[column][5] !== 0;
@@ -800,6 +820,12 @@ function getRandomNumber(min, max) {
     // Calculate a random number between min and max, inclusive
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+/**
+ * add a win to the user in the database if he wins
+ * @param requestFrom the user who won
+ * @returns {Promise<void>}
+ */
 async function addWins(requestFrom){
     const collectionName = "log";
     try {
@@ -818,6 +844,12 @@ async function addWins(requestFrom){
         await client.close();
     }
 }
+
+/**
+ * add a loss to the user in the database if he loses
+ * @param requestFrom the user who lost
+ * @returns {Promise<void>}
+ */
 async function addLosses(requestFrom){
     const collectionName = "log";
     try {
@@ -837,6 +869,12 @@ async function addLosses(requestFrom){
         await client.close();
     }
 }
+
+/**
+ * add a draw to the user in the database if he draws
+ * @param requestFrom
+ * @returns {Promise<void>}
+ */
 async function addDraws(requestFrom){
     const collectionName = "log";
     try {
@@ -854,6 +892,13 @@ async function addDraws(requestFrom){
         await client.close();
     }
 }
+
+/**
+ * update the elo of the user in the database after a game
+ * @param requestFrom
+ * @param elo the new elo
+ * @returns {Promise<void>}
+ */
 async function addElo(requestFrom, elo){
     const collectionName = "log";
     try {
