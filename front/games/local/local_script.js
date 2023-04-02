@@ -1,4 +1,4 @@
-import {colorMessage, checkWin, printIllegalMove, removeIllegalMove, loadGame, saveGame, isMoveIllegal} from "../gameManagement.js"
+import {colorMessage, checkWin, getCount,printIllegalMove, removeIllegalMove, loadGame, saveGame, isMoveIllegal} from "../gameManagement.js"
 
 let counter = 0;
 let gameOver = false;
@@ -7,9 +7,13 @@ mapColor.set('Yellow','#cee86bcc');
 mapColor.set('Red','#c92c2c9c');
 document.addEventListener('DOMContentLoaded', init);
 
-window.addEventListener('load', function () {
-    var urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('id')!=null) loadGame();}
+window.addEventListener('load', async function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('id') != null) await loadGame();
+        counter = getCount();
+        console.log(counter);
+        colorMessage(counter);
+    }
 )
 
 function init() {

@@ -129,6 +129,7 @@ export function retrieveGameState(gameTab) {
                 case(-1):
                     document.getElementById(id).style.backgroundColor = "yellow";
                     littleCount+=1;
+                    console.log(littleCount);
                     break;
                 case(0):
                     document.getElementById(id).style.backgroundColor = "";
@@ -136,26 +137,28 @@ export function retrieveGameState(gameTab) {
                 case(1):
                     document.getElementById(id).style.backgroundColor = "red";
                     littleCount+=1;
+                    console.log(littleCount);
                     break;
             }
         }
     }
 }
 export function getCount(){
+    console.log(littleCount);
     return littleCount;
 }
 
-export function loadGame(){
+export async function loadGame() {
     let token = findTokenReturned();
     var urlParams = new URLSearchParams(window.location.search);
 
     const values = {
         token: token,
-        id:urlParams.get('id'),
+        id: urlParams.get('id'),
     };
     console.log(values);
 
-    fetch(address + '/api/game/retrieveGameWithId', {
+    await fetch(address + '/api/game/retrieveGameWithId', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
