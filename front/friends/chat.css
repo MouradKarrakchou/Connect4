@@ -72,6 +72,9 @@
 #miniNotification:hover{
     background-color: rgba(0,0,0,0.06);
 }
+.miniNotificationList{
+    height: 100%;
+}
 
 #miniFriendsContacts:hover{
     background-color: rgba(0,0,0,0.06);
@@ -125,6 +128,7 @@
 .miniDropdownNotification{
     overflow-x: hidden;
     overflow-y: auto;
+    height: 100%;
 }
 
 .miniFriend{
