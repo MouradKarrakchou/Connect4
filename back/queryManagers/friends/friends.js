@@ -1,6 +1,21 @@
 const mongoDBConnection = require("../mongoDBConnection");
 
+/**
+ *
+ * @fileoverview This file the manager of the friends API
+ *
+ * @author      Weel Ben Aissa
+ * @author      Ayoub imami
+ * @author      Mourad Karrakchou
+ *
+ */
 
+
+/**
+ * This function manages the request to the friends API
+ * @param request url of the request
+ * @param response
+ */
 function manageRequest(request, response) {
     let filePath = request.url.split("/").filter(function(elem) {
         return elem !== "..";

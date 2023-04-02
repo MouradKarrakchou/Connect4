@@ -1,6 +1,23 @@
 const {MongoClient, ObjectId} = require("mongodb");
 const mongoDBConnection = require("../mongoDBConnection");
 
+
+/**
+ *
+ * @fileoverview This file the manager of the game API
+ *
+ * @author      Weel Ben Aissa
+ * @author      Ayoub imami
+ * @author      Mourad Karrakchou
+ *
+ */
+
+
+/**
+ * This function manages the request to the Game API
+ * @param request
+ * @param response
+ */
 function manageRequest(request, response) {
     console.log("in manageRequest in game.js")
 

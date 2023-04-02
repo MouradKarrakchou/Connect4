@@ -10,7 +10,17 @@ import {
     retrieveGameState, notLoggedRedirection
 } from "../../gameManagement.js"
 import {address} from "../../dataManager.js";
-
+/**
+ *
+ * @fileoverview This file contains the script for the connect 4 smart IA.
+ *
+ * @author      Weel Ben Aissa
+ * @author      Ayoub imami
+ * @author      Mourad Karrakchou
+ *
+ */
+// If not logged in, redirected to the login page
+notLoggedRedirection();
 var roomName;
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
@@ -22,6 +32,12 @@ let startInversered=false;
 
 mapColor.set('Yellow','#cee86bcc');
 mapColor.set('Red','#c92c2c9c');
+
+/**
+ * This function is used to change the color of the message in a game
+ * @param counter pair or odd
+ *
+ */
 function colorMessage(counter) {
     let color = 'Red';
     if (counter % 2 === 0) color = 'Yellow';
@@ -82,7 +98,11 @@ async function init() {
     }
 }
 
-
+/**
+ * This function is used to load the first player
+ *
+ * @param event
+ */
 function play(event) {
     let id = event.target.id;
     let tab = id.split(" ");
@@ -99,6 +119,11 @@ function play(event) {
     }
 }
 
+/**
+ * This function is used to load the first player and initialize the game
+ * @param tab the gameBoard
+ * @returns {(*|number)[]}
+ */
 function startplay(tab){
     itsMyTurn=!itsMyTurn;
     removeIllegalMove();
@@ -151,6 +176,9 @@ function startplay(tab){
 
 }
 
+/**
+ *Play again after a game is over
+ */
 function resetGame() {
     gameOver = false;
     for (let i = 0; i < 6; i++) {
@@ -168,6 +196,11 @@ function resetGame() {
         player:2});
 }
 
+/**
+ * This function is used to check if the move is legal or if its our turn
+ * @param tab the gameBoard
+ * @returns {boolean} true if the move is illegal
+ */
 function isMoveIllegal(tab){
     let column = tab[0];
     let line = 5;
@@ -180,6 +213,10 @@ function isMoveIllegal(tab){
     return false;
 }
 
+/**
+ * the first player to play when we retrieve a saved game
+ * @returns {Promise<void>}
+ */
 async function loadFirstPlayer() {
     let token = findTokenReturned();
     var urlParams = new URLSearchParams(window.location.search);

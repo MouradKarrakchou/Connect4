@@ -8,12 +8,31 @@ const ObjectID = require('mongodb').ObjectId;
 
 let firstPlayerName;
 let secondPlayerName;
+/**
+ *
+ * @fileoverview this file contains the functions to manage the game and the sockets
+ *
+ * @author      Weel Ben Aissa
+ * @author      Ayoub imami
+ * @author      Mourad Karrakchou
+ *
+ */
 
+/**
+ * This function sets up the sockets and the connection to the database
+ * @param io the socket.io object
+ */
 function setUpSockets(io){
     const MongoClient = require('mongodb').MongoClient;
 
     const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
     const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+
+    /**
+     * This function retrieves the user from the database
+     * @param token the token of the user
+     * @returns {Promise<Document & {_id: InferIdType<Document>}>}
+     */
     async function retrieveUserFromDataBase(token){
         await client.connect();
         console.log('Connected to MongoDB');
@@ -26,6 +45,12 @@ function setUpSockets(io){
         return item;
     }
 
+    /**
+     * This function retrieves the user from the database by name
+     * @param name the name of the user
+     * @returns {Promise<Document & {_id: InferIdType<Document>}>}
+     */
+
     async function retrieveUserFromDataBaseByName(name){
         await client.connect();
         const db = client.db("connect4");
@@ -36,6 +61,14 @@ function setUpSockets(io){
         return user;
     }
 
+    /**
+     * This function add a message to the database between two users
+     * @param from the user who sent the message
+     * @param to the user who received the message
+     * @param message the message
+     * @param heRead if the user has read the message
+     * @returns {Promise<InsertOneResult<Document>>}
+     */
     async function saveMessageToDataBase(from,to,message,heRead){
         await client.connect();
         console.log('Connected to MongoDB');
@@ -44,6 +77,12 @@ function setUpSockets(io){
         const item = await chatCollection.insertOne({from:from,to:to,message:message,heRead:heRead});
         return item;
     }
+
+    /**
+     * this function
+     * @param to
+     * @returns {Promise<WithId<Document>[]>}
+     */
     async function loadAllMessagePending(to){
         await client.connect();
         console.log('Connected to MongoDB');

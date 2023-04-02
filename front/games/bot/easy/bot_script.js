@@ -10,6 +10,20 @@ import {
     notLoggedRedirection
 } from "../../gameManagement.js"
 
+/**
+ *
+ * @fileoverview This file contains the script for the connect 4 IA RANDOM.
+ *
+ * @author      Weel Ben Aissa
+ * @author      Ayoub imami
+ * @author      Mourad Karrakchou
+ *
+* FOR THE DOC OF THIS FILE SEE THE FILE bot_script.js IN THE FOLDER MEDIUM
+ */
+
+// If not logged in, redirected to the login page
+notLoggedRedirection();
+
 var roomName;
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
