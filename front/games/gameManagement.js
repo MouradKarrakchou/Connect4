@@ -7,6 +7,7 @@ import {address} from "./dataManager.js";
 const mapColor = new Map();
 mapColor.set('Yellow','#cee86bcc');
 mapColor.set('Red','#c92c2c9c');
+let littleCount=0;
 
 export function colorMessage(counter) {
     let color = 'Red';
@@ -127,16 +128,21 @@ export function retrieveGameState(gameTab) {
             switch (gameTab[j][i]){
                 case(-1):
                     document.getElementById(id).style.backgroundColor = "yellow";
+                    littleCount+=1;
                     break;
                 case(0):
                     document.getElementById(id).style.backgroundColor = "";
                     break;
                 case(1):
                     document.getElementById(id).style.backgroundColor = "red";
+                    littleCount+=1;
                     break;
             }
         }
     }
+}
+export function getCount(){
+    return littleCount;
 }
 
 export function loadGame(){

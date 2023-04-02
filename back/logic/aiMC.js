@@ -21,23 +21,37 @@ let simulationsInMC;
 let newBoardAfterMove;
 
 function setup(AIplays) {
-    board = [
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-    ];
-    turn = AIplays
+    console.log("THIS IS THE BOARD" +AIplays.board);
+    console.log(AIplays)
+    if (AIplays.reloadingGame){
+        board=AIplays.tab
+        console.log(board);
+    }
+    else{
+        console.log("PAS RELOAD")
+        board = [
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+        ];
+    }
+    console.log(AIplays.player)
+    turn = AIplays.player
     playFirst = false;
+    console.log(turn)
+    console.log(turn===1)
     if (turn === 1)
         playFirst = true;
     return true;
 }
 
 function nextMove(lastMove) {
+    console.log("THIS IS THE LAST MOVE")
+    console.log(lastMove);
     moveWinsInMC = Array(7).fill(0);
     start = performance.now();
     if (!playFirst)

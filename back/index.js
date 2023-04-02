@@ -52,14 +52,17 @@ io.on('connection',socket => {
         io.to(gameState.id).emit('doMove',JSON.stringify(aiQuery.computeMove(gameState)));
     });
 
-    socket.on('playAdv',(state) => {
+    socket.on('playAdv',async (state) => {
         let gameState = JSON.parse(state);
-        aiAdvancedQuery.TestNextMove(gameState.pos).then(result => io.to(gameState.id).emit('doMove',JSON.stringify(result)));
+
+        let next = await aiAdvancedQuery.TestNextMove(gameState.pos);
+        console.log("gamestate id "+gameState.id);
+        console.log(next);
+        io.to(gameState.id).emit('doMove', JSON.stringify(next));
     });
 
     socket.on('initAdv',(initState) => {
-        let gameState = JSON.parse(initState);
-        aiAdvancedQuery.setup(gameState.player);
+        aiAdvancedQuery.setup(initState);
     });
 })
 gameManagementQuery.setUpSockets(io);
