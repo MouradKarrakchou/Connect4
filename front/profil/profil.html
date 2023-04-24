@@ -3,17 +3,15 @@
 <link href="./profil.css" type="text/css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
 <link href="https://fonts.cdnfonts.com/css/cubic-2" rel="stylesheet">
-
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-<link href="../friends/friend.css" type="text/css" rel="stylesheet">
-<link href="../friends/chat.css" type="text/css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
 <script crossorigin="anonymous" src="https://kit.fontawesome.com/76ed084c57.js"></script>
 
 
 
 <head>
-    <iconify-icon class="homepage"onclick="window.location.href='../home/home.html'" icon="material-symbols:home-outline" style="font-size: 3.5em;"></iconify-icon>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <iconify-icon class="homepage"onclick="window.location.href='../home/home.html'" icon="material-symbols:home-outline"></iconify-icon>
     <title>Profile</title>
 
 </head>
@@ -23,10 +21,13 @@
     <div style="height: 20%;display: flex; justify-content: center">
         <h1 id="username" style="margin: auto;"></h1>
     </div>
+    <div class="btn">
+        <button id="stats-btn">Show Stats</button>
+        <button id="succes-btn">Show Success</button>
+    </div>
 
     <div style="display: flex">
-        <div style="margin:auto ; background-color: #918f7d69;
-    padding: 15px; border-radius: 15px">
+        <div id="stats">
             <h3><span id="rank"></span></h3>
             <img src="" id="rankImage" >
             <h3>Stats Online :</h3>
@@ -37,7 +38,7 @@
             <h4>Winrate : <span id ="winrate"></span></h4>
         </div>
 
-        <table style="height: 60%; margin:auto;background-color: #fffbe3d1; border: 3px solid #99a37f36;background-color: #91918380;">
+        <table id="succes">
             <thead>
             <tr>
                 <th>Success</th>
@@ -51,7 +52,7 @@
                 <td>Play 10 games </td>
                 <td>
                     <div class="progress-bar">
-                        <div class="progress-bar-inner" id ="novicePlayer" style="width:0%;">0%</div>
+                        <div class="progress-bar-inner" id ="novicePlayer";>0%</div>
                     </div>
                 </td>
             </tr>
@@ -60,7 +61,7 @@
                 <td>Win 10 games</td>
                 <td>
                     <div class="progress-bar">
-                        <div class="progress-bar-inner" id = "noviceWinner" style="width:0%;">0%</div>
+                        <div class="progress-bar-inner" id = "noviceWinner">0%</div>
                     </div>
                 </td>
             </tr>
@@ -69,7 +70,7 @@
                 <td>Play 100 games </td>
                 <td>
                     <div class="progress-bar">
-                        <div class="progress-bar-inner" id="OG" style="width:0%;">0%</div>
+                        <div class="progress-bar-inner" id="OG">0%</div>
                     </div>
                 </td>
             </tr>
@@ -78,7 +79,7 @@
                 <td>Reach 1500 elo points</td>
                 <td>
                     <div class="progress-bar">
-                        <div class="progress-bar-inner" id = "intermediatePlayer" style="width:0%;position: center;">0%</div>
+                        <div class="progress-bar-inner" id = "intermediatePlayer">0%</div>
                     </div>
                 </td>
             </tr>
@@ -87,7 +88,7 @@
                 <td>Reach 2300 elo points</td>
                 <td>
                     <div class="progress-bar">
-                        <div class="progress-bar-inner" id="goodPlayer" style="width:0%;">0%</div>
+                        <div class="progress-bar-inner" id="goodPlayer" >0%</div>
                     </div>
                 </td>
             </tr>
@@ -96,7 +97,7 @@
                 <td>Win 25 games</td>
                 <td>
                     <div class="progress-bar">
-                        <div class="progress-bar-inner" id="intermediateWinner" style="width:0%;">0%</div>
+                        <div class="progress-bar-inner" id="intermediateWinner">0%</div>
                     </div>
                 </td>
             </tr>
@@ -105,7 +106,7 @@
                 <td>Win 100 games</td>
                 <td>
                     <div class="progress-bar">
-                        <div class="progress-bar-inner" id="legendWinner" style="width:0%;">0%</div>
+                        <div class="progress-bar-inner" id="legendWinner">0%</div>
                     </div>
                 </td>
             </tr>
@@ -114,7 +115,7 @@
                 <td>Play 200 games</td>
                 <td>
                     <div class="progress-bar">
-                        <div class="progress-bar-inner" id="legendPlayer" style="width:0%;">0%</div>
+                        <div class="progress-bar-inner" id="legendPlayer">0%</div>
                     </div>
                 </td>
             </tr>
@@ -123,7 +124,7 @@
                 <td>Get 5 friends</td>
                 <td>
                     <div class="progress-bar">
-                        <div class="progress-bar-inner" id="good-guy" style="width:0%;">0%</div>
+                        <div class="progress-bar-inner" id="good-guy" >0%</div>
                     </div>
                 </td>
             </tbody>

@@ -157,4 +157,22 @@ export async function init() {
         .catch(error => {
             console.error(error);
         });
+    const statsTable = document.getElementById("stats");
+    const succesTable = document.getElementById("succes");
+    const statsButton = document.getElementById("stats-btn");
+    const succesButton = document.getElementById("succes-btn");
+
+
+// Fonctions pour afficher/masquer les tableaux
+    function showStats() {
+        statsTable.style.display = "block";
+        succesTable.style.display = "none";
+    }
+
+    function showSucces() {
+        statsTable.style.display = "none";
+        succesTable.style.display = "block";
+    }
+    statsButton.addEventListener('click', showStats);
+    succesButton.addEventListener('click', showSucces);
 }
