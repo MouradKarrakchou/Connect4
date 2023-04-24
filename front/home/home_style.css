@@ -2,176 +2,188 @@
     font-family: retro;
     src: url(../font/retro.ttf);
 }
-
-
-
-.title {
-    text-align: center;
-    font-size: 400%;
+@media only screen and (max-width: 750px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    p {
+        font-size: 1rem;
+    }
 }
 
-body{
-    font-family: retro;
-    background-color: #f6ffd2;
-    zoom: 0.5;
-    overflow: hidden;
+/* Styles for computers */
+@media only screen and (min-width: 750px) {
+
+    .title {
+        text-align: center;
+        font-size: 400%;
+    }
+
+    body{
+        font-family: retro;
+        background-color: #f6ffd2;
+        zoom: 0.5;
+        overflow: hidden;
 
 
-}
-.ic{
-    margin-left:15%;
-}
-.home{
-    display: flex;
-    height: 100%;
-}
-.menu {
-    align-content: center;
-    width: 60%;
-    height: 400px;
-}
-.menu:hover{
-    cursor: pointer;
+    }
+    .ic{
+        margin-left:15%;
+    }
+    .home{
+        display: flex;
+        height: 100%;
+    }
+    .menu {
+        align-content: center;
+        width: 60%;
+        height: 400px;
+    }
+    .menu:hover{
+        cursor: pointer;
+    }
+
+    .dropdown{
+        position: absolute;
+        width: 20%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 60%;
+    }
+    .gameSaved{
+        font-weight: bold;
+        height: 10%;
+        text-align: left;
+        font-size: 27px;
+    }
+    #trash{
+        float: right;
+    }
+    .gameSaved:hover{
+        cursor: pointer;
+    }
+    h4{
+
+        font-size: 20px;
+    }
+    .item{
+        background-color: rgba(231, 225, 195, 0.36);
+        display: flex;
+        margin-bottom: 4%;
+        margin-top: 3%;
+        justify-content: center;
+    }
+    .item:hover{
+        background-color: rgba(124, 121, 108, 0.34);
+    }
+    .littleMenu{
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        background-color: #fffbe3d1;
+        border-top: 3px solid #99a37f36;
+        border-right: 3px solid #99a37f36;
+        border-left: 3px solid #99a37f36;
+        border-bottom: 3px solid #99a37f36;
+        margin-left: 15%;
+        width: 20%;
+        padding: .5%;
+    }
+
+    fa-solid fa-user-group, fa-solid fa-earth-europe, fa-solid fa-robot{
+        height: 100px;
+        width: 100px;
+    }
+
+    .profil{
+        background-color: #fffbe3d1;
+        border-top: 3px solid #99a37f36;
+        border-right: 3px solid #99a37f36;
+        border-bottom: 3px solid #99a37f36;
+        font-size: 75px;
+        border-radius: 4px;
+        display: inline-block;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+    .logout{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #fffbe3d1;
+        font-size: 90px;
+        cursor: pointer;
+
+    }
+    .gameLaunch {
+        background-color: #fffbe3d1;
+        border-top: 3px solid #99a37f36;
+        border-right: 3px solid #99a37f36;
+        border-bottom: 3px solid #99a37f36;
+        display: flex;
+        margin-bottom: 3%;
+        justify-content: flex-start;
+        transition: width 0.3s;
+        width: 110%;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+    .gameLaunch:hover{
+        width: 120%;
+
+    }
+
+    .buttonLaunch, .onlineButton, .botButton {
+        margin: auto;
+        border: none;
+        padding: 40px 150px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 400%;
+        cursor: pointer;
+    }
+
+    div i, icon {
+        margin: auto;
+    }
+
+    .resumeButton{
+        margin: auto;
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 50px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 10px;
+        cursor: pointer;
+    }
+    .shape{
+        z-index: -2;
+    }
+
+    .background .shape{
+        height: 200px;
+        width: 200px;
+        position: absolute;
+        border-radius: 50%;
+    }
+    .shape:first-child{
+        background: linear-gradient(
+                #1845ad,
+                #23a2f6
+        );
+        left: 30%;
+        top: 20%;
+    }
+    .shape:last-child{
+        background: linear-gradient(
+                to right,
+                #ff512f,
+                #f09819
+        );
+        right: 30%;
+        bottom: 15%;
+    }
+
 }
 
-.dropdown{
-    position: absolute;
-    width: 20%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    height: 60%;
-}
-.gameSaved{
-    font-weight: bold;
-    height: 10%;
-    text-align: left;
-    font-size: 27px;
-}
-#trash{
-    float: right;
-}
-.gameSaved:hover{
-    cursor: pointer;
-}
-h4{
-
-    font-size: 20px;
-}
-.item{
-    background-color: rgba(231, 225, 195, 0.36);
-    display: flex;
-    margin-bottom: 4%;
-    margin-top: 3%;
-    justify-content: center;
-}
-.item:hover{
-    background-color: rgba(124, 121, 108, 0.34);
-}
-.littleMenu{
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    background-color: #fffbe3d1;
-    border-top: 3px solid #99a37f36;
-    border-right: 3px solid #99a37f36;
-    border-left: 3px solid #99a37f36;
-    border-bottom: 3px solid #99a37f36;
-    margin-left: 15%;
-    width: 20%;
-    padding: .5%;
-}
-
-fa-solid fa-user-group, fa-solid fa-earth-europe, fa-solid fa-robot{
-    height: 100px;
-    width: 100px;
-}
-
-.profil{
-    background-color: #fffbe3d1;
-    border-top: 3px solid #99a37f36;
-    border-right: 3px solid #99a37f36;
-    border-bottom: 3px solid #99a37f36;
-    font-size: 75px;
-    border-radius: 4px;
-    display: inline-block;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-.logout{
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #fffbe3d1;
-    font-size: 90px;
-    cursor: pointer;
-
-}
-.gameLaunch {
-    background-color: #fffbe3d1;
-    border-top: 3px solid #99a37f36;
-    border-right: 3px solid #99a37f36;
-    border-bottom: 3px solid #99a37f36;
-    display: flex;
-    margin-bottom: 3%;
-    justify-content: flex-start;
-    transition: width 0.3s;
-    width: 110%;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
-.gameLaunch:hover{
-    width: 120%;
-
-}
-
-.buttonLaunch, .onlineButton, .botButton {
-    margin: auto;
-    border: none;
-    padding: 40px 150px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 400%;
-    cursor: pointer;
-}
-
-div i, icon {
-    margin: auto;
-}
-
-.resumeButton{
-    margin: auto;
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 15px 50px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 10px;
-    cursor: pointer;
-}
-.shape{
-    z-index: -2;
-}
-
-.background .shape{
-    height: 200px;
-    width: 200px;
-    position: absolute;
-    border-radius: 50%;
-}
-.shape:first-child{
-    background: linear-gradient(
-            #1845ad,
-            #23a2f6
-    );
-    left: 30%;
-    top: 20%;
-}
-.shape:last-child{
-    background: linear-gradient(
-            to right,
-            #ff512f,
-            #f09819
-    );
-    right: 30%;
-    bottom: 15%;
-}
