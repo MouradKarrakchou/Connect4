@@ -2,21 +2,19 @@
     font-family: retro;
     src: url(../font/retro.ttf);
 }
-@media only screen and (max-width: 750px) {
-    h1 {
-        font-size: 1.5rem;
-    }
-    p {
-        font-size: 1rem;
-    }
+html{
+    height: 100%;
 }
-
-/* Styles for computers */
-@media only screen and (min-width: 750px) {
+@media only screen and (max-width: 821px) {
 
     .title {
+        margin: auto;
         text-align: center;
-        font-size: 400%;
+        font-size: 12vw;
+    }
+    .header-top{
+        height: 20%;
+        display: flex;
     }
 
     body{
@@ -24,20 +22,18 @@
         background-color: #f6ffd2;
         zoom: 0.5;
         overflow: hidden;
-
-
+        height: 100%;
     }
     .ic{
         margin-left:15%;
     }
     .home{
         display: flex;
-        height: 100%;
+        height: 70%;
     }
     .menu {
         align-content: center;
-        width: 60%;
-        height: 400px;
+        width: 100%;
     }
     .menu:hover{
         cursor: pointer;
@@ -54,7 +50,7 @@
         font-weight: bold;
         height: 10%;
         text-align: left;
-        font-size: 27px;
+        font-size: 7vw;
     }
     #trash{
         float: right;
@@ -64,7 +60,7 @@
     }
     h4{
 
-        font-size: 20px;
+        font-size: 5vw;
     }
     .item{
         background-color: rgba(231, 225, 195, 0.36);
@@ -86,6 +82,194 @@
         margin-left: 15%;
         width: 20%;
         padding: .5%;
+        height: 80%;
+        display: none;
+    }
+
+    fa-solid fa-user-group, fa-solid fa-earth-europe, fa-solid fa-robot{
+        height: 100px;
+        width: 100px;
+    }
+
+    .profil{
+        cursor: pointer;
+        font-size: 12vw;
+        background-color: rgb(76 168 184);
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+        width: 15vw;
+        height: 15vw;
+        padding: 2% 2%;
+        display: flex;
+        color: white;
+    }
+    .iconHeader{
+    }
+    .logout{
+        cursor: pointer;
+        font-size: 12vw;
+        background-color: #f09819;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+        width: 15vw;
+        height: 15vw;
+        padding: 2% 2%;
+        display: flex;
+        color: white;
+    }
+    .gameLaunch {
+        background-color: #fffbe3d1;
+        border-top: 3px solid #99a37f36;
+        border-right: 3px solid #99a37f36;
+        border-bottom: 3px solid #99a37f36;
+        display: flex;
+        margin-bottom: 3%;
+        justify-content: flex-start;
+        transition: width 0.3s;
+        width: 100%;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        height: 20%;
+        font-size: 15vw;
+    }
+    .localLaunch{
+        background-color: rgb(82 197 217 / 90%);
+    }
+    .onlineLaunch{
+        background-color: #dc3fca96;
+    }
+    .botLaunch{
+        background-color: #f0981994;
+    }
+
+    .fa-solid{
+        color: white;
+    }
+
+    .buttonLaunch, .onlineButton, .botButton {
+        margin: auto;
+        border: none;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 8vw;
+        cursor: pointer;
+    }
+
+    div i, icon {
+        margin: auto;
+    }
+
+    .shape{
+        z-index: -2;
+    }
+
+    .background .shape{
+        height: 20vh;
+        width: 20vh;
+        position: absolute;
+        border-radius: 50%;
+    }
+    .shape:first-child{
+        background: linear-gradient(
+                #1845ad,
+                #23a2f6
+        );
+        left: 10%;
+        bottom: 10%;
+    }
+    .shape:last-child{
+        background: linear-gradient(
+                to right,
+                #ff512f,
+                #f09819
+        );
+        right: 30%;
+        bottom: 15%;
+    }
+}
+
+/* Styles for computers */
+@media only screen and (min-width: 821px) {
+
+    .title {
+        text-align: center;
+        font-size: 400%;
+    }
+    .header-top{
+        height: 20%;
+        margin-bottom: 5%;
+    }
+
+    body{
+        font-family: retro;
+        background-color: #f6ffd2;
+        zoom: 0.5;
+        overflow: hidden;
+        height: 100%;
+
+
+    }
+    .ic{
+        margin-left:15%;
+    }
+    .home{
+        display: flex;
+        height: 80%;
+    }
+    .menu {
+        align-content: center;
+        width: 60%;
+    }
+    .menu:hover{
+        cursor: pointer;
+    }
+
+    .dropdown{
+        position: absolute;
+        width: 20%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 60%;
+    }
+    .gameSaved{
+        font-weight: bold;
+        height: 10%;
+        text-align: left;
+        font-size: 200%;
+    }
+    #trash{
+        float: right;
+    }
+    .gameSaved:hover{
+        cursor: pointer;
+    }
+    h4{
+
+        font-size: 150%;
+    }
+    .item{
+        background-color: rgba(231, 225, 195, 0.36);
+        display: flex;
+        margin-bottom: 4%;
+        margin-top: 3%;
+        justify-content: center;
+    }
+    .item:hover{
+        background-color: rgba(124, 121, 108, 0.34);
+    }
+    .littleMenu{
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        background-color: #fffbe3d1;
+        border-top: 3px solid #99a37f36;
+        border-right: 3px solid #99a37f36;
+        border-left: 3px solid #99a37f36;
+        border-bottom: 3px solid #99a37f36;
+        margin-left: 15%;
+        width: 20%;
+        padding: .5%;
+        height: 80%;
     }
 
     fa-solid fa-user-group, fa-solid fa-earth-europe, fa-solid fa-robot{
@@ -98,7 +282,7 @@
         border-top: 3px solid #99a37f36;
         border-right: 3px solid #99a37f36;
         border-bottom: 3px solid #99a37f36;
-        font-size: 75px;
+        font-size: 500%;
         border-radius: 4px;
         display: inline-block;
         padding: 10px 20px;
@@ -109,7 +293,7 @@
         top: 10px;
         right: 10px;
         background-color: #fffbe3d1;
-        font-size: 90px;
+        font-size: 550%;
         cursor: pointer;
 
     }
@@ -124,6 +308,7 @@
         transition: width 0.3s;
         width: 110%;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        font-size:100px;
     }
     .gameLaunch:hover{
         width: 120%;
@@ -137,7 +322,7 @@
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 400%;
+        font-size: 4vw;
         cursor: pointer;
     }
 
@@ -145,18 +330,6 @@
         margin: auto;
     }
 
-    .resumeButton{
-        margin: auto;
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        padding: 15px 50px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 10px;
-        cursor: pointer;
-    }
     .shape{
         z-index: -2;
     }

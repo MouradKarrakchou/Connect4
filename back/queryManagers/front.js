@@ -41,9 +41,6 @@ function manageRequest(request, response) {
     let extension = path.parse(pathName).ext;
     // Uncomment the line below if you want to check in the console what url.parse() and path.parse() create.
     //console.log(parsedUrl, pathName, path.parse(pathName));
-    request.on('data', function (data) {
-        body += data;
-    });
     // Let's check if the file exists.
     fs.exists(pathName, async function (exist) {
         if (!exist) {

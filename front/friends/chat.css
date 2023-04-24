@@ -1,213 +1,465 @@
-.chat-container {
-    position: fixed;
-    bottom: 0px;
-    right: 0;
-    background-color: #fff;
-    border-radius: 15px 15px 0 0;
-    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 25%;
-}
-#mini-container-content{
-    height:90% ;
-}
-#chat-messages {
-    overflow-y: scroll;
-    flex-grow: 1;
-    padding: 10px;
-}
-#chatBar {
-    width: 100%;
-    background-color: #9e9d9224;
-    border: none;
-    font-size: 40px;
-    height: 10vh;
-}
 
-#sendMsg{
-    padding: 1%;
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-    width: 30%;
-    text-align: center;
-    border: none
-}
-#chat-bar{
-    background-color: #fffbe3d1;
-    padding: .5%;
-    border-top: 3px solid #99a37f36;
-    border-right: 3px solid #99a37f36;
-    border-left: 3px solid #99a37f36;
-    border-bottom: 3px solid #99a37f36;
-    margin-top: 2%;
-    display: flex;
-    bottom: 5px;
-    width: 98%;
-}
-.chat-header{
-    padding: 10px;
-    background-color: #9e9d9224;
-    border: none;
-    text-align: center;
-    border-radius: 15px 15px 0 0;
-    display:flex;
-}
-.choice-header{
-    background-color: #9e9d9224;
-    border: none;
-    text-align: center;
-    display:flex;
-    justify-content: space-between;
-}
-.choice-header:hover{
-    cursor: pointer;
-}
-.chat-header{
-    cursor: pointer;
-}
-
-#miniNotification:hover{
-    background-color: rgba(0,0,0,0.06);
-}
-.miniNotificationList{
-    height: 100%;
-}
-
-#miniFriendsContacts:hover{
-    background-color: rgba(0,0,0,0.06);
-}
-.miniFriend:hover{
-    cursor: pointer;
-}
-.icon_mini{
-    width: 33.33%;
-}
-.icon_mini:hover{
-    background-color: rgba(0,0,0,0.06);;
-}
-
-#remove{
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-#searchBar {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border: none;
-    border-radius: 5px;
-    width: 100%;
-    background-color: #9e9d9224;
-
-}
-
-#miniFriendMenu{
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    background-color: #fffbe3d1;
-    border-top: 3px solid #99a37f36;
-    border-right: 3px solid #99a37f36;
-    border-left: 3px solid #99a37f36;
-    border-bottom: 3px solid #99a37f36;
-    height: 100%;
-}
-
-#miniFriendList{
-    font-weight: bold;
-    height: 100%;
-}
-
-.miniDropdown{
-    overflow-x: hidden;
-    overflow-y: auto;
-    height: 80%;
-}
-
-.miniDropdownNotification{
-    overflow-x: hidden;
-    overflow-y: auto;
-    height: 100%;
-}
-
-.miniFriend{
-    position: relative;
-    background-color: rgba(231, 225, 195, 0.36);
-    text-align: center;
-}
-.fa-message{
-    margin-left: 0px;
-    margin-right: auto;
-}
-.fa-xmark{
-    margin-left: auto;
-    margin-right: 0px;
-}
-.fight{
-    margin: auto;
-}
-iconStyle + iconStyle {
-    margin-left: 10px;
-}
-.mini-Friend-name:hover{
-    background-color: rgba(0,0,0,0.06);
-}
-.accept {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 1% 2.5%;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1vw;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.accept:hover {
-    background-color: #3e8e41;
-}
-
-.decline {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 1% 2.5%;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1vw;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.decline:hover {
-    background-color: #d32f2f;
-}
-
-
-.glow {
-    animation: glow 1s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-    from {
-        border-radius: 50%;
+@media only screen and (min-width: 821px) {
+    .chat-container {
+        position: fixed;
+        bottom: 0px;
+        right: 0;
         background-color: #fff;
-        box-shadow: 0 0 0 rgba(255, 255, 255, 0.8);
+        border-radius: 15px 15px 0 0;
+        box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 25%;
     }
-    to {
-        border-radius: 50%;
-        background-color: #fff;
-        box-shadow: 0 0 6px 3px #fff, /* inner white */ 0 0 10px 6px #f0f, /* middle magenta */ 0 0 14px 9px #0ff;
+
+    #mini-container-content {
+        height: 90%;
+    }
+
+    #chat-messages {
+        overflow-y: scroll;
+        flex-grow: 1;
+        padding: 10px;
+    }
+
+    #chatBar {
+        width: 100%;
+        background-color: #9e9d9224;
+        border: none;
+        font-size: 40px;
+        height: 10vh;
+    }
+
+    #sendMsg {
+        padding: 1%;
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        width: 30%;
+        text-align: center;
+        border: none
+    }
+
+    #chat-bar {
+        background-color: #fffbe3d1;
+        padding: .5%;
+        border-top: 3px solid #99a37f36;
+        border-right: 3px solid #99a37f36;
+        border-left: 3px solid #99a37f36;
+        border-bottom: 3px solid #99a37f36;
+        margin-top: 2%;
+        display: flex;
+        bottom: 5px;
+        width: 98%;
+    }
+
+    .chat-header {
+        padding: 10px;
+        background-color: #9e9d9224;
+        border: none;
+        text-align: center;
+        border-radius: 15px 15px 0 0;
+        display: flex;
+    }
+
+    .choice-header {
+        background-color: #9e9d9224;
+        border: none;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .choice-header:hover {
+        cursor: pointer;
+    }
+
+    .chat-header {
+        cursor: pointer;
+    }
+
+    #miniNotification:hover {
+        background-color: rgba(0, 0, 0, 0.06);
+    }
+
+    .miniNotificationList {
+        height: 100%;
+    }
+
+    #miniFriendsContacts:hover {
+        background-color: rgba(0, 0, 0, 0.06);
+    }
+
+    .miniFriend:hover {
+        cursor: pointer;
+    }
+
+    .icon_mini {
+        width: 33.33%;
+    }
+
+    .icon_mini:hover {
+        background-color: rgba(0, 0, 0, 0.06);;
+    }
+
+    #remove {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    #searchBar {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+        background-color: #9e9d9224;
+
+    }
+
+    #miniFriendMenu {
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        background-color: #fffbe3d1;
+        border-top: 3px solid #99a37f36;
+        border-right: 3px solid #99a37f36;
+        border-left: 3px solid #99a37f36;
+        border-bottom: 3px solid #99a37f36;
+        height: 100%;
+    }
+
+    #miniFriendList {
+        font-weight: bold;
+        height: 100%;
+    }
+
+    .miniDropdown {
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 80%;
+    }
+
+    .miniDropdownNotification {
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 100%;
+    }
+
+    .miniFriend {
+        position: relative;
+        background-color: rgba(231, 225, 195, 0.36);
+        text-align: center;
+    }
+
+    .fa-message {
+        margin-left: 0px;
+        margin-right: auto;
+    }
+
+    .fa-xmark {
+        margin-left: auto;
+        margin-right: 0px;
+    }
+
+    .fight {
+        margin: auto;
+    }
+
+    iconStyle + iconStyle {
+        margin-left: 10px;
+    }
+
+    .mini-Friend-name:hover {
+        background-color: rgba(0, 0, 0, 0.06);
+    }
+
+    .accept {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 1% 2.5%;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1vw;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    .accept:hover {
+        background-color: #3e8e41;
+    }
+
+    .decline {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 1% 2.5%;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1vw;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    .decline:hover {
+        background-color: #d32f2f;
+    }
+
+
+    .glow {
+        animation: glow 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+        from {
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 0 0 0 rgba(255, 255, 255, 0.8);
+        }
+        to {
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 0 0 6px 3px #fff, /* inner white */ 0 0 10px 6px #f0f, /* middle magenta */ 0 0 14px 9px #0ff;
+        }
     }
 }
 
 
+@media only screen and (max-width: 821px) {
+    .chat-container {
+        position: fixed;
+        bottom: 0px;
+        right: 0;
+        background-color: #fff;
+        border-radius: 15px 15px 0 0;
+        box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 25%;
+    }
+
+    #mini-container-content {
+        height: 90%;
+    }
+
+    #chat-messages {
+        overflow-y: scroll;
+        flex-grow: 1;
+        padding: 10px;
+    }
+
+    #chatBar {
+        width: 100%;
+        background-color: #9e9d9224;
+        border: none;
+        font-size: 40px;
+        height: 10vh;
+    }
+
+    #sendMsg {
+        padding: 1%;
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        width: 30%;
+        text-align: center;
+        border: none
+    }
+
+    #chat-bar {
+        background-color: #fffbe3d1;
+        padding: .5%;
+        border-top: 3px solid #99a37f36;
+        border-right: 3px solid #99a37f36;
+        border-left: 3px solid #99a37f36;
+        border-bottom: 3px solid #99a37f36;
+        margin-top: 2%;
+        display: flex;
+        bottom: 5px;
+        width: 98%;
+    }
+
+    .chat-header {
+        padding: 10px;
+        background-color: #9e9d9224;
+        border: none;
+        text-align: center;
+        border-radius: 15px 15px 0 0;
+        display: flex;
+    }
+
+    .choice-header {
+        background-color: #9e9d9224;
+        border: none;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .choice-header:hover {
+        cursor: pointer;
+    }
+
+    .chat-header {
+        cursor: pointer;
+    }
+
+    #miniNotification:hover {
+        background-color: rgba(0, 0, 0, 0.06);
+    }
+
+    .miniNotificationList {
+        height: 100%;
+    }
+
+    #miniFriendsContacts:hover {
+        background-color: rgba(0, 0, 0, 0.06);
+    }
+
+    .miniFriend:hover {
+        cursor: pointer;
+    }
+
+    .icon_mini {
+        width: 33.33%;
+    }
+
+    .icon_mini:hover {
+        background-color: rgba(0, 0, 0, 0.06);;
+    }
+
+    #remove {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    #searchBar {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+        background-color: #9e9d9224;
+
+    }
+
+    #miniFriendMenu {
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        background-color: #fffbe3d1;
+        border-top: 3px solid #99a37f36;
+        border-right: 3px solid #99a37f36;
+        border-left: 3px solid #99a37f36;
+        border-bottom: 3px solid #99a37f36;
+        height: 100%;
+    }
+
+    #miniFriendList {
+        font-weight: bold;
+        height: 100%;
+    }
+
+    .miniDropdown {
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 80%;
+    }
+
+    .miniDropdownNotification {
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 100%;
+    }
+
+    .miniFriend {
+        position: relative;
+        background-color: rgba(231, 225, 195, 0.36);
+        text-align: center;
+    }
+
+    .fa-message {
+        margin-left: 0px;
+        margin-right: auto;
+    }
+
+    .fa-xmark {
+        margin-left: auto;
+        margin-right: 0px;
+    }
+
+    .fight {
+        margin: auto;
+    }
+
+    iconStyle + iconStyle {
+        margin-left: 10px;
+    }
+
+    .mini-Friend-name:hover {
+        background-color: rgba(0, 0, 0, 0.06);
+    }
+
+    .accept {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 1% 2.5%;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1vw;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    .accept:hover {
+        background-color: #3e8e41;
+    }
+
+    .decline {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 1% 2.5%;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1vw;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    .decline:hover {
+        background-color: #d32f2f;
+    }
+
+
+    .glow {
+        animation: glow 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+        from {
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 0 0 0 rgba(255, 255, 255, 0.8);
+        }
+        to {
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 0 0 6px 3px #fff, /* inner white */ 0 0 10px 6px #f0f, /* middle magenta */ 0 0 14px 9px #0ff;
+        }
+    }
+}
