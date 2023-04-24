@@ -27,6 +27,9 @@ let numberFriends = 0;
  * @returns {Promise<void>}
  */
 export async function init() {
+    window.onload = function() {
+        window.scrollTo(0, 0);
+    }
     // If not logged in, redirected to the login page
     await notLoggedRedirection();
 
