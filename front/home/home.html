@@ -20,26 +20,27 @@
     <meta charset="UTF-8">
     <title>Connect4 - Home</title>
 </head>
-
-<div class="profil" id="profil">
-    <i class ="fas fa-user" ></i>
+<div class="header-top">
+    <div class="profil" id="profil">
+        <i class ="iconHeader fas fa-user" ></i>
+    </div>
+    <h1 class="title" id="title"> WELCOME TO CONNECT4QUARTS </h1>
+    <div class="logout" id="logout">
+        <i class ="iconHeader fas fa-sign-out-alt" ></i>
+    </div>
 </div>
-<div class="logout" id="logout">
-    <i class ="fas fa-sign-out-alt" ></i>
-</div>
-<h1 class="title" id="title"> WELCOME TO CONNECT4QUARTS </h1>
 <div class="home">
     <div class="menu">
-        <div class="gameLaunch" onclick="window.location.href='../games/local/local_game.html'">
-            <i class="fa-solid fa-user-group ic" style="font-size:100px;"></i>
+        <div class="gameLaunch localLaunch" onclick="window.location.href='../games/local/local_game.html'">
+            <i class="fa-solid fa-user-group ic" ></i>
             <h1 class="onlineButton">Local game</h1>
         </div>
-        <div class="gameLaunch" onclick="window.location.href = '../games/bot/bots_difficulty.html'">
-            <i class="fa-solid fa-robot ic" style="font-size:100px;"></i>
+        <div class="gameLaunch botLaunch" onclick="window.location.href = '../games/bot/bots_difficulty.html'">
+            <i class="fa-solid fa-robot ic" ></i>
             <h1 class="botButton">Play against AI</h1>
         </div>
-        <div class="gameLaunch" id="b">
-            <i class="fa-solid fa-earth-europe ic" style="font-size:100px;"></i>
+        <div class="gameLaunch onlineLaunch" id="b">
+            <i class="fa-solid fa-earth-europe ic"></i>
             <h1 class="buttonLaunch">Play online</h1>
         </div>
     </div>
