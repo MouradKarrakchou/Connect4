@@ -24,7 +24,7 @@ notLoggedRedirection();
 var roomName;
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
-var socket = io();
+var socket = io("ws://15.236.190.187");
 let counter = 0;
 export let itsMyTurn;
 const mapColor = new Map();

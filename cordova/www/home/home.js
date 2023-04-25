@@ -12,7 +12,7 @@ import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../g
  * @author Ayoub IMAMI
  */
 
-var socket = io();
+var socket = io("ws://15.236.190.187");
 let saveIcon;
 
 

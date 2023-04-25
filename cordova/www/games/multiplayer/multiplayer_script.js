@@ -18,7 +18,7 @@ import {
 let counter = 0;
 let gameOver = false;
 let itsMyTurn;
-var socket = io();
+var socket = io("ws://15.236.190.187");
 let playfirst;
 var player1elo = 0;
 var player2elo = 0;
