@@ -42,17 +42,17 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById("cancel").addEventListener('click', cancelGame);
     document.getElementById("title").innerText = "Welcome to Connect4 " + findUsername() + "!";
     saveIcon=document.getElementById("saveIcon");
-    menu=document.getElementById("gameSaved");
+    menu=document.getElementById("menu");
     gameSaved=document.getElementById("gameSaved");
     littleMenu=document.getElementById("littleMenu");
     cross=document.getElementById("cross");
-    saveIcon.addEventListener('onclick',function(){
+    saveIcon.addEventListener('click',function(){
         menu.style.display = "none";
-        littleMenu.style.display = "";
+        littleMenu.style.display = "block";
     })
-    saveIcon.addEventListener('onclick',function(){
+    cross.addEventListener('click',function(){
         littleMenu.style.display = "none";
-        menu.style.display = "";
+        menu.style.display = "block";
     })
 })
 function cancelGame() {

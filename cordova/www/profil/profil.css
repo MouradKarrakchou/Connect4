@@ -119,6 +119,9 @@
         color: #ff9900;
         display: inline-block;
     }
+    .bigWrapper{
+        box-shadow: 16px 16px 16px 16px rgba(0,0,0,0.2);
+    }
 
     #rankImage {
         display: inline-block;
@@ -307,7 +310,7 @@
 
     h1 {
         text-align: center;
-        font-size: 40px;
+        font-size: 10vw;
         text-shadow: 2px 2px #ff9900;
     }
 
@@ -330,8 +333,8 @@
     }
 
     p {
+        font-size: 7vw;
         margin-left: 40px;
-        font-size: 25px;
     }
 
     #username {
@@ -341,10 +344,9 @@
     }
 
     th, td {
-        padding: 20px;
+        padding: 4vw;
         text-align: center;
         border-bottom: 1px solid #ddd;
-        width: 300px;
     }
 
     tr:hover {
@@ -357,6 +359,7 @@
         border-radius: 5px;
         display: inline-block;
         width: 50%;
+        padding: 1vh;
         margin: 0 auto;
         overflow: hidden;
     }
@@ -381,6 +384,7 @@
         height: auto;
         margin: 0 auto;
         display: none;
+        background-color: #fe9e1363;
     }
 
     table {
@@ -393,7 +397,14 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        display: none;
+        width: 100%;
+        background-color: #ff8af278;
+    }
+    .statsInterior{
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        margin: auto;
     }
 
     #success-container {
@@ -407,10 +418,7 @@
     }
     .btn{
         border-top: 3px solid #99a37f36;
-        border-right: 3px solid #99a37f36;
-        border-bottom: 3px solid #99a37f36;
         display: flex;
-        margin-bottom: 10px;
         justify-content: flex-start;
         transition: width 0.3s;
         width: 100%;
@@ -427,7 +435,7 @@
 
     #stats-btn {
         background-color: #dc3fca96;
-        font-size: 10vw;
+        font-size: 8vw;
 
     }
 

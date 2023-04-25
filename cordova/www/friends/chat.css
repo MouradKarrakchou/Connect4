@@ -73,16 +73,9 @@
         height: 10vh;
     }
 
-    .choice-header:hover {
-        cursor: pointer;
-    }
 
     .chat-header {
         cursor: pointer;
-    }
-
-    #miniNotification:hover {
-        background-color: rgba(0, 0, 0, 0.06);
     }
 
     .miniNotificationList {
@@ -90,21 +83,12 @@
         background-color: #f6ffd2;
     }
 
-    #miniFriendsContacts:hover {
-        background-color: rgba(0, 0, 0, 0.06);
-    }
 
-    .miniFriend:hover {
-        cursor: pointer;
-    }
 
     .icon_mini {
         width: 33.33%;
     }
 
-    .icon_mini:hover {
-        background-color: rgba(0, 0, 0, 0.06);;
-    }
 
     #remove {
         position: absolute;
@@ -113,13 +97,12 @@
     }
 
     #searchBar {
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 5vh;
+        padding-bottom: 5vh;
         border: none;
-        border-radius: 5px;
         width: 100%;
         background-color: #9e9d9224;
-        height: 5%;
+        font-size: 5vw;
     }
 
     #miniFriendMenu {
@@ -176,9 +159,6 @@
         margin-left: 10px;
     }
 
-    .mini-Friend-name:hover {
-        background-color: rgba(0, 0, 0, 0.06);
-    }
 
     .accept {
         background-color: #4CAF50;
@@ -195,9 +175,6 @@
         margin-bottom: auto;
     }
 
-    .accept:hover {
-        background-color: #3e8e41;
-    }
 
     .decline {
         background-color: #f44336;
@@ -214,9 +191,6 @@
         margin-bottom: auto;
     }
 
-    .decline:hover {
-        background-color: #d32f2f;
-    }
 
 
     .glow {
@@ -359,6 +333,7 @@
         border-radius: 5px;
         width: 100%;
         background-color: #9e9d9224;
+        font-size:23px;
 
     }
 

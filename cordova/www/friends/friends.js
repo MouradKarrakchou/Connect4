@@ -614,6 +614,13 @@ document.getElementById("miniHomeBack").addEventListener('click', function () {
     document.getElementById("miniNotification").style.backgroundColor="";
     document.getElementById("miniFriendList").style.display = "none";
     document.getElementById("miniNotificationList").style.display = "none";
+    console.log("DANS LE HOME ")
+    if (document.getElementById("menu")!==null)
+    {
+        console.log("DANS LE IF ")
+        document.getElementById("littleMenu").style.display = "none";
+        document.getElementById("menu").style.display = "block";
+    }
 });
 
 

@@ -36,9 +36,6 @@ html{
         align-content: center;
         width: 100%;
     }
-    .menu:hover{
-        cursor: pointer;
-    }
     .headerGameSaved{
         display: flex;
     }
@@ -58,9 +55,6 @@ html{
     }
     .trash{
         margin-left: auto;
-    }
-    .gameSaved:hover{
-        cursor: pointer;
     }
     h4{
 
@@ -82,9 +76,6 @@ html{
         margin-bottom: 4%;
         margin-top: 3%;
         justify-content: center;
-    }
-    .item:hover{
-        background-color: rgba(124, 121, 108, 0.34);
     }
 
     fa-solid fa-user-group, fa-solid fa-earth-europe, fa-solid fa-robot{
@@ -121,6 +112,9 @@ html{
     .crossIcon{
         background-color: rgb(219 38 38);
         margin-left: auto;
+        border-radius: 20%;
+        width: 8vw;
+        height: 8vw;
     }
 
     .logout{
@@ -228,9 +222,6 @@ html{
         align-content: center;
         width: 60%;
     }
-    .menu:hover{
-        cursor: pointer;
-    }
 
     .dropdown{
         position: absolute;
@@ -275,7 +266,6 @@ html{
         width: 20%;
         padding: .5%;
         height: 80%;
-        display: none;
     }
 
 
