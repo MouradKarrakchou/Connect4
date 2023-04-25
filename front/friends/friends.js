@@ -9,6 +9,7 @@ let currentFriendDiscussion;
 let chatMessages;
 let chatContainer;
 let friendList;
+let isOnMobile;
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -37,6 +38,7 @@ async function init() {
             challengedMini(challengerName);
         })
     }, 200);
+    isOnMobile= (window.innerWidth <= 821);
 }
 
 /**
@@ -594,14 +596,23 @@ document.getElementById("miniNotification").addEventListener('click', function (
         document.getElementById("iconNotifFight2").style.display='none';
         document.getElementById("miniNotification").style.backgroundColor="rgba(0,0,0,0.06)";
         document.getElementById("miniFriendsContacts").style.backgroundColor="";
+        document.getElementById("miniHomeBack").style.backgroundColor="";
         document.getElementById("miniFriendList").style.display = "none";
         document.getElementById("miniNotificationList").style.display = "block";
 });
 
 document.getElementById("miniFriendsContacts").addEventListener('click', function () {
     document.getElementById("miniFriendsContacts").style.backgroundColor="rgba(0,0,0,0.06)";
+    document.getElementById("miniHomeBack").style.backgroundColor="";
     document.getElementById("miniNotification").style.backgroundColor="";
     document.getElementById("miniFriendList").style.display = "block";
+    document.getElementById("miniNotificationList").style.display = "none";
+});
+document.getElementById("miniHomeBack").addEventListener('click', function () {
+    document.getElementById("miniHomeBack").style.backgroundColor="rgba(0,0,0,0.06)";
+    document.getElementById("miniFriendsContacts").style.backgroundColor="";
+    document.getElementById("miniNotification").style.backgroundColor="";
+    document.getElementById("miniFriendList").style.display = "none";
     document.getElementById("miniNotificationList").style.display = "none";
 });
 

@@ -25,7 +25,8 @@ html{
         height: 100%;
     }
     .ic{
-        margin-left:15%;
+        margin:auto;
+        color: white;
     }
     .home{
         display: flex;
@@ -155,6 +156,7 @@ html{
         display: inline-block;
         font-size: 8vw;
         cursor: pointer;
+        width: 30%;
     }
 
     div i, icon {
@@ -208,11 +210,9 @@ html{
         zoom: 0.5;
         overflow: hidden;
         height: 100%;
-
-
     }
     .ic{
-        margin-left:15%;
+        margin:auto;
     }
     .home{
         display: flex;

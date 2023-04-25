@@ -46,7 +46,8 @@ body {
     border-bottom: 3px solid #99a37f36;
     display: flex;
     bottom: 0;
-    width: 99%;
+    padding: 1%;
+    width: 100%;
 }
 #decline{
     position: absolute;
@@ -114,10 +115,43 @@ body {
 }
 #user-message{
     font-size: 12px;
-}}
+}
+
+
+.backgroundLittleMenu .shapeLittleMenu{
+    height: 20vh;
+    width: 20vh;
+    position: absolute;
+    border-radius: 50%;
+}
+
+
+.shapeLittleMenu:first-child{
+    background: linear-gradient(
+            #1845ad,
+            #23a2f6
+    );
+    left: 10%;
+    bottom: 10%;
+}
+.shapeLittleMenu:last-child{
+    background: linear-gradient(
+            to right,
+            #ff512f,
+            #f09819
+    );
+    right: 30%;
+    bottom: 15%;
+}
+
+
+}
 
 @media only screen and (min-width: 821px) {
     /* Set default font and background color */
+    .backgroundLittleMenu .shapeLittleMenu{
+        display: none;
+    }
     body {
         font-family: retro;
         background-color: #f6ffd2;

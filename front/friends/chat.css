@@ -1,20 +1,20 @@
 
-@media only screen and (min-width: 821px) {
+@media only screen and (max-width: 821px) {
     .chat-container {
         position: fixed;
         bottom: 0px;
         right: 0;
         background-color: #fff;
-        border-radius: 15px 15px 0 0;
         box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        width: 25%;
+        width: 100%;
     }
 
     #mini-container-content {
-        height: 90%;
+        display: flex;
+        flex-direction: column;
     }
 
     #chat-messages {
@@ -60,7 +60,7 @@
         border: none;
         text-align: center;
         border-radius: 15px 15px 0 0;
-        display: flex;
+        display: none;
     }
 
     .choice-header {
@@ -69,6 +69,7 @@
         text-align: center;
         display: flex;
         justify-content: space-between;
+        order:3;
     }
 
     .choice-header:hover {
@@ -84,7 +85,8 @@
     }
 
     .miniNotificationList {
-        height: 100%;
+        height: 190vh;
+        background-color: #f6ffd2;
     }
 
     #miniFriendsContacts:hover {
@@ -116,7 +118,7 @@
         border-radius: 5px;
         width: 100%;
         background-color: #9e9d9224;
-
+        height: 5%;
     }
 
     #miniFriendMenu {
@@ -131,13 +133,16 @@
 
     #miniFriendList {
         font-weight: bold;
-        height: 100%;
+        height: 190vh;
+        display: none;
+        background-color: #f6ffd2;;
     }
 
     .miniDropdown {
         overflow-x: hidden;
         overflow-y: auto;
-        height: 80%;
+        height: 95%;
+        order:1;
     }
 
     .miniDropdownNotification {
@@ -182,7 +187,7 @@
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 1vw;
+        font-size: 4vw;
         border-radius: 5px;
         cursor: pointer;
         margin-top: auto;
@@ -201,7 +206,7 @@
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 1vw;
+        font-size: 4vw;
         border-radius: 5px;
         cursor: pointer;
         margin-top: auto;
@@ -232,7 +237,10 @@
 }
 
 
-@media only screen and (max-width: 821px) {
+@media only screen and (min-width: 821px) {
+    #miniHomeBack{
+        display: none;
+    }
     .chat-container {
         position: fixed;
         bottom: 0px;
@@ -247,7 +255,8 @@
     }
 
     #mini-container-content {
-        height: 90%;
+        display: none;
+        height: 100%;
     }
 
     #chat-messages {
