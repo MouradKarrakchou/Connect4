@@ -21,13 +21,13 @@ let server = http.createServer(function (request, response) {
     });
 
     try {
-        // if (request.method === 'OPTIONS') {
-        //     console.log("OPTIONS FETCHING: " + request.method);
-        //     response.statusCode = 200;
-        //     response.end('We are in the opstions fetching');
-        // }
+        if (request.method === 'OPTIONS') {
+            console.log("OPTIONS FETCHING: " + request.method);
+            response.statusCode = 200;
+            response.end('We are in the opstions fetching');
+        }
         // If the URL starts by /api, then it's a REST request (you can change that if you want).
-        if (filePath[1] === "api") {
+        else if (filePath[1] === "api") {
             apiQuery.manage(request, response);
             // If it doesn't start by /api, then it's a request for a file.
         } else {
