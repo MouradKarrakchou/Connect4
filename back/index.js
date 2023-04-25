@@ -45,7 +45,11 @@ server.listen(8000);
 
 const { Server } = require("socket.io");
 const {MongoClient} = require("mongodb");
-const io = new Server(server);
+const io = new Server(server, {
+    cors: {
+        origin: ["http://4quarts.connect4.academy/", "http://15.236.190.187/", "http://localhost/"]
+    }
+});
 
 io.on('connection',socket => {
     socket.on('joinRoom', (roomName) => {
