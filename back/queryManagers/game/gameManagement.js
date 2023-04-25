@@ -41,6 +41,8 @@ function setUpSockets(io){
 
         const collection = db.collection("log");
         const item = await collection.findOne({token:token});
+        if(item === null)
+            throw new TypeError("No user with this ID!");
         return item;
     }
 
