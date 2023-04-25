@@ -6,7 +6,7 @@ const apiProfil = require('./profil/profil.js')
 
 // Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
 function manageRequest(request, response) {
-    addCors(response);
+    addCors(request, response);
 
     let filePath = request.url.split("/").filter(function(elem) {
         return elem !== "..";
@@ -42,9 +42,15 @@ function manageRequest(request, response) {
 ** (for instance, some of your api urls may accept GET and POST request whereas some others will only accept PUT).
 ** Access-Control-Allow-Headers is an example of how to authorize some headers, the ones given in this example
 ** are probably not the ones you will need. */
-function addCors(response) {
+function addCors(request,response) {
     // Website you wish to allow to connect to your server.
     response.setHeader('Access-Control-Allow-Origin', '*');
+
+    if (request.method === "OPTIONS") {
+        response.header('Access-Control-Allow-Origin', request.headers.origin);
+    } else {
+        response.header('Access-Control-Allow-Origin', '*');
+    }
     // Request methods you wish to allow.
     response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     // Request headers you wish to allow.
