@@ -12,9 +12,7 @@ const gameManagementQuery= require('./queryManagers/game/gameManagement')
 ** will be called whenever a new request arrives to the server.
  */
 let server = http.createServer(function (request, response) {
-    response.setHeader('Access-Control-Allow-Origin', '*');
-    response.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    apiQuery.addCors(request,response);
 
     // First, let's check the URL to see if it's a REST request or a file request.
     // We will remove all cases of "../" in the url for security purposes.
@@ -23,8 +21,13 @@ let server = http.createServer(function (request, response) {
     });
 
     try {
+        if (request.method === 'OPTIONS') {
+            console.log("OPTIONS FETCHING: " + request.method);
+            response.statusCode = 200;
+            response.end('We are in the opstions fetching');
+        }
         // If the URL starts by /api, then it's a REST request (you can change that if you want).
-        if (filePath[1] === "api") {
+        else if (filePath[1] === "api") {
             apiQuery.manage(request, response);
             // If it doesn't start by /api, then it's a request for a file.
         } else {
@@ -33,7 +36,7 @@ let server = http.createServer(function (request, response) {
     } catch(error) {
         console.log(`error while processing ${request.url}: ${error}`)
         response.statusCode = 400;
-        response.end(`Something in your request (${request.url}) is strange...`);
+        response.end(`Something in your request (${request.url}) is strange... with error: ${error}`);
     }
 // For the server to be listening to request, it needs a port, which is set thanks to the listen function.
 });
