@@ -55,3 +55,4 @@ function addCors(response) {
 }
 
 exports.manage = manageRequest;
+exports.addCors = addCors;

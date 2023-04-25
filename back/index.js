@@ -12,11 +12,7 @@ const gameManagementQuery= require('./queryManagers/game/gameManagement')
 ** will be called whenever a new request arrives to the server.
  */
 let server = http.createServer(function (request, response) {
-
-    /*
-    response.setHeader('Access-Control-Allow-Origin', '*');
-    response.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    response.setHeader('Access-Control-Allow-Headers', 'Content-Type');*/
+    apiQuery.addCors(response);
 
     // First, let's check the URL to see if it's a REST request or a file request.
     // We will remove all cases of "../" in the url for security purposes.
