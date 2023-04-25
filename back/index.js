@@ -1,7 +1,5 @@
 // The http module contains methods to handle http queries.
 const http = require('http')
-// socket.io module
-const socketIo = require('socket.io');
 // Let's import our logic.
 const fileQuery = require('./queryManagers/front.js')
 const apiQuery = require('./queryManagers/api.js')
@@ -11,7 +9,7 @@ const gameManagementQuery= require('./queryManagers/game/gameManagement')
 
 
 /* The http module contains a createServer function, which takes one argument, which is the function that
-** will be called whenever a new request arrives to the server.
+ * will be called whenever a new request arrives to the server.
  */
 let server = http.createServer(function (request, response) {
     apiQuery.addCors(request,response);
@@ -42,9 +40,10 @@ let server = http.createServer(function (request, response) {
     }
 });
 
-const io = socketIo(server, {
+const { Server } = require("socket.io");
+const io = new Server(server, {
     cors: {
-        origin: ["http://4quarts.connect4.academy/", "http://15.236.190.187/", "http://localhost/"]
+        origin: ["http://4quarts.connect4.academy", "http://15.236.190.187", "http://localhost"]
     }
 });
 
