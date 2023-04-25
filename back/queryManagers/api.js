@@ -47,9 +47,9 @@ function addCors(request,response) {
     response.setHeader('Access-Control-Allow-Origin', '*');
 
     if (request.method === "OPTIONS") {
-        response.header('Access-Control-Allow-Origin', request.headers.origin);
+        response.setHeader('Access-Control-Allow-Origin', request.headers.origin);
     } else {
-        response.header('Access-Control-Allow-Origin', '*');
+        response.setHeader('Access-Control-Allow-Origin', '*');
     }
     // Request methods you wish to allow.
     response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
