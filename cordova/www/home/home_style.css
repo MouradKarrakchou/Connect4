@@ -194,13 +194,22 @@ html{
 
 /* Styles for computers */
 @media only screen and (min-width: 821px) {
+    .crossIcon{
+        display: none;
+    }
+    .saveIcon{
+        display: none;
+    }
+    .headerGameSaved{
+        display: flex;
+    }
 
     .title {
         text-align: center;
-        font-size: 400%;
+        font-size: 6vw;
     }
     .header-top{
-        height: 20%;
+        height: 15%;
         margin-bottom: 5%;
     }
 
@@ -303,23 +312,24 @@ html{
         margin-bottom: 3%;
         justify-content: flex-start;
         transition: width 0.3s;
-        width: 110%;
+        width: 90%;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        font-size:100px;
+        font-size: 10vw;
+        padding: 5vh;
     }
     .gameLaunch:hover{
-        width: 120%;
+        width: 100%;
     }
 
     .buttonLaunch, .onlineButton, .botButton {
         margin: auto;
         border: none;
-        padding: 40px 150px;
         text-align: center;
         text-decoration: none;
         display: inline-block;
         font-size: 4vw;
         cursor: pointer;
+        width: 60%;
     }
 
     div i, icon {
@@ -352,6 +362,10 @@ html{
         );
         right: 30%;
         bottom: 15%;
+    }
+
+    .miniHomeBack{
+        display: none;
     }
 
 }
