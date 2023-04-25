@@ -1,6 +1,6 @@
 import {findToken, token, address} from "../games/dataManager.js";
 import {findUsername, notLoggedRedirection} from "../games/gameManagement.js";
-let socket = io();
+let socket = io("ws://15.236.190.187");
 
 let pendingChallenge = false;
 let pendingChallengedName = null;

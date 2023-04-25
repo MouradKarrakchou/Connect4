@@ -9,7 +9,7 @@ const gameManagementQuery= require('./queryManagers/game/gameManagement')
 
 
 /* The http module contains a createServer function, which takes one argument, which is the function that
-** will be called whenever a new request arrives to the server.
+ * will be called whenever a new request arrives to the server.
  */
 let server = http.createServer(function (request, response) {
     apiQuery.addCors(request,response);
@@ -24,7 +24,7 @@ let server = http.createServer(function (request, response) {
         if (request.method === 'OPTIONS') {
             console.log("OPTIONS FETCHING: " + request.method);
             response.statusCode = 200;
-            response.end('We are in the opstions fetching');
+            response.end('We are in the options fetching');
         }
         // If the URL starts by /api, then it's a REST request (you can change that if you want).
         else if (filePath[1] === "api") {
@@ -38,14 +38,14 @@ let server = http.createServer(function (request, response) {
         response.statusCode = 400;
         response.end(`Something in your request (${request.url}) is strange... with error: ${error}`);
     }
-// For the server to be listening to request, it needs a port, which is set thanks to the listen function.
 });
 
-server.listen(8000);
-
 const { Server } = require("socket.io");
-const {MongoClient} = require("mongodb");
-const io = new Server(server);
+const io = new Server(server, {
+    cors: {
+        origin: ["http://4quarts.connect4.academy", "http://15.236.190.187", "http://localhost"]
+    }
+});
 
 io.on('connection',socket => {
     socket.on('joinRoom', (roomName) => {
@@ -72,5 +72,8 @@ io.on('connection',socket => {
         aiAdvancedQuery.setup(initState);
     });
 })
+
 gameManagementQuery.setUpSockets(io);
 
+// For the server to be listening to request, it needs a port, which is set thanks to the listen function.
+server.listen(8000);
