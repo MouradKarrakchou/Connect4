@@ -41,8 +41,6 @@ function setUpSockets(io){
 
         const collection = db.collection("log");
         const item = await collection.findOne({token:token});
-        if(item === null)
-            throw new TypeError("No user with this ID!");
         return item;
     }
 
@@ -120,7 +118,7 @@ function setUpSockets(io){
             let roomName = player.room;
             socket.join(roomName);
             let user = await retrieveUserFromDataBase(player.token);
-
+            if (user === null) return;
             io.to(roomName).emit('inQueue', null);
             if (roomInSearch == null) {
                 roomInSearch = {
@@ -165,6 +163,7 @@ function setUpSockets(io){
         socket.on('cancelQueue', async (playerReq) => {
             let player = JSON.parse(playerReq);
             let user = await retrieveUserFromDataBase(player.token);
+            if (user === null) return;
 
             if (roomInSearch != null && roomInSearch.userID===user._id.toString()) {
                 let roomName = roomInSearch.room;
@@ -177,6 +176,7 @@ function setUpSockets(io){
             let request = JSON.parse(playerReq);
             let gameInfo = mapGames.get(request.matchID);
             let user = await retrieveUserFromDataBase(request.token);
+            if (user === null) return;
 
             if (user._id.toString() === gameInfo.player1.userID) {
                 console.log("player1"+user.username);
@@ -206,6 +206,8 @@ function setUpSockets(io){
             let request = JSON.parse(playerReq);
             let gameInfo = mapGames.get(request.matchID);
             let user = await retrieveUserFromDataBase(request.token);
+            if (user === null) return;
+
             if (user._id.toString() === gameInfo.player1.userID) {
                 io.to(gameInfo.player2.room).emit('message', {
                     username:gameInfo.player1.username,
@@ -221,9 +223,10 @@ function setUpSockets(io){
 
         socket.on('friendChat', async (request) => {
             let user = await retrieveUserFromDataBase(request.token);
+            if (user === null) return;
+
             console.log(user);
             let heRead=false;
-
 
             let item=await saveMessageToDataBase(user.username,request.friendUsername,request.chat,heRead);
             if (findSocketByName(request.friendUsername,connectedSockets)!==null)
@@ -235,11 +238,13 @@ function setUpSockets(io){
         )
         socket.on('findAllMessagePending', async (request) => {
             let user = await retrieveUserFromDataBase(request.token);
+            if (user === null) return;
             let allUserMessages=await loadAllMessagePending(user.username);
             findSocketByName(user.username,connectedSockets).emit('loadAllMessagePending', allUserMessages);
         })
         socket.on('loadFriendChat', async (request) => {
             let user = await retrieveUserFromDataBase(request.token);
+            if (user === null) return;
 
             let allUserMessages=await loadAllMessageFromConversation(request.friendUsername,user.username);
             findSocketByName(user.username,connectedSockets).emit('allConversationPrivateMessages', allUserMessages)})
@@ -247,6 +252,7 @@ function setUpSockets(io){
         socket.on('setToRead', async (request) => {
             console.log(request);
             let to = await retrieveUserFromDataBase(request.token);
+            if (to === null) return;
 
             await client.connect();
 
@@ -264,6 +270,7 @@ function setUpSockets(io){
             console.log(mapGames);
             let moveToCheck;
             let user = await retrieveUserFromDataBase(request.token);
+            if (user === null) return;
             if (user._id.toString() === gameInfo.player1.userID && !checkIllegalMove(gameInfo.board, request.pos[0], 1)) {
                 gameInfo.board[request.pos[0]][request.pos[1]] = 1;
                 io.to(gameInfo.player2.room).emit('doMoveMulti', JSON.stringify(request.pos));
@@ -368,6 +375,7 @@ function setUpSockets(io){
 
             if (playerStillInGameNumber < 2) {
                 let player = await retrieveUserFromDataBase(data.token);
+                if (player === null) return;
                 let playerName = player.username;
 
                 let gameInfo = mapGames.get(data.matchID);
@@ -439,6 +447,7 @@ function setUpSockets(io){
 
         socket.on('surrender', async (data) => {
             let surrenderedPlayer = await retrieveUserFromDataBase(data.token);
+            if (surrenderedPlayer === null) return;
             let surrenderedPlayerName = surrenderedPlayer.username;
             console.log("surrendered player name: " + surrenderedPlayerName)
 
@@ -512,6 +521,7 @@ function setUpSockets(io){
         socket.on('challengeFriend', async (request) => {
             let challengerToken = request.challengerToken;
             let challenger = await retrieveUserFromDataBase(challengerToken);
+            if (challenger === null) return;
 
             let challengerName = challenger.username;
             let challengerSocket = findSocketByName(challengerName, connectedSockets);
@@ -541,6 +551,7 @@ function setUpSockets(io){
 
             const challengedToken = data.challengedToken;
             const challenged = await retrieveUserFromDataBase(challengedToken);
+            if (challenged === null) return;
             const challengedName = challenged.username;
 
             const challengerSocket = findSocketByName(challengerName, connectedSockets);
@@ -598,12 +609,14 @@ function setUpSockets(io){
             let challenger = await retrieveUserFromDataBaseByName(challengerName);
             let challengedToken = data.challengedToken;
             let challenged = await retrieveUserFromDataBase(challengedToken);
+            if (challenged === null) return;
             findSocketByName(challenger.username, connectedSockets).emit('challengeDeclined', challenged.username);
         })
 
         socket.on('theChallengeIsCanceled', async (data) => {
             let challengerToken = data.challengerToken;
             let challenger = await retrieveUserFromDataBase(challengerToken);
+            if (challenger === null) return;
 
             let challengedName = data.challengedName;
             let challengedSocket = findSocketByName(challengedName, connectedSockets);
