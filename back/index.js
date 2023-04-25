@@ -36,7 +36,7 @@ let server = http.createServer(function (request, response) {
     } catch(error) {
         console.log(`error while processing ${request.url}: ${error}`)
         response.statusCode = 400;
-        response.end(`Something in your request (${request.url}) is strange...`);
+        response.end(`Something in your request (${request.url}) is strange... with error: ${error}`);
     }
 // For the server to be listening to request, it needs a port, which is set thanks to the listen function.
 });
