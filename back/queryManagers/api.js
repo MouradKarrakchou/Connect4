@@ -31,11 +31,11 @@ function manageRequest(request, response) {
         apiProfil.manage(request, response);
         // If it doesn't start by /api, then it's a request for a file.
     }
-
     else {
         response.statusCode = 400;
         response.end(`Something in your request (${request.url}) is strange...`);
     }
+    response.statusCode = 200;
 }
 
 /* This method is a helper in case you stumble upon CORS problems. It shouldn't be used as-is:
