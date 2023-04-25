@@ -22,7 +22,7 @@ async function loginInDataBase(response,currentUser,collectionName) {
         const collection = db.collection(collectionName);
         console.log(currentUser);
         const item = await collection.findOne(currentUser);
-
+        console.log("ITEM FROM MONGODB:" + item);
         const token = jwt.sign({userId: item._id, name: item.name}, secret);
 
         await collection.updateOne(

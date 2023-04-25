@@ -12,7 +12,8 @@
 //To switch between local and aws, just change the address variable
 const local = "http://localhost:80";
 const aws = "http://4quarts.connect4.academy:80";
-export const address = local;
+const brut = "http://15.236.190.187:80";
+export const address = brut;
 export var token;
 
 export function findToken(){

@@ -7,9 +7,9 @@ const path = require('path');
 
 // We will limit the search of files in the front folder (../../front from here).
 // Note that fs methods consider the current folder to be the one where the app is run, that's why we don't need the "../.." before front.
-const baseFrontPath = '/front';
+const baseFrontPath = '/cordova/www';
 // If the user requests a directory, a file can be returned by default.
-const defaultFileIfFolder = "loginRegister/loginRegister.html";
+const defaultFileIfFolder = "index.html";
 
 /* Dict associating files' extension to a MIME type browsers understand. The reason why this is needed is that only
 ** the file's content is sent to the browser, so it cannot know for sure what kind of file it was to begin with,
@@ -41,9 +41,6 @@ function manageRequest(request, response) {
     let extension = path.parse(pathName).ext;
     // Uncomment the line below if you want to check in the console what url.parse() and path.parse() create.
     //console.log(parsedUrl, pathName, path.parse(pathName));
-    request.on('data', function (data) {
-        body += data;
-    });
     // Let's check if the file exists.
     fs.exists(pathName, async function (exist) {
         if (!exist) {
