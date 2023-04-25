@@ -24,6 +24,7 @@ let server = http.createServer(function (request, response) {
         if (request.method === 'OPTIONS') {
             console.log("OPTIONS FETCHING: " + request.method);
             response.statusCode = 200;
+            response.end('We are in the opstions fetching');
         }
         // If the URL starts by /api, then it's a REST request (you can change that if you want).
         if (filePath[1] === "api") {
