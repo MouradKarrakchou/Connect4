@@ -6,6 +6,8 @@ const apiProfil = require('./profil/profil.js')
 
 // Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
 function manageRequest(request, response) {
+    addCors(response);
+
     let filePath = request.url.split("/").filter(function(elem) {
         return elem !== "..";
     });
