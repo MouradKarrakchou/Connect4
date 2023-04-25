@@ -13,6 +13,7 @@ import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../g
  */
 
 var socket = io();
+let saveIcon;
 
 
 socket.on('matchFound', (matchID) => {
@@ -28,8 +29,10 @@ socket.on('cancel', () => {
     document.getElementById("search").style.display = "none";
     document.getElementById("hidingEverything").style.display = "none";
 }) ;
-let gameSaved=document.getElementById("gameSaved");
-
+let gameSaved;
+let menu;
+let littleMenu;
+let cross;
 
 document.addEventListener('DOMContentLoaded', async function () {
     // If not logged in, redirected to the login page
@@ -38,6 +41,19 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.getElementById("b").addEventListener('click', findGame);
     document.getElementById("cancel").addEventListener('click', cancelGame);
     document.getElementById("title").innerText = "Welcome to Connect4 " + findUsername() + "!";
+    saveIcon=document.getElementById("saveIcon");
+    menu=document.getElementById("gameSaved");
+    gameSaved=document.getElementById("gameSaved");
+    littleMenu=document.getElementById("littleMenu");
+    cross=document.getElementById("cross");
+    saveIcon.addEventListener('onclick',function(){
+        menu.style.display = "none";
+        littleMenu.style.display = "";
+    })
+    saveIcon.addEventListener('onclick',function(){
+        littleMenu.style.display = "none";
+        menu.style.display = "";
+    })
 })
 function cancelGame() {
     socket.emit('cancelQueue',JSON.stringify({token:token}));

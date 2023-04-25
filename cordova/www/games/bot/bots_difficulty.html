@@ -8,32 +8,24 @@
 
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>Bot difficulty</title>
-    <iconify-icon class="homepage" onclick="window.location.href='../../home/home.html'" icon="material-symbols:home-outline" style="font-size: 3.5em;"></iconify-icon>
 </head>
 
 <body>
+<div class="profil iconHomePage" id="profil">
+    <i class ="iconHeader fas fa-user" ></i>
+</div>
 
-<div class="difficulties">
-    <div class="easy">
-        <i class="fa-brands fa-android" style="font-size: 100px"></i>
-        <br>
-        <br>
-        <br>
-        <button class="button" onclick="window.location.href = 'easy/bot_game.html'">
-            Easy
-        </button>
+<div class="menu" id="menu">
+    <div class="gameLaunch localLaunch" onclick="window.location.href='../games/local/local_game.html'">
+        <iconify-icon icon="mdi:robot-happy" class="ic"></iconify-icon>
+        <h1 class="onlineButton">Easy</h1>
     </div>
-
-    <div class="medium">
-        <i class="fa-solid fa-robot" style="font-size: 100px"></i>
-        <br>
-        <br>
-        <br>
-        <button class="button" onclick="window.location.href = 'medium/bot_game.html'">
-            Medium
-        </button>
+    <div class="gameLaunch botLaunch" onclick="window.location.href = '../games/bot/bots_difficulty.html'">
+        <iconify-icon icon="mdi:robot-angry" class="ic"></iconify-icon>
+        <h1 class="botButton">Medium</h1>
     </div>
 </div>
 

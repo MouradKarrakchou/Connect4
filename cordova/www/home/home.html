@@ -21,34 +21,44 @@
     <title>Connect4 - Home</title>
 </head>
 <div class="header-top">
-    <div class="profil" id="profil">
+    <div class="profil iconHomePage" id="profil">
         <i class ="iconHeader fas fa-user" ></i>
     </div>
     <h1 class="title" id="title"> WELCOME TO CONNECT4QUARTS </h1>
-    <div class="logout" id="logout">
+    <div class="logout iconHomePage" id="logout">
         <i class ="iconHeader fas fa-sign-out-alt" ></i>
     </div>
 </div>
 <div class="home">
-    <div class="menu">
+    <div class="menu" id="menu">
         <div class="gameLaunch localLaunch" onclick="window.location.href='../games/local/local_game.html'">
             <iconify-icon icon="game-icons:spinning-sword" class="ic"></iconify-icon>
             <h1 class="onlineButton">Local game</h1>
         </div>
         <div class="gameLaunch botLaunch" onclick="window.location.href = '../games/bot/bots_difficulty.html'">
-            <i class="fa-solid fa-robot ic" ></i>
+            <iconify-icon icon="mdi:robot" class="ic"></iconify-icon>
             <h1 class="botButton">Play against AI</h1>
         </div>
         <div class="gameLaunch onlineLaunch" id="b">
-            <i class="fa-solid fa-earth-europe ic"></i>
+            <iconify-icon icon="subway:world-1" class="ic"></iconify-icon>
             <h1 class="buttonLaunch">Play online</h1>
+        </div>
+        <div class="saveIcon iconHomePage" id="saveIcon">
+            <iconify-icon icon="material-symbols:save" class="iconHeader"></iconify-icon>
         </div>
     </div>
 
-    <div class="littleMenu">
+    <div class="littleMenu" id="littleMenu">
         <div class="gameSaved" id="gameSaved">
-            Your saved games:
-            <div class="fas fa-trash-alt" id="trash"></div>
+            <div class="headerGameSaved">
+                <div class="textForTrash">Your saved games:</div>
+                <div class="trashIcon iconHomePage" id="trash">
+                    <div class="fas fa-trash-alt"></div>
+                </div>
+                <div class="crossIcon iconHomePage" id="cross">
+                    <iconify-icon icon="system-uicons:cross"></iconify-icon>
+                </div>
+            </div>
             <div class="dropdown">
             </div>
         </div>
