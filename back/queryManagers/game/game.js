@@ -33,6 +33,8 @@ function manageRequest(request, response) {
         request.on('data', function (data) {
             body += data;
         });
+
+        response.statusCode = 200;
         if (filePath[3]==null){
             request.on('end', function () {
                 async function createGame() {
