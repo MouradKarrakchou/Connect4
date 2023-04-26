@@ -63,9 +63,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 function muteVibration() {
     vibrationMuted = !vibrationMuted;
-
-    let vibrationCookie = document.cookie.replace(/(?:^|.*;\s*)vibrationMuted\s*=\s*([^;]*).*$|^.*$/, "$1");
-    vibrationCookie = (vibrationCookie !== "") ? vibrationCookie + "," + vibrationMuted : vibrationMuted;
     document.cookie = "vibrationMuted=" + vibrationCookie;
 }
 
