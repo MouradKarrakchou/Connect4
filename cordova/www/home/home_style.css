@@ -36,6 +36,9 @@ html{
         align-content: center;
         width: 100%;
     }
+    #notVibrating{
+        display: none;
+    }
     .headerGameSaved{
         display: flex;
     }
