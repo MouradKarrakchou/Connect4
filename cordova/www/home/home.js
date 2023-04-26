@@ -60,6 +60,16 @@ document.addEventListener('DOMContentLoaded', async function () {
 })
 
 function muteVibration() {
+    if (document.getElementById("vibrating").style.display!=="none"){
+        document.getElementById("notVibrating").style.display="inline-block";
+        document.getElementById("vibrating").style.display="none";
+        document.getElementById("muteVibrationButton").style.backgroundColor="#4b7f82";
+    }
+    else{
+        document.getElementById("vibrating").style.display="inline-block";
+        document.getElementById("notVibrating").style.display="none";
+        document.getElementById("muteVibrationButton").style.backgroundColor="rgb(128 215 221)";
+    }
     muteVibrationUpdateCookie();
 }
 
