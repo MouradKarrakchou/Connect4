@@ -57,22 +57,16 @@ document.addEventListener('DOMContentLoaded', async function () {
         menu.style.display = "block";
         popupVibration();
     })
-    let myvibrationMuted=isVibrationMuted();
-    if (myvibrationMuted){
-        document.getElementById("notVibrating").style.display="inline-block";
-        document.getElementById("vibrating").style.display="none";
-        document.getElementById("muteVibrationButton").style.backgroundColor="#4b7f82";
-    }
-    else{
-        document.getElementById("vibrating").style.display="inline-block";
-        document.getElementById("notVibrating").style.display="none";
-        document.getElementById("muteVibrationButton").style.backgroundColor="rgb(128 215 221)";
-    }
+
+    switchVibrationIcon(isVibrationMuted());
 })
 
 function muteVibration() {
-    let myvibrationMuted=muteVibrationUpdateCookie();
-    if (myvibrationMuted){
+    switchVibrationIcon(muteVibrationUpdateCookie());
+}
+
+function switchVibrationIcon(isMuted) {
+    if (isMuted){
         document.getElementById("notVibrating").style.display="inline-block";
         document.getElementById("vibrating").style.display="none";
         document.getElementById("muteVibrationButton").style.backgroundColor="#4b7f82";
