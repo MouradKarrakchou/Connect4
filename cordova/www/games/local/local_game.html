@@ -98,11 +98,13 @@
 
     <div class="menu">
         <div class="gameLaunch" onclick="window.location.href='../../home/home.html'">
-            <h1 class="onlineButton">Home</h1>
+            <h1 class="OnComputer onlineButton">Home</h1>
+            <iconify-icon icon="material-symbols:home-outline" class="OnPhone"  style="margin: auto"></iconify-icon>
         </div>
 
-        <div class="gameLaunch" id="saveButton">
-            <h1 class="buttonLaunch">Save</h1>
+        <div class="gameLaunch" id="saveButton" >
+            <h1 class="buttonLaunch OnComputer">Save</h1>
+            <iconify-icon icon="material-symbols:save" class="OnPhone iconHeader"></iconify-icon>
         </div>
     </div>
 </div>
@@ -110,7 +112,7 @@
 
 
 <div class="notification" id="notificationSave" style="display: none">
-    <div class="notification-content" style="margin:auto;font-size: 40px;">
+    <div class="notification-content" id="notification-content" style="margin:auto;">
         <p id="notificationTextMessageSave"> Put the name of the saved game:</p>
         <input type="text" id="searchBarNotification" style="padding-top: 10px;padding-bottom: 10px;background-color: #9e9d9224;margin: auto;width: 80%;height: 15%;font-size: 50%;" placeholder="myFavoriteGame">
         <div style="display: flex">
