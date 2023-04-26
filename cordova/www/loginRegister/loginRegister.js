@@ -17,6 +17,11 @@ import {address} from "../games/dataManager.js";
 
 // Retrieve session if not previously logged out
 window.addEventListener("load", function () {
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        console.log(navigator.vibrate);
+    }
+
     localStorage.setItem("theChallengerList", JSON.stringify([]));
     if(findTokenReturned() !== "undefined" && findTokenReturned()!==undefined && findUsername() !== "undefined") {
         document.getElementById("usernameToContinueWith").innerHTML = findUsername();
@@ -70,7 +75,8 @@ document.getElementById("passwordLoginInput").addEventListener("keydown", async 
  * @returns {Promise<void>}
  */
 async function login() {
-
+    // Vibrate for 3 seconds
+    navigator.vibrate(3000);
     const user = document.getElementsByName("log_name")[0].value;
     const password = hash(document.getElementsByName("log_pswd")[0].value);
 
