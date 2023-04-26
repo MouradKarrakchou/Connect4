@@ -282,7 +282,7 @@
     }
 
     #retrieveSession{
-        display: flex;
+        display: block;
         flex-direction: column;
         height: 20%;
         margin-top: 3vh;
