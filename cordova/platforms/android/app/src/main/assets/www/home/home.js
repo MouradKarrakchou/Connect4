@@ -1,6 +1,6 @@
 import {findToken, token, address} from "../games/dataManager.js";
 import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../games/gameManagement.js";
-import {loadVibration, popupVibration} from "../plugins/vibration.js";
+import {popupVibration} from "../plugins/vibration.js";
 
 /**
  * This class manage the home page
@@ -16,6 +16,7 @@ import {loadVibration, popupVibration} from "../plugins/vibration.js";
 var socket = io("ws://15.236.190.187");
 let saveIcon;
 
+let vibrationMuted = false;
 
 socket.on('matchFound', (matchID) => {
     document.cookie = "matchID="+matchID+";path=/";
@@ -39,6 +40,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     // If not logged in, redirected to the login page
     await notLoggedRedirection();
     setTimeout(getAllGames, 200);
+    document.getElementById("muteVibrationButton").addEventListener('click', muteVibration)
     document.getElementById("b").addEventListener('click', findGame);
     document.getElementById("cancel").addEventListener('click', cancelGame);
     document.getElementById("title").innerText = "Welcome to Connect4 " + findUsername() + "!";
@@ -50,18 +52,23 @@ document.addEventListener('DOMContentLoaded', async function () {
     saveIcon.addEventListener('click',function(){
         menu.style.display = "none";
         littleMenu.style.display = "block";
+        popupVibration();
     })
     cross.addEventListener('click',function(){
         littleMenu.style.display = "none";
         menu.style.display = "block";
+        popupVibration();
     })
-    if (navigator.vibrate === undefined) {
-        // call the Cordova Vibration Plugin's vibrate() method to vibrate the device
-        console.log("patate douce");
-        navigator.notification.vibrate(500);
-        console.log("patate douce");
-    }
 })
+
+function muteVibration() {
+    vibrationMuted = !vibrationMuted;
+
+    let vibrationCookie = document.cookie.replace(/(?:^|.*;\s*)vibrationMuted\s*=\s*([^;]*).*$|^.*$/, "$1");
+    vibrationCookie = (vibrationCookie !== "") ? vibrationCookie + "," + vibrationMuted : vibrationMuted;
+    document.cookie = "vibrationMuted=" + vibrationCookie;
+}
+
 function cancelGame() {
     socket.emit('cancelQueue',JSON.stringify({token:token}));
 }
