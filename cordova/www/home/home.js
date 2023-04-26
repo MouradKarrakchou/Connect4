@@ -16,7 +16,7 @@ import {popupVibration} from "../plugins/vibration.js";
 var socket = io(ioAddress);
 let saveIcon;
 
-let vibrationMuted = false;
+export let vibrationMuted = false;
 
 socket.on('matchFound', (matchID) => {
     document.cookie = "matchID="+matchID+";path=/";
