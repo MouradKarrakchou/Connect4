@@ -362,7 +362,13 @@
     .littleNames{
         margin: auto;
     }
-    html body{
+    body{
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+    }
+    html{
         height: 100%;
         width: 100%;
     }
