@@ -242,8 +242,8 @@ export function saveGame(info) {
         .catch(error => {
             console.error(error);
         });
-
-    document.getElementById("keepPlaying").addEventListener('click', function () {document.getElementById("savedGameMessage").style.display = "none"});
+    if (document.getElementById("keepPlaying")!=null)
+        document.getElementById("keepPlaying").addEventListener('click', function () {document.getElementById("savedGameMessage").style.display = "none"});
     document.getElementById("backToHome").addEventListener('click', function () {window.location.href = "/home/home.html"});
 }
 
