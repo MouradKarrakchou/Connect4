@@ -1,8 +1,9 @@
 
 @media only screen and (max-width: 821px) {
     .chat-container {
-        position: fixed;
-        bottom: 0px;
+        font-size: 3.8vh;
+        position: absolute;
+        bottom: 0;
         right: 0;
         background-color: #fff;
         box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
@@ -16,6 +17,7 @@
         margin: auto;
     }
     #miniNotification{
+        display: flex;
         width: 30%;
         margin: auto;
     }
@@ -29,6 +31,7 @@
         overflow-y: scroll;
         flex-grow: 1;
         padding: 10px;
+        height: 160vh;
     }
 
     #chatBar {
@@ -36,7 +39,9 @@
         background-color: #9e9d9224;
         border: none;
         font-size: 40px;
-        height: 10vh;
+    }
+    .miniFriendMenu{
+        background-color: rgba(240, 168, 80, 0.64);
     }
 
     #sendMsg {
@@ -59,16 +64,21 @@
         margin-top: 2%;
         display: flex;
         bottom: 5px;
-        width: 98%;
+        height: 20vh;
     }
 
     .chat-header {
+        height: 20vh;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: space-between;
         padding: 10px;
         background-color: #9e9d9224;
         border: none;
         text-align: center;
         border-radius: 15px 15px 0 0;
         display: none;
+
     }
 
     .choice-header {
@@ -95,6 +105,7 @@
 
     .icon_mini {
         width: 33.33%;
+        margin: auto;
     }
 
 
@@ -110,7 +121,7 @@
         border: none;
         width: 100%;
         background-color: #9e9d9224;
-        font-size: 5vw;
+        font-size: 8vw;
     }
 
     #miniFriendMenu {
@@ -133,11 +144,12 @@
     .miniDropdown {
         overflow-x: hidden;
         overflow-y: auto;
-        height: 95%;
+        height: 90%;
         order:1;
     }
 
     .miniDropdownNotification {
+        font-size: 6vh;
         overflow-x: hidden;
         overflow-y: auto;
         height: 100%;
@@ -147,7 +159,13 @@
         position: relative;
         background-color: rgba(231, 225, 195, 0.36);
         text-align: center;
+        height: 100%;
     }
+    .miniFriendMessageWrapper{
+        height: 100%;
+        background-color: #f0a850;
+    }
+
 
     .fa-message {
         margin-left: 0px;
@@ -172,15 +190,15 @@
         background-color: #4CAF50;
         color: white;
         border: none;
-        padding: 1% 2.5%;
+        padding: 2% 4%;
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 4vw;
+        font-size: 5vh;
         border-radius: 5px;
         cursor: pointer;
-        margin-top: auto;
-        margin-bottom: auto;
+        margin: auto;
+        width: 30%;
     }
 
 
@@ -188,15 +206,15 @@
         background-color: #f44336;
         color: white;
         border: none;
-        padding: 1% 2.5%;
+        padding: 2% 4%;
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 4vw;
+        font-size: 5vh;
         border-radius: 5px;
         cursor: pointer;
-        margin-top: auto;
-        margin-bottom: auto;
+        margin: auto;
+        width: 30%;
     }
 
 
@@ -413,11 +431,11 @@
         background-color: #4CAF50;
         color: white;
         border: none;
-        padding: 1% 2.5%;
+        padding: 5% 5%;
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 1vw;
+        font-size: 4vh;
         border-radius: 5px;
         cursor: pointer;
         margin-top: auto;
@@ -432,11 +450,11 @@
         background-color: #f44336;
         color: white;
         border: none;
-        padding: 1% 2.5%;
+        padding: 5% 5%;
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 1vw;
+        font-size: 4vh;
         border-radius: 5px;
         cursor: pointer;
         margin-top: auto;

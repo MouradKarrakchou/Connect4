@@ -21,7 +21,8 @@
       "android"
     ],
     "plugins": {
-      "cordova-plugin-vibration": {}
+      "cordova-plugin-vibration": {},
+      "cordova-plugin-splashscreen": {}
     }
   }
 }
