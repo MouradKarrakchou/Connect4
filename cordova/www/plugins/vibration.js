@@ -1,32 +1,51 @@
 
+export let vibrationMuted = false;
+
+export function muteVibrationUpdateCookie() {
+    console.log("before clicking vibration: " + vibrationMuted);
+    vibrationMuted = !vibrationMuted;
+    console.log("after clicking vibration: " + vibrationMuted);
+    let cookie = document.cookie;
+    let cookieArray = cookie.split(';');
+    for (let i = 0; i < cookieArray.length; i++) {
+        let cookieName = cookieArray[i].split('=')[0];
+        if (cookieName === 'vibrationMuted') {
+            cookieArray[i] = 'vibrationMuted=' + vibrationMuted;
+            break;
+        }
+    }
+    document.cookie = cookieArray.join(';');
+    console.log("cookie after clicking vibration: " + document.cookie);
+}
+
 export function notificationVibration() {
-    navigator.vibrate(100);
+    if(!vibrationMuted) navigator.vibrate(100);
 }
 
 export function errorVibration() {
-    navigator.vibrate([100, 100]);
+    if(!vibrationMuted) navigator.vibrate([100, 100]);
 }
 
 export function timerVibration() {
-    navigator.vibrate(50);
+    if(!vibrationMuted) navigator.vibrate(50);
 }
 
 export function popupVibration() {
-    navigator.vibrate(50);
+    if(!vibrationMuted) navigator.vibrate(50);
 }
 
 export function winVibration() {
-    navigator.vibrate([50, 50, 50]);
+    if(!vibrationMuted) navigator.vibrate([50, 50, 50]);
 }
 
 export function loseVibration() {
-    navigator.vibrate([500]);
+    if(!vibrationMuted) navigator.vibrate([500]);
 }
 
 export function onlineGameFoundVibration() {
-    navigator.vibrate([250]);
+    if(!vibrationMuted) navigator.vibrate([250]);
 }
 
 export function registerVibration() {
-    navigator.vibrate([50, 50, 50]);
+    if(!vibrationMuted) navigator.vibrate([50, 50, 50]);
 }
