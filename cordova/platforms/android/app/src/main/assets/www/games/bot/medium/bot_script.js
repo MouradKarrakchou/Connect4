@@ -10,8 +10,6 @@ import {
     retrieveGameState, notLoggedRedirection
 } from "../../gameManagement.js"
 import {address} from "../../dataManager.js";
-import {winVibration, loseVibration, popupVibration, } from "../../../plugins/vibration";
-
 /**
  *
  * @fileoverview This file contains the script for the connect 4 smart IA.
@@ -161,14 +159,8 @@ function startplay(tab){
     }
     if (checkWin() === true) {
         console.log(color + " player wins!");
-        if (!itsMyTurn) {
-            document.getElementById("message").innerText = "You won!";
-            winVibration();
-        }
-        else {
-            document.getElementById("message").innerText = color + " player wins!";
-            loseVibration();
-        }
+        if (!itsMyTurn) document.getElementById("message").innerText = "You won!";
+        else document.getElementById("message").innerText = color + " player wins!";
         document.getElementById("saveButton").style.display = "none";
         document.getElementById("saveButton").style.pointerEvents = "none";
         document.getElementById("reset-button").style.display = "block";

@@ -186,20 +186,18 @@
     }
 
     .top {
+        margin-bottom: 3%;
+        height: 17%;
         display: flex;
         flex-direction: row;
     }
 
     .credentialBlock {
-        align-content: center;
-        width: 100vw;
-        height: 70vh;
         background-color: #fffbe3d1;
         border-radius: 10vw;
         box-shadow: 0 0 10vw rgba(0, 0, 0, 0.2);
         padding: 10vw;
-        margin: 10% auto;
-        max-width: 100vw;
+        height: 80%;
     }
 
     #login {
@@ -208,8 +206,8 @@
 
     .login-text {
         width: 50%;
-        text-align: center;
         border-radius: 10vw;
+        display: flex;
     }
 
     .login-text:hover {
@@ -218,8 +216,8 @@
 
     .signIn-text {
         width: 50%;
-        text-align: center;
         border-radius: 10vw;
+        display: flex;
     }
 
     .signIn-text:hover {
@@ -270,21 +268,20 @@
     }
 
     #log {
-        margin: 0 auto;
+        font-size: 4vw;
         text-align: center;
+    }
+    .body{
+        height: 100%;
     }
 
     #reg {
+        height: 80%;
         display: none;
-        margin: 0 auto;
-        text-align: center;
     }
 
-    #retrieveSession a {
-        display: block;
-        position: relative;
-        bottom: 10vh;
-        margin-right: 15vw;
+    #retrieveSession{
+        height: 20%;
     }
 
 
@@ -295,12 +292,8 @@
         color: #000;
         border-radius: 10vw;
         border: 1px solid #ccc;
-        cursor: pointer;
-        bottom: 44vh;
-        position: absolute;
-        left: 50vw;
         font-size: 10vw;
-        width: 30vw;
+        margin: auto;
     }
 
     #usernameToContinueWith:hover {
@@ -308,7 +301,7 @@
     }
 
     #title {
-        font-size: 400%;
+        font-size: 10vw;
         color: #2d3f51;
         text-align: center;
         margin-top: 10%;
@@ -347,25 +340,15 @@
         right: 30%;
         bottom: 15%;
     }
-    #passwordLoginInput {
-        margin-bottom: 20vh;
+    #usernameLoginInput #passwordLoginInput{
+        margin: auto;
+        height: 15%;
     }
-    #usernameLoginInput{
-        margin-top: 15vh;
-        margin-bottom: 15vh;
+    #confirmPasswordRegisterInput #passwordRegisterInput #usernameRegisterInput #mailRegisterInput{
+        margin: auto;
+        height: 10%;
     }
-    #confirmPasswordRegisterInput{
-        margin-bottom: 5vh;
-    }
-    #passwordRegisterInput{
-        margin-bottom: 5vh;
-    }
-    #usernameRegisterInput{
-        margin-bottom: 5vh;
-    }
-    #mailRegisterInput{
-        margin-bottom: 5vh;
-    }
+
     #errorMessage{
         position: absolute;
         left: 12vw;
@@ -375,5 +358,23 @@
         font-size: 7vw;
         display:none;
         color: red;
+    }
+    .littleNames{
+        margin: auto;
+    }
+    body{
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+    }
+    html{
+        height: 100%;
+        width: 100%;
+    }
+    .Wrapper{
+        height: 70%;
+        width: 80%;
+        margin: auto;
     }
 }
