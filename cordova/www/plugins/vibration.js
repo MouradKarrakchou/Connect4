@@ -16,6 +16,10 @@ export function muteVibrationUpdateCookie() {
     }
     document.cookie = cookieArray.join(';');
     console.log("cookie after clicking vibration: " + document.cookie);
+    return vibrationMuted;
+}
+export function isVibrationMuted(){
+    return vibrationMuted;
 }
 
 export function notificationVibration() {

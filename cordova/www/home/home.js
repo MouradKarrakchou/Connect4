@@ -1,6 +1,6 @@
 import {findToken, token, address, ioAddress} from "../games/dataManager.js";
 import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../games/gameManagement.js";
-import {popupVibration, muteVibrationUpdateCookie} from "../plugins/vibration.js";
+import {popupVibration, muteVibrationUpdateCookie, vibrationMuted, isVibrationMuted} from "../plugins/vibration.js";
 
 /**
  * This class manage the home page
@@ -57,10 +57,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         menu.style.display = "block";
         popupVibration();
     })
-})
-
-function muteVibration() {
-    if (document.getElementById("vibrating").style.display!=="none"){
+    let myvibrationMuted=isVibrationMuted();
+    if (myvibrationMuted){
         document.getElementById("notVibrating").style.display="inline-block";
         document.getElementById("vibrating").style.display="none";
         document.getElementById("muteVibrationButton").style.backgroundColor="#4b7f82";
@@ -70,7 +68,20 @@ function muteVibration() {
         document.getElementById("notVibrating").style.display="none";
         document.getElementById("muteVibrationButton").style.backgroundColor="rgb(128 215 221)";
     }
-    muteVibrationUpdateCookie();
+})
+
+function muteVibration() {
+    let myvibrationMuted=muteVibrationUpdateCookie();
+    if (myvibrationMuted){
+        document.getElementById("notVibrating").style.display="inline-block";
+        document.getElementById("vibrating").style.display="none";
+        document.getElementById("muteVibrationButton").style.backgroundColor="#4b7f82";
+    }
+    else{
+        document.getElementById("vibrating").style.display="inline-block";
+        document.getElementById("notVibrating").style.display="none";
+        document.getElementById("muteVibrationButton").style.backgroundColor="rgb(128 215 221)";
+    }
 }
 
 function cancelGame() {
