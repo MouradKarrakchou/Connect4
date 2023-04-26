@@ -64,8 +64,8 @@ function alertbattery(){
     navigator.getBattery().then(function(battery) {
         var level = battery.level * 100;
         console.log("Battery level: " + level + "%");
-        if (level <= 90 ) {
-            alert("Warning: battery level is below 10%");
+        if (level <= 15 && !battery.charging) {
+            alert("Warning: battery level is below 15%");
         }
     });
 }
