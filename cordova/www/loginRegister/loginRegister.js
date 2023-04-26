@@ -19,7 +19,6 @@ import {errorVibration, registerVibration} from "../plugins/vibration.js";
 // Retrieve session if not previously logged out
 window.addEventListener("load", function () {
     document.addEventListener("deviceready", onDeviceReady, false);
-
     localStorage.setItem("theChallengerList", JSON.stringify([]));
     if(findTokenReturned() !== "undefined" && findTokenReturned()!==undefined && findUsername() !== "undefined") {
         document.getElementById("usernameToContinueWith").innerHTML = findUsername();
@@ -40,6 +39,7 @@ function onBatteryStatus(status) {
     if (status.level <= 90 && !status.isPlugged) {
         alert("Warning: battery level is below 10%");
     }
+}
 // Login and Register tabs
     let buttonLog = document.getElementById("login")
     buttonLog.addEventListener("click", login_page)
@@ -263,5 +263,5 @@ function onBatteryStatus(status) {
     function isEmailFormatValid(mail) {
         const emailRegex = /\S+@\S+\.\S+/;
         return emailRegex.test(mail);
-    }
+
 }
