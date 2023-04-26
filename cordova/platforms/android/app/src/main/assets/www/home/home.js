@@ -1,4 +1,4 @@
-import {findToken, token, address} from "../games/dataManager.js";
+import {findToken, token, address, ioAddress} from "../games/dataManager.js";
 import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../games/gameManagement.js";
 import {popupVibration} from "../plugins/vibration.js";
 
@@ -13,7 +13,7 @@ import {popupVibration} from "../plugins/vibration.js";
  * @author Ayoub IMAMI
  */
 
-var socket = io("ws://15.236.190.187");
+var socket = io(ioAddress);
 let saveIcon;
 
 let vibrationMuted = false;
