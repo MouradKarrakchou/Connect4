@@ -44,7 +44,7 @@ buttonReg.addEventListener("click",signIn_page)
 
 // Show the registration tab
 function signIn_page(){
-    buttonLog.style.backgroundColor="#fffbe3d1";
+    buttonLog.style.backgroundColor="";
     buttonReg.style.backgroundColor="rgba(150,144,133,0.53)";
     document.getElementById("log").style.display="none";
     document.getElementById("reg").style.display="block";
@@ -52,7 +52,7 @@ function signIn_page(){
 
 // Show the login tab
 function login_page(){
-    buttonReg.style.backgroundColor="#fffbe3d1";
+    buttonReg.style.backgroundColor="";
     buttonLog.style.backgroundColor="rgba(150,144,133,0.53)";
     document.getElementById("reg").style.display="none";
     document.getElementById("log").style.display="block";
