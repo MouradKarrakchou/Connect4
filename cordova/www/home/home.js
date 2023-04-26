@@ -1,6 +1,6 @@
 import {findToken, token, address, ioAddress} from "../games/dataManager.js";
 import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../games/gameManagement.js";
-import {popupVibration} from "../plugins/vibration.js";
+import {popupVibration, muteVibrationUpdateCookie} from "../plugins/vibration.js";
 
 /**
  * This class manage the home page
@@ -15,8 +15,6 @@ import {popupVibration} from "../plugins/vibration.js";
 
 var socket = io(ioAddress);
 let saveIcon;
-
-let vibrationMuted = false;
 
 socket.on('matchFound', (matchID) => {
     document.cookie = "matchID="+matchID+";path=/";
@@ -62,11 +60,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 })
 
 function muteVibration() {
-    vibrationMuted = !vibrationMuted;
-
-    let vibrationCookie = document.cookie.replace(/(?:^|.*;\s*)vibrationMuted\s*=\s*([^;]*).*$|^.*$/, "$1");
-    vibrationCookie = (vibrationCookie !== "") ? vibrationCookie + "," + vibrationMuted : vibrationMuted;
-    document.cookie = "vibrationMuted=" + vibrationCookie;
+    muteVibrationUpdateCookie();
 }
 
 function cancelGame() {
