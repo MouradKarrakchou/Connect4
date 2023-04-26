@@ -4,6 +4,7 @@ import {
     loadGame,
     printIllegalMove, notLoggedRedirection
 } from "../gameManagement.js"
+import {ioAddress} from "../dataManager";
 
 /**
  * this class manage the multiplayer game with the timer, elo calculation and the surrender button
@@ -18,7 +19,7 @@ import {
 let counter = 0;
 let gameOver = false;
 let itsMyTurn;
-var socket = io("ws://15.236.190.187");
+var socket = io(ioAddress);
 let playfirst;
 var player1elo = 0;
 var player2elo = 0;

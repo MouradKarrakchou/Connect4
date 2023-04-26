@@ -1,7 +1,7 @@
-import {findToken, token, address} from "../games/dataManager.js";
+import {findToken, token, address, ioAddress} from "../games/dataManager.js";
 import {findUsername, notLoggedRedirection} from "../games/gameManagement.js";
 import {notificationVibration, errorVibration} from "../plugins/vibration.js";
-let socket = io("ws://15.236.190.187");
+let socket = io(ioAddress);
 
 let pendingChallenge = false;
 let pendingChallengedName = null;
