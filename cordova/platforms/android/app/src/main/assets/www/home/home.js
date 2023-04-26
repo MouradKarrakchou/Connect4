@@ -16,6 +16,7 @@ import {popupVibration} from "../plugins/vibration.js";
 var socket = io("ws://15.236.190.187");
 let saveIcon;
 
+let vibrationMuted = false;
 
 socket.on('matchFound', (matchID) => {
     document.cookie = "matchID="+matchID+";path=/";
@@ -39,6 +40,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     // If not logged in, redirected to the login page
     await notLoggedRedirection();
     setTimeout(getAllGames, 200);
+    document.getElementById("muteVibrationButton").addEventListener('click', muteVibration)
     document.getElementById("b").addEventListener('click', findGame);
     document.getElementById("cancel").addEventListener('click', cancelGame);
     document.getElementById("title").innerText = "Welcome to Connect4 " + findUsername() + "!";
@@ -58,6 +60,15 @@ document.addEventListener('DOMContentLoaded', async function () {
         popupVibration();
     })
 })
+
+function muteVibration() {
+    vibrationMuted = !vibrationMuted;
+
+    let vibrationCookie = document.cookie.replace(/(?:^|.*;\s*)vibrationMuted\s*=\s*([^;]*).*$|^.*$/, "$1");
+    vibrationCookie = (vibrationCookie !== "") ? vibrationCookie + "," + vibrationMuted : vibrationMuted;
+    document.cookie = "vibrationMuted=" + vibrationCookie;
+}
+
 function cancelGame() {
     socket.emit('cancelQueue',JSON.stringify({token:token}));
 }
