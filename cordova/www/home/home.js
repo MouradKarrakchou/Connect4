@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 function muteVibration() {
     vibrationMuted = !vibrationMuted;
-    document.cookie = "vibrationMuted=" + vibrationCookie;
+    document.cookie = "vibrationMuted=" + vibrationMuted;
 }
 
 function cancelGame() {
