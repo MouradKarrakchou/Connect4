@@ -77,10 +77,6 @@ document.getElementById("passwordLoginInput").addEventListener("keydown", async 
  * @returns {Promise<void>}
  */
 async function login() {
-
-    // Vibrate for 3 seconds
-    navigator.vibrate(3000);
-
     const user = document.getElementsByName("log_name")[0].value;
     const password = hash(document.getElementsByName("log_pswd")[0].value);
 
