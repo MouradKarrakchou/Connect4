@@ -60,7 +60,17 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     switchVibrationIcon(isVibrationMuted());
 })
-
+function alertbattery(){
+    navigator.getBattery().then(function(battery) {
+        var level = battery.level * 100;
+        console.log("Battery level: " + level + "%");
+        if (level <= 90 ) {
+            alert("Warning: battery level is below 10%");
+        }
+    });
+}
+let btn = document.getElementById("b");
+btn.addEventListener('click', alertbattery);
 function muteVibration() {
     switchVibrationIcon(muteVibrationUpdateCookie());
 }

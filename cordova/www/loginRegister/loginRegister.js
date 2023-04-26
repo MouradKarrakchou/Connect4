@@ -27,12 +27,10 @@ window.addEventListener("load", function () {
             window.location.href = "../home/home.html"
         })
     }
-})
-
+});
 function onDeviceReady() {
     console.log(navigator.vibrate);
     console.log("Device is ready!");
-    window.addEventListener("batterystatus", onBatteryStatus, false);
 }
 
 function onBatteryStatus(status) {
