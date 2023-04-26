@@ -9,6 +9,7 @@ import {
     findTokenReturned,
     notLoggedRedirection
 } from "../../gameManagement.js"
+import {ioAddress} from "../../dataManager";
 
 /**
  *
@@ -27,7 +28,7 @@ notLoggedRedirection();
 var roomName;
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
-var socket = io("ws://15.236.190.187");
+var socket = io(ioAddress);
 let counter = 0;
 
 

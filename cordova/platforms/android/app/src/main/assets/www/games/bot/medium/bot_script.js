@@ -9,7 +9,7 @@ import {
     getCount,
     retrieveGameState, notLoggedRedirection
 } from "../../gameManagement.js"
-import {address} from "../../dataManager.js";
+import {address, ioAddress} from "../../dataManager.js";
 /**
  *
  * @fileoverview This file contains the script for the connect 4 smart IA.
@@ -24,7 +24,7 @@ notLoggedRedirection();
 var roomName;
 let gameOver = false;
 document.addEventListener('DOMContentLoaded', init);
-var socket = io("ws://15.236.190.187");
+var socket = io(ioAddress);
 let counter = 0;
 export let itsMyTurn;
 const mapColor = new Map();
