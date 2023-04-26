@@ -9,6 +9,9 @@ body {
     font-family: retro;
     background-color: #f6ffd2;
 }
+    .wrapperMiniFriend{
+        height: 15%;
+    }
 
 
 
@@ -26,6 +29,12 @@ body {
 #decline{
     background-color: red;
 }
+.friendDisplay{
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(231, 225, 195, 0.36);
+    padding:3%;
+}
 
 /* Style the user not found message */
 .userNotFoundMessage {
@@ -37,6 +46,9 @@ body {
     top: 0;
     right: 0;
 }
+.buttonWrapper{
+    display: flex;
+}
 #fMenu{
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     background-color: #fffbe3d1;
@@ -47,7 +59,6 @@ body {
     display: flex;
     bottom: 0;
     padding: 1%;
-    width: 100%;
 }
 #decline{
     position: absolute;
@@ -63,6 +74,8 @@ body {
     justify-content: center;
 }
 .friendReq{
+    display: flex;
+    flex-direction: column;
     margin-bottom: 0%;
     margin-top: 0%;
 }
@@ -145,6 +158,12 @@ body {
 }
 
 @media only screen and (min-width: 821px) {
+    .friendDisplay{
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(231, 225, 195, 0.36);
+        padding:3%;
+    }
     /* Set default font and background color */
     .backgroundLittleMenu .shapeLittleMenu{
         display: none;
@@ -206,6 +225,7 @@ body {
         justify-content: center;
     }
     .friendReq{
+        font-size: 4vh;
         margin-bottom: 0%;
         margin-top: 0%;
     }
@@ -258,4 +278,8 @@ body {
     }
     #user-message{
         font-size: 12px;
-    }}
+    }
+    .buttonWrapper{
+        display: flex;
+    }
+}

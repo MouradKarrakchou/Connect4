@@ -1,5 +1,6 @@
 import {findToken, token, address} from "../games/dataManager.js";
 import {findUsername, notLoggedRedirection} from "../games/gameManagement.js";
+import {notificationVibration, errorVibration} from "../plugins/vibration.js";
 let socket = io("ws://15.236.190.187");
 
 let pendingChallenge = false;
@@ -116,7 +117,7 @@ async function getFriendList() {
  */
 function setupChatContainer(friend){
     let newItem = document.createElement('div');
-    newItem.innerHTML = `<i class="fa-solid fa-chevron-left" style="margin-left: 0px;"></i>
+    newItem.innerHTML = `<i class="fa-solid fa-chevron-left" style="margin: 0px; color:black;"></i>
                      <div style="margin: auto;">${friend}</div>`;
     document.getElementById("chat-header").innerHTML = '';
     newItem.style.display = 'flex';
@@ -124,9 +125,9 @@ function setupChatContainer(friend){
     newItem.style.justifyContent = 'center';
     newItem.style.width = '95%';
     document.getElementById("chat-header").appendChild(newItem);
-    miniFriendContainer.style.display="none";
     chatContainer.style.display = "flex";
     chatMessages.innerHTML='';
+    if (isOnMobile) document.getElementById("chat-header").style.display="block";
     socket.emit('loadFriendChat', { friendUsername: friend,
         token: token});
 }
@@ -301,6 +302,7 @@ chatBar.addEventListener('keydown', (event) => {
 socket.emit('socketByUsername', { username: findUsername() });
 
 socket.on('friendIsChallenging', (challengerName) => {
+    notificationVibration();
     addChallengerNameToLocalStorage(challengerName);
     challengedMini(challengerName);
 });
@@ -331,6 +333,7 @@ function appendMessage(message) {
  * even if the user refresh the page or go to another page
  */
 socket.on('notConnectedMessage', (challengedName) => {
+    errorVibration();
     document.getElementById("cancelChallengeMini").style.display = "none";
     document.getElementById("ok-btn").style.display = "block";
     pendingChallenge = false;
@@ -340,6 +343,7 @@ socket.on('notConnectedMessage', (challengedName) => {
 })
 
 socket.on('notFriendMessage', (challengedName) => {
+    errorVibration();
     document.getElementById("cancelChallengeMini").style.display = "none";
     document.getElementById("ok-btn").style.display = "block";
     pendingChallenge = false;
@@ -354,6 +358,7 @@ socket.on('challengeAccepted', (matchID) => {
 });
 
 socket.on('challengeDeclined', (challengedName) => {
+    errorVibration();
     pendingChallenge = false;
     notification.style.display="flex";
     document.getElementById("cancelChallengeMini").style.display = "none";
@@ -370,6 +375,7 @@ socket.on('challengeHasBeenCanceled', (challengerName) => {
 })
 
 socket.on('privateMessage', (request) => {
+    notificationVibration();
     console.log(request);
     console.log(currentFriendDiscussion);
     if (currentFriendDiscussion!==request.username){
@@ -439,6 +445,7 @@ function showMiniFriendList(friendList) {
     for (let i = 0; i < friendList.length; i++) {
         let dropdown = document.querySelector('.miniDropdown');
         let newItem = document.createElement('div');
+        newItem.classList.add('wrapperMiniFriend');
 
         let idIconMessage="notificationMini" + friendList[i];
         let idDivFriend = "friendMini" + friendList[i];
@@ -449,9 +456,9 @@ function showMiniFriendList(friendList) {
         let idMessage = "messageMini" + friendList[i];
 
         newItem.innerHTML = ` <div class="miniFriend" style="font-size: 2em;" >
-                                <div style="display: flex;">
+                                <div class="miniFriendMessageWrapper"  id=${idDivFriend} style="display: flex;">
                                     <iconify-icon icon="mdi:message-notification" id=${idIconMessage} style="display:none;color:darkred;font-size: 0.5em;"></iconify-icon>
-                                    <div class="mini-Friend-name" style="margin:auto;width: 100%;" id=${idDivFriend}>${friendList[i]}</div>
+                                    <div class="mini-Friend-name" style="margin:auto;width: 100%;">${friendList[i]}</div>
                                 </div>
                                 <div class="miniFriendMenu" id=${idMiniFriendMenu} style="display: none; justify-content: space-between;"">
                                      <div class="icon_mini" id=${idMessage}>
@@ -533,10 +540,12 @@ function challengedMini(challengerName) {
     console.log("CHALLENGED MINI decline the challenge ID: " + declineTheChallengeId);
 
     newChallenge.innerHTML = `
-                            <div class="${friendIsChallengingClassName}" style="display: flex; background-color: rgba(231, 225, 195, 0.36); padding:3%;">
+                            <div class="friendDisplay ${friendIsChallengingClassName}">
                                 <div style="margin: auto;">${challengerName} is challenging you!</div>
-                                <button class="accept" id="${acceptTheChallengeId}">Accept</button>
-                                <button class="decline" id="${declineTheChallengeId}">Decline</button>
+                                <div class="buttonWrapper">
+                                    <button class="accept" id="${acceptTheChallengeId}">Accept</button>
+                                    <button class="decline" id="${declineTheChallengeId}">Decline</button>
+                                </div>
                             </div>`;
     console.log("CHALLENGED MINI newChallenge.innerHTML: " + newChallenge.innerHTML);
 
@@ -578,8 +587,10 @@ function showFriendRequestMini(friendRequest) {
         newItem.innerHTML = `
                             <div class="friendReq" style="display: flex; background-color: rgba(231, 225, 195, 0.36); padding:3%;">
                                 <div style="margin:auto">Friend request from ${friendRequest[i]}</div>
-                                <button class="accept" id="${acceptId}">Accept</button>
-                                <button class="decline" id="${declineId}">Decline</button>
+                                <div class="buttonWrapper">
+                                    <button class="accept" id="${acceptId}">Accept</button>
+                                    <button class="decline" id="${declineId}">Decline</button>
+                                </div>
                             </div>`;
         dropdown.insertBefore(newItem,dropdown.firstChild);
         document.getElementById(acceptId).addEventListener('click', function () {
@@ -619,7 +630,7 @@ document.getElementById("miniHomeBack").addEventListener('click', function () {
     document.getElementById("miniFriendList").style.display = "none";
     document.getElementById("miniNotificationList").style.display = "none";
     console.log("DANS LE HOME ")
-    if (isOnMobile && document.getElementById("menu")!==null)
+    if (isOnMobile && document.getElementById("littleMenu")!==null)
     {
         console.log("DANS LE IF ")
         document.getElementById("littleMenu").style.display = "none";

@@ -1,6 +1,7 @@
 console.log(document.cookie)
 import {findTokenReturned, findUsername} from "../games/gameManagement.js"
 import {address} from "../games/dataManager.js";
+import {errorVibration, registerVibration} from "../plugins/vibration.js";
 
 /**
  * This class manage the login and the registration
@@ -17,6 +18,8 @@ import {address} from "../games/dataManager.js";
 
 // Retrieve session if not previously logged out
 window.addEventListener("load", function () {
+    document.addEventListener("deviceready", onDeviceReady, false);
+
     localStorage.setItem("theChallengerList", JSON.stringify([]));
     if(findTokenReturned() !== "undefined" && findTokenReturned()!==undefined && findUsername() !== "undefined") {
         document.getElementById("usernameToContinueWith").innerHTML = findUsername();
@@ -26,6 +29,11 @@ window.addEventListener("load", function () {
         })
     }
 })
+
+function onDeviceReady() {
+    console.log(navigator.vibrate);
+    console.log("Device is ready!");
+}
 
 // Login and Register tabs
 let buttonLog=document.getElementById("login")
@@ -70,7 +78,6 @@ document.getElementById("passwordLoginInput").addEventListener("keydown", async 
  * @returns {Promise<void>}
  */
 async function login() {
-
     const user = document.getElementsByName("log_name")[0].value;
     const password = hash(document.getElementsByName("log_pswd")[0].value);
 
@@ -152,6 +159,7 @@ async function register() {
     if (name === "" || mail === "" || clearPassword === "" || confirmClearPassword === "") {
         document.getElementById("errorMessage").innerText = "Please complete all fields";
         document.getElementById("errorMessage").style.display = "block";
+        errorVibration();
         return;
     }
 
@@ -159,6 +167,7 @@ async function register() {
     if (!isEmailFormatValid(mail)) {
         document.getElementById("errorMessage").innerText = "Invalid email format - Please enter your email";
         document.getElementById("errorMessage").style.display = "block";
+        errorVibration();
         return;
     }
 
@@ -183,9 +192,11 @@ async function register() {
                 console.log(data);
                 if (data.status==="failure") {
                     window.alert("Username already taken");
+                    errorVibration();
                 } else {
                     document.getElementById("errorMessage").style.display = "none";
                     window.alert("Registration successful - You can now log in");
+                    registerVibration();
                 }
             });
     }
@@ -193,6 +204,7 @@ async function register() {
     else {
         document.getElementById("errorMessage").innerText = "Passwords are not the same!";
         document.getElementById("errorMessage").style.display = "block";
+        errorVibration();
     }
 }
 

@@ -42,7 +42,7 @@ html{
 
     .dropdown{
         position: absolute;
-        width: 20%;
+        width: 100%;
         overflow-x: hidden;
         overflow-y: auto;
         height: 60%;
@@ -73,7 +73,6 @@ html{
     .item{
         background-color: rgba(231, 225, 195, 0.36);
         display: flex;
-        margin-bottom: 4%;
         margin-top: 3%;
         justify-content: center;
     }
@@ -144,10 +143,6 @@ html{
         background-color: #f0981994;
     }
 
-    .fa-solid{
-        color: white;
-    }
-
     .buttonLaunch, .onlineButton, .botButton {
         margin: auto;
         border: none;
@@ -194,13 +189,22 @@ html{
 
 /* Styles for computers */
 @media only screen and (min-width: 821px) {
+    .crossIcon{
+        display: none;
+    }
+    .saveIcon{
+        display: none;
+    }
+    .headerGameSaved{
+        display: flex;
+    }
 
     .title {
         text-align: center;
-        font-size: 400%;
+        font-size: 6vw;
     }
     .header-top{
-        height: 20%;
+        height: 15%;
         margin-bottom: 5%;
     }
 
@@ -242,8 +246,7 @@ html{
         cursor: pointer;
     }
     h4{
-
-        font-size: 150%;
+        font-size: 4vh;
     }
     .item{
         background-color: rgba(231, 225, 195, 0.36);
@@ -303,23 +306,24 @@ html{
         margin-bottom: 3%;
         justify-content: flex-start;
         transition: width 0.3s;
-        width: 110%;
+        width: 90%;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        font-size:100px;
+        font-size: 10vw;
+        padding: 5vh;
     }
     .gameLaunch:hover{
-        width: 120%;
+        width: 100%;
     }
 
     .buttonLaunch, .onlineButton, .botButton {
         margin: auto;
         border: none;
-        padding: 40px 150px;
         text-align: center;
         text-decoration: none;
         display: inline-block;
         font-size: 4vw;
         cursor: pointer;
+        width: 60%;
     }
 
     div i, icon {
@@ -352,6 +356,10 @@ html{
         );
         right: 30%;
         bottom: 15%;
+    }
+
+    .miniHomeBack{
+        display: none;
     }
 
 }

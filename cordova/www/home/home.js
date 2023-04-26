@@ -1,5 +1,6 @@
 import {findToken, token, address} from "../games/dataManager.js";
 import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../games/gameManagement.js";
+import {popupVibration} from "../plugins/vibration.js";
 
 /**
  * This class manage the home page
@@ -49,10 +50,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     saveIcon.addEventListener('click',function(){
         menu.style.display = "none";
         littleMenu.style.display = "block";
+        popupVibration();
     })
     cross.addEventListener('click',function(){
         littleMenu.style.display = "none";
         menu.style.display = "block";
+        popupVibration();
     })
 })
 function cancelGame() {

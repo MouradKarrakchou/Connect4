@@ -13,7 +13,7 @@ let secondPlayerName;
  * @fileoverview this file contains the functions to manage the game and the sockets
  *
  * @author      Weel Ben Aissa
- * @author      Ayoub imami
+ * @author      Ayoub Imami
  * @author      Mourad Karrakchou
  *
  */
