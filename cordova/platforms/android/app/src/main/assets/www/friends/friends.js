@@ -39,6 +39,9 @@ async function init() {
         })
     }, 200);
     isOnMobile= (window.innerWidth <= 821);
+    if (!isOnMobile){
+        document.getElementById("miniFriendsContacts").style.backgroundColor="rgba(0,0,0,0.06)";
+    }
 }
 
 /**
@@ -298,6 +301,8 @@ chatBar.addEventListener('keydown', (event) => {
 socket.emit('socketByUsername', { username: findUsername() });
 
 socket.on('friendIsChallenging', (challengerName) => {
+    // Vibrate for 3 seconds
+    navigator.vibrate(100);
     addChallengerNameToLocalStorage(challengerName);
     challengedMini(challengerName);
 });
@@ -510,6 +515,8 @@ function removeChallengerNameFromLocalStorage(challengerName) {
 }
 
 function challengedMini(challengerName) {
+
+
     document.getElementById("iconNotifFight1").style.display='block';
     document.getElementById("iconNotifFight2").style.display='block';
 
@@ -595,6 +602,7 @@ document.getElementById("miniNotification").addEventListener('click', function (
         document.getElementById("iconNotifFight1").style.display='none';
         document.getElementById("iconNotifFight2").style.display='none';
         document.getElementById("miniNotification").style.backgroundColor="rgba(0,0,0,0.06)";
+
         document.getElementById("miniFriendsContacts").style.backgroundColor="";
         document.getElementById("miniHomeBack").style.backgroundColor="";
         document.getElementById("miniFriendList").style.display = "none";
@@ -615,7 +623,7 @@ document.getElementById("miniHomeBack").addEventListener('click', function () {
     document.getElementById("miniFriendList").style.display = "none";
     document.getElementById("miniNotificationList").style.display = "none";
     console.log("DANS LE HOME ")
-    if (document.getElementById("menu")!==null)
+    if (isOnMobile && document.getElementById("menu")!==null)
     {
         console.log("DANS LE IF ")
         document.getElementById("littleMenu").style.display = "none";

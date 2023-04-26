@@ -11,6 +11,14 @@
         justify-content: space-between;
         width: 100%;
     }
+    #miniFriendsContacts{
+        width: 30%;
+        margin: auto;
+    }
+    #miniNotification{
+        width: 30%;
+        margin: auto;
+    }
 
     #mini-container-content {
         display: flex;
@@ -209,6 +217,9 @@
             box-shadow: 0 0 6px 3px #fff, /* inner white */ 0 0 10px 6px #f0f, /* middle magenta */ 0 0 14px 9px #0ff;
         }
     }
+    #miniHomeBack{
+        display: flex;
+    }
 }
 
 
@@ -306,6 +317,12 @@
 
     #miniFriendsContacts:hover {
         background-color: rgba(0, 0, 0, 0.06);
+    }
+    #miniFriendsContacts{
+        width: 50%;
+    }
+    #miniNotification{
+        width: 50%;
     }
 
     .miniFriend:hover {
