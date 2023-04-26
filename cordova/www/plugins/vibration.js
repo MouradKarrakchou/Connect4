@@ -1,4 +1,3 @@
-import {token} from "../games/dataManager";
 
 export let vibrationMuted = false;
 
