@@ -9,6 +9,13 @@
         font-size: 20px;
         zoom: 0.6;
         overflow: hidden;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+    }
+    html{
+        height: 100%;
+        width: 100%;
     }
     #stats-btn {
         display: none;
@@ -156,14 +163,12 @@
     .homepage {
         background-color: #fffbe3d1;
         border: 3px solid #99a37f36;
-        height: fit-content;
-        border-radius: 4px;
+        padding: 5px 5px;
+        font-size: 70px;
+        width: fit-content;
         display: inline-block;
-        padding: 5vw 10vw;
-        cursor: pointer;
-        position: absolute;
-        top: 0;
-        left: 0;
+        vertical-align: 0;
+        margin: auto;
     }
 
     .homepage:hover {
@@ -214,6 +219,7 @@
         padding: 15px;
         border-radius: 15px;
     }
+
 }
 
 @media only screen and (max-width: 821px) {

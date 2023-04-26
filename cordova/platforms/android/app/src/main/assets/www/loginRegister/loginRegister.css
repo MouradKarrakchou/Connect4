@@ -70,7 +70,6 @@
     .body {
         margin-top: 40px;
         margin-bottom: 20px;
-        height: 200px;
     }
 
     .inp {
@@ -186,6 +185,7 @@
     }
 
     .top {
+        font-size: calc(1vh + 1vw);
         margin-bottom: 3%;
         height: 17%;
         display: flex;
@@ -197,7 +197,7 @@
         border-radius: 10vw;
         box-shadow: 0 0 10vw rgba(0, 0, 0, 0.2);
         padding: 10vw;
-        height: 80%;
+        height: 70%
     }
 
     #login {
@@ -238,9 +238,9 @@
     }
 
     .inp {
-        width: 80vw;
-        height: 8vw;
-        font-size: 6vw;
+        width: 70%;
+        height: 6vh;
+        font-size: calc(2vw + 2vh);
         border: 1vw solid #ccc;
         border-radius: 5vw;
         padding: 1vw;
@@ -276,24 +276,28 @@
     }
 
     #reg {
-        height: 80%;
         display: none;
+        font-size: 4vw;
+        text-align: center;
     }
 
     #retrieveSession{
+        display: block;
+        flex-direction: column;
         height: 20%;
+        margin-top: 3vh;
     }
 
 
 
     #usernameToContinueWith {
         display: inline-block;
-        background-color: #f7f7f7;
         color: #000;
         border-radius: 10vw;
         border: 1px solid #ccc;
-        font-size: 10vw;
-        margin: auto;
+        background-color: #8dee8d;
+        padding: 1vh;
+        font-size: calc( 2vh + 2vw );
     }
 
     #usernameToContinueWith:hover {
@@ -301,11 +305,9 @@
     }
 
     #title {
-        font-size: 10vw;
+        font-size: 8vw;
         color: #2d3f51;
         text-align: center;
-        margin-top: 10%;
-        margin-bottom: 40px;
         text-transform: uppercase;
         letter-spacing: 2px;
         font-weight: bold;
@@ -350,13 +352,6 @@
     }
 
     #errorMessage{
-        position: absolute;
-        left: 12vw;
-        bottom: 25vh;
-        display: block;
-        color: red;
-        font-size: 7vw;
-        display:none;
         color: red;
     }
     .littleNames{

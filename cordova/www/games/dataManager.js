@@ -13,7 +13,7 @@
 const local = "http://localhost:80";
 const aws = "http://4quarts.connect4.academy:80";
 const brut = "http://15.236.190.187:80";
-export const address = local;
+export const address = brut;
 export var token;
 
 export function findToken(){
