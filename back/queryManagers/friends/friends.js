@@ -5,7 +5,7 @@ const mongoDBConnection = require("../mongoDBConnection");
  * @fileoverview This file the manager of the friends API
  *
  * @author      Weel Ben Aissa
- * @author      Ayoub imami
+ * @author      Ayoub Imami
  * @author      Mourad Karrakchou
  *
  */

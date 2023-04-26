@@ -1,6 +1,7 @@
 console.log(document.cookie)
 import {findTokenReturned, findUsername} from "../games/gameManagement.js"
 import {address} from "../games/dataManager.js";
+import {errorVibration, registerVibration} from "../plugins/vibration.js";
 
 /**
  * This class manage the login and the registration
@@ -158,6 +159,7 @@ async function register() {
     if (name === "" || mail === "" || clearPassword === "" || confirmClearPassword === "") {
         document.getElementById("errorMessage").innerText = "Please complete all fields";
         document.getElementById("errorMessage").style.display = "block";
+        errorVibration();
         return;
     }
 
@@ -165,6 +167,7 @@ async function register() {
     if (!isEmailFormatValid(mail)) {
         document.getElementById("errorMessage").innerText = "Invalid email format - Please enter your email";
         document.getElementById("errorMessage").style.display = "block";
+        errorVibration();
         return;
     }
 
@@ -189,9 +192,11 @@ async function register() {
                 console.log(data);
                 if (data.status==="failure") {
                     window.alert("Username already taken");
+                    errorVibration();
                 } else {
                     document.getElementById("errorMessage").style.display = "none";
                     window.alert("Registration successful - You can now log in");
+                    registerVibration();
                 }
             });
     }
@@ -199,6 +204,7 @@ async function register() {
     else {
         document.getElementById("errorMessage").innerText = "Passwords are not the same!";
         document.getElementById("errorMessage").style.display = "block";
+        errorVibration();
     }
 }
 
