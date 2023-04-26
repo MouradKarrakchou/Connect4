@@ -15,7 +15,7 @@ import {address} from "../../dataManager.js";
  * @fileoverview This file contains the script for the connect 4 smart IA.
  *
  * @author      Weel Ben Aissa
- * @author      Ayoub imami
+ * @author      Ayoub Imami
  * @author      Mourad Karrakchou
  *
  */
