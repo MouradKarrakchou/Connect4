@@ -1,5 +1,6 @@
 import {findToken, token, address} from "../games/dataManager.js";
 import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../games/gameManagement.js";
+import {loadVibration, popupVibration} from "../plugins/vibration.js";
 
 /**
  * This class manage the home page
@@ -54,6 +55,12 @@ document.addEventListener('DOMContentLoaded', async function () {
         littleMenu.style.display = "none";
         menu.style.display = "block";
     })
+    if (navigator.vibrate === undefined) {
+        // call the Cordova Vibration Plugin's vibrate() method to vibrate the device
+        console.log("patate douce");
+        navigator.notification.vibrate(500);
+        console.log("patate douce");
+    }
 })
 function cancelGame() {
     socket.emit('cancelQueue',JSON.stringify({token:token}));

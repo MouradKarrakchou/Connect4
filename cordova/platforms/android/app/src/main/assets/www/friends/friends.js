@@ -1,5 +1,6 @@
 import {findToken, token, address} from "../games/dataManager.js";
 import {findUsername, notLoggedRedirection} from "../games/gameManagement.js";
+import {notificationVibration, errorVibration} from "../plugins/vibration.js";
 let socket = io("ws://15.236.190.187");
 
 let pendingChallenge = false;
@@ -301,8 +302,7 @@ chatBar.addEventListener('keydown', (event) => {
 socket.emit('socketByUsername', { username: findUsername() });
 
 socket.on('friendIsChallenging', (challengerName) => {
-    // Vibrate for 3 seconds
-    navigator.vibrate(100);
+    notificationVibration();
     addChallengerNameToLocalStorage(challengerName);
     challengedMini(challengerName);
 });
@@ -333,6 +333,7 @@ function appendMessage(message) {
  * even if the user refresh the page or go to another page
  */
 socket.on('notConnectedMessage', (challengedName) => {
+    errorVibration();
     document.getElementById("cancelChallengeMini").style.display = "none";
     document.getElementById("ok-btn").style.display = "block";
     pendingChallenge = false;
@@ -342,6 +343,7 @@ socket.on('notConnectedMessage', (challengedName) => {
 })
 
 socket.on('notFriendMessage', (challengedName) => {
+    errorVibration();
     document.getElementById("cancelChallengeMini").style.display = "none";
     document.getElementById("ok-btn").style.display = "block";
     pendingChallenge = false;
@@ -356,6 +358,7 @@ socket.on('challengeAccepted', (matchID) => {
 });
 
 socket.on('challengeDeclined', (challengedName) => {
+    errorVibration();
     pendingChallenge = false;
     notification.style.display="flex";
     document.getElementById("cancelChallengeMini").style.display = "none";
@@ -372,6 +375,7 @@ socket.on('challengeHasBeenCanceled', (challengerName) => {
 })
 
 socket.on('privateMessage', (request) => {
+    notificationVibration();
     console.log(request);
     console.log(currentFriendDiscussion);
     if (currentFriendDiscussion!==request.username){
@@ -515,8 +519,6 @@ function removeChallengerNameFromLocalStorage(challengerName) {
 }
 
 function challengedMini(challengerName) {
-
-
     document.getElementById("iconNotifFight1").style.display='block';
     document.getElementById("iconNotifFight2").style.display='block';
 
