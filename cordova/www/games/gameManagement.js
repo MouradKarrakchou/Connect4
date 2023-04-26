@@ -243,8 +243,10 @@ export function saveGame(info) {
             console.error(error);
         });
     if (document.getElementById("keepPlaying")!=null)
+    {
         document.getElementById("keepPlaying").addEventListener('click', function () {document.getElementById("savedGameMessage").style.display = "none"});
-    document.getElementById("backToHome").addEventListener('click', function () {window.location.href = "/home/home.html"});
+        document.getElementById("backToHome").addEventListener('click', function () {window.location.href = "/home/home.html"});
+    }
 }
 
 export function isMoveIllegal(event){
