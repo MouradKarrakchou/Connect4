@@ -238,13 +238,13 @@ function setUpSockets(io){
         )
         socket.on('findAllMessagePending', async (request) => {
             let user = await retrieveUserFromDataBase(request.token);
-            if (user === null) return;
+            if (user === null|| findSocketByName(user.username,connectedSockets)===null) return;
             let allUserMessages=await loadAllMessagePending(user.username);
             findSocketByName(user.username,connectedSockets).emit('loadAllMessagePending', allUserMessages);
         })
         socket.on('loadFriendChat', async (request) => {
             let user = await retrieveUserFromDataBase(request.token);
-            if (user === null) return;
+            if (user === null|| findSocketByName(user.username,connectedSockets)===null) return;
 
             let allUserMessages=await loadAllMessageFromConversation(request.friendUsername,user.username);
             findSocketByName(user.username,connectedSockets).emit('allConversationPrivateMessages', allUserMessages)})

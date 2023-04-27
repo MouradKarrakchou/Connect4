@@ -22,7 +22,7 @@ window.addEventListener("load", function () {
     localStorage.setItem("theChallengerList", JSON.stringify([]));
     if (findTokenReturned() !== "undefined" && findTokenReturned() !== undefined && findUsername() !== "undefined") {
         document.getElementById("usernameToContinueWith").innerHTML = findUsername();
-        document.getElementById("retrieveSession").style.display = "block";
+        document.getElementById("retrieveSession").style.display = "flex";
         document.getElementById("usernameToContinueWith").addEventListener('click', function () {
             window.location.href = "../home/home.html"
         })
@@ -49,7 +49,7 @@ buttonReg.addEventListener("click", signIn_page)
 
 // Show the registration tab
 function signIn_page() {
-    buttonLog.style.backgroundColor = "";
+    buttonLog.style.backgroundColor = "rgba(0,0,0,0)";
     buttonReg.style.backgroundColor = "rgba(150,144,133,0.53)";
     document.getElementById("log").style.display = "none";
     document.getElementById("reg").style.display = "block";
@@ -57,7 +57,7 @@ function signIn_page() {
 
 // Show the login tab
 function login_page() {
-    buttonReg.style.backgroundColor = "";
+    buttonReg.style.backgroundColor = "rgba(0,0,0,0)";
     buttonLog.style.backgroundColor = "rgba(150,144,133,0.53)";
     document.getElementById("reg").style.display = "none";
     document.getElementById("log").style.display = "block";
