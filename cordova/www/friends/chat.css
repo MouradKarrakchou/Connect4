@@ -502,7 +502,7 @@
 
 
     .chat-container {
-        font-size: 3.8vh;
+        font-size: 4vw;
         position: absolute;
         bottom: 0;
         right: 0;
@@ -547,6 +547,7 @@
     }
     .miniFriendMenu{
         background-color: rgba(240, 168, 80, 0.64);
+        font-size: 5vw;
     }
 
     #sendMsg {
@@ -598,7 +599,7 @@
 
 
     .chat-header {
-        font-size: 12vh;
+        font-size: 7vw;
         cursor: pointer;
     }
 
