@@ -663,25 +663,28 @@ function showFriendRequestMini(friendRequest) {
 }
 
 
-document.getElementById("miniNotification").addEventListener('click', function () {
-        document.getElementById("iconNotifFight1").style.display='none';
-        document.getElementById("iconNotifFight2").style.display='none';
-        document.getElementById("miniNotification").style.backgroundColor="rgba(0,0,0,0.06)";
+document.getElementById("miniNotification").addEventListener('click', goNotifs);
 
-        document.getElementById("miniFriendsContacts").style.backgroundColor="";
-        document.getElementById("miniHomeBack").style.backgroundColor="";
-        document.getElementById("miniFriendList").style.display = "none";
-        document.getElementById("miniNotificationList").style.display = "block";
-});
+document.getElementById("miniFriendsContacts").addEventListener('click', goFriends);
+document.getElementById("miniHomeBack").addEventListener('click', goHome);
+function goNotifs() {
+    document.getElementById("iconNotifFight1").style.display = 'none';
+    document.getElementById("iconNotifFight2").style.display = 'none';
+    document.getElementById("miniNotification").style.backgroundColor = "rgba(0,0,0,0.06)";
+    document.getElementById("miniFriendsContacts").style.backgroundColor = "";
+    document.getElementById("miniHomeBack").style.backgroundColor = "";
+    document.getElementById("miniFriendList").style.display = "none";
+    document.getElementById("miniNotificationList").style.display = "block";
+}
 
-document.getElementById("miniFriendsContacts").addEventListener('click', function () {
+function goFriends() {
     document.getElementById("miniFriendsContacts").style.backgroundColor="rgba(0,0,0,0.06)";
     document.getElementById("miniHomeBack").style.backgroundColor="";
     document.getElementById("miniNotification").style.backgroundColor="";
     document.getElementById("miniFriendList").style.display = "block";
     document.getElementById("miniNotificationList").style.display = "none";
-});
-document.getElementById("miniHomeBack").addEventListener('click', function () {
+}
+function goHome() {
     document.getElementById("miniHomeBack").style.backgroundColor="rgba(0,0,0,0.06)";
     document.getElementById("miniFriendsContacts").style.backgroundColor="";
     document.getElementById("miniNotification").style.backgroundColor="";
@@ -694,7 +697,7 @@ document.getElementById("miniHomeBack").addEventListener('click', function () {
         document.getElementById("littleMenu").style.display = "none";
         document.getElementById("menu").style.display = "block";
     }
-});
+}
 
 
 const notification = document.querySelector('.notification');
@@ -704,3 +707,58 @@ okBtn.addEventListener('click', function() {
     notification.style.display = 'none';
 });
 let notifText=document.getElementById("notificationTextMessage");
+
+var startX, startY, endX, endY;
+
+document.addEventListener("touchstart", function(event) {
+    // Récupération des coordonnées de départ
+    startX = event.touches[0].pageX;
+    startY = event.touches[0].pageY;
+});
+
+document.addEventListener("touchend", function(event) {
+    // Récupération des coordonnées d'arrivée
+    endX = event.changedTouches[0].pageX;
+    endY = event.changedTouches[0].pageY;
+
+    // Calcul de la distance parcourue en X et en Y
+    var distX = endX - startX;
+    var distY = endY - startY;
+
+    // Vérification si le geste est un swipe
+    if (Math.abs(distX) > 50 || Math.abs(distY) > 50) {
+        // Calcul de l'angle de déplacement
+        var angle = Math.atan2(distY, distX) * 180 / Math.PI;
+        if(document.getElementById("miniHomeBack").style.backgroundColor==="rgba(0, 0, 0, 0.06)"){
+            if (angle >= -45 && angle < 45) {
+                goFriends();
+                console.log("je suis dans home et je vais a droite")
+            }
+            else
+                {
+                    goNotifs();
+                    console.log("je suis dans home et je vais a gauche")
+                }
+            }
+        else if (document.getElementById("miniNotification").style.backgroundColor === "rgba(0, 0, 0, 0.06)") {
+            if (angle >= -45 && angle < 45) {
+                goHome();
+                console.log("je suis dans notif et je vais a droite")
+            } else {
+                goFriends();
+                console.log("je suis dans notif et je vais a gauche")
+            }
+        }
+        else {
+            if (angle >= -45 && angle < 45) {
+                goNotifs();
+                console.log("je suis dans friends et je vais a droite")
+            } else {
+                goHome();
+                console.log("je suis dans friends et je vais a gauche")
+            }
+        }
+        }
+
+
+});
