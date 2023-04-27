@@ -375,7 +375,7 @@
 
 
 
-@media only screen and (max-height: 600px){
+@media only screen and (max-height: 600px) and (min-width:500px){
     h1 {
         text-align: center;
         color: red;
