@@ -42,6 +42,7 @@
     }
     .miniFriendMenu{
         background-color: rgba(240, 168, 80, 0.64);
+        font-size: 10vw;
     }
 
     #sendMsg {
@@ -160,6 +161,7 @@
         background-color: rgba(231, 225, 195, 0.36);
         text-align: center;
         height: 100%;
+        font-size: 10vw;
     }
     .miniFriendMessageWrapper{
         height: 100%;
