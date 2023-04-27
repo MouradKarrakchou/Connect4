@@ -163,13 +163,13 @@
         text-align: center;
         height: 100%;
         font-size: 20vw;
+        margin-bottom: 10vw;
     }
     .miniFriendMessageWrapper{
         height: 100%;
         background-color: #f0a850;
         font-size: 10vw;
         padding: 5vw;
-        margin-bottom: 10vw;
     }
 
 
@@ -669,12 +669,12 @@
         background-color: rgba(231, 225, 195, 0.36);
         text-align: center;
         height: 100%;
+        margin-bottom: 10vw;
     }
     .miniFriendMessageWrapper{
         height: 100%;
         background-color: #f0a850;
         padding: 5vw;
-        margin-bottom: 10vw;
     }
 
 
