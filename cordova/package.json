@@ -15,6 +15,7 @@
   "devDependencies": {
     "cordova-android": "^10.1.2",
     "cordova-plugin-battery-status": "^2.0.3",
+    "cordova-plugin-network-information": "^3.0.0",
     "cordova-plugin-vibration": "^3.1.1"
   },
   "cordova": {
@@ -24,7 +25,8 @@
     "plugins": {
       "cordova-plugin-vibration": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-battery-status": {}
+      "cordova-plugin-battery-status": {},
+      "cordova-plugin-network-information": {}
     }
   }
 }
