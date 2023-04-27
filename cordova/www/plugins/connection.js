@@ -13,22 +13,24 @@ document.addEventListener("offline", onOffline, false);
 document.addEventListener("online", onOnline, false);
 
 let overlay;
+let connectionLost = false;
 
 function onOffline() {
     console.log(navigator.connection.type);
     // Create the overlay
     overlay = document.createElement('div');
     overlay.id = 'overlay';
+    overlay.innerText = "Connection lost...";
+    overlay.style.color = "red";
     document.body.appendChild(overlay);
+    connectionLost = true;
 }
 
 function onOnline() {
     // Remove the overlay
-    document.body.removeChild(overlay);
-}
-
-function checkConnection() {
-    let networkState = navigator.connection.type;
-    if (states[networkState])let a;
-    //alert('Connection type: ' + states[networkState]);
+    overlay.innerText = "Connection retrieved!"
+    overlay.style.color = "green";
+    setTimeout(function () {
+        if (connectionLost) document.body.removeChild(overlay);
+    }, 1000);
 }
