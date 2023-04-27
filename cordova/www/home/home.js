@@ -151,6 +151,7 @@ function addGamesSavedHtml(tabOfGames){
                             </div>`;
         dropdown.appendChild(newItem);
         document.getElementById("trash").addEventListener('click', function () {
+            console.log("CLEARING EVRYTHING");
             deleteSavedGame(tabOfGames[i]._id);
             window.location.reload();
         });

@@ -149,7 +149,7 @@ function manageRequest(request, response) {
         }
         else if(filePath[3]==="deleteGame"){
             request.on('end', function () {
-                async function deleteOneGame() {
+                async function deleteAllGame() {
                     try {
                         console.log("deleteOneGame")
                         await client.connect();
@@ -178,7 +178,7 @@ function manageRequest(request, response) {
                         await client.close();
                     }
                 }
-                deleteOneGame();
+                deleteAllGame();
             });
         }
     }

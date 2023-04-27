@@ -400,7 +400,7 @@ html{
         display: flex;
     }
     .mini-Friend-name{
-        font-size: 9vh;
+        font-size: 15vh;
     }
 
     body{
@@ -462,11 +462,12 @@ html{
         padding: .5%;
         height: 150vh;
         display: none;
+        width: 100%;
     }
     .item{
         background-color: rgba(231, 225, 195, 0.36);
         display: flex;
-        margin-top: 3%;
+        margin-top: 1%;
         justify-content: center;
     }
 
