@@ -9,7 +9,7 @@ import {
     findTokenReturned,
     notLoggedRedirection
 } from "../../gameManagement.js"
-import {ioAddress} from "../../dataManager";
+import {ioAddress} from "../../dataManager.js";
 
 /**
  *

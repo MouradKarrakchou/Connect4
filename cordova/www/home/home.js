@@ -1,6 +1,6 @@
 import {findToken, token, address, ioAddress} from "../games/dataManager.js";
 import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../games/gameManagement.js";
-import {popupVibration, muteVibrationUpdateCookie, vibrationMuted, isVibrationMuted} from "../plugins/vibration.js";
+import {popupVibration, muteVibrationUpdateCookie, isVibrationMuted} from "../plugins/vibration.js";
 
 /**
  * This class manage the home page
@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         menu.style.display = "block";
         popupVibration();
     })
-
     switchVibrationIcon(isVibrationMuted());
 })
 function alertbattery(){

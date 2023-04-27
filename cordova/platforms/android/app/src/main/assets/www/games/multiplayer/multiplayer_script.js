@@ -4,7 +4,7 @@ import {
     loadGame,
     printIllegalMove, notLoggedRedirection
 } from "../gameManagement.js"
-import {ioAddress} from "../dataManager";
+import {ioAddress} from "../dataManager.js";
 
 /**
  * this class manage the multiplayer game with the timer, elo calculation and the surrender button
