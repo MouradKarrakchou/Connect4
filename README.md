@@ -10,6 +10,14 @@
 
 ---
 
+Welcome to this project that allows you to play the classic game of Connect 4! This project provides you with an opportunity to relive your childhood memories of playing this engaging game with your friends and family. With its easy-to-use interface and intuitive gameplay, you can enjoy a game of Connect 4 anytime, anywhere.
+
+This project not only lets you play the game, but it also allows you to sharpen your strategic thinking and analytical skills. You can challenge yourself against the computer or play with a friend in real-time. The game is designed to provide you with a fun and engaging experience that is perfect for all ages.
+
+So, if you're looking for a simple game that you can enjoy anytime, then this project is perfect for you. Install the game, challenge your friends and family, and have fun playing Connect 4!
+
+---
+
 The code of this repo is split in 2 folders:
 * api/ manages the server. It contains a server which differentiate REST requests from HTTP file requests, and so
 return either files or REST responses accordingly.
@@ -133,4 +141,10 @@ As written above, you can save you local and AI games. You can retrieve those ga
     - Passwords encryption from the back the the database, with a SHA-256 function
     - For the user comfort, he is automatically redirected to the login page if he has no token or a wrong one
     - At each login, the user token change to avoid the following case: if the user forgot to disconnect from a device, then his account will not be kept forever
-    
+
+## Now available on Android!
+Great news! The Connect 4 game that you love is now available on mobile devices, specifically on Android! You can now take the fun and excitement of this classic game wherever you go, whether you're on a commute or waiting in line.
+
+The mobile version of Connect 4 now comes with exciting new features that enhance the gaming experience! With the addition of music, vibration, swipe and notifications, players can now enjoy a more immersive and engaging gameplay.
+
+All of these features work together to create a more dynamic and immersive gameplay that draws players in and keeps them engaged. Whether you're playing against the computer or challenging a friend, the mobile version of Connect 4 with these new features is sure to provide you with hours of fun and entertainment.
