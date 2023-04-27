@@ -148,3 +148,6 @@ Great news! The Connect 4 game that you love is now available on mobile devices,
 The mobile version of Connect 4 now comes with exciting new features that enhance the gaming experience! With the addition of music, vibration, swipe and notifications, players can now enjoy a more immersive and engaging gameplay.
 
 All of these features work together to create a more dynamic and immersive gameplay that draws players in and keeps them engaged. Whether you're playing against the computer or challenging a friend, the mobile version of Connect 4 with these new features is sure to provide you with hours of fun and entertainment.
+
+### Use the app on the phone
+You need to have Cordova with the android platform on your computer and to connect it to your phone using a wire. Then use `cordova run` in the `cordova` folder to build and run the project on your phone. Enjoy!
