@@ -71,7 +71,9 @@ function alertbattery(){
 let btn = document.getElementById("b");
 btn.addEventListener('click', alertbattery);
 function muteVibration() {
-    switchVibrationIcon(muteVibrationUpdateCookie());
+    let isMuted = muteVibrationUpdateCookie()
+    switchVibrationIcon(isMuted);
+    if(!isMuted) notificationVibration();
 }
 
 function switchVibrationIcon(isMuted) {
@@ -81,7 +83,6 @@ function switchVibrationIcon(isMuted) {
         document.getElementById("muteVibrationButton").style.backgroundColor="#4b7f82";
     }
     else{
-        notificationVibration();
         document.getElementById("vibrating").style.display="inline-block";
         document.getElementById("notVibrating").style.display="none";
         document.getElementById("muteVibrationButton").style.backgroundColor="rgb(128 215 221)";

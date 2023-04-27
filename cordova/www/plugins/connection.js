@@ -1,15 +1,9 @@
 
-window.addEventListener('load', function() {
-    // Create the overlay
-    var overlay = document.createElement('div');
-    overlay.id = 'overlay';
-    document.body.appendChild(overlay);
+document.addEventListener("offline", onOffline, false);
 
-    // Add an event listener to remove the overlay when an event is triggered
-    document.addEventListener('click', function() {
-        document.body.removeChild(overlay);
-    });
-});
+function onOffline() {
+
+}
 
 function checkConnection() {
     let networkState = navigator.connection.type;
@@ -25,12 +19,4 @@ function checkConnection() {
     states[Connection.NONE]     = 'No network connection';
 
     alert('Connection type: ' + states[networkState]);
-}
-
-function connectionLost() {
-
-}
-
-function connectionRetrieved() {
-
 }
