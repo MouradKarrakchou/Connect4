@@ -5,7 +5,7 @@ import {
     printIllegalMove, notLoggedRedirection
 } from "../gameManagement.js"
 import {ioAddress} from "../dataManager.js";
-import {winVibration, loseVibration, popupVibration, timerVibration} from "../../plugins/vibration.js";
+import {winVibration, loseVibration, popupVibration, timerVibration, errorVibration} from "../../plugins/vibration.js";
 
 /**
  * this class manage the multiplayer game with the timer, elo calculation and the surrender button
@@ -194,7 +194,7 @@ async function init() {
 function surrender() {
     popupVibration();
     document.getElementById("surrenderedGameMessage").style.display = "block";
-    document.getElementById("noSurrenderKeepPlaying").addEventListener('click', function () {document.getElementById("surrenderedGameMessage").style.display = "none";});
+    document.getElementById("noSurrenderKeepPlaying").addEventListener('click', function () {errorVibration(); document.getElementById("surrenderedGameMessage").style.display = "none";});
     document.getElementById("SurrenderBackToHome").addEventListener('click', function () {
         socket.emit('surrender', {
             matchID: findInCookie("matchID="),
