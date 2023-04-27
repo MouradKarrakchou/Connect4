@@ -7,7 +7,7 @@ html{
 }
 
 
-@media only screen and (max-width: 821px) {
+@media only screen and (max-width: 600px) {
 
     .title {
         margin: auto;
@@ -201,7 +201,7 @@ html{
 }
 
 /* Styles for computers */
-@media only screen and (min-width: 821px) and (min-height: 600px) {
+@media only screen and (min-width: 600px) and (min-height: 600px) {
     .crossIcon{
         display: none;
     }
@@ -388,7 +388,7 @@ html{
 
 
 
-@media only screen and (max-height: 600px) {
+@media only screen and (max-height: 600px) and (min-width:500px) {
 
     .title {
         margin: auto;
