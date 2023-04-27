@@ -33,17 +33,9 @@ function onDeviceReady() {
     console.log("Device is ready!");
 }
 
-function onBatteryStatus(status) {
-    console.log("Level: " + status.level + " isPlugged: " + status.isPlugged);
-    if (status.level <= 90 && !status.isPlugged) {
-        alert("Warning: battery level is below 10%");
-    }
-}
-
 // Login and Register tabs
 let buttonLog = document.getElementById("login")
 buttonLog.addEventListener("click", login_page)
-
 let buttonReg = document.getElementById("signIn")
 buttonReg.addEventListener("click", signIn_page)
 

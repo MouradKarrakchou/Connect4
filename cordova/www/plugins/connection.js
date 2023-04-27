@@ -7,7 +7,7 @@ let overlay;
 let connectionLost = false;
 
 function onOffline() {
-    console.log(navigator.connection.type);
+    console.log("went offline");
     // Create the overlay
     overlay = document.createElement('div');
     overlay.id = 'overlay';

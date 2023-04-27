@@ -1,6 +1,6 @@
 import {findToken, token, address, ioAddress} from "../games/dataManager.js";
 import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../games/gameManagement.js";
-import {popupVibration, muteVibrationUpdateCookie, isVibrationMuted} from "../plugins/vibration.js";
+import {notificationVibration, popupVibration, muteVibrationUpdateCookie, isVibrationMuted} from "../plugins/vibration.js";
 
 /**
  * This class manage the home page
@@ -58,12 +58,14 @@ document.addEventListener('DOMContentLoaded', async function () {
         popupVibration();
     })
     switchVibrationIcon(isVibrationMuted());
+
 })
+
 function alertbattery(){
     navigator.getBattery().then(function(battery) {
         var level = battery.level * 100;
         console.log("Battery level: " + level + "%");
-        if (level <= 15 && !battery.charging) {
+        if (level <= 90) {
             alert("Warning: battery level is below 15%");
         }
     });
@@ -71,7 +73,9 @@ function alertbattery(){
 let btn = document.getElementById("b");
 btn.addEventListener('click', alertbattery);
 function muteVibration() {
-    switchVibrationIcon(muteVibrationUpdateCookie());
+    let isMuted = muteVibrationUpdateCookie()
+    switchVibrationIcon(isMuted);
+    if(!isMuted) notificationVibration();
 }
 
 function switchVibrationIcon(isMuted) {
