@@ -15,9 +15,27 @@ import {winVibration, loseVibration, popupVibration, timerVibration, errorVibrat
  * @type {number}
  */
 
+
+
+
 let ambient = new Audio("../../audio/audio.wav");
 ambient.loop = true;
 ambient.play();
+
+document.getElementById("muteson").addEventListener("click",checkSound)
+function checkSound(){
+    if (ambient.volume === 0)
+    {
+        ambient.volume = 1;
+        document.getElementById("sonUp").style.display="block";
+        document.getElementById("sonDown").style.display="none";
+    }
+    else{
+        ambient.volume = 0;
+        document.getElementById("sonUp").style.display="none";
+        document.getElementById("sonDown").style.display="block";
+    }
+}
 
 let counter = 0;
 let gameOver = false;

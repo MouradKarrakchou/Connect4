@@ -26,6 +26,22 @@ document.addEventListener('DOMContentLoaded', init);
  *
  */
 
+
+document.getElementById("muteson").addEventListener("click",checkSound)
+function checkSound(){
+    if (ambient.volume === 0)
+    {
+        ambient.volume = 1;
+        document.getElementById("sonUp").style.display="block";
+        document.getElementById("sonDown").style.display="none";
+    }
+    else{
+        ambient.volume = 0;
+        document.getElementById("sonUp").style.display="none";
+        document.getElementById("sonDown").style.display="block";
+    }
+}
+
 window.addEventListener('load', async function () {
         var urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('id') != null) await loadGame();

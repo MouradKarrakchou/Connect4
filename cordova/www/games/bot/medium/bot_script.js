@@ -37,6 +37,21 @@ ambient.play();
 mapColor.set('Yellow','#cee86bcc');
 mapColor.set('Red','#c92c2c9c');
 
+document.getElementById("muteson").addEventListener("click",checkSound)
+function checkSound(){
+    if (ambient.volume === 0)
+    {
+        ambient.volume = 1;
+        document.getElementById("sonUp").style.display="block";
+        document.getElementById("sonDown").style.display="none";
+    }
+    else{
+        ambient.volume = 0;
+        document.getElementById("sonUp").style.display="none";
+        document.getElementById("sonDown").style.display="block";
+    }
+}
+
 /**
  * This function is used to change the color of the message in a game
  * @param counter pair or odd

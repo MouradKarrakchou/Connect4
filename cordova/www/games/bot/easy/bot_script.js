@@ -40,13 +40,13 @@ function checkSound(){
     if (ambient.volume === 0)
     {
         ambient.volume = 1;
-        document.getElementById("sonUp").style.display="none";
-        document.getElementById("sonDown").style.display="block";
+        document.getElementById("sonUp").style.display="block";
+        document.getElementById("sonDown").style.display="none";
     }
     else{
         ambient.volume = 0;
-        document.getElementById("sonUp").style.display="block";
-        document.getElementById("sonDown").style.display="none";
+        document.getElementById("sonUp").style.display="none";
+        document.getElementById("sonDown").style.display="block";
     }
 }
 
@@ -82,6 +82,7 @@ async function init() {
             counter++;
         }
     })
+    ambient.volume=0;
     checkSound();
 
 }

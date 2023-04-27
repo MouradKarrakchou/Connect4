@@ -103,7 +103,7 @@
         text-align: center;
     }
     #retrieveSession{
-        display: flex;
+        display: none;
         flex-direction: column;
     }
 
