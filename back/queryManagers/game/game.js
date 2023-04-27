@@ -99,8 +99,8 @@ function manageRequest(request, response) {
 
                         const collection = db.collection("log");
                         const item = await collection.findOne({token:bodyParsed.token});
-                        if(item === null)
-                            throw new TypeError("No user with this ID!");
+                        console.log("THE TOKEN: "+bodyParsed.token);
+                        console.log("THE ITEM: "+item.toString());
                         response.end(JSON.stringify({userReel:item!=null}));
                     } catch (err) {
                         console.error('Failed to create database or user', err);

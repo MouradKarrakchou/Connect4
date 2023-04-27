@@ -33,6 +33,7 @@ async function loginInDataBase(response,currentUser,collectionName) {
             { $set: { token: token } }
         );
         let newItem = await collection.findOne({token:token});
+        console.log("NEW ID ")
         if(newItem === null)
             throw new TypeError("No user with this ID!");
         response.writeHead(200, {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token});
