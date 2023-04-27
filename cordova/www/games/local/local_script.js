@@ -62,6 +62,7 @@ async function init() {
     document.getElementById("grid").addEventListener("click", function () {
         if (!gameOver) colorMessage(counter);
     });
+    document.getElementById("sonDown").style.display="none";
 
 }
 

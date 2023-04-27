@@ -204,6 +204,7 @@ async function init() {
         startplay(JSON.parse(pos));
         counter++;
     });
+    document.getElementById("sonDown").style.display="none";
 
 
 }

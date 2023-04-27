@@ -82,8 +82,7 @@ async function init() {
             counter++;
         }
     })
-    ambient.volume=0;
-    checkSound();
+    document.getElementById("sonDown").style.display="none";
 
 }
 

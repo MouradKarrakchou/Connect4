@@ -115,6 +115,7 @@ async function init() {
             if (!gameOver) colorMessage(counter);
         }
     }
+    document.getElementById("sonDown").style.display="none";
 }
 
 /**
