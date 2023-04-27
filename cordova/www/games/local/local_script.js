@@ -10,6 +10,8 @@ import {
     notLoggedRedirection
 } from "../gameManagement.js"
 
+import {winVibration} from "../../plugins/vibration.js";
+
 let counter = 0;
 let gameOver = false;
 const mapColor = new Map();
@@ -87,6 +89,7 @@ function startPlay(event) {
         return false;
     }
     if (checkWin() === true) {
+        winVibration();
         console.log(color + " player wins!");
         document.getElementById("message").innerText = color + " player wins!";
         document.getElementById("reset-button").style.display = "block";

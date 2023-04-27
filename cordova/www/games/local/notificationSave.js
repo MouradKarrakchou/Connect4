@@ -1,4 +1,5 @@
 import {saveGame} from "../gameManagement.js";
+import {popupVibration} from "../../plugins/vibration";
 
 /**
  * This class manage the notification to save the game with a personalized name
@@ -15,6 +16,7 @@ let searchBarNotification;
 
 
 window.addEventListener('load', async function () {
+        popupVibration();
         console.log("TYPE OF GAME: " +window.typeofGame);
         console.log(window);
         notification=document.getElementById("notificationSave");
@@ -26,7 +28,7 @@ window.addEventListener('load', async function () {
             notification.style.display="none";
             saveGame({gameType:window.typeofGame,startInversed:false,name:searchBarNotification.value});
         });
-        cancelChallengeMiniSave.addEventListener("click",()=>notification.style.display="none");
+        cancelChallengeMiniSave.addEventListener("click",()=>{notification.style.display="none"; popupVibration()});
 
         document.getElementById("saveButton").addEventListener("click",function(){notification.style.display="block";});
 
