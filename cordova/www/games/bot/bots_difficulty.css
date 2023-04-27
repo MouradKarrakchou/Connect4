@@ -51,11 +51,12 @@ html, body {
     display: flex;
     justify-content: flex-start;
     transition: width 0.3s;
-    width: 100%;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     height: 30%;
-    font-size: 15vw;
     margin: auto;
+    font-size: 20vw;
+    border-radius: 50vw;
+    width: 90%;
 }
 
 .ic{
