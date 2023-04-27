@@ -18,6 +18,16 @@
         <splash src="res/screen/android/splash-port.png" density="port-xxhdpi" />
         <splash src="res/screen/android/splash-port.png" density="port-xxxhdpi" />
 
+        <splash src="res/screen/android/splash-port.png" density="land-hdpi" />
+        <splash src="res/screen/android/splash-port.png" density="land-ldpi" />
+        <splash src="res/screen/android/splash-port.png" density="land-mdpi" />
+        <splash src="res/screen/android/splash-port.png" density="land-xhdpi" />
+        <splash src="res/screen/android/splash-port.png" density="land-xxhdpi" />
+        <splash src="res/screen/android/splash-port.png" density="land-xxxhdpi" />
+
+
+
+
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application android:usesCleartextTraffic="true" />
         </edit-config>

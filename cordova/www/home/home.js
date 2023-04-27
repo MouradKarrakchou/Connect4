@@ -16,6 +16,7 @@ import {notificationVibration, popupVibration, muteVibrationUpdateCookie, isVibr
 var socket = io(ioAddress);
 let saveIcon;
 
+
 socket.on('matchFound', (matchID) => {
     document.cookie = "matchID="+matchID+";path=/";
     window.location.href = '../games/multiplayer/multiplayer.html';
