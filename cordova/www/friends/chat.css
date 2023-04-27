@@ -593,7 +593,8 @@
         display: flex;
         justify-content: space-between;
         order:3;
-        height: 15vh;
+        height: 10vw;
+        font-size: 3vw;
     }
 
 
