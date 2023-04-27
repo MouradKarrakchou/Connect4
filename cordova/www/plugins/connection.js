@@ -1,36 +1,29 @@
 
-window.addEventListener('load', function() {
+document.addEventListener("offline", onOffline, false);
+
+document.addEventListener("online", onOnline, false);
+
+let overlay;
+let connectionLost = false;
+
+function onOffline() {
+    console.log(navigator.connection.type);
     // Create the overlay
-    var overlay = document.createElement('div');
+    overlay = document.createElement('div');
     overlay.id = 'overlay';
+    overlay.innerText = "Connection lost...";
+    overlay.style.color = "red";
     document.body.appendChild(overlay);
-
-    // Add an event listener to remove the overlay when an event is triggered
-    document.addEventListener('click', function() {
-        document.body.removeChild(overlay);
-    });
-});
-
-function checkConnection() {
-    let networkState = navigator.connection.type;
-
-    let states = {};
-    states[Connection.UNKNOWN]  = 'Unknown connection';
-    states[Connection.ETHERNET] = 'Ethernet connection';
-    states[Connection.WIFI]     = 'WiFi connection';
-    states[Connection.CELL_2G]  = 'Cell 2G connection';
-    states[Connection.CELL_3G]  = 'Cell 3G connection';
-    states[Connection.CELL_4G]  = 'Cell 4G connection';
-    states[Connection.CELL]     = 'Cell generic connection';
-    states[Connection.NONE]     = 'No network connection';
-
-    alert('Connection type: ' + states[networkState]);
+    connectionLost = true;
 }
 
-function connectionLost() {
-
-}
-
-function connectionRetrieved() {
-
+function onOnline() {
+    // Remove the overlay
+    if (connectionLost) {
+        overlay.innerText = "Connection retrieved!"
+        overlay.style.color = "green";
+        setTimeout(function () {
+            document.body.removeChild(overlay);
+        }, 1000);
+    }
 }

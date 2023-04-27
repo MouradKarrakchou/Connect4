@@ -58,12 +58,14 @@ document.addEventListener('DOMContentLoaded', async function () {
         popupVibration();
     })
     switchVibrationIcon(isVibrationMuted());
+
 })
+
 function alertbattery(){
     navigator.getBattery().then(function(battery) {
         var level = battery.level * 100;
         console.log("Battery level: " + level + "%");
-        if (level <= 15 && !battery.charging) {
+        if (level <= 90) {
             alert("Warning: battery level is below 15%");
         }
     });
@@ -71,7 +73,9 @@ function alertbattery(){
 let btn = document.getElementById("b");
 btn.addEventListener('click', alertbattery);
 function muteVibration() {
-    switchVibrationIcon(muteVibrationUpdateCookie());
+    let isMuted = muteVibrationUpdateCookie()
+    switchVibrationIcon(isMuted);
+    if(!isMuted) notificationVibration();
 }
 
 function switchVibrationIcon(isMuted) {
@@ -81,7 +85,6 @@ function switchVibrationIcon(isMuted) {
         document.getElementById("muteVibrationButton").style.backgroundColor="#4b7f82";
     }
     else{
-        notificationVibration();
         document.getElementById("vibrating").style.display="inline-block";
         document.getElementById("notVibrating").style.display="none";
         document.getElementById("muteVibrationButton").style.backgroundColor="rgb(128 215 221)";
