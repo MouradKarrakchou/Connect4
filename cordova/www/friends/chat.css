@@ -1,5 +1,5 @@
 
-@media only screen and (max-width: 821px) {
+@media only screen and (max-width:600px) {
     .chat-container {
         font-size: 3.8vh;
         position: absolute;
@@ -244,7 +244,7 @@
 }
 
 
-@media only screen and (min-width: 820px) and (min-height: 600px) {
+@media only screen and (min-width: 600px) and (min-height: 600px){
     #miniHomeBack{
         display: none;
     }
@@ -495,7 +495,7 @@
 
 
 
-@media only screen and (max-height: 600px) {
+@media only screen and (max-height: 600px) and (min-width:500px) {
 
 
     .chat-container {
