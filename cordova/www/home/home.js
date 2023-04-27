@@ -33,7 +33,6 @@ let gameSaved;
 let menu;
 let littleMenu;
 let cross;
-
 document.addEventListener('DOMContentLoaded', async function () {
     // If not logged in, redirected to the login page
     await notLoggedRedirection();
@@ -61,7 +60,10 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 })
 
+let isOnMobile= (window.innerWidth <= 821);
+
 function alertbattery(){
+    if(!isOnMobile) return;
     navigator.getBattery().then(function(battery) {
         var level = battery.level * 100;
         console.log("Battery level: " + level + "%");
