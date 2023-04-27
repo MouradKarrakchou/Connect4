@@ -168,6 +168,8 @@
         height: 100%;
         background-color: #f0a850;
         font-size: 10vw;
+        padding: 5vw;
+        margin-bottom: 10vw;
     }
 
 
@@ -671,6 +673,8 @@
     .miniFriendMessageWrapper{
         height: 100%;
         background-color: #f0a850;
+        padding: 5vw;
+        margin-bottom: 10vw;
     }
 
 
