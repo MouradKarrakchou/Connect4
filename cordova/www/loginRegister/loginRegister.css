@@ -68,8 +68,7 @@
     }
 
     .body {
-        margin-top: 40px;
-        margin-bottom: 20px;
+        margin-top: 20px;
     }
 
     .inp {
@@ -102,6 +101,10 @@
         width: 300px;
         margin: 0 auto;
         text-align: center;
+    }
+    #retrieveSession{
+        display: flex;
+        flex-direction: column;
     }
 
     #reg {
@@ -220,18 +223,11 @@
         display: flex;
     }
 
-    .login-text:hover {
-        cursor: pointer;
-    }
 
     .signIn-text {
         width: 50%;
         border-radius: 10vw;
         display: flex;
-    }
-
-    .signIn-text:hover {
-        cursor: pointer;
     }
 
     .form-container {
@@ -265,16 +261,11 @@
         color: #fff;
         border-radius: 10vw;
         border: none;
-        cursor: pointer;
         font-size: 8vw;
         position: absolute;
         bottom: 1vh;
         left: 0;
         right: 0;
-    }
-
-    .button:hover {
-        cursor: pointer;
     }
 
     #log {
@@ -308,10 +299,6 @@
         background-color: #8dee8d;
         padding: 1vh;
         font-size: calc( 2vh + 2vw );
-    }
-
-    #usernameToContinueWith:hover {
-        cursor: pointer;
     }
 
     #title {
@@ -426,18 +413,10 @@
         display: flex;
     }
 
-    .login-text:hover {
-        cursor: pointer;
-    }
-
     .signIn-text {
         width: 50%;
         border-radius: 10vh;
         display: flex;
-    }
-
-    .signIn-text:hover {
-        cursor: pointer;
     }
 
     .form-container {
@@ -471,16 +450,11 @@
         color: #fff;
         border-radius: 10vh;
         border: none;
-        cursor: pointer;
         font-size: 8vh;
         position: absolute;
         bottom: 1vh;
         left: 0;
         right: 0;
-    }
-
-    .button:hover {
-        cursor: pointer;
     }
 
     #log {
@@ -516,9 +490,6 @@
         font-size: calc( 2vh + 2vw );
     }
 
-    #usernameToContinueWith:hover {
-        cursor: pointer;
-    }
 
     #title {
         font-size: 8vh;
@@ -587,7 +558,7 @@
         height: 70%;
         width: 80%;
         margin: auto;
-        margin-top: 5%;
+        margin-top: 0;
     }
 }
 
