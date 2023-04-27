@@ -326,6 +326,7 @@ html{
     }
     .gameLaunch:hover{
         width: 100%;
+        cursor: pointer;
     }
     .littleIconMenu{
         display: none;
@@ -397,6 +398,9 @@ html{
     .header-top{
         height: 20%;
         display: flex;
+    }
+    .mini-Friend-name{
+        font-size: 9vh;
     }
 
     body{
