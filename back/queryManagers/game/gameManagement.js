@@ -101,6 +101,8 @@ function setUpSockets(io){
         const chatCollection = db.collection("chat");
         console.log("updating: from "+from+" to "+to);
         await chatCollection.updateMany({from:from,to: to}, {$set: {heRead: true}});
+        if (findSocketByName(to,connectedSockets)===null)
+            return [];
         findSocketByName(to,connectedSockets).emit('loadAllMessagePending', await loadAllMessagePending(to));
         const item = await chatCollection.find({ $or:[{from:from,to:to},{from:to,to:from}]}).toArray();
         return item;
