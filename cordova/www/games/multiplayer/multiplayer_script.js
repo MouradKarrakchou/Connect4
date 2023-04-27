@@ -163,6 +163,20 @@ async function init() {
     document.getElementById("surrenderButton").addEventListener("click", function () {
         surrender()
     });
+    document.getElementById("gameChatDisplay").addEventListener("click",function(){
+        if(document.getElementById("chat-container-bis").style.display==="none")
+        {
+            document.getElementById("chat-container-bis").style.display="flex";
+            document.getElementById("playerElo").style.display="none";
+            document.getElementById("opponentElo").style.display="none";
+        }
+
+        else{
+            document.getElementById("chat-container-bis").style.display="none";
+            document.getElementById("playerElo").style.display="block";
+            document.getElementById("opponentElo").style.display="block";
+        }
+    })
     socket.on('doMoveMulti', function (pos) {
         startplay(JSON.parse(pos));
         counter++;
