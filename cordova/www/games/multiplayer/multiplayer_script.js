@@ -164,7 +164,7 @@ async function init() {
         surrender()
     });
     document.getElementById("gameChatDisplay").addEventListener("click",function(){
-        if(document.getElementById("chat-container-bis").style.display==="none")
+        if(document.getElementById("chat-container-bis").style.display!=="flex")
         {
             document.getElementById("chat-container-bis").style.display="flex";
             document.getElementById("playerElo").style.display="none";
