@@ -14,6 +14,7 @@
 <script crossorigin="anonymous" src="https://kit.fontawesome.com/76ed084c57.js"></script>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>Connect4 - Local game</title>
 </head>
@@ -98,11 +99,13 @@
 
     <div class="menu">
         <div class="gameLaunch" id="surrenderButton">
-            <h1 class="buttonLaunch">Surrender</h1>
+            <h1 class="buttonLaunch OnComputer">Surrender</h1>
+            <iconify-icon icon="emojione-v1:flag-for-white-flag" class="OnPhone iconHeader"></iconify-icon>
         </div>
         <div class="gameLaunch" id="home">
-            <h1 class="buttonLaunch">Home</h1>
-            </div>
+            <h1 class="OnComputer onlineButton">Home</h1>
+            <iconify-icon icon="material-symbols:home-outline" class="OnPhone"  style="margin: auto"></iconify-icon>
+        </div>
     </div>
 </div>
 
@@ -138,56 +141,74 @@
 
 
 
-<div class="chat-container" id="chat-container" style="display:none;z-index: 5;font-size:34px;">
-    <div class="chat-header" id="chat-header">
-    </div>
-    <div id="chat-messages" style="height: 100vh">
-        <!-- messages s'affichent ici -->
-    </div>
-    <div id="chat-bar">
-        <input type="text" id="chatBar" placeholder="Hey">
-    </div>
-</div>
-<div class="chat-container" id="miniFriendContainer" style="font-size:20px;">
-    <div class="chat-header" id="mini-chat-header" style="font-size:32px">
-        <iconify-icon class="fight iconStyle glow" id="iconNotifFight1" style="margin:0; display:none; color:darkred;" icon="mdi:sword-cross"></iconify-icon>
-        <iconify-icon class="glow" icon="mdi:message-notification" id="iconNotif" style="display:none; color:darkred;"></iconify-icon>
-        <iconify-icon class="glow" icon="fluent-mdl2:add-friend" id="iconNotifFriendRequest1" style="display:none; color:forestgreen;"></iconify-icon>
-        <div style="margin:auto">Menu</div>
-        <i class="fa-solid fa-chevron-down" id="chevron-down" style="display:none;margin:0;"></i>
-        <i class="fa-solid fa-chevron-up" id="chevron-up" style="display:block;margin:0;"></i>
-        <div></div>
-    </div>
-    <div id="mini-container-content" style="width: 100%;display:none;">
-        <div class="choice-header">
-            <div id="miniFriendsContacts" style="width: 50%; background-color: rgba(0,0,0,0.06)">
-                <iconify-icon icon="fa-solid:user-friends" style="font-size: 2.4em;"></iconify-icon>
-            </div>
-            <div id="miniNotification" style="width: 50%; display: flex">
-                <iconify-icon class="fight iconStyle" id="iconNotifFight2" style="margin:0; display:none; color:darkred;" icon="mdi:sword-cross"></iconify-icon>
-                <iconify-icon icon="fluent-mdl2:add-friend" id="iconNotifFriendRequest2" style="display:none; color:forestgreen;"></iconify-icon>
-                <iconify-icon icon="mdi:bell-notification" style="font-size: 2.4em; margin:auto"></iconify-icon>
-            </div>
-        </div>
-        <div class="miniFriendList" id="miniFriendList">
-            <div id="fMenu">
-                <input type="text" id="searchBar" style="font-size: 23px" placeholder="Add Friend: type username">
-            </div>
-            <div class="miniDropdown "></div>
-        </div>
-        <div class="miniNotificationList" id="miniNotificationList" style="display: none;">
 
-            <div class="miniDropdownNotification"></div>
+
+<div style="zoom:0.71428571428571428571428571428570">
+    <div class="chat-container" id="chat-container" style="display:none;z-index: 5;">
+        <div class="chat-header" id="chat-header">
+        </div>
+        <div id="chat-messages" style="height: 100vh">
+            <!-- messages s'affichent ici -->
+        </div>
+        <div id="chat-bar">
+            <input type="text" id="chatBar" placeholder="Hey">
         </div>
     </div>
-</div>
-<div class="notification" style="display: none">
-    <div class="notification-content">
-        <p id="notificationTextMessage"></p>
-        <button class="ok-btn" id="ok-btn">OK</button>
-        <button class="ok-btn" style="display: none" id="cancelChallengeMini" >Cancel</button>
+    <div class="chat-container" id="miniFriendContainer">
+        <div class="chat-header" id="mini-chat-header" style="font-size:5vh">
+            <iconify-icon class="fight iconStyle glow" id="iconNotifFight1" style="margin:0; display:none; color:darkred;" icon="mdi:sword-cross"></iconify-icon>
+            <iconify-icon class="glow" icon="mdi:message-notification" id="iconNotif" style="display:none; color:darkred;"></iconify-icon>
+            <iconify-icon class="glow" icon="fluent-mdl2:add-friend" id="iconNotifFriendRequest1" style="display:none; color:forestgreen;"></iconify-icon>
+            <div style="margin:auto">Menu</div>
+            <i class="fa-solid fa-chevron-down" id="chevron-down" style="display:none;margin:0;"></i>
+            <i class="fa-solid fa-chevron-up" id="chevron-up" style="display:block;margin:0;"></i>
+            <div></div>
+        </div>
+        <div id="mini-container-content" style="width: 100%;">
+            <div class="choice-header">
+                <div id="miniFriendsContacts">
+                    <iconify-icon icon="fa-solid:user-friends" style="font-size: 2.4em;"></iconify-icon>
+                </div>
+                <div id="miniHomeBack" style="margin:auto; width: 30%; background-color: rgba(0,0,0,0.06);">
+                    <iconify-icon icon="game-icons:spinning-sword" style="font-size: 2.4em; margin:auto;"></iconify-icon>
+                </div>
+                <div id="miniNotification">
+                    <iconify-icon class="fight iconStyle" id="iconNotifFight2" style="margin:0; display:none; color:darkred;" icon="mdi:sword-cross"></iconify-icon>
+                    <iconify-icon icon="fluent-mdl2:add-friend" id="iconNotifFriendRequest2" style="display:none; color:forestgreen;"></iconify-icon>
+                    <iconify-icon icon="mdi:bell-notification" style="font-size: 2.4em; margin:auto"></iconify-icon>
+                </div>
+            </div>
+            <div class="miniFriendList" id="miniFriendList">
+                <div class="backgroundLittleMenu">
+                    <div class="shapeLittleMenu"></div>
+                    <div class="shapeLittleMenu"></div>
+                </div>
+                <div id="fMenu">
+                    <input type="text" id="searchBar" placeholder="Add Friend: type username">
+                </div>
+                <div class="miniDropdown "></div>
+            </div>
+            <div class="miniNotificationList" id="miniNotificationList" style="display: none;">
+                <div class="backgroundLittleMenu">
+                    <div class="shapeLittleMenu"></div>
+                    <div class="shapeLittleMenu"></div>
+                </div>
+                <div class="miniDropdownNotification"></div>
+            </div>
+        </div>
     </div>
+    <div class="notification" style="display: none">
+        <div class="notification-content">
+            <p id="notificationTextMessage"></p>
+            <button class="ok-btn" id="ok-btn">OK</button>
+            <button class="ok-btn" style="display: none" id="cancelChallengeMini" >Cancel</button>
+        </div>
+    </div>
+
 </div>
+
+
+
 
 </body>
 <script type="module" src="multiplayer_script.js"></script>

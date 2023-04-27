@@ -90,7 +90,7 @@ if(data != null) {
     document.getElementById("message").innerText = " You won ! ";
 }
 home.style.pointer = "cursor";
-home.style.display = "block"
+home.style.display = "flex"
 surrenderBtn.replaceWith(home);
 });
 socket.on('lose', (data) => {
@@ -102,7 +102,7 @@ socket.on('lose', (data) => {
         document.getElementById("message").innerText = " You lost ! "
     }
     home.style.pointer = "cursor";
-    home.style.display = "block"
+    home.style.display = "flex";
     surrenderBtn.replaceWith(home);
 });
 socket.on('tie', () => {
@@ -110,7 +110,7 @@ socket.on('tie', () => {
     console.log("Draw!");
     document.getElementById("message").innerText = "Draw!";
     home.style.pointer = "cursor";
-    home.style.display = "block"
+    home.style.display = "flex"
     surrenderBtn.replaceWith(home);
 });
 /**
