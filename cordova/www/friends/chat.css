@@ -146,7 +146,7 @@
     .miniDropdown {
         overflow-x: hidden;
         overflow-y: auto;
-        height: 90%;
+        height: 80%;
         order:1;
     }
 
@@ -653,7 +653,7 @@
     .miniDropdown {
         overflow-x: hidden;
         overflow-y: auto;
-        height: 90%;
+        height: 60%;
         order:1;
     }
 
