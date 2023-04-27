@@ -116,8 +116,8 @@
     }
 
     #searchBar {
-        padding-top: 5vh;
-        padding-bottom: 5vh;
+        padding-top: 5vw;
+        padding-bottom: 5vw;
         border: none;
         width: 100%;
         background-color: #9e9d9224;
@@ -164,6 +164,7 @@
     .miniFriendMessageWrapper{
         height: 100%;
         background-color: #f0a850;
+        font-size: 10vw;
     }
 
 
