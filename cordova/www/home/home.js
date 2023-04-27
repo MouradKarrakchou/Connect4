@@ -1,6 +1,6 @@
 import {findToken, token, address, ioAddress} from "../games/dataManager.js";
 import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../games/gameManagement.js";
-import {popupVibration, muteVibrationUpdateCookie, isVibrationMuted} from "../plugins/vibration.js";
+import {notificationVibration, popupVibration, muteVibrationUpdateCookie, isVibrationMuted} from "../plugins/vibration.js";
 
 /**
  * This class manage the home page
@@ -81,6 +81,7 @@ function switchVibrationIcon(isMuted) {
         document.getElementById("muteVibrationButton").style.backgroundColor="#4b7f82";
     }
     else{
+        notificationVibration();
         document.getElementById("vibrating").style.display="inline-block";
         document.getElementById("notVibrating").style.display="none";
         document.getElementById("muteVibrationButton").style.backgroundColor="rgb(128 215 221)";
