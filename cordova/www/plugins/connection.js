@@ -19,9 +19,11 @@ function onOffline() {
 
 function onOnline() {
     // Remove the overlay
-    overlay.innerText = "Connection retrieved!"
-    overlay.style.color = "green";
-    setTimeout(function () {
-        if (connectionLost) document.body.removeChild(overlay);
-    }, 1000);
+    if (connectionLost) {
+        overlay.innerText = "Connection retrieved!"
+        overlay.style.color = "green";
+        setTimeout(function () {
+            document.body.removeChild(overlay);
+        }, 1000);
+    }
 }
