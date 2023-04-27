@@ -5,6 +5,7 @@ import {
     printIllegalMove, notLoggedRedirection
 } from "../gameManagement.js"
 import {ioAddress} from "../dataManager.js";
+import {winVibration, loseVibration, popupVibration, timerVibration} from "../../plugins/vibration.js";
 
 /**
  * this class manage the multiplayer game with the timer, elo calculation and the surrender button
@@ -84,6 +85,7 @@ socket.on('secondPlayerInit', (playersData) => {
 //emit to send when the player win or lose
 socket.on('win', (data) => {
     gameOver = true;
+    winVibration();
 if(data != null) {
     document.getElementById("message").innerText = " You won " + Math.abs(data) + " elo points! ";
 }else{
@@ -95,6 +97,7 @@ surrenderBtn.replaceWith(home);
 });
 socket.on('lose', (data) => {
     gameOver = true;
+    loseVibration();
     console.log("FF");
     if(data != null) {
         document.getElementById("message").innerText = " You lost " + Math.abs(data) + " elo points!";
@@ -189,6 +192,7 @@ async function init() {
  * Function to surrender and emit the sockets win or lose to the server
  */
 function surrender() {
+    popupVibration();
     document.getElementById("surrenderedGameMessage").style.display = "block";
     document.getElementById("noSurrenderKeepPlaying").addEventListener('click', function () {document.getElementById("surrenderedGameMessage").style.display = "none";});
     document.getElementById("SurrenderBackToHome").addEventListener('click', function () {
@@ -402,7 +406,7 @@ function timerCount() {
             itsMyTurn: itsMyTurn
         });
     } else {
-        if (timeLeft < 10) {timer.style.color = 'red'; timer.innerHTML = "00:0" + timeLeft;}
+        if (timeLeft < 10) {timerVibration(); timer.style.color = 'red'; timer.innerHTML = "00:0" + timeLeft;}
         else timer.innerHTML = "00:" + timeLeft;
         timeLeft--;
     }
