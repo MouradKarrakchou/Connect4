@@ -303,12 +303,13 @@ chatBar.addEventListener('keydown', (event) => {
 socket.emit('socketByUsername', { username: findUsername() });
 
 socket.on('friendIsChallenging', (challengerName) => {
+    if(cordova!=null){
     cordova.plugins.notification.local.setDefaults({
         smallIcon: 'res://ic_notification',
         iconColor: '#FF0000',
         vibration: true,
         sound: true,
-    });
+    });}
     var acceptAction = {
         id: 'accept-action',
         title: 'Accept',
@@ -322,20 +323,21 @@ socket.on('friendIsChallenging', (challengerName) => {
         foreground: true,
         destructive: true
     };
-
+if(cordova!=null) {
     // Programmer la notification
     cordova.plugins.notification.local.schedule({
         title: 'A friend wants to fight',
         text: challengerName + ' is challenging you !',
-        trigger: { at: new Date() },
+        trigger: {at: new Date()},
         actions: [acceptAction, declineAction],
         bigText: true,
-});
+    });
+}
 
     console.log('Challenge notification scheduled');
-
+if(cordova!=null) {
     // Ajouter des gestionnaires d'événements pour les boutons de la notification
-    cordova.plugins.notification.local.on('accept-action', function(notification) {
+    cordova.plugins.notification.local.on('accept-action', function (notification) {
         console.log('Accept action clicked');
         socket.emit('IAcceptTheChallenge', {
             challengedToken: token,
@@ -345,7 +347,7 @@ socket.on('friendIsChallenging', (challengerName) => {
         removeChallengerNameFromLocalStorage(challengerName);
     });
 
-    cordova.plugins.notification.local.on('decline-action', function(notification) {
+    cordova.plugins.notification.local.on('decline-action', function (notification) {
         let dropdown = document.querySelector('.miniDropdownNotification');
         console.log('Decline action clicked');
         socket.emit('IDeclineTheChallenge', {
@@ -356,11 +358,12 @@ socket.on('friendIsChallenging', (challengerName) => {
         removeChallengerNameFromLocalStorage(challengerName);
         let theChallengerList = JSON.parse(localStorage.getItem("theChallengerList"));
         setTimeout(() => {
-            theChallengerList.forEach(function(challengerName) {
+            theChallengerList.forEach(function (challengerName) {
                 challengedMini(challengerName);
             })
         }, 50);
     });
+}
     notificationVibration();
     addChallengerNameToLocalStorage(challengerName);
     challengedMini(challengerName);

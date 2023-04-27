@@ -15,7 +15,9 @@ import {winVibration, loseVibration, popupVibration, timerVibration, errorVibrat
  * @type {number}
  */
 
-
+let ambient = new Audio("../../audio/audio.wav");
+ambient.loop = true;
+ambient.play();
 
 let counter = 0;
 let gameOver = false;
