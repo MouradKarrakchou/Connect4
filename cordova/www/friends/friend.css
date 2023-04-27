@@ -58,6 +58,11 @@ body {
     display: flex;
     bottom: 0;
     padding: 1%;
+    width: 70%;
+    margin: auto;
+    margin-top: 20vh;
+    margin-bottom: 5vw;
+    border-radius: 5vw;
 }
 #decline{
     position: absolute;

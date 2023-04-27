@@ -123,6 +123,7 @@
         width: 100%;
         background-color: #9e9d9224;
         font-size: 8vw;
+        border-radius: 5vw;
     }
 
     #miniFriendMenu {
