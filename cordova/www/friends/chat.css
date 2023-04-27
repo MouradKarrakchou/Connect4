@@ -323,6 +323,7 @@
 
     .chat-header {
         cursor: pointer;
+        font-size: 5vh;
     }
 
     #miniNotification:hover {
@@ -403,6 +404,9 @@
         position: relative;
         background-color: rgba(231, 225, 195, 0.36);
         text-align: center;
+    }
+    .mini-Friend-name{
+        font-size: 8vh;
     }
 
     .fa-message {
