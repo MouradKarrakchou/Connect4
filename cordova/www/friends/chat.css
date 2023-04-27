@@ -672,6 +672,8 @@
     .miniFriendMessageWrapper{
         height: 100%;
         background-color: #f0a850;
+        padding: 5vw;
+        margin-bottom: 10vw;
     }
 
 
