@@ -303,7 +303,7 @@ chatBar.addEventListener('keydown', (event) => {
 socket.emit('socketByUsername', { username: findUsername() });
 
 socket.on('friendIsChallenging', (challengerName) => {
-    if(cordova!=null){
+    if(typeof cordova !== 'undefined'){
     cordova.plugins.notification.local.setDefaults({
         smallIcon: 'res://ic_notification',
         iconColor: '#FF0000',
@@ -323,7 +323,7 @@ socket.on('friendIsChallenging', (challengerName) => {
         foreground: true,
         destructive: true
     };
-if(cordova!=null) {
+if(typeof cordova !== 'undefined') {
     // Programmer la notification
     cordova.plugins.notification.local.schedule({
         title: 'A friend wants to fight',
@@ -335,7 +335,7 @@ if(cordova!=null) {
 }
 
     console.log('Challenge notification scheduled');
-if(cordova!=null) {
+if(typeof cordova !== 'undefined') {
     // Ajouter des gestionnaires d'événements pour les boutons de la notification
     cordova.plugins.notification.local.on('accept-action', function (notification) {
         console.log('Accept action clicked');
