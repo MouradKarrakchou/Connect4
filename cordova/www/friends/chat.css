@@ -270,7 +270,7 @@
         overflow-y: scroll;
         flex-grow: 1;
         padding: 10px;
-        font-size: 5vw;
+        font-size: 2vw;
     }
 
     #chatBar {
