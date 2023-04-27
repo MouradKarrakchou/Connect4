@@ -90,7 +90,7 @@ if(data != null) {
     document.getElementById("message").innerText = " You won ! ";
 }
 home.style.pointer = "cursor";
-home.style.display = "block"
+home.style.display = "flex"
 surrenderBtn.replaceWith(home);
 });
 socket.on('lose', (data) => {
@@ -102,7 +102,7 @@ socket.on('lose', (data) => {
         document.getElementById("message").innerText = " You lost ! "
     }
     home.style.pointer = "cursor";
-    home.style.display = "block"
+    home.style.display = "flex";
     surrenderBtn.replaceWith(home);
 });
 socket.on('tie', () => {
@@ -110,7 +110,7 @@ socket.on('tie', () => {
     console.log("Draw!");
     document.getElementById("message").innerText = "Draw!";
     home.style.pointer = "cursor";
-    home.style.display = "block"
+    home.style.display = "flex"
     surrenderBtn.replaceWith(home);
 });
 /**
@@ -163,6 +163,20 @@ async function init() {
     document.getElementById("surrenderButton").addEventListener("click", function () {
         surrender()
     });
+    document.getElementById("gameChatDisplay").addEventListener("click",function(){
+        if(document.getElementById("chat-container-bis").style.display==="none")
+        {
+            document.getElementById("chat-container-bis").style.display="flex";
+            document.getElementById("playerElo").style.display="none";
+            document.getElementById("opponentElo").style.display="none";
+        }
+
+        else{
+            document.getElementById("chat-container-bis").style.display="none";
+            document.getElementById("playerElo").style.display="block";
+            document.getElementById("opponentElo").style.display="block";
+        }
+    })
     socket.on('doMoveMulti', function (pos) {
         startplay(JSON.parse(pos));
         counter++;

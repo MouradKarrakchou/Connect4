@@ -6,6 +6,7 @@
 
 <link href="../../../friends/friend.css" type="text/css" rel="stylesheet">
 <link href="../../../friends/chat.css" type="text/css" rel="stylesheet">
+<link href="../../plugins/connectionOverlay.css" type="text/css" rel="stylesheet">
 <script type="module" src="../../../friends/friends.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
@@ -111,17 +112,17 @@
 
 
 
-<div class="notification" id="notificationSave" style="display: none">
-    <div class="notification-content" id="notification-content" style="margin:auto;">
-        <p id="notificationTextMessageSave"> Put the name of the saved game:</p>
-        <input type="text" id="searchBarNotification" style="padding-top: 10px;padding-bottom: 10px;background-color: #9e9d9224;margin: auto;width: 80%;height: 15%;font-size: 50%;" placeholder="myFavoriteGame">
-        <div style="display: flex">
-            <button class="ok-btn" id="ok-btn-save" style="margin-right: 10%;background-color: green;">OK</button>
-            <button class="ok-btn" id="cancelChallengeMini-Save"style="margin-left: 10%;background-color: red" >Cancel</button>
-        </div>
+    <div class="notification" id="notificationSave" style="display: none">
+        <div class="notification-content" id="notification-content" style="margin:auto;">
+            <p id="notificationTextMessageSave"> Put the name of the saved game:</p>
+            <input type="text" id="searchBarNotification" style="padding-top: 10px;padding-bottom: 10px;background-color: #9e9d9224;margin: auto;width: 80%;height: 15%;font-size: 50%;" placeholder="myFavoriteGame">
+            <div style="display: flex">
+                <button class="ok-btn" id="ok-btn-save" style="margin-right: 10%;background-color: green;">OK</button>
+                <button class="ok-btn" id="cancelChallengeMini-Save"style="margin-left: 10%;background-color: red" >Cancel</button>
+            </div>
 
+        </div>
     </div>
-</div>
 
 
 
@@ -205,4 +206,5 @@
 
 <script type="module" src="local_script.js"></script>
 <script type="module" src="notificationSave.js"></script>
+<script type="module" src="../../plugins/connection.js"></script>
 </html>
