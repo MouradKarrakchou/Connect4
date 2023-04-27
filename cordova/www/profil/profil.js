@@ -13,6 +13,7 @@ import {notLoggedRedirection} from "../games/gameManagement.js";
  * @author Ayoub IMAMI
  */
 
+
 document.addEventListener('DOMContentLoaded', init);
 
 // Statistics, rank and success
@@ -168,13 +169,26 @@ export async function init() {
 
 // Fonctions pour afficher/masquer les tableaux
     function showStats() {
-        statsTable.style.display = "block";
-        succesTable.style.display = "none";
+        if (window.innerHeight <= 600){
+            statsTable.style.display = "flex";
+            succesTable.style.display = "none";
+        }
+        else{
+            statsTable.style.display = "block";
+            succesTable.style.display = "none";
+        }
     }
 
     function showSucces() {
-        statsTable.style.display = "none";
-        succesTable.style.display = "block";
+        if (window.innerHeight <= 600){
+            console.log(window.innerHeight);
+            statsTable.style.display = "none";
+            succesTable.style.display = "flex";
+        }
+        else{
+            statsTable.style.display = "none";
+            succesTable.style.display = "block";
+        }
     }
     statsButton.addEventListener('click', showStats);
     succesButton.addEventListener('click', showSucces);

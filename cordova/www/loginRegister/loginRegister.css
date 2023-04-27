@@ -2,7 +2,7 @@
     font-family: retro;
     src: url(../font/retro.ttf);
 }
-@media  only screen and (min-width: 821px) {
+@media only screen and (min-width: 821px) and (min-height: 600px) {
     h1 {
         text-align: center;
         color: red;
@@ -172,6 +172,16 @@
         bottom: 15%;
     }
 }
+
+
+
+
+
+
+
+
+
+
 @media only screen and (max-width:820px){
     h1 {
         text-align: center;
@@ -371,5 +381,213 @@
         height: 70%;
         width: 80%;
         margin: auto;
+        margin-top: 5%;
     }
 }
+
+
+
+
+@media only screen and (max-height: 600px){
+    h1 {
+        text-align: center;
+        color: red;
+    }
+
+    body {
+        background-color: #f6ffd2;
+        zoom: 0.7;
+        font-family: retro;
+    }
+
+    .top {
+        font-size: calc(1vh + 1vw);
+        margin-bottom: 3%;
+        height: 17%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .credentialBlock {
+        background-color: #fffbe3d1;
+        border-radius: 10vh;
+        box-shadow: 0 0 10vh rgba(0, 0, 0, 0.2);
+        padding: 10vh;
+        height: 70%
+    }
+
+    #login {
+        background-color: rgba(150, 144, 133, 0.53);
+    }
+
+    .login-text {
+        width: 50%;
+        border-radius: 10vh;
+        display: flex;
+    }
+
+    .login-text:hover {
+        cursor: pointer;
+    }
+
+    .signIn-text {
+        width: 50%;
+        border-radius: 10vh;
+        display: flex;
+    }
+
+    .signIn-text:hover {
+        cursor: pointer;
+    }
+
+    .form-container {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        transition: all 0.6s ease-in-out;
+    }
+
+    .sign-in-container {
+        left: 0;
+        width: 50%;
+        z-index: 2;
+    }
+
+    .inp {
+        width: 70%;
+        height: 6vh;
+        font-size: calc(2vw + 2vh);
+        border: 1vh solid #ccc;
+        border-radius: 5vh;
+        padding: 1vh;
+        margin: 1vh auto;
+        text-align: center;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 10vh;
+        border: none;
+        cursor: pointer;
+        font-size: 8vh;
+        position: absolute;
+        bottom: 1vh;
+        left: 0;
+        right: 0;
+    }
+
+    .button:hover {
+        cursor: pointer;
+    }
+
+    #log {
+        font-size: 4vh;
+        text-align: center;
+    }
+    .body{
+        height: 100%;
+    }
+
+    #reg {
+        display: none;
+        font-size: 4vh;
+        text-align: center;
+    }
+
+    #retrieveSession{
+        display: none;
+        flex-direction: column;
+        height: 20%;
+        margin-top: 3vh;
+    }
+
+
+
+    #usernameToContinueWith {
+        display: inline-block;
+        color: #000;
+        border-radius: 10vh;
+        border: 1px solid #ccc;
+        background-color: #8dee8d;
+        padding: 1vh;
+        font-size: calc( 2vh + 2vw );
+    }
+
+    #usernameToContinueWith:hover {
+        cursor: pointer;
+    }
+
+    #title {
+        font-size: 8vh;
+        color: #2d3f51;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: bold;
+    }
+
+    .shape {
+        z-index: -1;
+    }
+
+    .background .shape {
+        height: 200px;
+        width: 200px;
+        position: absolute;
+        border-radius: 50%;
+    }
+
+    .shape:first-child {
+        background: linear-gradient(
+                #1845ad,
+                #23a2f6
+        );
+        left: 30%;
+        top: 20%;
+    }
+
+    .shape:last-child {
+        background: linear-gradient(
+                to right,
+                #ff512f,
+                #f09819
+        );
+        right: 30%;
+        bottom: 15%;
+    }
+    #usernameLoginInput #passwordLoginInput{
+        margin: auto;
+        height: 15%;
+    }
+    #confirmPasswordRegisterInput #passwordRegisterInput #usernameRegisterInput #mailRegisterInput{
+        margin: auto;
+        height: 10%;
+    }
+
+    #errorMessage{
+        color: red;
+    }
+    .littleNames{
+        margin: auto;
+    }
+    body{
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+    }
+    html{
+        height: 100%;
+        width: 100%;
+    }
+    .Wrapper{
+        height: 70%;
+        width: 80%;
+        margin: auto;
+        margin-top: 5%;
+    }
+}
+
