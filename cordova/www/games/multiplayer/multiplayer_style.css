@@ -44,9 +44,6 @@
 
 
     #timer {
-        position: absolute;
-        top: 80%;
-        right: 2%;
         font-size: 40px;
         font-weight: bold;
     }
@@ -62,11 +59,9 @@
     }
 
     #opponentElo {
-        position: absolute;
-        top: 70%;
-        left: 0;
         font-size: 5vh;
         font-weight: bold;
+        order: 6;
     }
 
     #noSurrenderKeepPlaying, #SurrenderBackToHome {
@@ -100,10 +95,9 @@
     }
 
     #playerElo {
-        position: absolute;
-        top: 62%;
         font-size: 5vh;
         font-weight: bold;
+        order: 6;
     }
 
     #chat-buttons button {
@@ -146,7 +140,10 @@
     }
 }
 
-@media only screen and (min-width:820px) {
+
+
+
+@media only screen and (min-width: 820px) and (min-height: 600px) {
     #surrenderGameMessage {
         position: absolute;
         background-color: #ff0000;
@@ -309,6 +306,156 @@
         position: absolute;
         top: 50%;
     }
+
+    #mute-button-container {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1;
+    }
+
+    #mute-button {
+        padding: 10px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    #chat-messages-bis::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+
+
+
+
+
+@media only screen and (max-height:600px) {
+    #surrenderGameMessage {
+        position: absolute;
+        background-color: #ff0000;
+        opacity: 0.8;
+        margin: auto;
+        text-align: center;
+        border: thin black;
+        font-size: 4.5em;
+        left: 35%;
+        top: 40%;
+        padding: 30px 60px;
+    }
+
+    #chat-container-bis {
+        position: absolute;
+        bottom: 10vh;
+        background-color: #7dbfd2db;
+        border-radius: 15px 0 0 0;
+        box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
+        flex-direction: column;
+        justify-content: space-between;
+        height: 50%;
+        width: 50%;
+        display: none;
+    }
+
+    #chat-messages-bis {
+        overflow-y: scroll;
+        flex-grow: 1;
+        padding: 10px;
+        font-size: 3vw;
+        height: 75%;
+    }
+
+    #chat-form {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+
+    #timer {
+        font-size: 40px;
+        font-weight: bold;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    #chat-buttons {
+        display: flex;
+        flex-direction: row;
+        bottom: 0%;
+    }
+
+    #home {
+        display: none;
+    }
+
+    #opponentElo {
+        font-size: 7vh;
+        font-weight: bold;
+        position: absolute;
+        top: 55%;
+    }
+
+    #noSurrenderKeepPlaying, #SurrenderBackToHome {
+        display: inline-block;
+        padding: 20px 40px;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 30px;
+        margin: 20px;
+        cursor: pointer;
+    }
+
+    #noSurrenderKeepPlaying {
+        background-color: green;
+        color: white;
+    }
+
+    #SurrenderBackToHome {
+        background-color: red;
+        color: white;
+    }
+
+    .buttons-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    #playerElo {
+        font-size: 7vh;
+        font-weight: bold;
+        position: absolute;
+        bottom: 50%;
+    }
+
+    #chat-buttons button {
+        font-weight: bold;
+        bottom: 0%;
+        background-color: #50b88b;
+        border: none;
+        color: black;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 15px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 20px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2)
+    }
+
 
     #mute-button-container {
         position: absolute;

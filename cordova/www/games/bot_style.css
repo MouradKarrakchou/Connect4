@@ -28,6 +28,8 @@
         width: 100%;
         zoom: 0.7;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
     }
     #searchBarNotification{
         padding-top: 10px;
@@ -67,8 +69,6 @@
     #gameDisplay {
         display: flex;
         flex-direction: column;
-        margin: auto;
-        height: 80%;
     }
 
     #board {
@@ -373,7 +373,7 @@
 
 
     .player {
-        font-size: 6vw;
+        font-size: 6vh;
         margin-top: 4vh;
         margin-left: auto;
         margin-right: auto;
@@ -387,19 +387,20 @@
 
     #gameDisplay {
         display: flex;
-        flex-direction: column;
         margin: auto;
         height: 80%;
     }
 
     #board {
-        order:2
+        order: 2;
+        margin: auto;
     }
 
     .menu {
         display: flex;
         padding: 1vh;
-        width: 70%;
+        width: 40%;
+        height: 20%;
         margin: auto;
         background-color: #80e555a1;
         margin-top: 3vh;
@@ -421,7 +422,7 @@
         position: absolute;
         top: 20%;
         left: 5%;
-        font-size: 10vw;
+        font-size: 10vh;
         margin: auto;
     }
 
@@ -431,13 +432,13 @@
         border-radius: 50%;
         justify-content: center;
         align-items: center;
-        width: 7vw;
-        height: 7vw;
+        width: 7vh;
+        height: 7vh;
         padding: 2% 2%;
         display: flex;
         color: white;
         background-color: rgb(76 168 184);
-        font-size: 6vw;
+        font-size: 6vh;
         margin: auto;
     }
 
@@ -468,8 +469,8 @@
     }
 
     #board td {
-        width: calc(5vw + 5vh );
-        height: calc(5vh + 5vw);
+        width: calc(4vw + 4vh );
+        height: calc(4vh + 4vw);
         border-radius: 50%;
         background-color: white;
     }
@@ -490,8 +491,7 @@
         color: white;
         text-align: center;
         position: absolute;
-        right: 20px;
-        bottom: 10vh;
+        bottom: 15vh;
         padding: 20px;
         background-color: rgba(0, 0, 0, 0.8);
         border-radius: 10px;
