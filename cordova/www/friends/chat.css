@@ -1,7 +1,7 @@
 
 @media only screen and (max-width:600px) {
     .chat-container {
-        font-size: 3.8vh;
+        font-size: 10vw;
         position: absolute;
         bottom: 0;
         right: 0;
@@ -95,6 +95,7 @@
 
     .chat-header {
         cursor: pointer;
+        font-size: 15vw;
     }
 
     .miniNotificationList {
@@ -161,7 +162,7 @@
         background-color: rgba(231, 225, 195, 0.36);
         text-align: center;
         height: 100%;
-        font-size: 10vw;
+        font-size: 20vw;
     }
     .miniFriendMessageWrapper{
         height: 100%;
