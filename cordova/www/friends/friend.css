@@ -3,7 +3,7 @@
     font-family: retro;
     src: url(../font/retro.ttf);
 }
-@media only screen and (max-width: 821px) {
+@media only screen and (max-width: 600px) {
 /* Set default font and background color */
 body {
     font-family: retro;
@@ -32,7 +32,11 @@ body {
     display: flex;
     flex-direction: column;
     background-color: rgba(231, 225, 195, 0.36);
-    padding:3%;
+    padding: 3%;
+    border-radius: 30vw;
+    width: 80%;
+    margin: auto;
+    margin-top: 30vw;
 }
 
 /* Style the user not found message */
@@ -80,8 +84,11 @@ body {
 .friendReq{
     display: flex;
     flex-direction: column;
-    margin-bottom: 0%;
-    margin-top: 10%;
+    padding: 3%;
+    border-radius: 30vw;
+    width: 80%;
+    margin: auto;
+    margin-top: 30vw;
 }
 
 
@@ -161,7 +168,7 @@ body {
 
 }
 
-@media only screen and (min-width: 820px) and (min-height: 600px) {
+@media only screen and (min-width: 600px) and (min-height: 600px) {
     .friendDisplay{
         display: flex;
         flex-direction: column;
@@ -292,7 +299,7 @@ body {
 
 
 
-@media only screen and (max-height: 600px) {
+@media only screen and (max-height: 600px) and (min-width:500px) {
     body {
         font-family: retro;
         background-color: #f6ffd2;
