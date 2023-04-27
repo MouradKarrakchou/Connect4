@@ -288,6 +288,7 @@ function cancelChallengeMini() {
 const chatBar = document.getElementById('chatBar');
 
 chatBar.addEventListener('keydown', (event) => {
+    console.log("ENVOI DE MESSAGE AVEC LE TELEPHONE / " + event.key);
     if (event.key === "Enter") {
         socket.emit('friendChat', { friendUsername: currentFriendDiscussion,
             chat: chatBar.value,
