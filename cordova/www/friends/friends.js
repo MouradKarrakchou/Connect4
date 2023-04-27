@@ -738,7 +738,7 @@ document.addEventListener("touchend", function(event) {
                 goFriends();
                 console.log("je suis dans home et je vais a droite")
             }
-            else
+            else if(angle >= 135 || angle < -135)
                 {
                     goNotifs();
                     console.log("je suis dans home et je vais a gauche")
@@ -748,7 +748,7 @@ document.addEventListener("touchend", function(event) {
             if (angle >= -45 && angle < 45) {
                 goHome();
                 console.log("je suis dans notif et je vais a droite")
-            } else {
+            } else if(angle >= 135 || angle < -135){
                 goFriends();
                 console.log("je suis dans notif et je vais a gauche")
             }
@@ -757,7 +757,7 @@ document.addEventListener("touchend", function(event) {
             if (angle >= -45 && angle < 45) {
                 goNotifs();
                 console.log("je suis dans friends et je vais a droite")
-            } else {
+            } else if(angle >= 135 || angle < -135) {
                 goHome();
                 console.log("je suis dans friends et je vais a gauche")
             }
