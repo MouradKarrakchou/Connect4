@@ -1,5 +1,5 @@
 import {saveGame} from "../gameManagement.js";
-import {popupVibration} from "../../plugins/vibration";
+import {popupVibration} from "../../plugins/vibration.js";
 
 /**
  * This class manage the notification to save the game with a personalized name
