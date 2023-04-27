@@ -592,6 +592,7 @@
 
 
     .chat-header {
+        font-size: 5vw;
         cursor: pointer;
     }
 
