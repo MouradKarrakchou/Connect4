@@ -1,12 +1,3 @@
-let states = {};
-states["UNKNOWN"]  = 'Unknown connection';
-states["ETHERNET"] = 'Ethernet connection';
-states["WIFI"]     = 'WiFi connection';
-states["CELL_2G"]  = 'Cell 2G connection';
-states["CELL_3G"]  = 'Cell 3G connection';
-states["CELL_4G"]  = 'Cell 4G connection';
-states["CELL"]     = 'Cell generic connection';
-states["NONE"]     = 'No network connection';
 
 document.addEventListener("offline", onOffline, false);
 
