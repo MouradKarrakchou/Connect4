@@ -9,6 +9,7 @@
  */
 
 import {address} from "./dataManager.js";
+import {errorVibration} from "../plugins/vibration.js";
 
 const mapColor = new Map();
 mapColor.set('Yellow','#cee86bcc');
@@ -51,6 +52,7 @@ export function checkDraw(counter){
     return false;
 }
 export function printIllegalMove() {
+    errorVibration();
     document.getElementById("message").innerText = "Illegal move!";
 }
 

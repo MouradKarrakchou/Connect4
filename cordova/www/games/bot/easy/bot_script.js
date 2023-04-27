@@ -10,6 +10,7 @@ import {
     notLoggedRedirection
 } from "../../gameManagement.js"
 import {ioAddress} from "../../dataManager.js";
+import {winVibration, loseVibration} from "../../../plugins/vibration.js";
 
 /**
  *
@@ -115,8 +116,14 @@ function startplay(tab){
     }
     if (checkWin() === true) {
         console.log(color + " player wins!");
-        if (color === 'yellow') document.getElementById("message").innerText = "You won!";
-        else document.getElementById("message").innerText = color + " player wins!";
+        if (color === 'yellow') {
+            winVibration();
+            document.getElementById("message").innerText = "You won!";
+        }
+        else {
+            loseVibration();
+            document.getElementById("message").innerText = color + " player wins!";
+        }
         document.getElementById("saveButton").style.display = "none";
         document.getElementById("saveButton").style.pointerEvents = "none";
         document.getElementById("reset-button").style.display = "block";
