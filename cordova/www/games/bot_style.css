@@ -86,9 +86,6 @@
         border-radius: 20px;
     }
 
-    .menu:hover {
-        cursor: pointer;
-    }
     #notification-content{
         display: flex;
         flex-direction: column;
