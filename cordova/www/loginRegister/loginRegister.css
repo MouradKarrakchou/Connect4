@@ -245,8 +245,8 @@
 
     .inp {
         width: 70%;
-        height: 6vh;
-        font-size: calc(2vw + 2vh);
+        height: 6vw;
+        font-size: 5vw;
         border: 1vw solid #ccc;
         border-radius: 5vw;
         padding: 1vw;
@@ -353,6 +353,7 @@
     }
     .littleNames{
         margin: auto;
+        font-size: 6vw;
     }
     body{
         margin: 0;
