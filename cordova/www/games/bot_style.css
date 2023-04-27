@@ -17,7 +17,7 @@
     font-size: 6vw;
 }
 
-@media only screen and (max-width:820px) {
+@media only screen and (max-width:600px) {
     html{
         height: 100%;
         width: 100%;
@@ -195,7 +195,7 @@
     }
 }
 
-@media only screen and (min-width: 820px) and (min-height: 600px) {
+@media only screen and (min-width: 600px) and (min-height: 600px) {
     body {
         margin: 0;
         zoom: 0.7;
@@ -338,7 +338,7 @@
 
 
 
-@media only screen and (max-height: 600px) {
+@media only screen and (max-height: 600px) and (min-width:500px) {
     html{
         height: 100%;
         width: 100%;
