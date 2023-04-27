@@ -8,7 +8,7 @@
 .parentMenu{
     height: 100%;
 }
-@media only screen and (min-width: 820px) and (min-height: 600px) {
+@media only screen and (min-width: 600px) and (min-height: 600px){
     body {
         background-color: #f6ffd2;
         font-family: retro;
@@ -237,7 +237,7 @@
 
 
 
-@media only screen and (max-width: 821px) {
+@media only screen and (max-width:600px) {
     thead {
         color: black;
         width: 200%;
@@ -479,7 +479,7 @@
 
 
 
-@media only screen and (max-height: 600px) {
+@media only screen and (max-height: 600px) and (min-width:500px) {
 
 
     thead {
