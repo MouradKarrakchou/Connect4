@@ -1,6 +1,6 @@
 import {findToken, token, address, ioAddress} from "../games/dataManager.js";
 import {toTab, findTokenReturned, findUsername, notLoggedRedirection} from "../games/gameManagement.js";
-import {popupVibration} from "../plugins/vibration.js";
+import {popupVibration, muteVibrationUpdateCookie, isVibrationMuted} from "../plugins/vibration.js";
 
 /**
  * This class manage the home page
@@ -15,8 +15,6 @@ import {popupVibration} from "../plugins/vibration.js";
 
 var socket = io(ioAddress);
 let saveIcon;
-
-let vibrationMuted = false;
 
 socket.on('matchFound', (matchID) => {
     document.cookie = "matchID="+matchID+";path=/";
@@ -59,14 +57,34 @@ document.addEventListener('DOMContentLoaded', async function () {
         menu.style.display = "block";
         popupVibration();
     })
+    switchVibrationIcon(isVibrationMuted());
 })
-
+function alertbattery(){
+    navigator.getBattery().then(function(battery) {
+        var level = battery.level * 100;
+        console.log("Battery level: " + level + "%");
+        if (level <= 15 && !battery.charging) {
+            alert("Warning: battery level is below 15%");
+        }
+    });
+}
+let btn = document.getElementById("b");
+btn.addEventListener('click', alertbattery);
 function muteVibration() {
-    vibrationMuted = !vibrationMuted;
+    switchVibrationIcon(muteVibrationUpdateCookie());
+}
 
-    let vibrationCookie = document.cookie.replace(/(?:^|.*;\s*)vibrationMuted\s*=\s*([^;]*).*$|^.*$/, "$1");
-    vibrationCookie = (vibrationCookie !== "") ? vibrationCookie + "," + vibrationMuted : vibrationMuted;
-    document.cookie = "vibrationMuted=" + vibrationCookie;
+function switchVibrationIcon(isMuted) {
+    if (isMuted){
+        document.getElementById("notVibrating").style.display="inline-block";
+        document.getElementById("vibrating").style.display="none";
+        document.getElementById("muteVibrationButton").style.backgroundColor="#4b7f82";
+    }
+    else{
+        document.getElementById("vibrating").style.display="inline-block";
+        document.getElementById("notVibrating").style.display="none";
+        document.getElementById("muteVibrationButton").style.backgroundColor="rgb(128 215 221)";
+    }
 }
 
 function cancelGame() {
@@ -166,34 +184,6 @@ function findGame(){
     let roomName=  token+Math.floor(Math.random() * 100000000000000000);
     socket.emit('searchMultiGame',JSON.stringify({
         room:roomName,token:token}));
-}
-
-function retrieveGame(gameTypeAndTab) {
-    let path = "";
-    if(gameTypeAndTab.gameType === "local") path = "../games/local/local_game.html";
-    else if(gameTypeAndTab.gameType === "easy") path = "../games/easy/bot_game.html";
-    else if(gameTypeAndTab.gameType === "medium") path = "../games/medium/bot_game.html";
-
-    const values = {
-        token: 12,
-    };
-
-    fetch(address + '/api/game', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values)
-    })
-        .then(response => response.json())
-        .then(data => {
-            document.cookie = "token="+data.token+";path=/";
-            console.log(document.cookie);
-            window.location.href = '/games/local/local_game.html';
-        })
-        .catch(error => {
-            console.error(error);
-        });
 }
 
 function logout() {

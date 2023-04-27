@@ -7,6 +7,9 @@
     <feature name="Battery">
         <param name="android-package" value="org.apache.cordova.batterystatus.BatteryListener" />
     </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
     <name>HelloCordova</name>
     <description>Sample Apache Cordova App</description>
     <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
@@ -15,16 +18,13 @@
     <content src="index.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
-    <splash density="port-hdpi" src="res/screen/android/splash-port-hdpi.png" />
-    <splash density="port-ldpi" src="res/screen/android/splash-port-ldpi.png" />
-    <splash density="port-mdpi" src="res/screen/android/splash-port-mdpi.png" />
-    <splash density="port-xhdpi" src="res/screen/android/splash-port-xhdpi.png" />
-    <splash density="port-xxhdpi" src="res/screen/android/splash-port-xxhdpi.png" />
-    <splash density="port-xxxhdpi" src="res/screen/android/splash-port-xxxhdpi.png" />
+    <splash density="port-hdpi" src="res/screen/android/splash-port.png" />
+    <splash density="port-ldpi" src="res/screen/android/splash-port.png" />
+    <splash density="port-mdpi" src="res/screen/android/splash-port.png" />
+    <splash density="port-xhdpi" src="res/screen/android/splash-port.png" />
+    <splash density="port-xxhdpi" src="res/screen/android/splash-port.png" />
+    <splash density="port-xxxhdpi" src="res/screen/android/splash-port.png" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="Scheme" value="http" />
     <preference name="SplashScreenDelay" value="2500" />
-    <feature name="NetworkStatus">
-        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
-    </feature>
 </widget>
