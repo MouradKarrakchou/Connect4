@@ -39,7 +39,7 @@ async function init() {
             challengedMini(challengerName);
         })
     }, 200);
-    isOnMobile= (window.innerWidth <= 821);
+    isOnMobile= (window.innerWidth <= 821 || window.innerHeight <= 600);
     if (!isOnMobile){
         document.getElementById("miniFriendsContacts").style.backgroundColor="rgba(0,0,0,0.06)";
     }

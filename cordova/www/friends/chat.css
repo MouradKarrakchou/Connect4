@@ -241,7 +241,7 @@
 }
 
 
-@media only screen and (min-width: 821px) {
+@media only screen and (min-width: 820px) and (min-height: 600px) {
     #miniHomeBack{
         display: none;
     }
@@ -482,4 +482,265 @@
             box-shadow: 0 0 6px 3px #fff, /* inner white */ 0 0 10px 6px #f0f, /* middle magenta */ 0 0 14px 9px #0ff;
         }
     }
+}
+
+
+
+
+
+@media only screen and (max-height: 600px) {
+
+
+    .chat-container {
+        font-size: 3.8vh;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: #fff;
+        box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+    }
+    #miniFriendsContacts{
+        display: flex;
+        height: 15vh;
+        background-color: rgba(0, 0, 0, 0);
+        width: 30%;
+        margin: auto;
+    }
+    #miniNotification{
+        height: 15vh;
+        display: flex;
+        width: 30%;
+        margin: auto;
+    }
+
+    #mini-container-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #chat-messages {
+        overflow-y: scroll;
+        flex-grow: 1;
+        padding: 10px;
+        height: 160vh;
+    }
+
+    #chatBar {
+        width: 100%;
+        background-color: #9e9d9224;
+        border: none;
+        font-size: 40px;
+    }
+    .miniFriendMenu{
+        background-color: rgba(240, 168, 80, 0.64);
+    }
+
+    #sendMsg {
+        padding: 1%;
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        width: 30%;
+        text-align: center;
+        border: none
+    }
+
+    #chat-bar {
+        background-color: #fffbe3d1;
+        padding: .5%;
+        border-top: 3px solid #99a37f36;
+        border-right: 3px solid #99a37f36;
+        border-left: 3px solid #99a37f36;
+        border-bottom: 3px solid #99a37f36;
+        margin-top: 2%;
+        display: flex;
+        bottom: 5px;
+        height: 20vh;
+    }
+
+    .chat-header {
+        height: 20vh;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: space-between;
+        padding: 10px;
+        background-color: #9e9d9224;
+        border: none;
+        text-align: center;
+        border-radius: 15px 15px 0 0;
+        display: none;
+
+    }
+
+    .choice-header {
+        background-color: #9e9d9224;
+        border: none;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        order:3;
+        height: 15vh;
+    }
+
+
+    .chat-header {
+        cursor: pointer;
+    }
+
+    .miniNotificationList {
+        height: 190vh;
+        background-color: #f6ffd2;
+    }
+
+
+
+    .icon_mini {
+        width: 33.33%;
+        margin: auto;
+    }
+
+
+    #remove {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    #searchBar {
+        padding-top: 5vh;
+        padding-bottom: 5vh;
+        border: none;
+        width: 100%;
+        background-color: #9e9d9224;
+        font-size: 8vh;
+    }
+
+    #miniFriendMenu {
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        background-color: #fffbe3d1;
+        border-top: 3px solid #99a37f36;
+        border-right: 3px solid #99a37f36;
+        border-left: 3px solid #99a37f36;
+        border-bottom: 3px solid #99a37f36;
+        height: 100%;
+    }
+
+    #miniFriendList {
+        font-weight: bold;
+        height: 190vh;
+        display: none;
+        background-color: #f6ffd2;;
+    }
+
+    .miniDropdown {
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 90%;
+        order:1;
+    }
+
+    .miniDropdownNotification {
+        font-size: 6vh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 100%;
+    }
+
+    .miniFriend {
+        position: relative;
+        background-color: rgba(231, 225, 195, 0.36);
+        text-align: center;
+        height: 100%;
+    }
+    .miniFriendMessageWrapper{
+        height: 100%;
+        background-color: #f0a850;
+    }
+
+
+    .fa-message {
+        margin-left: 0px;
+        margin-right: auto;
+    }
+
+    .fa-xmark {
+        margin-left: auto;
+        margin-right: 0px;
+    }
+
+    .fight {
+        margin: auto;
+    }
+
+    iconStyle + iconStyle {
+        margin-left: 10px;
+    }
+
+
+    .accept {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 2% 4%;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 5vh;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: auto;
+        width: 30%;
+    }
+
+
+    .decline {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 2% 4%;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 5vh;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: auto;
+        width: 30%;
+    }
+
+
+
+    .glow {
+        animation: glow 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+        from {
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 0 0 0 rgba(255, 255, 255, 0.8);
+        }
+        to {
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 0 0 6px 3px #fff, /* inner white */ 0 0 10px 6px #f0f, /* middle magenta */ 0 0 14px 9px #0ff;
+        }
+    }
+    #miniHomeBack{
+        height: 15vh;
+        display: flex;
+    }
+    #miniHomeBack:first-child{
+        margin: auto;
+    }
+
+
+
+
+
+
 }

@@ -5,6 +5,8 @@
 html{
     height: 100%;
 }
+
+
 @media only screen and (max-width: 821px) {
 
     .title {
@@ -199,7 +201,7 @@ html{
 }
 
 /* Styles for computers */
-@media only screen and (min-width: 821px) {
+@media only screen and (min-width: 821px) and (min-height: 600px) {
     .crossIcon{
         display: none;
     }
@@ -378,3 +380,201 @@ html{
 
 }
 
+
+
+
+
+
+
+
+@media only screen and (max-height: 600px) {
+
+    .title {
+        margin: auto;
+        text-align: center;
+        font-size: 12vh;
+    }
+    .header-top{
+        height: 20%;
+        display: flex;
+    }
+
+    body{
+        font-family: retro;
+        background-color: #f6ffd2;
+        zoom: 0.5;
+        overflow: hidden;
+        height: 100%;
+    }
+    .ic{
+        margin:auto;
+        color: white;
+    }
+    .home{
+        display: flex;
+        height: 70%;
+    }
+
+    .menu {
+        align-content: center;
+        width: 100%;
+    }
+
+    #notVibrating{
+        display: none;
+    }
+    .littleIconMenu{
+        display: flex;
+    }
+
+    .headerGameSaved{
+        display: flex;
+    }
+
+    .dropdown{
+        position: absolute;
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 60%;
+    }
+    .gameSaved{
+        font-weight: bold;
+        height: 10%;
+        text-align: left;
+        font-size: 7vh;
+    }
+    .trash{
+        margin-left: auto;
+    }
+    h4{
+        font-size: 5vh;
+    }
+    .textForTrash{
+        margin:auto;
+    }
+    .littleMenu{
+        background-color: #fffbe3;
+        padding: .5%;
+        height: 150vh;
+        display: none;
+    }
+    .item{
+        background-color: rgba(231, 225, 195, 0.36);
+        display: flex;
+        margin-top: 3%;
+        justify-content: center;
+    }
+
+    fa-solid fa-user-group, fa-solid fa-earth-europe, fa-solid fa-robot{
+        height: 100px;
+        width: 100px;
+    }
+
+    .profil{
+        background-color: rgb(76 168 184);
+    }
+    .iconHeader{
+    }
+
+    .iconHomePage{
+        cursor: pointer;
+        font-size: 14vh;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+        width: 15vh;
+        height: 15vh;
+        padding: 2% 2%;
+        display: flex;
+        color: white;
+    }
+    .saveIcon{
+        margin: auto;
+        background-color: rgb(84 184 76);
+    }
+    .trashIcon{
+        background-color: #ffa7a7;
+        margin-left: auto;
+    }
+    .crossIcon{
+        background-color: rgb(219 38 38);
+        margin-left: auto;
+        border-radius: 20%;
+        width: 8vh;
+        height: 8vh;
+    }
+
+    .logout{
+        background-color: #f09819;
+    }
+    .gameLaunch {
+        background-color: #fffbe3d1;
+        border-top: 3px solid #99a37f36;
+        border-right: 3px solid #99a37f36;
+        border-bottom: 3px solid #99a37f36;
+        display: flex;
+        margin-bottom: 5vh;
+        justify-content: flex-start;
+        transition: width 0.3s;
+        width: 100%;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        height: 20%;
+        font-size: 24vh;
+    }
+    .localLaunch{
+        background-color: rgb(82 197 217 / 90%);
+    }
+    .onlineLaunch{
+        background-color: #dc3fca96;
+    }
+    .botLaunch{
+        background-color: #f0981994;
+    }
+
+    .buttonLaunch, .onlineButton, .botButton {
+        margin: auto;
+        border: none;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 8vh;
+        cursor: pointer;
+        width: 30%;
+    }
+
+    div i, icon {
+        margin: auto;
+    }
+
+    .shape{
+        z-index: -2;
+    }
+
+    .background .shape{
+        height: 20vh;
+        width: 20vh;
+        position: absolute;
+        border-radius: 50%;
+    }
+    .shape:first-child{
+        background: linear-gradient(
+                #1845ad,
+                #23a2f6
+        );
+        left: 10%;
+        bottom: 10%;
+    }
+    .shape:last-child{
+        background: linear-gradient(
+                to right,
+                #ff512f,
+                #f09819
+        );
+        right: 30%;
+        bottom: 15%;
+    }
+    .iconInMenu{
+        margin: auto;
+    }
+}
