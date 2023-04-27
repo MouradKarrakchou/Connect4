@@ -35,6 +35,21 @@ var socket = io(ioAddress);
 let counter = 0;
 
 
+document.getElementById("muteson").addEventListener("click",checkSound)
+function checkSound(){
+    if (ambient.volume === 0)
+    {
+        ambient.volume = 1;
+        document.getElementById("sonUp").style.display="none";
+        document.getElementById("sonDown").style.display="block";
+    }
+    else{
+        ambient.volume = 0;
+        document.getElementById("sonUp").style.display="block";
+        document.getElementById("sonDown").style.display="none";
+    }
+}
+
 
 async function init() {
     // If not logged in, redirected to the login page
@@ -67,6 +82,7 @@ async function init() {
             counter++;
         }
     })
+    checkSound();
 
 }
 

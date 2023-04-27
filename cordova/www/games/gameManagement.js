@@ -192,6 +192,7 @@ function find(element){
     }
 }
 
+
 export async function notLoggedRedirection() {
 
     let token = findTokenReturned();
