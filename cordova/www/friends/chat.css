@@ -264,6 +264,7 @@
     #mini-container-content {
         display: none;
         height: 100%;
+        font-size: 5vw;
     }
 
     #chat-messages {
